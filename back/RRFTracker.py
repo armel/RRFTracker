@@ -137,12 +137,12 @@ def main(argv):
             tmp = page[search_start:search_stop]
             tmp = tmp.split(',')
 
-            node = len(tmp)
+            s.node = len(tmp)
 
         # Write log
 
         if s.log is True:
-            l.log_write(s.log_path, s.day, s.room, s.qso_hour, s.history, s.call, s.call_time)
+            l.log_write(s.log_path, s.day, s.room, s.qso_hour, s.history, s.call, s.call_time, s.node)
 
         time.sleep(2)
 

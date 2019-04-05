@@ -51,16 +51,44 @@ def save_stat(history, call):
 
 
 # Log write for history
-def log_write(log_path, day, room, qso_hour, history, call, call_time):
+def log_write(log_path, day, room, qso_hour, history, call, call_time, node):
 
     log_path = log_path + '/' + room + '-' + day
 
     if not os.path.exists(log_path):
         os.makedirs(log_path)
 
+    log_abstract(log_path, room, qso_hour, node)
     log_history(log_path, qso_hour)
     log_last(log_path, call, call_time)
-    log_best(log_path, history)
+
+    return 0
+
+# Log abstract
+
+def log_abstract(log_path, room, qso_hour, history, node):
+
+    data = '[\n'
+
+    tmp = datetime.datetime.now()
+    now = tmp.strftime('%d-%m-%Y %H:%M:%S')
+
+    data += '{\n'
+    data += '\t"Salon": "' + room + '",\n'
+    data += '\t"Date": "' + now + '",\n'
+    data += '\t"TX total": ' + str(sum(qso_hour)) + ',\n'
+    data += '\t"Noeuds actifs": ' + str(len(history)) + '\n',
+    data += '\t"Noeuds total": ' + str(node) + '\n'
+    data += '},\n'
+
+    data += ']\n'
+
+    last = data.rfind(',')
+    data = data[:last] + '' + data[last + 1:]
+
+    file = open(log_path + '/' + 'abstract.json', 'w')
+    file.write(data)
+    file.close()
 
     return 0
 
