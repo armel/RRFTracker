@@ -41,26 +41,29 @@ def usage():
 
 # Save stats to get most active link
 def save_stat(history, call):
-    if call in history:
-        history[call] += 1
-    else:
-        history[call] = 1
+    if call != '':
+        if call in history:
+            history[call] += 1
+        else:
+            history[call] = 1
 
     return history
 
 
 # Log write for history
-def log_write(log_path, day, room, qso_hour, history, call, call_time, node):
+def log_write(log_path, day, room, qso_hour, history, call, call_time, node, call_current, tot):
 
     log_path = log_path + '/' + room + '-' + day
 
     if not os.path.exists(log_path):
         os.makedirs(log_path)
 
+    log_transmit(log_path, call_current, tot)
     log_abstract(log_path, room, qso_hour, history, node)
     log_history(log_path, qso_hour)
     log_last(log_path, call, call_time)
-    log_best(log_path, history)
+    log_node(log_path, history, 'best')
+    log_node(log_path, history, 'all')
 
     return 0
 
@@ -92,6 +95,35 @@ def log_abstract(log_path, room, qso_hour, history, node):
 
     return 0
 
+# Log transmit
+
+def log_transmit(log_path, call_current, tot):
+
+    if tot == 0:
+        call_current = ''
+
+    if call_current == '':
+        call_current = 'Waiting TX'
+        tot = 0
+
+    data = '[\n'
+
+    data += '{\n'
+    data += '\t"Node": "' + call_current + '",\n'
+    data += '\t"TOT": ' + str(tot) + '\n'
+    data += '},\n'
+
+    data += ']\n'
+
+    last = data.rfind(',')
+    data = data[:last] + '' + data[last + 1:]
+
+    file = open(log_path + '/' + 'transmit.json', 'w')
+    file.write(data)
+    file.close()
+
+    return 0
+
 # Log history
 
 def log_history(log_path, qso_hour):
@@ -103,7 +135,7 @@ def log_history(log_path, qso_hour):
 
         x = str('{:0>2d}'.format(int(i)))
         y = str('{:0>2d}'.format(int(l)))
-        z = str('{:0>2d}'.format(qso_hour[i]))
+        z = str(qso_hour[i])
 
         x += 'h - ' + y + 'h'
 
@@ -135,6 +167,8 @@ def log_last(log_path, call, call_time):
     data = '[\n'
 
     for i in xrange(0, 10):
+        if call_time[i] == '':
+            break
         data += '{\n'
         data += '\t"Date": "' + call_time[i] + '",\n'
         data += '\t"Call": "' + call[i] + '"\n'
@@ -151,26 +185,30 @@ def log_last(log_path, call, call_time):
 
     return 0
 
-# Log best
+# Log node
 
-def log_best(log_path, history):
+def log_node(log_path, history, type):
     tmp = sorted(history.items(), key=lambda x: x[1])
     tmp.reverse()
 
-    print tmp
+    if type == 'best':
+        limit = 20
+    else:
+        limit = 10^4
 
     data = '[\n'
 
     p = 1
     for c, t in tmp:
-        print c, t
         data += '{\n'
+        if type == 'all':
+            data += '\t"Pos": "' + str('{:0>3d}'.format(int(p))) + '",\n'
         data += '\t"Call": "' + c + '",\n'
-        data += '\t"TX": ' + t + '\n'
+        data += '\t"TX": ' + str(t) + '\n'
         data += '},\n'
 
         p += 1
-        if p > 20:
+        if p > limit:
             break
 
     data += ']\n'
@@ -178,7 +216,7 @@ def log_best(log_path, history):
     last = data.rfind(',')
     data = data[:last] + '' + data[last + 1:]
 
-    file = open(log_path + '/' + 'best.json', 'w')
+    file = open(log_path + '/' + type + '.json', 'w')
     file.write(data)
     file.close()
 

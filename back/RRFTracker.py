@@ -81,6 +81,9 @@ def main(argv):
         # If transmitter...
         if search_stop != search_start:
 
+            if s.wake_up is False:
+                s.wake_up = True
+
             # Clean call
             tmp = page[search_start:search_stop]
             tmp = tmp.replace('(', '')
@@ -94,7 +97,7 @@ def main(argv):
                 s.tot_current = s.tot_start
                 s.call_previous = s.call_current
 
-                for i in xrange(4, 0, -1):
+                for i in xrange(9, 0, -1):
                     s.call[i] = s.call[i - 1]
                     s.call_time[i] = s.call_time[i - 1]
 
@@ -122,6 +125,9 @@ def main(argv):
 
         # If no Transmitter...
         else:
+            if s.wake_up is True:
+                s.wake_up = False
+
             if s.blanc is False:
                 s.blanc = True
                 duration = int(s.tot_current) - int(s.tot_start)
@@ -142,9 +148,12 @@ def main(argv):
         # Write log
 
         if s.log is True:
-            l.log_write(s.log_path, s.day, s.room, s.qso_hour, s.history, s.call, s.call_time, s.node)
+            if s.wake_up is True and s.tot_current > s.tot_start:
+                s.duration = int(s.tot_current) - int(s.tot_start)
 
-        time.sleep(2)
+            l.log_write(s.log_path, s.day, s.room, s.qso_hour, s.history, s.call, s.call_time, s.node, s.call_current, s.duration)
+
+        time.sleep(1)
 
 if __name__ == '__main__':
     try:

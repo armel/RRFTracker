@@ -43,25 +43,17 @@ svg {
     shape-rendering: crispEdges;
 }
 
+.value {
+    font: 12px Arial, Helvetica, sans-serif;
+    color: #000;
+}
+
 .bar {
     fill: #ffae03;
 }
 
 .bar:hover {
     fill: #ffc447;
-}
-
-div.tooltip {
-    font: 12px Arial, Helvetica, sans-serif;
-    position: absolute;
-    text-align: center;
-    padding: 5px;
-    margin: 5px;
-    background: #fff;
-    border: 1px solid #000;
-    border-radius: 8px;
-    pointer-events: none;
-    opacity: 25%;
 }
 
 table {
@@ -89,6 +81,11 @@ table tbody td {
 
 table tr:hover {
     background-color: #ccc;
+}
+
+.liquidFillGaugeText { 
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold; 
 }
 
 @media (min-width: 1024px) {
@@ -123,10 +120,6 @@ table tr:hover {
     .graph-container {
         margin-bottom: 60px;
         padding: 0 60px;
-    }
-
-    .abstract-graph {
-        margin-left: 120px;
     }
 
     .scrollbar-hidden {

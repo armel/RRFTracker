@@ -10,7 +10,7 @@
 
     var inter = setInterval(function() {
         generateD3Charts();
-    }, 5000); 
+    }, 500); 
 
     function generateD3Charts () {
         const columnWidth = document.querySelector('.columns :first-child').clientWidth;
@@ -35,9 +35,51 @@
                             .ticks(10);
 
         // Define the div for the tooltip
-        const div = d3.select('body').append('div')
-                      .attr('class', 'tooltip')
-                      .style('opacity', 0);
+        //const div = d3.select('body').append('div')
+        //              .attr('class', 'tooltip')
+        //              .style('opacity', 0);
+
+
+        // Tot
+        // Load the data
+
+        d3.json('transmit.json', function (error, data) {
+            const containerSelector = '.tot-graph';
+            const containerTitle = 'TOT';
+
+            var tot = 0;
+
+            d3.select(containerSelector).html('');
+            d3.select(containerSelector).append('h2').text(containerTitle);
+
+            data.forEach(function(d) {
+                d.Node = d.Node;
+                d.TOT = d.TOT;
+                tot = d.TOT
+            });
+
+           var svg_tot = d3.select(containerSelector)
+                                 .append('svg')
+                                 .attr('width', width + margin.left + margin.right)
+                                 .attr('height', height + margin.top + margin.bottom)
+                                 .attr('id', 'fillgauge')
+
+
+            var config = liquidFillGaugeDefaultSettings();
+
+            config.circleColor = "#FF7777";
+            config.textColor = "#FF4444";
+            config.waveTextColor = "#FFAAAA";
+            config.waveColor = "#FFDDDD";
+            config.circleThickness = 0.2;
+            config.textVertPosition = 0.2;
+            config.waveAnimateTime = 2000;
+            config.valueCountUp = false;
+            config.displayPercent = false;
+
+            var gauge = loadLiquidFillGauge("fillgauge", tot, config);
+
+        });
 
         // Activity
         // Load the data
@@ -46,6 +88,8 @@
             const containerTitle = 'Activité heure par heure';
 
             d3.select(containerSelector).html('');
+            d3.select(containerSelector).append('h2').text(containerTitle);
+
             data.forEach(function(d) {
                 d.Hour = d.Hour;
                 d.TX = d.TX;
@@ -84,14 +128,6 @@
                         .style('text-anchor', 'end')
                         .text('TX');
 
-            svg_activity.append('text')
-                        .attr('x', (width / 2))
-                        .attr('y', 0 - (margin.top / 3))
-                        .attr('text-anchor', 'middle')
-                        .style('font-size', '16px')
-                        .style('font-family', 'Arial')
-                        .text(containerTitle);
-
             // Add bar chart
             svg_activity.selectAll('bar')
                         .data(data)
@@ -100,21 +136,16 @@
                         .attr('x', function(d) { return x(d.Hour); })
                         .attr('width', x.rangeBand())
                         .attr('y', function(d) { return y(d.TX); })
-                        .attr('height', function(d) { return height - y(d.TX); })
-                        .on('mouseover', function(d) {
-                            div.transition()
-                            .duration(200)
-                            .style('opacity', .9);
+                        .attr('height', function(d) { return height - y(d.TX); });
 
-                            div.html(d.TX)
-                            .style('left', (d3.event.pageX) + 'px')
-                            .style('top', (d3.event.pageY) + 'px');
-                        })
-                        .on('mouseout', function(d) {
-                            div.transition()
-                            .duration(500)
-                            .style('opacity', 0);
-                        })
+            svg_activity.selectAll('text.bar')
+                        .data(data)
+                        .enter().append('text')
+                        .attr('class', 'value')
+                        .attr('text-anchor', 'middle')
+                        .attr("x", function(d) { return x(d.Hour) + x.rangeBand()/2; })
+                        .attr('y', function(d) { return y(d.TX) - 5; })
+                        .text(function(d) { return d.TX; });
         });
 
         // Best
@@ -124,6 +155,7 @@
             const containerTitle = 'Top 20 des noeuds les plus actifs';
 
             d3.select(containerSelector).html('');
+            d3.select(containerSelector).append('h2').text(containerTitle);
 
             data.forEach(function (d) {
                 d.Call = d.Call;
@@ -163,14 +195,6 @@
                     .style('text-anchor', 'end')
                     .text('TX');
 
-            svg_best.append('text')
-                    .attr('x', (width / 2))
-                    .attr('y', 0 - (margin.top / 3))
-                    .attr('text-anchor', 'middle')
-                    .style('font-size', '16px')
-                    .style('font-family', 'Arial')
-                    .text(containerTitle);
-
             // Add bar chart
             svg_best.selectAll('bar')
                     .data(data)
@@ -180,19 +204,15 @@
                     .attr('width', x.rangeBand())
                     .attr('y', function(d) { return y(d.TX); })
                     .attr('height', function(d) { return height - y(d.TX); })
-                    .on('mouseover', function(d) {
-                        div.transition()
-                           .duration(200)
-                           .style('opacity', .9);
-                        div.html(d.Call + '<br/>' + d.TX)
-                           .style('left', (d3.event.pageX) + 'px')
-                           .style('top', (d3.event.pageY) + 'px');
-                    })
-                    .on('mouseout', function(d) {
-                        div.transition()
-                        .duration(500)
-                        .style('opacity', 0);
-                    });
+
+            svg_best.selectAll('text.bar')
+                        .data(data)
+                        .enter().append('text')
+                        .attr('class', 'value')
+                        .attr('text-anchor', 'middle')
+                        .attr("x", function(d) { return x(d.Call) + x.rangeBand()/2; })
+                        .attr('y', function(d) { return y(d.TX) - 5; })
+                        .text(function(d) { return d.TX; });
         });
 
         // Abstract
@@ -237,7 +257,52 @@
             }
 
             // Render the table(s)
-            tabulate(data, ['Salon', 'Date', 'TX total', 'Noeuds actifs']); // 3 columns table
+            tabulate(data, ['Salon', 'Date', 'TX total', 'Noeuds actifs', 'Noeuds total']); // 3 columns table
+        });
+
+        // Trasnmit
+        // Load the data
+        d3.json('transmit.json', function(error, data) {
+            const containerSelector = '.transmit-graph';
+            const containerTitle = 'Transmission';
+
+            function tabulate (data, columns) {
+                d3.select(containerSelector).html('');
+                d3.select(containerSelector).append('h2').text(containerTitle);
+
+                const table = d3.select(containerSelector).append('table');
+                const thead = table.append('thead');
+                const tbody = table.append('tbody');
+
+                // Append the header row
+                thead.append('tr')
+                    .selectAll('th')
+                    .data(columns).enter()
+                    .append('th')
+                    .text(function (column) { return column; });
+
+                // Create a row for each object in the data
+                const rows = tbody.selectAll('tr')
+                                .data(data)
+                                .enter()
+                                .append('tr');
+
+                // Create a cell in each row for each column
+                const cells = rows.selectAll('td')
+                                .data(function (row) {
+                                    return columns.map(function (column) {
+                                        return {column: column, value: row[column]};
+                                    });
+                                })
+                                .enter()
+                                .append('td')
+                                .text(function (d) { return d.value; });
+
+                return table;
+            }
+
+            // Render the table(s)
+            tabulate(data, ['Node', 'TOT']); // 2 columns table
         });
 
         // Last

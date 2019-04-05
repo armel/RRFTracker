@@ -28,6 +28,7 @@ blanc = True                                # Detect blank
 qso = 0                                     # QSO count
 qso_total = 0                               # QSO total count
 qso_hour = [0] * 24                         # QSO list for histogramm
+wake_up = True                              # Detect wake up on emission
 node = 0                                    # Node count
 
 history = dict()                            # History dict
@@ -37,6 +38,7 @@ history = dict()                            # History dict
 timestamp_start = ''
 tot_start = ''
 tot_current = ''
+duration = 0
 hour = ''
 minute = ''
 seconde = ''
@@ -44,4 +46,4 @@ seconde = ''
 # Set log
 
 log = True                                  # If True, write log
-log_path = '/tmp/rrf'                       # Log path
+log_path = '/Users/armel/WebRoot/armel/RRF'	# Log path
