@@ -9,8 +9,7 @@ Check video about RRFTracker on https://www.youtube.com/watch?v=rVW8xczVpEo
 '''
 
 import os
-from math import cos, asin, sqrt, ceil
-
+import datetime
 
 # Usage
 def usage():
@@ -58,9 +57,10 @@ def log_write(log_path, day, room, qso_hour, history, call, call_time, node):
     if not os.path.exists(log_path):
         os.makedirs(log_path)
 
-    log_abstract(log_path, room, qso_hour, node)
+    log_abstract(log_path, room, qso_hour, history, node)
     log_history(log_path, qso_hour)
     log_last(log_path, call, call_time)
+    log_best(log_path, history)
 
     return 0
 
@@ -77,7 +77,7 @@ def log_abstract(log_path, room, qso_hour, history, node):
     data += '\t"Salon": "' + room + '",\n'
     data += '\t"Date": "' + now + '",\n'
     data += '\t"TX total": ' + str(sum(qso_hour)) + ',\n'
-    data += '\t"Noeuds actifs": ' + str(len(history)) + '\n',
+    data += '\t"Noeuds actifs": ' + str(len(history)) + ',\n'
     data += '\t"Noeuds total": ' + str(node) + '\n'
     data += '},\n'
 
