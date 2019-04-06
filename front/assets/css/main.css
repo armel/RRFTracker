@@ -21,7 +21,8 @@ body {
 
 .graph-container h2 {
     font: 16px Arial, Helvetica, sans-serif;
-    text-align: center;
+    text-align: left;
+    border-bottom: dotted 1px #000;
 }
 
 svg {

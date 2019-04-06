@@ -130,10 +130,10 @@ def main(argv):
 
             if s.blanc is False:
                 s.blanc = True
-                duration = int(s.tot_current) - int(s.tot_start)
+                s.duration = int(s.tot_current) - int(s.tot_start)
                 s.tot_current = ''
                 s.tot_start = ''
-                if duration > 3:
+                if s.duration > 3:
                     s.qso += 1
 
             search_start = page.find('nodes":[')                    # Search this pattern
@@ -150,6 +150,8 @@ def main(argv):
         if s.log is True:
             if s.wake_up is True and s.tot_current > s.tot_start:
                 s.duration = int(s.tot_current) - int(s.tot_start)
+            if s.wake_up is False:
+                s.duration = 0
 
             l.log_write(s.log_path, s.day, s.room, s.qso_hour, s.history, s.call, s.call_time, s.node, s.call_current, s.duration)
 

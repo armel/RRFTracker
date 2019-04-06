@@ -45,37 +45,49 @@
 
         d3.json('transmit.json', function (error, data) {
             const containerSelector = '.tot-graph';
-            const containerTitle = 'TOT';
 
             var tot = 0;
-
-            d3.select(containerSelector).html('');
-            d3.select(containerSelector).append('h2').text(containerTitle);
+            var call = '';
+            var title = '';
 
             data.forEach(function(d) {
                 d.Node = d.Node;
                 d.TOT = d.TOT;
                 tot = d.TOT
+                call = d.Node;
             });
 
-           var svg_tot = d3.select(containerSelector)
+            if (tot == 0) {
+                title = 'Aucune émission';
+            }
+            else {
+                title = call + ' en émission';
+            }
+
+            const containerTitle = title;
+
+            d3.select(containerSelector).html('');
+            d3.select(containerSelector).append('h2').text(containerTitle);
+
+            var svg_tot = d3.select(containerSelector)
                                  .append('svg')
-                                 .attr('width', width + margin.left + margin.right)
-                                 .attr('height', height + margin.top + margin.bottom)
+                                 .attr('width', (width + margin.left + margin.right) / 2.5)
+                                 .attr('height', (height + margin.top + margin.bottom) / 2.5)
                                  .attr('id', 'fillgauge')
 
 
             var config = liquidFillGaugeDefaultSettings();
 
-            config.circleColor = "#FF7777";
-            config.textColor = "#FF4444";
-            config.waveTextColor = "#FFAAAA";
-            config.waveColor = "#FFDDDD";
+            config.circleColor = "#ffae03";
+            config.textColor = "#ffae03";
+            config.waveTextColor = "#fff";
+            config.waveColor = "#fff";
             config.circleThickness = 0.2;
-            config.textVertPosition = 0.2;
-            config.waveAnimateTime = 2000;
+            config.textVertPosition = 0.5;
+            config.waveAnimateTime = 100000;
             config.valueCountUp = false;
             config.displayPercent = false;
+            config.textSize = 1;
 
             var gauge = loadLiquidFillGauge("fillgauge", tot, config);
 
