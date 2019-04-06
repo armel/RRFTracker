@@ -133,8 +133,8 @@ def main(argv):
                 s.duration = int(s.tot_current) - int(s.tot_start)
                 s.tot_current = ''
                 s.tot_start = ''
-                if s.duration > 3:
-                    s.qso += 1
+                #if s.duration > 3:
+                #    s.qso += 1
 
             search_start = page.find('nodes":[')                    # Search this pattern
             search_start += 9                                       # Shift...
