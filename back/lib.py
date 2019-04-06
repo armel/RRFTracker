@@ -57,6 +57,7 @@ def log_write(log_path, day, room, qso_hour, history, call, call_time, node, cal
 
     if not os.path.exists(log_path):
         os.makedirs(log_path)
+        os.popen('cp /opt/RRFTracker_Web/front/index.html ' + log_path + '/index.html')
 
     log_transmit(log_path, call_current, tot)
     log_abstract(log_path, room, qso_hour, history, node)
