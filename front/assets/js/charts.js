@@ -70,26 +70,19 @@
             d3.select(containerSelector).append('h2').text(containerTitle);
 
             var svg_tot = d3.select(containerSelector)
-                                 .append('svg')
-                                 .attr('width', (width + margin.left + margin.right) / 2.5)
-                                 .attr('height', (height + margin.top + margin.bottom) / 2.5)
-                                 .attr('id', 'fillgauge')
+                                 .append('div')
+                                 .attr('class', 'clock')
 
 
-            var config = liquidFillGaugeDefaultSettings();
-
-            config.circleColor = "#ffae03";
-            config.textColor = "#ffae03";
-            config.waveTextColor = "#fff";
-            config.waveColor = "#fff";
-            config.circleThickness = 0.2;
-            config.textVertPosition = 0.5;
-            config.waveAnimateTime = 100000;
-            config.valueCountUp = false;
-            config.displayPercent = false;
-            config.textSize = 1;
-
-            var gauge = loadLiquidFillGauge("fillgauge", tot, config);
+            var clock;
+            // Instantiate a counter
+            clock = new FlipClock($('.clock'), tot, {
+                clockFace: 'MinuteCounter',
+                clockFaceOptions: {
+                    autoPlay: false,
+                    autoStart: false
+                }
+            });
 
         });
 
