@@ -195,7 +195,7 @@ def log_node(log_path, history, type):
     if type == 'best':
         limit = 20
     else:
-        limit = 10^4
+        limit = 10**4
 
     data = '[\n'
 
