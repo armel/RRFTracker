@@ -78,6 +78,7 @@
             // Instantiate a counter
             clock = new FlipClock($('.clock'), tot, {
                 clockFace: 'MinuteCounter',
+                language:'french',
                 clockFaceOptions: {
                     autoPlay: false,
                     autoStart: false
