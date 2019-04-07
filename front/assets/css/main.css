@@ -19,6 +19,11 @@ body {
     margin-bottom: 30px;
 }
 
+.graph-container h1 {
+    font: 16px Arial, Helvetica, sans-serif;
+    text-align: left;
+}
+
 .graph-container h2 {
     font: 16px Arial, Helvetica, sans-serif;
     text-align: left;

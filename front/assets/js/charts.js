@@ -353,7 +353,7 @@
             }
 
             // Render the table(s)
-            tabulate(data, ['Date', 'Call']); // 2 columns table
+            tabulate(data, ['Date', 'Call', 'Durée']); // 3 columns table
         });
 
         // All
