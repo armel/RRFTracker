@@ -21,7 +21,7 @@ def main(argv):
 
     # Check and get arguments
     try:
-        options, remainder = getopt.getopt(argv, '', ['help', 'log', 'log-path=', 'room='])
+        options, remainder = getopt.getopt(argv, '', ['help', 'log-path=', 'room='])
     except getopt.GetoptError:
         l.usage()
         sys.exit(2)
@@ -29,8 +29,6 @@ def main(argv):
         if opt == '--help':
             l.usage()
             sys.exit()
-        elif opt in ('--log'):
-            s.log = True
         elif opt in ('--log-path'):
             s.log_path = arg
         elif opt in ('--room'):
@@ -48,8 +46,6 @@ def main(argv):
         url = 'http://fon.f1tzo.com:81'
 
     # Boucle principale
-    s.timestamp_start = time.time()
-
     while(True):
 
         # If midnight...
@@ -140,31 +136,36 @@ def main(argv):
         # If no Transmitter...
         else:
             if s.transmit is True:
+                if s.stat_save is True:
+                    s.tx += s.duration
+                    #print s.tx
+                if s.stat_save is False:
+                    s.porteuse = l.save_stat(s.porteuse, s.call[0])
+                    #print s.porteuse
+
                 s.transmit = False
                 s.stat_save = False
                 s.tot_current = ''
                 s.tot_start = ''
 
-        # Write log
-        if s.log is True:
-            # Count node
-            search_start = page.find('nodes":[')                    # Search this pattern
-            search_start += 9                                       # Shift...
-            search_stop = page.find('],"TXmit"', search_start)      # And close it...
+        # Count node
+        search_start = page.find('nodes":[')                    # Search this pattern
+        search_start += 9                                       # Shift...
+        search_stop = page.find('],"TXmit"', search_start)      # And close it...
 
-            tmp = page[search_start:search_stop]
-            tmp = tmp.split(',')
+        tmp = page[search_start:search_stop]
+        tmp = tmp.split(',')
 
-            s.node = len(tmp)
+        s.node = len(tmp)
 
-            # Compute duration
-            if s.transmit is True and s.tot_current > s.tot_start:
-                s.duration = int(s.tot_current) - int(s.tot_start)
-            if s.transmit is False:
-                s.duration = 0
+        # Compute duration
+        if s.transmit is True and s.tot_current > s.tot_start:
+            s.duration = int(s.tot_current) - int(s.tot_start)
+        if s.transmit is False:
+            s.duration = 0
 
-            # Save log
-            l.log_write(s.log_path, s.day, s.room, s.qso_hour, s.history, s.call, s.call_date, s.call_time, s.node, s.call_current, s.duration)
+        # Save log
+        l.log_write(s.log_path, s.day, s.room, s.qso_hour, s.history, s.porteuse, s.call, s.call_date, s.call_time, s.node, s.tx, s.call_current, s.duration)
 
         time.sleep(1)
 

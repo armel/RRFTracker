@@ -263,7 +263,7 @@
             }
 
             // Render the table(s)
-            tabulate(data, ['Salon', 'Date', 'TX total', 'Noeuds actifs', 'Noeuds total']); // 3 columns table
+            tabulate(data, ['Salon', 'Date', 'TX total', 'Durée émission', 'Noeuds actifs', 'Noeuds total']); // 6 columns table
         });
 
         // Trasnmit
@@ -362,6 +362,52 @@
         d3.json('all.json', function (error, data) {
             const containerSelector = '.all-graph';
             const containerTitle = 'Classement des noeuds actifs';
+
+            function tabulate (data, columns) {
+                d3.select(containerSelector).html('');
+                d3.select(containerSelector).append('h2').text(containerTitle);
+
+
+                var table = d3.select(containerSelector).append('table');
+                var thead = table.append('thead');
+                var tbody = table.append('tbody');
+
+                // Append the header row
+                thead.append('tr')
+                    .selectAll('th')
+                    .data(columns).enter()
+                    .append('th')
+                    .text(function (column) { return column; });
+
+                // Create a row for each object in the data
+                var rows = tbody.selectAll('tr')
+                                .data(data)
+                                .enter()
+                                .append('tr');
+
+                // Create a cell in each row for each column
+                var cells = rows.selectAll('td')
+                                .data(function (row) {
+                                    return columns.map(function (column) {
+                                        return { column: column, value: row[column] };
+                                    });
+                                })
+                                .enter()
+                                .append('td')
+                                .text(function (d) { return d.value; });
+
+                return table;
+            }
+
+            // Render the table(s)
+            tabulate(data, ['Pos', 'Call', 'TX']); // 3 columns table
+        });
+
+        // Porteuse
+        // Load the data
+        d3.json('Porteuse.json', function (error, data) {
+            const containerSelector = '.porteuse-graph';
+            const containerTitle = 'Déclenchements intempestifs';
 
             function tabulate (data, columns) {
                 d3.select(containerSelector).html('');

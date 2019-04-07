@@ -10,41 +10,37 @@ Check video about RRFTracker on https://www.youtube.com/watch?v=rVW8xczVpEo
 
 # Version
 
-version = '1.1.0'
+version = '1.2.1'
 
 # Default room
 
-room = 'RRF'                                # Default value !
+room = 'RRF'			# Room: Default value !
+log_path = '/tmp/RRF'	# Log path: Default value !
 
 # Set call
 
-call = ['', '', '', '', '', '', '', '', '', '']       # Call list
-call_date = ['', '', '', '', '', '', '', '', '', '']  # Call date list
-call_time = ['', '', '', '', '', '', '', '', '', '']  # Call time list
-call_current = call[0]                                # Call current
-call_previous = call[1]                               # Call previous
+call = ['', '', '', '', '', '', '', '', '', '']     	# Call list
+call_date = ['', '', '', '', '', '', '', '', '', '']  	# Call date list
+call_time = ['', '', '', '', '', '', '', '', '', '']  	# Call time list
+call_current = call[0]                                	# Call current
+call_previous = call[1]                               	# Call previous
 
+qso = 0					# QSO count
+qso_hour = [0] * 24		# QSO list for histogramm
+node = 0				# Node count
+tx = 0					# Total emission time
 
-blanc = True                                # Detect blank
+history = dict()		# History dict
+porteuse = dict()		# Porteuse dict
 
-qso = 0                                     # QSO count
-qso_hour = [0] * 24                         # QSO list for histogramm
-transmit = True                             # Detect transmit
-node = 0                                    # Node count
-
-history = dict()                            # History dict
+transmit = True			# Detect transmit
+stat_save = False		# If False, stat need to be save
 
 # Set time and date
 
-timestamp_start = ''
 tot_start = ''
 tot_current = ''
-duration = 0
 hour = ''
 minute = ''
 seconde = ''
-
-# Set log
-stat = False								# If False, stat need to be save
-log = False                              	# If True, write log
-log_path = '/var/www/RRF'					# Log path
+duration = 0

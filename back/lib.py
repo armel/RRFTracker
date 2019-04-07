@@ -22,16 +22,21 @@ def usage():
     print
     print 'Log settings:'
     print '  --log-path         set the location of log files'
-    print '  --log              enable log'
     print
     print '88 & 73 from F4HWN Armel'
 
 # Convert time in second to minute
 def convert_time(time):
+    hours = time // 3600
+    time = time - (hours * 3600)
+
     minutes = time // 60
     seconds = time - (minutes * 60)
 
-    return str('{:0>2d}'.format(int(minutes))) + ':' + str('{:0>2d}'.format(int(seconds)))
+    if time < 3600:
+        return str('{:0>2d}'.format(int(minutes))) + ':' + str('{:0>2d}'.format(int(seconds)))
+    else:
+        return str('{:0>2d}'.format(int(hours))) + ':' + str('{:0>2d}'.format(int(minutes))) + ':' + str('{:0>2d}'.format(int(seconds)))
 
 # Save stats to get most active link
 def save_stat(history, call):
@@ -45,7 +50,7 @@ def save_stat(history, call):
 
 
 # Log write for history
-def log_write(log_path, day, room, qso_hour, history, call, call_date, call_time, node, call_current, tot):
+def log_write(log_path, day, room, qso_hour, history, porteuse, call, call_date, call_time, node, tx, call_current, tot):
 
     log_path = log_path + '/' + room + '-' + day
 
@@ -54,17 +59,17 @@ def log_write(log_path, day, room, qso_hour, history, call, call_date, call_time
         os.popen('cp /opt/RRFTracker_Web/front/index.html ' + log_path + '/index.html')
 
     log_transmit(log_path, call_current, tot)
-    log_abstract(log_path, room, qso_hour, history, node)
+    log_abstract(log_path, room, qso_hour, history, node, tx)
     log_history(log_path, qso_hour)
     log_last(log_path, call, call_date, call_time)
     log_node(log_path, history, 'best')
     log_node(log_path, history, 'all')
+    log_node(log_path, porteuse, 'porteuse')
 
     return 0
 
 # Log abstract
-
-def log_abstract(log_path, room, qso_hour, history, node):
+def log_abstract(log_path, room, qso_hour, history, node, tx):
 
     data = '[\n'
 
@@ -75,6 +80,7 @@ def log_abstract(log_path, room, qso_hour, history, node):
     data += '\t"Salon": "' + room + '",\n'
     data += '\t"Date": "' + now + '",\n'
     data += '\t"TX total": ' + str(sum(qso_hour)) + ',\n'
+    data += '\t"Durée émission": "' + convert_time(tx) + '",\n'
     data += '\t"Noeuds actifs": ' + str(len(history)) + ',\n'
     data += '\t"Noeuds total": ' + str(node) + '\n'
     data += '},\n'
@@ -91,7 +97,6 @@ def log_abstract(log_path, room, qso_hour, history, node):
     return 0
 
 # Log transmit
-
 def log_transmit(log_path, call_current, tot):
 
     if tot == 0:
@@ -120,7 +125,6 @@ def log_transmit(log_path, call_current, tot):
     return 0
 
 # Log history
-
 def log_history(log_path, qso_hour):
 
     data = '[\n'
@@ -156,7 +160,6 @@ def log_history(log_path, qso_hour):
     return 0
 
 # Log last
-
 def log_last(log_path, call, call_date, call_time):
 
     data = '[\n'
@@ -182,7 +185,6 @@ def log_last(log_path, call, call_date, call_time):
     return 0
 
 # Log node
-
 def log_node(log_path, history, type):
     tmp = sorted(history.items(), key=lambda x: x[1])
     tmp.reverse()
@@ -197,7 +199,7 @@ def log_node(log_path, history, type):
     p = 1
     for c, t in tmp:
         data += '{\n'
-        if type == 'all':
+        if type in ['all', 'porteuse']:
             data += '\t"Pos": "' + str('{:0>3d}'.format(int(p))) + '",\n'
         data += '\t"Call": "' + c + '",\n'
         data += '\t"TX": ' + str(t) + '\n'
