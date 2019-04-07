@@ -10,7 +10,7 @@ Check video about RRFTracker on https://www.youtube.com/watch?v=rVW8xczVpEo
 
 # Version
 
-version = '1.0.0'
+version = '1.1.0'
 
 # Default room
 
@@ -18,17 +18,18 @@ room = 'RRF'                                # Default value !
 
 # Set call
 
-call = ['', '', '', '', '', '', '', '', '', '']  # Call list
-call_current = call[0]                                          # Call current
-call_previous = call[1]                                         # Call previous
+call = ['', '', '', '', '', '', '', '', '', '']       # Call list
+call_date = ['', '', '', '', '', '', '', '', '', '']  # Call date list
 call_time = ['', '', '', '', '', '', '', '', '', '']  # Call time list
+call_current = call[0]                                # Call current
+call_previous = call[1]                               # Call previous
+
 
 blanc = True                                # Detect blank
 
 qso = 0                                     # QSO count
-qso_total = 0                               # QSO total count
 qso_hour = [0] * 24                         # QSO list for histogramm
-wake_up = True                              # Detect wake up on emission
+transmit = True                             # Detect transmit
 node = 0                                    # Node count
 
 history = dict()                            # History dict
@@ -44,6 +45,6 @@ minute = ''
 seconde = ''
 
 # Set log
-
-log = True                                  # If True, write log
-log_path = '/Users/armel/WebRoot/armel/RRF'	# Log path
+stat = False								# If False, stat need to be save
+log = False                              	# If True, write log
+log_path = '/var/www/RRF'					# Log path

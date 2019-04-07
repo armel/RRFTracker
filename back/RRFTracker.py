@@ -21,7 +21,7 @@ def main(argv):
 
     # Check and get arguments
     try:
-        options, remainder = getopt.getopt(argv, '', ['help', 'log', 'room='])
+        options, remainder = getopt.getopt(argv, '', ['help', 'log', 'log-path=', 'room='])
     except getopt.GetoptError:
         l.usage()
         sys.exit(2)
@@ -31,6 +31,8 @@ def main(argv):
             sys.exit()
         elif opt in ('--log'):
             s.log = True
+        elif opt in ('--log-path'):
+            s.log_path = arg
         elif opt in ('--room'):
             if arg not in ['RRF', 'TEC', 'FON']:
                 print 'Unknown room name (choose between \'RRF\', \'TEC\' and \'FON\')'
@@ -59,7 +61,6 @@ def main(argv):
         s.seconde = int(s.now[-2:])
 
         if(s.now[:5] == '00:00'):
-            s.qso_total += s.qso
             s.qso = 0
             for q in xrange(0, 24):         # Clean histogram
                 s.qso_hour[q] = 0
@@ -81,8 +82,8 @@ def main(argv):
         # If transmitter...
         if search_stop != search_start:
 
-            if s.wake_up is False:
-                s.wake_up = True
+            if s.transmit is False:
+                s.transmit = True
 
             # Clean call
             tmp = page[search_start:search_stop]
@@ -99,21 +100,32 @@ def main(argv):
 
                 for i in xrange(9, 0, -1):
                     s.call[i] = s.call[i - 1]
+                    s.call_date[i] = s.call_date[i - 1]
                     s.call_time[i] = s.call_time[i - 1]
 
                 s.call[0] = s.call_current
 
-                s.history = l.save_stat(s.history, s.call[1])
-                s.qso += 1
             else:
                 if s.tot_start is '':
                     s.tot_start = time.time()
-                s.tot_current = time.time()
-                if (s.blanc is True):         # Stat (same call but new PTT...)
-                    s.history = l.save_stat(s.history, s.call[0])
-                    s.qso += 1
+                    s.tot_current = s.tot_start
 
-            s.blanc = False
+                    for i in xrange(9, 0, -1):
+                        s.call[i] = s.call[i - 1]
+                        s.call_date[i] = s.call_date[i - 1]
+                        s.call_time[i] = s.call_time[i - 1]
+
+                    s.call[0] = s.call_current
+                else:
+                    s.tot_current = time.time()
+
+            s.duration = int(s.tot_current) - int(s.tot_start)
+
+            # Save stat only if real transmit
+            if (s.stat_save is False and s.duration > 2):
+                s.history = l.save_stat(s.history, s.call[0])
+                s.qso += 1
+                s.stat_save = True
 
             # Format call time
             tmp = datetime.datetime.now()
@@ -122,21 +134,20 @@ def main(argv):
 
             s.qso_hour[s.hour] = s.qso - sum(s.qso_hour[:s.hour])
 
-            s.call_time[0] = s.now
+            s.call_date[0] = s.now
+            s.call_time[0] = s.duration
 
         # If no Transmitter...
         else:
-            if s.wake_up is True:
-                s.wake_up = False
-
-            if s.blanc is False:
-                s.blanc = True
-                s.duration = int(s.tot_current) - int(s.tot_start)
+            if s.transmit is True:
+                s.transmit = False
+                s.stat_save = False
                 s.tot_current = ''
                 s.tot_start = ''
-                #if s.duration > 3:
-                #    s.qso += 1
 
+        # Write log
+        if s.log is True:
+            # Count node
             search_start = page.find('nodes":[')                    # Search this pattern
             search_start += 9                                       # Shift...
             search_stop = page.find('],"TXmit"', search_start)      # And close it...
@@ -146,15 +157,14 @@ def main(argv):
 
             s.node = len(tmp)
 
-        # Write log
-
-        if s.log is True:
-            if s.wake_up is True and s.tot_current > s.tot_start:
+            # Compute duration
+            if s.transmit is True and s.tot_current > s.tot_start:
                 s.duration = int(s.tot_current) - int(s.tot_start)
-            if s.wake_up is False:
+            if s.transmit is False:
                 s.duration = 0
 
-            l.log_write(s.log_path, s.day, s.room, s.qso_hour, s.history, s.call, s.call_time, s.node, s.call_current, s.duration)
+            # Save log
+            l.log_write(s.log_path, s.day, s.room, s.qso_hour, s.history, s.call, s.call_date, s.call_time, s.node, s.call_current, s.duration)
 
         time.sleep(1)
 

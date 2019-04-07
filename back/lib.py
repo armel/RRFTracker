@@ -17,27 +17,21 @@ def usage():
     print
     print '--help               this help'
     print
-    print 'I2C settings:'
-    print '  --i2c-port         set i2c port (default=0)'
-    print '  --i2c-address      set i2c address (default=0x3C)'
-    print
-    print 'Display settings:'
-    print '  --display          set display (default=sh1106, choose between [sh1106, ssd1306])'
-    print '  --display-width    set display width (default=128)'
-    print '  --display-height   set display height (default=64)'
-    print
     print 'Room settings:'
     print '  --room ROOM        set room (default=RRF, choose between [RRF, TEC, FON])'
     print
-    print 'WGS84 settings:'
-    print '  --latitude         set latitude (default=48.8483808, format WGS84)'
-    print '  --longitude        set longitude (default=2.2704347, format WGS84)'
-    print
     print 'Log settings:'
+    print '  --log-path         set the location of log files'
     print '  --log              enable log'
     print
     print '88 & 73 from F4HWN Armel'
 
+# Convert time in second to minute
+def convert_time(time):
+    minutes = time // 60
+    seconds = time - (minutes * 60)
+
+    return str('{:0>2d}'.format(int(minutes))) + ':' + str('{:0>2d}'.format(int(seconds)))
 
 # Save stats to get most active link
 def save_stat(history, call):
@@ -51,7 +45,7 @@ def save_stat(history, call):
 
 
 # Log write for history
-def log_write(log_path, day, room, qso_hour, history, call, call_time, node, call_current, tot):
+def log_write(log_path, day, room, qso_hour, history, call, call_date, call_time, node, call_current, tot):
 
     log_path = log_path + '/' + room + '-' + day
 
@@ -62,7 +56,7 @@ def log_write(log_path, day, room, qso_hour, history, call, call_time, node, cal
     log_transmit(log_path, call_current, tot)
     log_abstract(log_path, room, qso_hour, history, node)
     log_history(log_path, qso_hour)
-    log_last(log_path, call, call_time)
+    log_last(log_path, call, call_date, call_time)
     log_node(log_path, history, 'best')
     log_node(log_path, history, 'all')
 
@@ -163,16 +157,17 @@ def log_history(log_path, qso_hour):
 
 # Log last
 
-def log_last(log_path, call, call_time):
+def log_last(log_path, call, call_date, call_time):
 
     data = '[\n'
 
     for i in xrange(0, 10):
-        if call_time[i] == '':
+        if call_date[i] == '':
             break
         data += '{\n'
-        data += '\t"Date": "' + call_time[i] + '",\n'
-        data += '\t"Call": "' + call[i] + '"\n'
+        data += '\t"Date": "' + call_date[i] + '",\n'
+        data += '\t"Call": "' + call[i] + '",\n'
+        data += '\t"Durée": "' + convert_time(call_time[i]) + '"\n'
         data += '},\n'
 
     data += ']\n'
