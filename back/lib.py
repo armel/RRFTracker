@@ -198,6 +198,9 @@ def log_node(log_path, history, type):
 
     p = 1
     for c, t in tmp:
+        if type in ['porteuse']:
+            if t < 10:
+                break
         data += '{\n'
         if type in ['all', 'porteuse']:
             data += '\t"Pos": "' + str('{:0>3d}'.format(int(p))) + '",\n'
