@@ -55,11 +55,10 @@ svg {
 }
 
 .bar {
-    fill: #ffae03;
 }
 
 .bar:hover {
-    fill: #ffc447;
+    fill: steelblue;
 }
 
 table {

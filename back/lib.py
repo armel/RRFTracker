@@ -52,19 +52,20 @@ def save_stat(history, call):
 # Log write for history
 def log_write(log_path, day, room, qso_hour, history, porteuse, call, call_date, call_time, node, tx, call_current, tot):
 
-    log_path = log_path + '/' + room + '-' + day
+    log_path_day = log_path + '/' + room + '-' + day
 
-    if not os.path.exists(log_path):
-        os.makedirs(log_path)
-        os.popen('cp /opt/RRFTracker_Web/front/index.html ' + log_path + '/index.html')
+    if not os.path.exists(log_path_day):
+        os.makedirs(log_path_day)
+        os.popen('cp /opt/RRFTracker_Web/front/index.html ' + log_path_day + '/index.html')
+        os.popen('ln -sfn ' + log_path_day + ' ' + log_path + '/' + room + '-today')
 
-    log_transmit(log_path, call_current, tot)
-    log_abstract(log_path, room, qso_hour, history, node, tx)
-    log_history(log_path, qso_hour)
-    log_last(log_path, call, call_date, call_time)
-    log_node(log_path, history, 'best')
-    log_node(log_path, history, 'all')
-    log_node(log_path, porteuse, 'porteuse')
+    log_transmit(log_path_day, call_current, tot)
+    log_abstract(log_path_day, room, qso_hour, history, node, tx)
+    log_history(log_path_day, qso_hour)
+    log_last(log_path_day, call, call_date, call_time)
+    log_node(log_path_day, history, 'best')
+    log_node(log_path_day, history, 'all')
+    log_node(log_path_day, porteuse, 'porteuse')
 
     return 0
 

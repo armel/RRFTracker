@@ -101,57 +101,65 @@
                 d.TX = d.TX;
             });
 
+            var color = "steelblue";
+            var yMax = d3.max(data, function(d){return d.TX});
+            var yMin = d3.min(data, function(d){return d.TX});
+            var colorScale = d3.scale.linear()
+                .domain([yMin, yMax])
+                .range([d3.rgb(color).brighter(), d3.rgb(color).darker()]);
+
             // Scale the range of the data
             x.domain(data.map(function(d) { return d.Hour; }));
             y.domain([0, d3.max(data, function(d) { return d.TX; })]);
 
             var svg_activity = d3.select(containerSelector)
-                                 .append('svg')
-                                 .attr('width', width + margin.left + margin.right)
-                                 .attr('height', height + margin.top + margin.bottom)
-                                 .append('g')
-                                 .attr('transform',
-                                       'translate(' + margin.left + ',' + margin.top + ')');
+                             .append('svg')
+                             .attr('width', width + margin.left + margin.right)
+                             .attr('height', height + margin.top + margin.bottom)
+                             .append('g')
+                             .attr('transform',
+                                   'translate(' + margin.left + ',' + margin.top + ')');
 
             // Add axis
             svg_activity.append('g')
-                        .attr('class', 'x axis')
-                        .attr('transform', 'translate(0,' + (height + 0.5) + ')')
-                        .call(xAxis)
-                        .selectAll('text')
-                        .style('text-anchor', 'end')
-                        .attr('dx', '-.8em')
-                        .attr('dy', '-.55em')
-                        .attr('transform', 'rotate(-45)' );
+                    .attr('class', 'x axis')
+                    .attr('transform', 'translate(0,' + (height + 0.5) + ')')
+                    .call(xAxis)
+                    .selectAll('text')
+                    .style('text-anchor', 'end')
+                    .attr('dx', '-.8em')
+                    .attr('dy', '-.55em')
+                    .attr('transform', 'rotate(-45)' );
 
             svg_activity.append('g')
-                        .attr('class', 'y axis')
-                        .call(yAxis)
-                        .append('text')
-                        .attr('transform', 'rotate(0)')
-                        .attr('y', -10)
-                        .attr('dy', '.71em')
-                        .style('text-anchor', 'end')
-                        .text('TX');
+                    .attr('class', 'y axis')
+                    .call(yAxis)
+                    .append('text')
+                    .attr('transform', 'rotate(0)')
+                    .attr('y', -10)
+                    .attr('dy', '.71em')
+                    .style('text-anchor', 'end')
+                    .text('TX');
 
             // Add bar chart
             svg_activity.selectAll('bar')
-                        .data(data)
-                        .enter().append('rect')
-                        .attr('class', 'bar')
-                        .attr('x', function(d) { return x(d.Hour); })
-                        .attr('width', x.rangeBand())
-                        .attr('y', function(d) { return y(d.TX); })
-                        .attr('height', function(d) { return height - y(d.TX); });
+                    .data(data)
+                    .enter().append('rect')
+                    .attr('class', 'bar')
+                    .attr("fill", function(d) { return colorScale(d.TX) })
+                    .attr('x', function(d) { return x(d.Hour); })
+                    .attr('width', x.rangeBand())
+                    .attr('y', function(d) { return y(d.TX); })
+                    .attr('height', function(d) { return height - y(d.TX); });
 
             svg_activity.selectAll('text.bar')
-                        .data(data)
-                        .enter().append('text')
-                        .attr('class', 'value')
-                        .attr('text-anchor', 'middle')
-                        .attr("x", function(d) { return x(d.Hour) + x.rangeBand()/2; })
-                        .attr('y', function(d) { return y(d.TX) - 5; })
-                        .text(function(d) { return d.TX; });
+                    .data(data)
+                    .enter().append('text')
+                    .attr('class', 'value')
+                    .attr('text-anchor', 'middle')
+                    .attr("x", function(d) { return x(d.Hour) + x.rangeBand()/2; })
+                    .attr('y', function(d) { return y(d.TX) - 5; })
+                    .text(function(d) { return d.TX; });
         });
 
         // Best
@@ -168,6 +176,13 @@
                 d.TX = d.TX;
             });
 
+            var color = "steelblue";
+            var yMax = d3.max(data, function(d){return d.TX});
+            var yMin = d3.min(data, function(d){return d.TX});
+            var colorScale = d3.scale.linear()
+                .domain([yMin, yMax])
+                .range([d3.rgb(color).brighter(), d3.rgb(color).darker()]);
+                
             const svg_best = d3.select(containerSelector)
                                .append('svg')
                                .attr('width', width + margin.left + margin.right)
@@ -206,19 +221,20 @@
                     .data(data)
                     .enter().append('rect')
                     .attr('class', 'bar')
+                    .attr("fill", function(d) { return colorScale(d.TX) })
                     .attr('x', function(d) { return x(d.Call); })
                     .attr('width', x.rangeBand())
                     .attr('y', function(d) { return y(d.TX); })
                     .attr('height', function(d) { return height - y(d.TX); })
 
             svg_best.selectAll('text.bar')
-                        .data(data)
-                        .enter().append('text')
-                        .attr('class', 'value')
-                        .attr('text-anchor', 'middle')
-                        .attr("x", function(d) { return x(d.Call) + x.rangeBand()/2; })
-                        .attr('y', function(d) { return y(d.TX) - 5; })
-                        .text(function(d) { return d.TX; });
+                    .data(data)
+                    .enter().append('text')
+                    .attr('class', 'value')
+                    .attr('text-anchor', 'middle')
+                    .attr("x", function(d) { return x(d.Call) + x.rangeBand()/2; })
+                    .attr('y', function(d) { return y(d.TX) - 5; })
+                    .text(function(d) { return d.TX; });
         });
 
         // Abstract
@@ -237,27 +253,27 @@
 
                 // Append the header row
                 thead.append('tr')
-                    .selectAll('th')
-                    .data(columns).enter()
-                    .append('th')
-                    .text(function (column) { return column; });
+                        .selectAll('th')
+                        .data(columns).enter()
+                        .append('th')
+                        .text(function (column) { return column; });
 
                 // Create a row for each object in the data
                 const rows = tbody.selectAll('tr')
-                                .data(data)
-                                .enter()
-                                .append('tr');
+                        .data(data)
+                        .enter()
+                        .append('tr');
 
                 // Create a cell in each row for each column
                 const cells = rows.selectAll('td')
-                                .data(function (row) {
-                                    return columns.map(function (column) {
-                                        return {column: column, value: row[column]};
-                                    });
-                                })
-                                .enter()
-                                .append('td')
-                                .text(function (d) { return d.value; });
+                        .data(function (row) {
+                            return columns.map(function (column) {
+                                return {column: column, value: row[column]};
+                            });
+                        })
+                        .enter()
+                        .append('td')
+                        .text(function (d) { return d.value; });
 
                 return table;
             }
@@ -289,20 +305,20 @@
 
                 // Create a row for each object in the data
                 const rows = tbody.selectAll('tr')
-                                .data(data)
-                                .enter()
-                                .append('tr');
+                            .data(data)
+                            .enter()
+                            .append('tr');
 
                 // Create a cell in each row for each column
                 const cells = rows.selectAll('td')
-                                .data(function (row) {
-                                    return columns.map(function (column) {
-                                        return {column: column, value: row[column]};
-                                    });
-                                })
-                                .enter()
-                                .append('td')
-                                .text(function (d) { return d.value; });
+                            .data(function (row) {
+                                return columns.map(function (column) {
+                                    return {column: column, value: row[column]};
+                                });
+                            })
+                            .enter()
+                            .append('td')
+                            .text(function (d) { return d.value; });
 
                 return table;
             }
@@ -335,20 +351,20 @@
 
                 // Create a row for each object in the data
                 var rows = tbody.selectAll('tr')
-                                .data(data)
-                                .enter()
-                                .append('tr');
+                            .data(data)
+                            .enter()
+                            .append('tr');
 
                 // Create a cell in each row for each column
                 var cells = rows.selectAll('td')
-                                .data(function (row) {
-                                    return columns.map(function (column) {
-                                        return { column: column, value: row[column] };
-                                    });
-                                })
-                                .enter()
-                                .append('td')
-                                .text(function (d) { return d.value; });
+                            .data(function (row) {
+                                return columns.map(function (column) {
+                                    return { column: column, value: row[column] };
+                                });
+                            })
+                            .enter()
+                            .append('td')
+                            .text(function (d) { return d.value; });
 
                 return table;
             }
@@ -381,20 +397,20 @@
 
                 // Create a row for each object in the data
                 var rows = tbody.selectAll('tr')
-                                .data(data)
-                                .enter()
-                                .append('tr');
+                            .data(data)
+                            .enter()
+                            .append('tr');
 
                 // Create a cell in each row for each column
                 var cells = rows.selectAll('td')
-                                .data(function (row) {
-                                    return columns.map(function (column) {
-                                        return { column: column, value: row[column] };
-                                    });
-                                })
-                                .enter()
-                                .append('td')
-                                .text(function (d) { return d.value; });
+                            .data(function (row) {
+                                return columns.map(function (column) {
+                                    return { column: column, value: row[column] };
+                                });
+                            })
+                            .enter()
+                            .append('td')
+                            .text(function (d) { return d.value; });
 
                 return table;
             }
@@ -427,20 +443,20 @@
 
                 // Create a row for each object in the data
                 var rows = tbody.selectAll('tr')
-                                .data(data)
-                                .enter()
-                                .append('tr');
+                            .data(data)
+                            .enter()
+                            .append('tr');
 
                 // Create a cell in each row for each column
                 var cells = rows.selectAll('td')
-                                .data(function (row) {
-                                    return columns.map(function (column) {
-                                        return { column: column, value: row[column] };
-                                    });
-                                })
-                                .enter()
-                                .append('td')
-                                .text(function (d) { return d.value; });
+                            .data(function (row) {
+                                return columns.map(function (column) {
+                                    return { column: column, value: row[column] };
+                                });
+                            })
+                            .enter()
+                            .append('td')
+                            .text(function (d) { return d.value; });
 
                 return table;
             }
