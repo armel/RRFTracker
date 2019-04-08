@@ -27,15 +27,13 @@ def usage():
 
 # Convert time in second to minute
 def convert_time(time):
-    tmp = time
-
     hours = time // 3600
     time = time - (hours * 3600)
 
     minutes = time // 60
     seconds = time - (minutes * 60)
 
-    if tmp < 3600:
+    if hours == 0:
         return str('{:0>2d}'.format(int(minutes))) + ':' + str('{:0>2d}'.format(int(seconds)))
     else:
         return str('{:0>2d}'.format(int(hours))) + ':' + str('{:0>2d}'.format(int(minutes))) + ':' + str('{:0>2d}'.format(int(seconds)))
