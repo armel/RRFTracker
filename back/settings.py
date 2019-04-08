@@ -12,7 +12,7 @@ Check video about RRFTracker on https://www.youtube.com/watch?v=rVW8xczVpEo
 
 version = '1.2.1'
 
-# Default room
+# Default room and path
 
 room = 'RRF'			# Room: Default value !
 log_path = '/tmp/RRF'	# Log path: Default value !
