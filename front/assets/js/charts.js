@@ -64,7 +64,7 @@
             }
 
             const containerTitle = title;
-            const containerLegend = 'Affiche l\'indicatif du noeud en cours d\'émission ainsi que la durée de passage en émission.';
+            const containerLegend = 'Affiche l\'indicatif du nœud en cours d\'émission ainsi que la durée de passage en émission.';
 
             d3.select(containerSelector).html('');
             d3.select(containerSelector).append('h2').text(containerTitle);
@@ -72,7 +72,6 @@
             var svg_tot = d3.select(containerSelector)
                 .append('div')
                 .attr('class', 'clock')
-
 
             var clock;
             // Instantiate a counter
@@ -86,7 +85,6 @@
             });
 
             d3.select(containerSelector).append('span').text(containerLegend);
-
         });
 
         // Activity
@@ -193,8 +191,8 @@
         // Load the data
         d3.json('best.json', function(error, data) {
             const containerSelector = '.best-graph';
-            const containerTitle = 'Top 20 des noeuds les plus actifs';
-            const containerLegend = 'Cet histogramme représente le classement des 20 noeuds les plus actifs de la journée, en terme de passages en émission.';
+            const containerTitle = 'Top 20 des nœuds les plus actifs';
+            const containerLegend = 'Cet histogramme représente le classement des 20 nœuds les plus actifs de la journée, en terme de passages en émission.';
             const containerAuthor = 'RRFTracker est un projet Open Source, dévelopé par F4HWN Armel, sous licence MIT.';
 
             d3.select(containerSelector).html('');
@@ -298,7 +296,7 @@
         d3.json('abstract.json', function(error, data) {
             const containerSelector = '.abstract-graph';
             const containerTitle = 'Résumé de la journée';
-            const containerLegend = 'Ce tableau présente le résumé de l\'activité du salon dans la journée: nombre de passages en émission total, durée cumulée en émission, nombre de noeuds actifs et total.';
+            const containerLegend = 'Ce tableau présente le résumé de l\'activité du salon dans la journée: nombre de passages en émission total, durée cumulée en émission, nombre de nœuds actifs et total.';
 
             function tabulate(data, columns) {
                 d3.select(containerSelector).html('');
@@ -314,6 +312,16 @@
                     .data(columns).enter()
                     .append('th')
                     .text(function(column) {
+                        // Patch column title !
+                        if (column == 'Durée émission') {
+                            column = 'Emission cumulée';
+                        }
+                        else if (column == 'Noeuds actifs') {
+                            column = 'Nœuds actifs';
+                        }
+                        else if (column == 'Noeuds total') {
+                            column = 'Nœuds total';
+                        }
                         return column;
                     });
 
@@ -352,12 +360,11 @@
         d3.json('last.json', function(error, data) {
             const containerSelector = '.last-graph';
             const containerTitle = 'Derniers passages en émission';
-            const containerLegend = 'Ce tableau présente la liste des 10 derniers passages en émission: horodatage, indicatif du noeud et durée en émission.';
+            const containerLegend = 'Ce tableau présente la liste des 10 derniers passages en émission: horodatage, indicatif du nœud et durée en émission.';
 
             function tabulate(data, columns) {
                 d3.select(containerSelector).html('');
                 d3.select(containerSelector).append('h2').text(containerTitle);
-
 
                 var table = d3.select(containerSelector).append('table');
                 var thead = table.append('thead');
@@ -369,6 +376,10 @@
                     .data(columns).enter()
                     .append('th')
                     .text(function(column) {
+                        // Patch column title !
+                        if (column == 'Call') {
+                            column = 'Indicatif';
+                        }
                         return column;
                     });
 
@@ -406,13 +417,12 @@
         // Load the data
         d3.json('all.json', function(error, data) {
             const containerSelector = '.all-graph';
-            const containerTitle = 'Classement des noeuds actifs';
-            const containerLegend = 'Ce tableau présente le classement complet des noeuds étant passés en émission dans la journée: position, indicatif du noeud et nombre de passages en émission.';
+            const containerTitle = 'Classement des nœuds actifs';
+            const containerLegend = 'Ce tableau présente le classement complet des nœuds étant passés en émission dans la journée: position, indicatif du nœud et nombre de passages en émission.';
 
             function tabulate(data, columns) {
                 d3.select(containerSelector).html('');
                 d3.select(containerSelector).append('h2').text(containerTitle);
-
 
                 var table = d3.select(containerSelector).append('table');
                 var thead = table.append('thead');
@@ -424,6 +434,10 @@
                     .data(columns).enter()
                     .append('th')
                     .text(function(column) {
+                        // Patch column title !
+                        if (column == 'Call') {
+                            column = 'Indicatif';
+                        }
                         return column;
                     });
 
@@ -462,12 +476,11 @@
         d3.json('porteuse.json', function(error, data) {
             const containerSelector = '.porteuse-graph';
             const containerTitle = 'Déclenchements intempestifs';
-            const containerLegend = 'Ce tableau présente le classement complet des noeuds ayant fait l\'objet de passages en émission intempestifs ou suspects, d\'une durée de moins de 3 secondes: position, indicatif du noeud et nombre de passages en émission.';
+            const containerLegend = 'Ce tableau présente le classement complet des nœuds ayant fait l\'objet de passages en émission intempestifs ou suspects, d\'une durée de moins de 3 secondes: position, indicatif du nœud et nombre de passages en émission.';
 
             function tabulate(data, columns) {
                 d3.select(containerSelector).html('');
                 d3.select(containerSelector).append('h2').text(containerTitle);
-
 
                 var table = d3.select(containerSelector).append('table');
                 var thead = table.append('thead');
@@ -479,6 +492,10 @@
                     .data(columns).enter()
                     .append('th')
                     .text(function(column) {
+                        // Patch column title !
+                        if (column == 'Call') {
+                            column = 'Indicatif';
+                        }
                         return column;
                     });
 
