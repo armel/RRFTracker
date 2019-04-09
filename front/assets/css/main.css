@@ -30,11 +30,24 @@ body {
     border-bottom: dotted 1px #000;
 }
 
+.graph-container span {
+    font: 12px Arial, Helvetica, sans-serif;
+    color: #999;
+    text-align: left;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.graph-container > .author {
+    margin-top: 20px;
+    color: #000;
+}
+
 svg {
     box-sizing: content-box;
     display: block;
     margin: 0 auto;
-    padding: 20px 0;
+    padding: 10px 0;
 }
 
 .axis {
@@ -73,7 +86,7 @@ table {
 table thead th {
     background-color: #999;
     border: solid 1px #000;
-    padding: 10px;
+    padding: 8px;
     text-align: center;
 }
 
@@ -86,11 +99,6 @@ table tbody td {
 
 table tr:hover {
     background-color: #ccc;
-}
-
-.liquidFillGaugeText { 
-    font-family: Arial, Helvetica, sans-serif;
-    font-weight: bold; 
 }
 
 @media (min-width: 1024px) {
@@ -123,7 +131,7 @@ table tr:hover {
     }
 
     .graph-container {
-        margin-bottom: 60px;
+        margin-bottom: 30px;
         padding: 0 60px;
     }
 
