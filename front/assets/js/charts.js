@@ -194,7 +194,7 @@
         d3.json('best.json', function(error, data) {
             const containerSelector = '.best-graph';
             const containerTitle = 'Top 20 des noeuds les plus actifs';
-            const containerLegend = 'Cet histrogramme représente le classement des 20 noeuds les plus actifs de la journée, en terme de passages en émission.';
+            const containerLegend = 'Cet histogramme représente le classement des 20 noeuds les plus actifs de la journée, en terme de passages en émission.';
             const containerAuthor = 'RRFTracker est un projet Open Source, dévelopé par F4HWN Armel, sous licence MIT.';
 
             d3.select(containerSelector).html('');
