@@ -107,6 +107,7 @@
             else {
                 return 0;
             }
+
             const containerSelector = '.activity-graph';
             const containerTitle = 'Activité heure par heure';
             const containerLegend = 'Cet histogramme représente le nombre de passages en émission, heure par heure. Seuls les passages en émission de plus de 3 secondes sont comptabilisés.';
@@ -213,6 +214,7 @@
             else {
                 return 0;
             }
+
             const containerSelector = '.best-graph';
             const containerTitle = 'Top 20 des nœuds les plus actifs';
             const containerLegend = 'Cet histogramme représente le classement des 20 nœuds les plus actifs de la journée, en terme de passages en émission.';
@@ -323,6 +325,7 @@
             else {
                 return 0;
             }
+
             const containerSelector = '.abstract-graph';
             const containerTitle = 'Résumé de la journée';
             const containerLegend = 'Ce tableau présente le résumé de l\'activité du salon dans la journée: nombre de passages en émission total, durée cumulée en émission, nombre de nœuds actifs et total.';
@@ -393,6 +396,7 @@
             else {
                 return 0;
             }
+
             const containerSelector = '.last-graph';
             const containerTitle = 'Derniers passages en émission';
             const containerLegend = 'Ce tableau présente la liste des 10 derniers passages en émission: horodatage, indicatif du nœud et durée en émission.';
@@ -522,6 +526,7 @@
             else {
                 return 0;
             }
+
             const containerSelector = '.porteuse-graph';
             const containerTitle = 'Déclenchements intempestifs';
             const containerLegend = 'Ce tableau présente le classement complet des nœuds ayant fait l\'objet de passages en émission intempestifs ou suspects, d\'une durée de moins de 3 secondes: position, indicatif du nœud et nombre de passages en émission.';
