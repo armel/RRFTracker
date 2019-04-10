@@ -52,4 +52,4 @@ Ce tableau présente le classement général des noeuds ayant fait l'objet de d�
 * L'indicatif du noeud,
 * Le nombre de déclenchements « intempestifs » en émission.
 
-![alt text](https://github.com/armel/RRFTracker_Spotnik/blob/master/doc/screenshot.png)
+![alt text](https://github.com/armel/RRFTracker_Web/blob/master/doc/screenshot.png)
