@@ -17,7 +17,7 @@
 
     var inter = setInterval(function() {
         generateD3Charts();
-    }, 500);
+    }, 750);
 
     var old_abstract = '';
     var old_best = '';
