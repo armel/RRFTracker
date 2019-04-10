@@ -4,6 +4,12 @@
     window.addEventListener('resize', function() {
         clearTimeout(generateChartTimeout);
         generateChartTimeout = setTimeout(function() {
+            var old_abstract = '';
+            var old_best = '';
+            var old_activity = '';
+            var old_last = '';
+            var old_all = '';
+            var old_porteuse = '';
             generateD3Charts();
         }, 200);
     });
@@ -13,7 +19,15 @@
         generateD3Charts();
     }, 500);
 
+    var old_abstract = '';
+    var old_best = '';
+    var old_activity = '';
+    var old_last = '';
+    var old_all = '';
+    var old_porteuse = '';
+
     function generateD3Charts() {
+
         const columnWidth = document.querySelector('.columns :first-child').clientWidth;
 
         // Set the dimensions of the canvas
@@ -46,21 +60,18 @@
         d3.json('transmit.json', function(error, data) {
             const containerSelector = '.tot-graph';
 
-            var tot = 0;
-            var call = '';
-            var title = '';
+            var TOT = 0;
+            var Node = '';
 
-            data.forEach(function(d) {
-                d.Node = d.Node;
-                d.TOT = d.TOT;
-                tot = d.TOT
-                call = d.Node;
-            });
+            if (data !== undefined) {
+                TOT = data[0].TOT;
+                Node = data[0].Node;
+            }
 
-            if (tot == 0) {
+            if (TOT == 0) {
                 title = 'Aucune émission';
             } else {
-                title = call + ' en émission';
+                title = Node + ' en émission';
             }
 
             const containerTitle = title;
@@ -75,7 +86,7 @@
 
             var clock;
             // Instantiate a counter
-            clock = new FlipClock($('.clock'), tot, {
+            clock = new FlipClock($('.clock'), TOT, {
                 clockFace: 'MinuteCounter',
                 language: 'french',
                 clockFaceOptions: {
@@ -90,6 +101,12 @@
         // Activity
         // Load the data
         d3.json('activity.json', function(error, data) {
+            if (old_activity !== JSON.stringify(data)) {
+                old_activity = JSON.stringify(data); 
+            }
+            else {
+                return 0;
+            }
             const containerSelector = '.activity-graph';
             const containerTitle = 'Activité heure par heure';
             const containerLegend = 'Cet histogramme représente le nombre de passages en émission, heure par heure. Seuls les passages en émission de plus de 3 secondes sont comptabilisés.';
@@ -190,6 +207,12 @@
         // Best
         // Load the data
         d3.json('best.json', function(error, data) {
+            if (old_best !== JSON.stringify(data)) {
+                old_best = JSON.stringify(data); 
+            }
+            else {
+                return 0;
+            }
             const containerSelector = '.best-graph';
             const containerTitle = 'Top 20 des nœuds les plus actifs';
             const containerLegend = 'Cet histogramme représente le classement des 20 nœuds les plus actifs de la journée, en terme de passages en émission.';
@@ -294,6 +317,12 @@
         // Abstract
         // Load the data
         d3.json('abstract.json', function(error, data) {
+            if (old_abstract !== JSON.stringify(data)) {
+                old_abstract = JSON.stringify(data); 
+            }
+            else {
+                return 0;
+            }
             const containerSelector = '.abstract-graph';
             const containerTitle = 'Résumé de la journée';
             const containerLegend = 'Ce tableau présente le résumé de l\'activité du salon dans la journée: nombre de passages en émission total, durée cumulée en émission, nombre de nœuds actifs et total.';
@@ -358,6 +387,12 @@
         // Last
         // Load the data
         d3.json('last.json', function(error, data) {
+            if (old_last !== JSON.stringify(data)) {
+                old_last = JSON.stringify(data); 
+            }
+            else {
+                return 0;
+            }
             const containerSelector = '.last-graph';
             const containerTitle = 'Derniers passages en émission';
             const containerLegend = 'Ce tableau présente la liste des 10 derniers passages en émission: horodatage, indicatif du nœud et durée en émission.';
@@ -416,6 +451,13 @@
         // All
         // Load the data
         d3.json('all.json', function(error, data) {
+            if (old_all !== JSON.stringify(data)) {
+                old_all = JSON.stringify(data); 
+            }
+            else {
+                return 0;
+            }
+
             const containerSelector = '.all-graph';
             const containerTitle = 'Classement des nœuds actifs';
             const containerLegend = 'Ce tableau présente le classement complet des nœuds étant passés en émission dans la journée: position, indicatif du nœud et nombre de passages en émission.';
@@ -474,59 +516,68 @@
         // Porteuse
         // Load the data
         d3.json('porteuse.json', function(error, data) {
+            if (old_porteuse !== JSON.stringify(data)) {
+                old_porteuse = JSON.stringify(data); 
+            }
+            else {
+                return 0;
+            }
             const containerSelector = '.porteuse-graph';
             const containerTitle = 'Déclenchements intempestifs';
             const containerLegend = 'Ce tableau présente le classement complet des nœuds ayant fait l\'objet de passages en émission intempestifs ou suspects, d\'une durée de moins de 3 secondes: position, indicatif du nœud et nombre de passages en émission.';
 
-            function tabulate(data, columns) {
-                d3.select(containerSelector).html('');
-                d3.select(containerSelector).append('h2').text(containerTitle);
+            if (data !== undefined) {
 
-                var table = d3.select(containerSelector).append('table');
-                var thead = table.append('thead');
-                var tbody = table.append('tbody');
+                function tabulate(data, columns) {
+                    d3.select(containerSelector).html('');
+                    d3.select(containerSelector).append('h2').text(containerTitle);
 
-                // Append the header row
-                thead.append('tr')
-                    .selectAll('th')
-                    .data(columns).enter()
-                    .append('th')
-                    .text(function(column) {
-                        // Patch column title !
-                        if (column == 'Call') {
-                            column = 'Indicatif';
-                        }
-                        return column;
-                    });
+                    var table = d3.select(containerSelector).append('table');
+                    var thead = table.append('thead');
+                    var tbody = table.append('tbody');
 
-                // Create a row for each object in the data
-                var rows = tbody.selectAll('tr')
-                    .data(data)
-                    .enter()
-                    .append('tr');
-
-                // Create a cell in each row for each column
-                var cells = rows.selectAll('td')
-                    .data(function(row) {
-                        return columns.map(function(column) {
-                            return {
-                                column: column,
-                                value: row[column]
-                            };
+                    // Append the header row
+                    thead.append('tr')
+                        .selectAll('th')
+                        .data(columns).enter()
+                        .append('th')
+                        .text(function(column) {
+                            // Patch column title !
+                            if (column == 'Call') {
+                                column = 'Indicatif';
+                            }
+                            return column;
                         });
-                    })
-                    .enter()
-                    .append('td')
-                    .text(function(d) {
-                        return d.value;
-                    });
 
-                return table;
+                    // Create a row for each object in the data
+                    var rows = tbody.selectAll('tr')
+                        .data(data)
+                        .enter()
+                        .append('tr');
+
+                    // Create a cell in each row for each column
+                    var cells = rows.selectAll('td')
+                        .data(function(row) {
+                            return columns.map(function(column) {
+                                return {
+                                    column: column,
+                                    value: row[column]
+                                };
+                            });
+                        })
+                        .enter()
+                        .append('td')
+                        .text(function(d) {
+                            return d.value;
+                        });
+
+                    return table;
+                }
+
+                // Render the table(s)
+                tabulate(data, ['Pos', 'Call', 'TX']); // 3 columns table
+                d3.select(containerSelector).append('span').text(containerLegend);
             }
-
-            // Render the table(s)
-            tabulate(data, ['Pos', 'Call', 'TX']); // 3 columns table
-            d3.select(containerSelector).append('span').text(containerLegend);
         });
     }
 })();
