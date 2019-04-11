@@ -1,23 +1,19 @@
 ;
 (function() {
     let generateChartTimeout = null;
+
     window.addEventListener('resize', function() {
         clearTimeout(generateChartTimeout);
         generateChartTimeout = setTimeout(function() {
-            var old_abstract = '';
-            var old_best = '';
-            var old_activity = '';
-            var old_last = '';
-            var old_all = '';
-            var old_porteuse = '';
-            generateD3Charts();
+            generateD3Charts(true);
         }, 200);
     });
+
     generateD3Charts();
 
     var inter = setInterval(function() {
-        generateD3Charts();
-    }, 750);
+        generateD3Charts(false);
+    }, 1000);
 
     var old_abstract = '';
     var old_best = '';
@@ -26,7 +22,19 @@
     var old_all = '';
     var old_porteuse = '';
 
-    function generateD3Charts() {
+    console.log(old_abstract);
+
+
+    function generateD3Charts(redraw = false) {
+        if (redraw === true) {
+            console.log("rezise");
+            old_abstract = '';
+            old_best = '';
+            old_activity = '';
+            old_last = '';
+            old_all = '';
+            old_porteuse = '';
+        }
 
         const columnWidth = document.querySelector('.columns :first-child').clientWidth;
 
@@ -102,11 +110,13 @@
         // Load the data
         d3.json('activity.json', function(error, data) {
             if (old_activity !== JSON.stringify(data)) {
-                old_activity = JSON.stringify(data); 
+                old_activity = JSON.stringify(data);
             }
             else {
                 return 0;
             }
+
+            console.log("activity redraw");
 
             const containerSelector = '.activity-graph';
             const containerTitle = 'Activité heure par heure';
@@ -209,11 +219,13 @@
         // Load the data
         d3.json('best.json', function(error, data) {
             if (old_best !== JSON.stringify(data)) {
-                old_best = JSON.stringify(data); 
+                old_best = JSON.stringify(data);
             }
             else {
                 return 0;
             }
+
+            console.log("best redraw");
 
             const containerSelector = '.best-graph';
             const containerTitle = 'Top 20 des nœuds les plus actifs';
@@ -320,11 +332,13 @@
         // Load the data
         d3.json('abstract.json', function(error, data) {
             if (old_abstract !== JSON.stringify(data)) {
-                old_abstract = JSON.stringify(data); 
+                old_abstract = JSON.stringify(data);
             }
             else {
                 return 0;
             }
+
+            console.log("abstract redraw");
 
             const containerSelector = '.abstract-graph';
             const containerTitle = 'Résumé de la journée';
@@ -391,11 +405,13 @@
         // Load the data
         d3.json('last.json', function(error, data) {
             if (old_last !== JSON.stringify(data)) {
-                old_last = JSON.stringify(data); 
+                old_last = JSON.stringify(data);
             }
             else {
                 return 0;
             }
+
+            console.log("last redraw");
 
             const containerSelector = '.last-graph';
             const containerTitle = 'Derniers passages en émission';
@@ -456,11 +472,13 @@
         // Load the data
         d3.json('all.json', function(error, data) {
             if (old_all !== JSON.stringify(data)) {
-                old_all = JSON.stringify(data); 
+                old_all = JSON.stringify(data);
             }
             else {
                 return 0;
             }
+
+            console.log("all redraw");
 
             const containerSelector = '.all-graph';
             const containerTitle = 'Classement des nœuds actifs';
@@ -521,11 +539,13 @@
         // Load the data
         d3.json('porteuse.json', function(error, data) {
             if (old_porteuse !== JSON.stringify(data)) {
-                old_porteuse = JSON.stringify(data); 
+                old_porteuse = JSON.stringify(data);
             }
             else {
                 return 0;
             }
+
+            console.log("porteuse redraw");
 
             const containerSelector = '.porteuse-graph';
             const containerTitle = 'Déclenchements intempestifs';
