@@ -482,7 +482,7 @@
 
             const containerSelector = '.all-graph';
             const containerTitle = 'Classement des nœuds actifs';
-            const containerLegend = 'Ce tableau présente le classement complet des nœuds étant passés en émission dans la journée: position, indicatif du nœud et nombre de passages en émission.';
+            const containerLegend = 'Ce tableau présente le classement complet des nœuds étant passés en émission dans la journée: position, indicatif du nœud, nombre de passages et durée cumulée en émission.';
 
             function tabulate(data, columns) {
                 d3.select(containerSelector).html('');
