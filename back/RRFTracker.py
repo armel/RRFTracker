@@ -140,6 +140,8 @@ def main(argv):
         else:
             if s.transmit is True:
                 if s.stat_save is True:
+                    if s.duration > 600:    # I need to fix this bug...
+                        s.duration = 0
                     s.node_duration = l.save_stat(s.node_duration, s.call[0], s.duration)
                     s.day_duration += s.duration
                 if s.stat_save is False:
