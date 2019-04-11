@@ -28,10 +28,12 @@ call_previous = call[1]                               	# Call previous
 qso = 0					# QSO count
 qso_hour = [0] * 24		# QSO list for histogramm
 node = 0				# Node count
-tx = 0					# Total emission time
+day_duration = 0		# Total emission time
 
-history = dict()		# History dict
-porteuse = dict()		# Porteuse dict
+node_tx = dict()		# History dict
+node_duration = dict()  # History dict
+porteuse_tx = dict()    # Porteuse dict
+porteuse_time = dict()  # Porteuse dict
 
 transmit = True			# Detect transmit
 stat_save = False		# If False, stat need to be save

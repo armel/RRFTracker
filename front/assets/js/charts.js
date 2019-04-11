@@ -531,7 +531,7 @@
             }
 
             // Render the table(s)
-            tabulate(data, ['Pos', 'Call', 'TX']); // 3 columns table
+            tabulate(data, ['Pos', 'Call', 'TX', 'Durée']); // 4 columns table
             d3.select(containerSelector).append('span').text(containerLegend);
         });
 

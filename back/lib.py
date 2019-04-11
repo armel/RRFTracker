@@ -38,19 +38,26 @@ def convert_time(time):
     else:
         return str('{:0>2d}'.format(int(hours))) + ':' + str('{:0>2d}'.format(int(minutes))) + ':' + str('{:0>2d}'.format(int(seconds)))
 
-# Save stats to get most active link
-def save_stat(history, call):
-    if call != '':
-        if call in history:
-            history[call] += 1
-        else:
-            history[call] = 1
+# Save stats
+def save_stat(history, call, duration=0):
+    if duration == 0:
+        if call != '':
+            if call in history:
+                history[call] += 1
+            else:
+                history[call] = 1
+    else:
+        if call != '':
+            if call in history:
+                history[call] += duration
+            else:
+                history[call] = duration
 
     return history
 
 
 # Log write for history
-def log_write(log_path, day, room, qso_hour, history, porteuse, call, call_date, call_time, node, tx, call_current, tot):
+def log_write(log_path, day, room, qso_hour, node_tx, node_duration, porteuse_tx, porteuse_time, call, call_date, call_time, node, duration, call_current, tot):
 
     log_path_day = log_path + '/' + room + '-' + day
 
@@ -60,12 +67,12 @@ def log_write(log_path, day, room, qso_hour, history, porteuse, call, call_date,
         os.popen('ln -sfn ' + log_path_day + ' ' + log_path + '/' + room + '-today')
 
     log_transmit(log_path_day, call_current, tot)
-    log_abstract(log_path_day, room, qso_hour, history, node, tx)
+    log_abstract(log_path_day, room, qso_hour, node_tx, node, duration)
     log_history(log_path_day, qso_hour)
     log_last(log_path_day, call, call_date, call_time)
-    log_node(log_path_day, history, 'best')
-    log_node(log_path_day, history, 'all')
-    log_node(log_path_day, porteuse, 'porteuse')
+    log_node(log_path_day, node_tx, node_duration, 'best')
+    log_node(log_path_day, node_tx, node_duration, 'all')
+    log_node(log_path_day, porteuse_tx, porteuse_time, 'porteuse')
 
     return 0
 
@@ -186,8 +193,8 @@ def log_last(log_path, call, call_date, call_time):
     return 0
 
 # Log node
-def log_node(log_path, history, type):
-    tmp = sorted(history.items(), key=lambda x: x[1])
+def log_node(log_path, node, complement, type):
+    tmp = sorted(node.items(), key=lambda x: x[1])
     tmp.reverse()
 
     if type == 'best':
@@ -206,6 +213,11 @@ def log_node(log_path, history, type):
         if type in ['all', 'porteuse']:
             data += '\t"Pos": "' + str('{:0>3d}'.format(int(p))) + '",\n'
         data += '\t"Call": "' + c + '",\n'
+        if type in ['all']:
+            if c in complement:
+                data += '\t"Durée": "' + convert_time(complement[c]) + '",\n'
+            else:
+                data += '\t"Durée": "' + convert_time(0) + '",\n'
         data += '\t"TX": ' + str(t) + '\n'
         data += '},\n'
 
