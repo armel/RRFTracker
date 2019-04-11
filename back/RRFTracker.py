@@ -140,7 +140,6 @@ def main(argv):
         else:
             if s.transmit is True:
                 if s.stat_save is True:
-                    s.duration = int(s.tot_current) - int(s.tot_start)
                     s.node_duration = l.save_stat(s.node_duration, s.call[0], s.duration)
                     s.day_duration += s.duration
                 if s.stat_save is False:
