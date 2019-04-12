@@ -236,7 +236,7 @@
             d3.select(containerSelector).append('h2').text(containerTitle);
 
             data.forEach(function(d) {
-                d.Call = d.Call;
+                d.Indicatif = d.Indicatif;
                 d.TX = d.TX;
             });
 
@@ -261,7 +261,7 @@
 
             // Scale the range of the data
             x.domain(data.map(function(d) {
-                return d.Call;
+                return d.Indicatif;
             }));
             y.domain([0, d3.max(data, function(d) {
                 return d.TX;
@@ -297,7 +297,7 @@
                     return colorScale(d.TX)
                 })
                 .attr('x', function(d) {
-                    return x(d.Call);
+                    return x(d.Indicatif);
                 })
                 .attr('width', x.rangeBand())
                 .attr('y', function(d) {
@@ -313,7 +313,7 @@
                 .attr('class', 'value')
                 .attr('text-anchor', 'middle')
                 .attr("x", function(d) {
-                    return x(d.Call) + x.rangeBand() / 2;
+                    return x(d.Indicatif) + x.rangeBand() / 2;
                 })
                 .attr('y', function(d) {
                     return y(d.TX) - 5;
