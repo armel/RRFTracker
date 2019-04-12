@@ -146,6 +146,7 @@ def main(argv):
                     s.day_duration += s.duration
                 if s.stat_save is False:
                     s.porteuse = l.save_stat(s.porteuse_tx, s.call[0])
+                    s.porteuse = l.save_stat(s.porteuse_time, s.call[0], s.now)
 
                 s.transmit = False
                 s.stat_save = False

@@ -46,15 +46,19 @@ def save_stat(history, call, duration=0):
                 history[call] += 1
             else:
                 history[call] = 1
-    else:
+    elif isinstance(duration, int) and duration < 600:
         if call != '':
             if call in history:
                 history[call] += duration
             else:
                 history[call] = duration
+    else:
+        try:
+            history[call].append(duration)
+        except KeyError:
+            history[call] = [duration]
 
     return history
-
 
 # Log write for history
 def log_write(log_path, day, room, qso_hour, node_tx, node_duration, porteuse_tx, porteuse_time, call, call_date, call_time, node, duration, call_current, tot):
@@ -73,6 +77,7 @@ def log_write(log_path, day, room, qso_hour, node_tx, node_duration, porteuse_tx
     log_node(log_path_day, node_tx, node_duration, 'best')
     log_node(log_path_day, node_tx, node_duration, 'all')
     log_node(log_path_day, porteuse_tx, porteuse_time, 'porteuse')
+    log_special(log_path_day, porteuse_time, 'porteuse_time')
 
     return 0
 
@@ -231,6 +236,20 @@ def log_node(log_path, node, complement, type):
     data = data[:last] + '' + data[last + 1:]
 
     file = open(log_path + '/' + type + '.json', 'w')
+    file.write(data)
+    file.close()
+
+    return 0
+
+# Log special
+def log_special(log_path, node, type):
+    data = ''
+    for c in node:
+        data += c + '\n'
+        for t in node[c]:
+            data += '\t' + t + '\n'
+
+    file = open(log_path + '/' + type + '.log', 'w')
     file.write(data)
     file.close()
 
