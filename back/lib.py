@@ -246,7 +246,7 @@ def log_porteuse(log_path, node, type):
 
     p = 1
     for c, t in tmp:
-        if type in ['porteuse']:
+        if type == 'porteuse':
             if t < 10:
                 break
 
