@@ -69,17 +69,17 @@
             const containerSelector = '.tot-graph';
 
             var TOT = 0;
-            var Node = '';
+            var Indicatif = '';
 
             if (data !== undefined) {
                 TOT = data[0].TOT;
-                Node = data[0].Node;
+                Node = data[0].Indicatif;
             }
 
             if (TOT == 0) {
                 title = 'Aucune émission';
             } else {
-                title = Node + ' en émission';
+                title = Indicatif + ' en émission';
             }
 
             const containerTitle = title;
@@ -358,16 +358,6 @@
                     .data(columns).enter()
                     .append('th')
                     .text(function(column) {
-                        // Patch column title !
-                        if (column == 'Durée émission') {
-                            column = 'Emission cumulée';
-                        }
-                        else if (column == 'Noeuds actifs') {
-                            column = 'Nœuds actifs';
-                        }
-                        else if (column == 'Noeuds total') {
-                            column = 'Nœuds total';
-                        }
                         return column;
                     });
 
@@ -397,7 +387,7 @@
             }
 
             // Render the table(s)
-            tabulate(data, ['Salon', 'Date', 'TX total', 'Durée émission', 'Noeuds actifs', 'Noeuds total']); // 6 columns table
+            tabulate(data, ['Salon', 'Date', 'TX total', 'Emission cumulée', 'Nœuds actifs', 'Nœuds total']); // 6 columns table
             d3.select(containerSelector).append('span').text(containerLegend);
         });
 
@@ -431,10 +421,6 @@
                     .data(columns).enter()
                     .append('th')
                     .text(function(column) {
-                        // Patch column title !
-                        if (column == 'Call') {
-                            column = 'Indicatif';
-                        }
                         return column;
                     });
 
@@ -464,7 +450,7 @@
             }
 
             // Render the table(s)
-            tabulate(data, ['Date', 'Call', 'Durée']); // 3 columns table
+            tabulate(data, ['Date', 'Indicatif', 'Durée']); // 3 columns table
             d3.select(containerSelector).append('span').text(containerLegend);
         });
 
@@ -498,10 +484,6 @@
                     .data(columns).enter()
                     .append('th')
                     .text(function(column) {
-                        // Patch column title !
-                        if (column == 'Call') {
-                            column = 'Indicatif';
-                        }
                         return column;
                     });
 
@@ -531,7 +513,7 @@
             }
 
             // Render the table(s)
-            tabulate(data, ['Pos', 'Call', 'TX', 'Durée']); // 4 columns table
+            tabulate(data, ['Pos', 'Indicatif', 'TX', 'Durée']); // 4 columns table
             d3.select(containerSelector).append('span').text(containerLegend);
         });
 
@@ -567,10 +549,6 @@
                         .data(columns).enter()
                         .append('th')
                         .text(function(column) {
-                            // Patch column title !
-                            if (column == 'Call') {
-                                column = 'Indicatif';
-                            }
                             return column;
                         });
 
@@ -600,7 +578,7 @@
                 }
 
                 // Render the table(s)
-                tabulate(data, ['Pos', 'Call', 'TX']); // 3 columns table
+                tabulate(data, ['Pos', 'Indicatif', 'TX']); // 3 columns table
                 d3.select(containerSelector).append('span').text(containerLegend);
             }
         });

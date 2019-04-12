@@ -63,7 +63,7 @@ def main(argv):
                 s.qso_hour[q] = 0
             s.node_tx.clear()               # Clear node tx
             s.node_duration.clear()         # Clear node duration
-            s.porteuse_tx.clear()           # Clear porteuse tx
+            s.porteuse.clear()           # Clear porteuse tx
 
         # Request HTTP datas
         try:
@@ -122,7 +122,7 @@ def main(argv):
 
             # Save stat only if real transmit
             if (s.stat_save is False and s.duration > 2):
-                s.history = l.save_stat(s.node_tx, s.call[0])
+                s.node = l.save_stat_node(s.node, s.call[0], 0)
                 s.qso += 1
                 s.stat_save = True
 
@@ -142,12 +142,11 @@ def main(argv):
                 if s.stat_save is True:
                     if s.duration > 600:    # I need to fix this bug...
                         s.duration = 0
-                    s.node_duration = l.save_stat(s.node_duration, s.call[0], s.duration)
+                    s.node = l.save_stat_node(s.node, s.call[0], s.duration)
                     s.day_duration += s.duration
                 if s.stat_save is False:
-                    s.porteuse = l.save_stat(s.porteuse_tx, s.call[0])
                     tmp = datetime.datetime.now()
-                    s.porteuse = l.save_stat(s.porteuse_time, s.call[0], tmp.strftime('%H:%M:%S'))
+                    s.porteuse = l.save_stat_porteuse(s.porteuse, s.call[0], tmp.strftime('%H:%M:%S'))
 
                 s.transmit = False
                 s.stat_save = False
@@ -162,7 +161,7 @@ def main(argv):
         tmp = page[search_start:search_stop]
         tmp = tmp.split(',')
 
-        s.node = len(tmp)
+        s.node_count = len(tmp)
 
         # Compute duration
         if s.transmit is True and s.tot_current > s.tot_start:
@@ -171,7 +170,7 @@ def main(argv):
             s.duration = 0
 
         # Save log
-        l.log_write(s.log_path, s.day, s.room, s.qso_hour, s.node_tx, s.node_duration, s.porteuse_tx, s.porteuse_time, s.call, s.call_date, s.call_time, s.node, s.day_duration, s.call_current, s.duration)
+        l.log_write(s.log_path, s.day, s.room, s.qso_hour, s.node, s.porteuse, s.call, s.call_date, s.call_time, s.node_count, s.day_duration, s.call_current, s.duration)
 
         time.sleep(1)
 
