@@ -53,10 +53,11 @@ def save_stat(history, call, duration=0):
             else:
                 history[call] = duration
     else:
-        try:
-            history[call].append(duration)
-        except KeyError:
-            history[call] = [duration]
+        if call != '':
+            try:
+                history[call].append(duration)
+            except KeyError:
+                history[call] = [duration]
 
     return history
 
