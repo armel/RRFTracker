@@ -244,6 +244,7 @@ def log_porteuse(log_path, node, type):
 
     data = '[\n'
 
+    p = 1
     for c, t in tmp:
         if type in ['porteuse']:
             if t < 10:
@@ -264,6 +265,8 @@ def log_porteuse(log_path, node, type):
             tmp = tmp[:-2]
             data += '\t"Date": "' + str(tmp) + '"\n'
         data += '},\n'
+
+        p += 1
 
     data += ']\n'
 
