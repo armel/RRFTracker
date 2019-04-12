@@ -245,12 +245,12 @@ def log_porteuse(log_path, node, type):
     data = '[\n'
 
     for c, t in tmp:
-        if type in ['porteuse_simple']:
+        if type in ['porteuse']:
             if t < 10:
                 break
 
         data += '{\n'
-        if type == 'porteuse_simple':
+        if type == 'porteuse':
             data += '\t"Pos": "' + str('{:0>3d}'.format(int(p))) + '",\n'
             data += '\t"Indicatif": "' + c + '",\n'
             data += '\t"TX": ' + str(t[0]) + '\n'
