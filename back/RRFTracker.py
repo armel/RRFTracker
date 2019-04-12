@@ -181,7 +181,7 @@ def main(argv):
         # Save log
         l.log_write(s.log_path, s.day, s.room, s.qso_hour, s.node, s.porteuse, s.call, s.call_date, s.call_time, s.node_count, s.day_duration, s.call_current, s.duration)
 
-        time.sleep(1)
+        time.sleep(0.5)
 
 if __name__ == '__main__':
     try:
