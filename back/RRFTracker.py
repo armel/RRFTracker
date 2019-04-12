@@ -49,10 +49,10 @@ def main(argv):
 
     # Create directory and copy asset if necessary
 
-    if not os.path.exists(log_path):
-        os.makedirs(log_path)
-    if not os.path.exists(log_path + '/assets'):
-        os.popen('cp -a /opt/RRFTracker_Web/front/assets ' + log_path)
+    if not os.path.exists(s.log_path):
+        os.makedirs(s.log_path)
+    if not os.path.exists(s.log_path + '/assets'):
+        os.popen('cp -a /opt/RRFTracker_Web/front/assets ' + s.log_path)
 
     # Boucle principale
     while(True):
