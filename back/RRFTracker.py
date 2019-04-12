@@ -70,9 +70,8 @@ def main(argv):
             s.day_duration = 0
             for q in xrange(0, 24):         # Clean histogram
                 s.qso_hour[q] = 0
-            s.node_tx.clear()               # Clear node tx
-            s.node_duration.clear()         # Clear node duration
-            s.porteuse.clear()           # Clear porteuse tx
+            s.node.clear()               # Clear node history
+            s.porteuse.clear()           # Clear porteuse history
 
         # Request HTTP datas
         try:
