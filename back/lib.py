@@ -255,10 +255,11 @@ def log_porteuse(log_path, node, type):
             data += '\t"Pos": "' + str('{:0>3d}'.format(int(p))) + '",\n'
             data += '\t"Indicatif": "' + c + '",\n'
             data += '\t"TX": ' + str(t[0]) + ',\n'
+            tmp = ''
             for e in t[1:]:
                 tmp += str(e) + ', '
             tmp = tmp[:-2]
-            data += '\t"Date": "' + tmp + '"\n'
+            data += '\t"Date": "' + str(tmp) + '"\n'
         data += '},\n'
 
         p += 1
