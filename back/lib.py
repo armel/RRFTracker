@@ -244,8 +244,11 @@ def log_porteuse(log_path, node, type):
 
     data = '[\n'
 
-    p = 1
     for c, t in tmp:
+        if type in ['porteuse_simple']:
+            if t < 10:
+                break
+
         data += '{\n'
         if type == 'porteuse_simple':
             data += '\t"Pos": "' + str('{:0>3d}'.format(int(p))) + '",\n'
@@ -261,10 +264,6 @@ def log_porteuse(log_path, node, type):
             tmp = tmp[:-2]
             data += '\t"Date": "' + str(tmp) + '"\n'
         data += '},\n'
-
-        p += 1
-        if p > limit:
-            break
 
     data += ']\n'
 
