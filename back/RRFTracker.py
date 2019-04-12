@@ -45,6 +45,14 @@ def main(argv):
     elif s.room == 'FON':
         url = 'http://fon.f1tzo.com:81'
 
+
+    # Create directory and copy asset if necessary
+
+    if not os.path.exists(log_path):
+        os.makedirs(log_path)
+    if not os.path.exists(log_path + '/assets'):
+        os.popen('cp -a /opt/RRFTracker_Web/front/assets ' + log_path)
+
     # Boucle principale
     while(True):
 
