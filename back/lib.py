@@ -38,19 +38,32 @@ def convert_time(time):
     else:
         return str('{:0>2d}'.format(int(hours))) + ':' + str('{:0>2d}'.format(int(minutes))) + ':' + str('{:0>2d}'.format(int(seconds)))
 
-# Save stats to get most active link
-def save_stat(history, call):
+# Save stats
+def save_stat_node(history, call, duration=0):
     if call != '':
-        if call in history:
-            history[call] += 1
-        else:
-            history[call] = 1
+        try:
+            if duration == 0:
+                history[call][0] += 1
+            else:
+                history[call][1] += duration
+        except KeyError:
+            history[call] = [1, duration]
 
     return history
 
+# Save stats
+def save_stat_porteuse(history, call, duration=0):
+    if call != '':
+        try:
+            history[call][0] += 1
+            history[call].append(duration)
+        except KeyError:
+            history[call] = [1, duration]
+
+    return history
 
 # Log write for history
-def log_write(log_path, day, room, qso_hour, history, porteuse, call, call_date, call_time, node, tx, call_current, tot):
+def log_write(log_path, day, room, qso_hour, node, porteuse, call, call_date, call_time, node_count, duration, call_current, tot):
 
     log_path_day = log_path + '/' + room + '-' + day
 
@@ -60,12 +73,13 @@ def log_write(log_path, day, room, qso_hour, history, porteuse, call, call_date,
         os.popen('ln -sfn ' + log_path_day + ' ' + log_path + '/' + room + '-today')
 
     log_transmit(log_path_day, call_current, tot)
-    log_abstract(log_path_day, room, qso_hour, history, node, tx)
+    log_abstract(log_path_day, room, qso_hour, node, node_count, duration)
     log_history(log_path_day, qso_hour)
     log_last(log_path_day, call, call_date, call_time)
-    log_node(log_path_day, history, 'best')
-    log_node(log_path_day, history, 'all')
-    log_node(log_path_day, porteuse, 'porteuse')
+    log_node(log_path_day, node, 'best')
+    log_node(log_path_day, node, 'all')
+    log_porteuse(log_path_day, porteuse, 'porteuse')
+    log_porteuse(log_path_day, porteuse, 'porteuse_extended')
 
     return 0
 
@@ -81,9 +95,9 @@ def log_abstract(log_path, room, qso_hour, history, node, tx):
     data += '\t"Salon": "' + room + '",\n'
     data += '\t"Date": "' + now + '",\n'
     data += '\t"TX total": ' + str(sum(qso_hour)) + ',\n'
-    data += '\t"Durée émission": "' + convert_time(tx) + '",\n'
-    data += '\t"Noeuds actifs": ' + str(len(history)) + ',\n'
-    data += '\t"Noeuds total": ' + str(node) + '\n'
+    data += '\t"Emission cumulée": "' + convert_time(tx) + '",\n'
+    data += '\t"Nœuds actifs": ' + str(len(history)) + ',\n'
+    data += '\t"Nœuds total": ' + str(node) + '\n'
     data += '},\n'
 
     data += ']\n'
@@ -110,7 +124,7 @@ def log_transmit(log_path, call_current, tot):
     data = '[\n'
 
     data += '{\n'
-    data += '\t"Node": "' + call_current + '",\n'
+    data += '\t"Indicatif": "' + call_current + '",\n'
     data += '\t"TOT": ' + str(tot) + '\n'
     data += '},\n'
 
@@ -170,7 +184,7 @@ def log_last(log_path, call, call_date, call_time):
             break
         data += '{\n'
         data += '\t"Date": "' + call_date[i] + '",\n'
-        data += '\t"Call": "' + call[i] + '",\n'
+        data += '\t"Indicatif": "' + call[i] + '",\n'
         data += '\t"Durée": "' + convert_time(call_time[i]) + '"\n'
         data += '},\n'
 
@@ -186,8 +200,8 @@ def log_last(log_path, call, call_date, call_time):
     return 0
 
 # Log node
-def log_node(log_path, history, type):
-    tmp = sorted(history.items(), key=lambda x: x[1])
+def log_node(log_path, node, type):
+    tmp = sorted(node.items(), key=lambda x: x[1])
     tmp.reverse()
 
     if type == 'best':
@@ -199,19 +213,60 @@ def log_node(log_path, history, type):
 
     p = 1
     for c, t in tmp:
-        if type in ['porteuse']:
-            if t < 10:
-                break
         data += '{\n'
-        if type in ['all', 'porteuse']:
+        if type in ['all']:
             data += '\t"Pos": "' + str('{:0>3d}'.format(int(p))) + '",\n'
-        data += '\t"Call": "' + c + '",\n'
-        data += '\t"TX": ' + str(t) + '\n'
+        data += '\t"Indicatif": "' + c + '",\n'
+        if type in ['all']:
+            data += '\t"Durée": "' + convert_time(t[1]) + '",\n'
+        data += '\t"TX": ' + str(t[0]) + '\n'
         data += '},\n'
 
         p += 1
         if p > limit:
             break
+
+    data += ']\n'
+
+    last = data.rfind(',')
+    data = data[:last] + '' + data[last + 1:]
+
+    file = open(log_path + '/' + type + '.json', 'w')
+    file.write(data)
+    file.close()
+
+    return 0
+
+# Log special
+def log_porteuse(log_path, node, type):
+    tmp = sorted(node.items(), key=lambda x: x[1])
+    tmp.reverse()
+
+    data = '[\n'
+
+    p = 1
+    for c, t in tmp:
+        if type == 'porteuse':
+            if t[0] < 10:
+                break
+
+        data += '{\n'
+        if type == 'porteuse':
+            data += '\t"Pos": "' + str('{:0>3d}'.format(int(p))) + '",\n'
+            data += '\t"Indicatif": "' + c + '",\n'
+            data += '\t"TX": ' + str(t[0]) + '\n'
+        else:
+            data += '\t"Pos": "' + str('{:0>3d}'.format(int(p))) + '",\n'
+            data += '\t"Indicatif": "' + c + '",\n'
+            data += '\t"TX": ' + str(t[0]) + ',\n'
+            tmp = ''
+            for e in t[1:]:
+                tmp += str(e) + ', '
+            tmp = tmp[:-2]
+            data += '\t"Date": "' + str(tmp) + '"\n'
+        data += '},\n'
+
+        p += 1
 
     data += ']\n'
 

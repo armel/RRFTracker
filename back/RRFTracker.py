@@ -16,6 +16,7 @@ import datetime
 import time
 import sys
 import getopt
+import os
 
 def main(argv):
 
@@ -45,6 +46,14 @@ def main(argv):
     elif s.room == 'FON':
         url = 'http://fon.f1tzo.com:81'
 
+
+    # Create directory and copy asset if necessary
+
+    if not os.path.exists(s.log_path):
+        os.makedirs(s.log_path)
+    if not os.path.exists(s.log_path + '/assets'):
+        os.popen('cp -a /opt/RRFTracker_Web/front/assets ' + s.log_path)
+
     # Boucle principale
     while(True):
 
@@ -58,11 +67,11 @@ def main(argv):
 
         if(s.now[:5] == '00:00'):
             s.qso = 0
-            s.tx = 0
+            s.day_duration = 0
             for q in xrange(0, 24):         # Clean histogram
                 s.qso_hour[q] = 0
-            s.history.clear()               # Clear history
-            s.porteuse.clear()              # Clear porteuse
+            s.node.clear()               # Clear node history
+            s.porteuse.clear()           # Clear porteuse history
 
         # Request HTTP datas
         try:
@@ -121,7 +130,7 @@ def main(argv):
 
             # Save stat only if real transmit
             if (s.stat_save is False and s.duration > 2):
-                s.history = l.save_stat(s.history, s.call[0])
+                s.node = l.save_stat_node(s.node, s.call[0], 0)
                 s.qso += 1
                 s.stat_save = True
 
@@ -139,11 +148,13 @@ def main(argv):
         else:
             if s.transmit is True:
                 if s.stat_save is True:
-                    s.tx += s.duration
-                    #print s.tx
+                    if s.duration > 600:    # I need to fix this bug...
+                        s.duration = 0
+                    s.node = l.save_stat_node(s.node, s.call[0], s.duration)
+                    s.day_duration += s.duration
                 if s.stat_save is False:
-                    s.porteuse = l.save_stat(s.porteuse, s.call[0])
-                    #print s.porteuse
+                    tmp = datetime.datetime.now()
+                    s.porteuse = l.save_stat_porteuse(s.porteuse, s.call[0], tmp.strftime('%H:%M:%S'))
 
                 s.transmit = False
                 s.stat_save = False
@@ -158,7 +169,7 @@ def main(argv):
         tmp = page[search_start:search_stop]
         tmp = tmp.split(',')
 
-        s.node = len(tmp)
+        s.node_count = len(tmp)
 
         # Compute duration
         if s.transmit is True and s.tot_current > s.tot_start:
@@ -167,7 +178,7 @@ def main(argv):
             s.duration = 0
 
         # Save log
-        l.log_write(s.log_path, s.day, s.room, s.qso_hour, s.history, s.porteuse, s.call, s.call_date, s.call_time, s.node, s.tx, s.call_current, s.duration)
+        l.log_write(s.log_path, s.day, s.room, s.qso_hour, s.node, s.porteuse, s.call, s.call_date, s.call_time, s.node_count, s.day_duration, s.call_current, s.duration)
 
         time.sleep(1)
 

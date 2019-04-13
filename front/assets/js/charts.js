@@ -69,17 +69,17 @@
             const containerSelector = '.tot-graph';
 
             var TOT = 0;
-            var Node = '';
+            var Indicatif = '';
 
             if (data !== undefined) {
                 TOT = data[0].TOT;
-                Node = data[0].Node;
+                Node = data[0].Indicatif;
             }
 
             if (TOT == 0) {
                 title = 'Aucune émission';
             } else {
-                title = Node + ' en émission';
+                title = Indicatif + ' en émission';
             }
 
             const containerTitle = title;
@@ -236,7 +236,7 @@
             d3.select(containerSelector).append('h2').text(containerTitle);
 
             data.forEach(function(d) {
-                d.Call = d.Call;
+                d.Indicatif = d.Indicatif;
                 d.TX = d.TX;
             });
 
@@ -261,7 +261,7 @@
 
             // Scale the range of the data
             x.domain(data.map(function(d) {
-                return d.Call;
+                return d.Indicatif;
             }));
             y.domain([0, d3.max(data, function(d) {
                 return d.TX;
@@ -297,7 +297,7 @@
                     return colorScale(d.TX)
                 })
                 .attr('x', function(d) {
-                    return x(d.Call);
+                    return x(d.Indicatif);
                 })
                 .attr('width', x.rangeBand())
                 .attr('y', function(d) {
@@ -313,7 +313,7 @@
                 .attr('class', 'value')
                 .attr('text-anchor', 'middle')
                 .attr("x", function(d) {
-                    return x(d.Call) + x.rangeBand() / 2;
+                    return x(d.Indicatif) + x.rangeBand() / 2;
                 })
                 .attr('y', function(d) {
                     return y(d.TX) - 5;
@@ -358,16 +358,6 @@
                     .data(columns).enter()
                     .append('th')
                     .text(function(column) {
-                        // Patch column title !
-                        if (column == 'Durée émission') {
-                            column = 'Emission cumulée';
-                        }
-                        else if (column == 'Noeuds actifs') {
-                            column = 'Nœuds actifs';
-                        }
-                        else if (column == 'Noeuds total') {
-                            column = 'Nœuds total';
-                        }
                         return column;
                     });
 
@@ -397,7 +387,7 @@
             }
 
             // Render the table(s)
-            tabulate(data, ['Salon', 'Date', 'TX total', 'Durée émission', 'Noeuds actifs', 'Noeuds total']); // 6 columns table
+            tabulate(data, ['Salon', 'Date', 'TX total', 'Emission cumulée', 'Nœuds actifs', 'Nœuds total']); // 6 columns table
             d3.select(containerSelector).append('span').text(containerLegend);
         });
 
@@ -431,10 +421,6 @@
                     .data(columns).enter()
                     .append('th')
                     .text(function(column) {
-                        // Patch column title !
-                        if (column == 'Call') {
-                            column = 'Indicatif';
-                        }
                         return column;
                     });
 
@@ -464,7 +450,7 @@
             }
 
             // Render the table(s)
-            tabulate(data, ['Date', 'Call', 'Durée']); // 3 columns table
+            tabulate(data, ['Date', 'Indicatif', 'Durée']); // 3 columns table
             d3.select(containerSelector).append('span').text(containerLegend);
         });
 
@@ -482,7 +468,7 @@
 
             const containerSelector = '.all-graph';
             const containerTitle = 'Classement des nœuds actifs';
-            const containerLegend = 'Ce tableau présente le classement complet des nœuds étant passés en émission dans la journée: position, indicatif du nœud et nombre de passages en émission.';
+            const containerLegend = 'Ce tableau présente le classement complet des nœuds étant passés en émission dans la journée: position, indicatif du nœud, nombre de passages et durée cumulée en émission.';
 
             function tabulate(data, columns) {
                 d3.select(containerSelector).html('');
@@ -498,10 +484,6 @@
                     .data(columns).enter()
                     .append('th')
                     .text(function(column) {
-                        // Patch column title !
-                        if (column == 'Call') {
-                            column = 'Indicatif';
-                        }
                         return column;
                     });
 
@@ -531,7 +513,7 @@
             }
 
             // Render the table(s)
-            tabulate(data, ['Pos', 'Call', 'TX']); // 3 columns table
+            tabulate(data, ['Pos', 'Indicatif', 'TX', 'Durée']); // 4 columns table
             d3.select(containerSelector).append('span').text(containerLegend);
         });
 
@@ -567,10 +549,6 @@
                         .data(columns).enter()
                         .append('th')
                         .text(function(column) {
-                            // Patch column title !
-                            if (column == 'Call') {
-                                column = 'Indicatif';
-                            }
                             return column;
                         });
 
@@ -600,7 +578,7 @@
                 }
 
                 // Render the table(s)
-                tabulate(data, ['Pos', 'Call', 'TX']); // 3 columns table
+                tabulate(data, ['Pos', 'Indicatif', 'TX']); // 3 columns table
                 d3.select(containerSelector).append('span').text(containerLegend);
             }
         });

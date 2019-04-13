@@ -10,7 +10,7 @@ Check video about RRFTracker on https://www.youtube.com/watch?v=rVW8xczVpEo
 
 # Version
 
-version = '1.3.2'
+version = '1.4.0'
 
 # Default room and path
 
@@ -27,11 +27,11 @@ call_previous = call[1]                               	# Call previous
 
 qso = 0					# QSO count
 qso_hour = [0] * 24		# QSO list for histogramm
-node = 0				# Node count
-tx = 0					# Total emission time
+node_count = 0			# Node count
+day_duration = 0		# Total emission time
 
-history = dict()		# History dict
-porteuse = dict()		# Porteuse dict
+node = dict()			# Node dict
+porteuse = dict()    	# Porteuse dict
 
 transmit = True			# Detect transmit
 stat_save = False		# If False, stat need to be save
