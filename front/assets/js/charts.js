@@ -341,8 +341,8 @@
             console.log("node redraw");
 
             const containerSelector = '.node-graph';
-            const containerTitle = 'Node heure par heure';
-            const containerLegend = 'Cet histogramme représente le nombre de nœuds conenctés, heure par heure.';
+            const containerTitle = 'Nœuds heure par heure';
+            const containerLegend = 'Cet histogramme représente le nombre de nœuds connectés, heure par heure.';
 
             d3.select(containerSelector).html('');
             d3.select(containerSelector).append('h2').text(containerTitle);
