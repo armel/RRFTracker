@@ -92,7 +92,7 @@ def log_abstract(log_path, room, qso_hour, history, node, node_max, node_min, tx
     locale.setlocale(locale.LC_TIME, '')
 
     tmp = datetime.datetime.now()
-    now = tmp.strftime(' le %A %d/%m/%Y à %H:%M')
+    now = tmp.strftime(' du %A %d/%m/%Y à %H:%M')
 
     data += '{\n'
     data += '\t"Salon": "' + room + '",\n'
