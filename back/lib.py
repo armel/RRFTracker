@@ -63,7 +63,7 @@ def save_stat_porteuse(history, call, duration=0):
     return history
 
 # Log write for history
-def log_write(log_path, day, room, qso_hour, node, porteuse, call, call_date, call_time, node_count, duration, call_current, tot):
+def log_write(log_path, day, room, qso_hour, node, porteuse, call, call_date, call_time, node_count, node_count_max, node_count_min, duration, call_current, tot):
 
     log_path_day = log_path + '/' + room + '-' + day
 
@@ -73,7 +73,7 @@ def log_write(log_path, day, room, qso_hour, node, porteuse, call, call_date, ca
         os.popen('ln -sfn ' + log_path_day + ' ' + log_path + '/' + room + '-today')
 
     log_transmit(log_path_day, call_current, tot)
-    log_abstract(log_path_day, room, qso_hour, node, node_count, duration)
+    log_abstract(log_path_day, room, qso_hour, node, node_count, node_count_max, node_count_min, duration)
     log_history(log_path_day, qso_hour)
     log_last(log_path_day, call, call_date, call_time)
     log_node(log_path_day, node, 'best')
@@ -84,7 +84,7 @@ def log_write(log_path, day, room, qso_hour, node, porteuse, call, call_date, ca
     return 0
 
 # Log abstract
-def log_abstract(log_path, room, qso_hour, history, node, tx):
+def log_abstract(log_path, room, qso_hour, history, node, max, min, tx):
 
     data = '[\n'
 
@@ -97,7 +97,8 @@ def log_abstract(log_path, room, qso_hour, history, node, tx):
     data += '\t"TX total": ' + str(sum(qso_hour)) + ',\n'
     data += '\t"Emission cumulée": "' + convert_time(tx) + '",\n'
     data += '\t"Nœuds actifs": ' + str(len(history)) + ',\n'
-    data += '\t"Nœuds total": ' + str(node) + '\n'
+    data += '\t"Nœuds total": ' + str(node) + ',\n'
+    data += '\t"Nœuds max / min": ' + str(node_max) + '/' + str(node_min) + '\n'
     data += '},\n'
 
     data += ']\n'

@@ -170,6 +170,11 @@ def main(argv):
         tmp = tmp.split(',')
 
         s.node_count = len(tmp)
+        if s.node_count > s.node_count_max:
+            s.node_count_max = s.node_count
+
+        if s.node_count < s.node_count_min:
+            s.node_count_min = s.node_count
 
         # Compute duration
         if s.transmit is True and s.tot_current > s.tot_start:
@@ -178,7 +183,7 @@ def main(argv):
             s.duration = 0
 
         # Save log
-        l.log_write(s.log_path, s.day, s.room, s.qso_hour, s.node, s.porteuse, s.call, s.call_date, s.call_time, s.node_count, s.day_duration, s.call_current, s.duration)
+        l.log_write(s.log_path, s.day, s.room, s.qso_hour, s.node, s.porteuse, s.call, s.call_date, s.call_time, s.node_count, s.node_count_max, s.node_count_min, s.day_duration, s.call_current, s.duration)
 
         time.sleep(1)
 
