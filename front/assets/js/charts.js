@@ -354,10 +354,10 @@
 
             var color = "steelblue";
             var yMax = d3.max(data, function(d) {
-                return d.TX
+                return d.Node
             });
             var yMin = d3.min(data, function(d) {
-                return d.TX
+                return d.Node
             });
             var colorScale = d3.scale.linear()
                 .domain([yMin, yMax])
