@@ -73,7 +73,7 @@
 
             if (data !== undefined) {
                 TOT = data[0].TOT;
-                Node = data[0].Indicatif;
+                Indicatif = data[0].Indicatif;
             }
 
             if (TOT == 0) {
