@@ -100,8 +100,9 @@ def log_abstract(log_path, room, qso_hour, history, node, node_max, node_min, tx
     data += '\t"TX total": ' + str(sum(qso_hour)) + ',\n'
     data += '\t"Emission cumulée": "' + convert_time(tx) + '",\n'
     data += '\t"Nœuds actifs": ' + str(len(history)) + ',\n'
-    data += '\t"Nœuds total": ' + str(node) + ',\n'
-    data += '\t"Nœuds max / min": "' + str(node_max) + ' / ' + str(node_min) + '"\n'
+    data += '\t"Nœuds connectés": ' + str(node) + ',\n'
+    data += '\t"Nœuds max": ' + str(node_max) + ',\n'
+    data += '\t"Nœuds min": ' + str(node_min) + '\n'
     data += '},\n'
 
     data += ']\n'
