@@ -328,6 +328,115 @@
                                         .text(containerAuthor);
         });
 
+        // Node
+        // Load the data
+        d3.json('node.json', function(error, data) {
+            if (old_activity !== JSON.stringify(data)) {
+                old_activity = JSON.stringify(data);
+            }
+            else {
+                return 0;
+            }
+
+            console.log("node redraw");
+
+            const containerSelector = '.node-graph';
+            const containerTitle = 'Node heure par heure';
+            const containerLegend = 'Cet histogramme représente le nombre de nœuds conenctés, heure par heure.';
+
+            d3.select(containerSelector).html('');
+            d3.select(containerSelector).append('h2').text(containerTitle);
+
+            data.forEach(function(d) {
+                d.Hour = d.Hour;
+                d.Node = d.Node;
+            });
+
+            var color = "steelblue";
+            var yMax = d3.max(data, function(d) {
+                return d.TX
+            });
+            var yMin = d3.min(data, function(d) {
+                return d.TX
+            });
+            var colorScale = d3.scale.linear()
+                .domain([yMin, yMax])
+                .range([d3.rgb(color).brighter(), d3.rgb(color).darker()]);
+
+            // Scale the range of the data
+            x.domain(data.map(function(d) {
+                return d.Hour;
+            }));
+            y.domain([0, d3.max(data, function(d) {
+                return d.Node;
+            })]);
+
+            var svg_activity = d3.select(containerSelector)
+                .append('svg')
+                .attr('width', width + margin.left + margin.right)
+                .attr('height', height + margin.top + margin.bottom)
+                .append('g')
+                .attr('transform',
+                    'translate(' + margin.left + ',' + margin.top + ')');
+
+            // Add axis
+            svg_activity.append('g')
+                .attr('class', 'x axis')
+                .attr('transform', 'translate(0,' + (height + 0.5) + ')')
+                .call(xAxis)
+                .selectAll('text')
+                .style('text-anchor', 'end')
+                .attr('dx', '-.8em')
+                .attr('dy', '-.55em')
+                .attr('transform', 'rotate(-45)');
+
+            svg_activity.append('g')
+                .attr('class', 'y axis')
+                .call(yAxis)
+                .append('text')
+                .attr('transform', 'rotate(0)')
+                .attr('y', -10)
+                .attr('dy', '.71em')
+                .style('text-anchor', 'end')
+                .text('TX');
+
+            // Add bar chart
+            svg_activity.selectAll('bar')
+                .data(data)
+                .enter().append('rect')
+                .attr('class', 'bar')
+                .attr("fill", function(d) {
+                    return colorScale(d.Node)
+                })
+                .attr('x', function(d) {
+                    return x(d.Hour);
+                })
+                .attr('width', x.rangeBand())
+                .attr('y', function(d) {
+                    return y(d.Node);
+                })
+                .attr('height', function(d) {
+                    return height - y(d.Node);
+                });
+
+            svg_activity.selectAll('text.bar')
+                .data(data)
+                .enter().append('text')
+                .attr('class', 'value')
+                .attr('text-anchor', 'middle')
+                .attr("x", function(d) {
+                    return x(d.Hour) + x.rangeBand() / 2;
+                })
+                .attr('y', function(d) {
+                    return y(d.Node) - 5;
+                })
+                .text(function(d) {
+                    return d.Node;
+                });
+
+            d3.select(containerSelector).append('span').text(containerLegend);
+        });
+
         // Abstract
         // Load the data
         d3.json('abstract.json', function(error, data) {

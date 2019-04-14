@@ -161,7 +161,10 @@ def log_history(log_path, historique, type):
 
         data += '{\n'
         data += '\t"Hour": "' + x + '",\n'
-        data += '\t"TX": ' + z + '\n'
+        if type == 'activity':
+            data += '\t"TX": ' + z + '\n'
+        else:
+            data += '\t"Node": ' + z + '\n'
         data += '},\n'
 
     data += ']\n'
