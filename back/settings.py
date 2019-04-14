@@ -25,19 +25,16 @@ call_time = ['', '', '', '', '', '', '', '', '', '']  	# Call time list
 call_current = call[0]                                	# Call current
 call_previous = call[1]                               	# Call previous
 
-qso = 0						# QSO count
-qso_hour = [0] * 24			# QSO list for histogramm
+qso = 0					# QSO count
+qso_hour = [0] * 24		# QSO list for histogramm
+node_count = 0			# Node count
+day_duration = 0		# Total emission time
 
-node_count = 0				# Node count
-node_count_hour = [0] * 24	# Node count list for histogramm
+node = dict()			# Node dict
+porteuse = dict()    	# Porteuse dict
 
-day_duration = 0			# Total emission time
-
-node = dict()				# Node dict
-porteuse = dict()    		# Porteuse dict
-
-transmit = True				# Detect transmit
-stat_save = False			# If False, stat need to be save
+transmit = True			# Detect transmit
+stat_save = False		# If False, stat need to be save
 
 # Set time and date
 
