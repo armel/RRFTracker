@@ -89,7 +89,7 @@ def log_abstract(log_path, room, qso_hour, history, node, node_max, node_min, tx
     data = '[\n'
 
     tmp = datetime.datetime.now()
-    now = tmp.strftime('%d-%m-%Y %H:%M')
+    now = tmp.strftime('%H:%M le %d-%m-%Y')
 
     data += '{\n'
     data += '\t"Salon": "' + room + '",\n'
