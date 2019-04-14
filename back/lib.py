@@ -63,7 +63,7 @@ def save_stat_porteuse(history, call, duration=0):
     return history
 
 # Log write for history
-def log_write(log_path, day, room, qso_hour, node, porteuse, call, call_date, call_time, node_count, duration, call_current, tot):
+def log_write(log_path, day, room, qso_hour, node, porteuse, call, call_date, call_time, node_count, node_count_hour, duration, call_current, tot):
 
     log_path_day = log_path + '/' + room + '-' + day
 
@@ -74,7 +74,8 @@ def log_write(log_path, day, room, qso_hour, node, porteuse, call, call_date, ca
 
     log_transmit(log_path_day, call_current, tot)
     log_abstract(log_path_day, room, qso_hour, node, node_count, duration)
-    log_history(log_path_day, qso_hour)
+    log_history(log_path_day, qso_hour, 'activity')
+    log_history(log_path_day, node_count_hour, 'node')
     log_last(log_path_day, call, call_date, call_time)
     log_node(log_path_day, node, 'best')
     log_node(log_path_day, node, 'all')
@@ -140,7 +141,7 @@ def log_transmit(log_path, call_current, tot):
     return 0
 
 # Log history
-def log_history(log_path, qso_hour):
+def log_history(log_path, historique, type):
 
     data = '[\n'
 
@@ -149,7 +150,7 @@ def log_history(log_path, qso_hour):
 
         x = str('{:0>2d}'.format(int(i)))
         y = str('{:0>2d}'.format(int(l)))
-        z = str(qso_hour[i])
+        z = str(historique[i])
 
         x += 'h - ' + y + 'h'
 
@@ -168,7 +169,7 @@ def log_history(log_path, qso_hour):
     last = data.rfind(',')
     data = data[:last] + '' + data[last + 1:]
 
-    file = open(log_path + '/' + 'activity.json', 'w')
+    file = open(log_path + '/' + type + '.json', 'w')
     file.write(data)
     file.close()
 

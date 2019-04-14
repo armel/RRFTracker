@@ -70,8 +70,9 @@ def main(argv):
             s.day_duration = 0
             for q in xrange(0, 24):         # Clean histogram
                 s.qso_hour[q] = 0
-            s.node.clear()               # Clear node history
-            s.porteuse.clear()           # Clear porteuse history
+                s.node_count_hour[q] = 0
+            s.node.clear()                  # Clear node history
+            s.porteuse.clear()              # Clear porteuse history
 
         # Request HTTP datas
         try:
@@ -170,6 +171,7 @@ def main(argv):
         tmp = tmp.split(',')
 
         s.node_count = len(tmp)
+        s.node_count_hour[s.hour] = s.node_count - sum(s.node_count_hour[:s.hour])
 
         # Compute duration
         if s.transmit is True and s.tot_current > s.tot_start:
@@ -178,7 +180,7 @@ def main(argv):
             s.duration = 0
 
         # Save log
-        l.log_write(s.log_path, s.day, s.room, s.qso_hour, s.node, s.porteuse, s.call, s.call_date, s.call_time, s.node_count, s.day_duration, s.call_current, s.duration)
+        l.log_write(s.log_path, s.day, s.room, s.qso_hour, s.node, s.porteuse, s.call, s.call_date, s.call_time, s.node_count, s.node_count_hour, s.day_duration, s.call_current, s.duration)
 
         time.sleep(1)
 
