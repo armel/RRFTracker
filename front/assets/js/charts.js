@@ -387,7 +387,7 @@
             }
 
             // Render the table(s)
-            tabulate(data, ['Salon', 'Date', 'TX total', 'Emission cumulée', 'Nœuds actifs', 'Nœuds total', 'Nœuds max/min']); // 7 columns table
+            tabulate(data, ['Salon', 'Date', 'TX total', 'Emission cumulée', 'Nœuds actifs', 'Nœuds total', 'Nœuds max / min']); // 7 columns table
             d3.select(containerSelector).append('span').text(containerLegend);
         });
 
