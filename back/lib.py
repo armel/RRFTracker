@@ -84,7 +84,7 @@ def log_write(log_path, day, room, qso_hour, node, porteuse, call, call_date, ca
     return 0
 
 # Log abstract
-def log_abstract(log_path, room, qso_hour, history, node, max, min, tx):
+def log_abstract(log_path, room, qso_hour, history, node, node_max, node_min, tx):
 
     data = '[\n'
 
