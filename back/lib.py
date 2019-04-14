@@ -10,6 +10,7 @@ Check video about RRFTracker on https://www.youtube.com/watch?v=rVW8xczVpEo
 
 import os
 import datetime
+import locale
 
 # Usage
 def usage():
@@ -88,8 +89,10 @@ def log_abstract(log_path, room, qso_hour, history, node, node_max, node_min, tx
 
     data = '[\n'
 
+    locale.setlocale(locale.LC_TIME, '')
+
     tmp = datetime.datetime.now()
-    now = tmp.strftime('%H:%M le %d-%m-%Y')
+    now = tmp.strftime(' le %A %d/%m/%Y à %H:%M')
 
     data += '{\n'
     data += '\t"Salon": "' + room + '",\n'

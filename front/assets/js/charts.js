@@ -342,7 +342,7 @@
             console.log(data[0].Date)
 
             const containerSelector = '.abstract-graph';
-            const containerTitle = 'Résumé de la journée à ' + data[0].Date;
+            const containerTitle = 'Résumé de la journée' + data[0].Date;
             const containerLegend = 'Ce tableau présente le résumé de l\'activité du salon dans la journée: nombre de passages en émission total, durée cumulée en émission, nombre de nœuds actifs, total, max et min.';
 
             function tabulate(data, columns) {
