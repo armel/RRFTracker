@@ -240,7 +240,6 @@
             const containerSelector = '.best-graph';
             const containerTitle = 'Top 20 des nœuds les plus actifs';
             const containerLegend = 'Cet histogramme représente le classement des 20 nœuds les plus actifs de la journée, en terme de passages en émission.';
-            const containerAuthor = 'RRFTracker est un projet Open Source, développé par F4HWN Armel, sous licence MIT.';
 
             d3.select(containerSelector).html('');
             d3.select(containerSelector).append('h2').text(containerTitle);
@@ -333,9 +332,6 @@
                 });
 
             d3.select(containerSelector).append('span').text(containerLegend);
-            d3.select(containerSelector).append('span')
-                                        .attr('class', 'author')
-                                        .text(containerAuthor);
         });
 
         // Abstract
@@ -679,4 +675,10 @@
             });
         }
     }
+
+    const containerAuthor = 'RRFTracker est un projet Open Source, développé par F4HWN Armel, sous licence MIT.';
+    const containerSelector = '.author-legend';
+    d3.select(containerSelector).append('span')
+        .attr('class', 'author')
+        .text(containerAuthor);
 })();
