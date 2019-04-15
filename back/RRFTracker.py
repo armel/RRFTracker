@@ -129,7 +129,7 @@ def main(argv):
             s.duration = int(s.tot_current) - int(s.tot_start)
 
             # Save stat only if real transmit
-            if (s.stat_save is False and s.duration > 2):
+            if (s.stat_save is False and s.duration > s.intempestif):
                 s.node = l.save_stat_node(s.node, s.call[0], 0)
                 s.qso += 1
                 s.stat_save = True

@@ -76,7 +76,7 @@ svg {
 
 table {
     margin: 10px auto;
-    padding: 20px;
+    padding: 10px;
     border-collapse: collapse;
     border-spacing: 0;
     font: 12px Arial, Helvetica, sans-serif;
@@ -86,20 +86,31 @@ table {
 table thead th {
     background-color: #999;
     border: solid 1px #000;
-    padding: 8px;
+    padding: 5px;
     text-align: center;
 }
 
 table tbody td {
     border: solid 1px #000;
     color: #333;
-    padding: 4px;
+    padding: 5px;
     text-align: center;
 }
 
 table tr:hover {
     background-color: #ccc;
 }
+
+a {
+  color: #000;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #000;
+  text-decoration: underline;
+}
+
 
 @media (min-width: 1024px) {
     .axis {

@@ -47,3 +47,4 @@ hour = ''
 minute = ''
 seconde = ''
 duration = 0
+intempestif = 2			# Tuned me !!!

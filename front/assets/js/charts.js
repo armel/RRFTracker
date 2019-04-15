@@ -1,5 +1,16 @@
 ;
 (function() {
+    function getQueryVariable(variable)
+    {
+           var query = window.location.search.substring(1);
+           var vars = query.split("&");
+           for (var i=0;i<vars.length;i++) {
+                   var pair = vars[i].split("=");
+                   if(pair[0] == variable){return pair[1];}
+           }
+           return(false);
+    }
+
     let generateChartTimeout = null;
 
     window.addEventListener('resize', function() {
@@ -21,9 +32,7 @@
     var old_last = '';
     var old_all = '';
     var old_porteuse = '';
-
-    console.log(old_abstract);
-
+    var old_porteuse_extended = '';
 
     function generateD3Charts(redraw = false) {
         if (redraw === true) {
@@ -34,6 +43,7 @@
             old_last = '';
             old_all = '';
             old_porteuse = '';
+            old_porteuse_extended = '';
         }
 
         const columnWidth = document.querySelector('.columns :first-child').clientWidth;
@@ -565,14 +575,19 @@
                             return columns.map(function(column) {
                                 return {
                                     column: column,
-                                    value: row[column]
+                                    value: row[column],
+                                    id: row.Pos
                                 };
                             });
                         })
                         .enter()
                         .append('td')
-                        .text(function(d) {
+                        .html(function (d, i) {
+                        if (i === 0) {
+                            return '<a href=\'index.html?pos=' + d.id + '\'>' + d.value + '</a>';
+                        } else {
                             return d.value;
+                        }
                         });
 
                     return table;
@@ -583,5 +598,85 @@
                 d3.select(containerSelector).append('span').text(containerLegend);
             }
         });
+
+        if (getQueryVariable('pos') !== false) {
+            // Porteuse
+            // Load the data
+            d3.json('porteuse_extended.json', function(error, data) {
+                if (old_porteuse_extended !== JSON.stringify(data)) {
+                    old_porteuse_extended = JSON.stringify(data);
+                }
+                else {
+                    return 0;
+                }
+
+                console.log(data);
+                data = [data[parseInt(getQueryVariable('pos')) - 1]];
+                console.log(data);
+                console.log('porteuse_extended redraw');
+
+                const containerSelector = '.porteuse-extended-graph';
+                const containerTitle = 'Heures des déclenchements intempestifs sur ' + data[0].Indicatif;
+                const containerLegend = 'Ce tableau présente les heures de passages en émission intempestifs ou suspects, d\'une durée de moins de 3 secondes sur le nœud sélectionné.';
+
+                if (data !== undefined) {
+
+                    function tabulate(data, columns) {
+                        d3.select(containerSelector).html('');
+                        d3.select(containerSelector).append('h2').text(containerTitle);
+
+                        var table = d3.select(containerSelector).append('table');
+                        var thead = table.append('thead');
+                        var tbody = table.append('tbody');
+
+                        // Append the header row
+                        thead.append('tr')
+                            .selectAll('th')
+                            .data(columns).enter()
+                            .append('th')
+                            .text(function(column) {
+                                if (column === 'Date') {
+                                    return 'Heure';
+                                }
+                                else {
+                                    return column;
+                                }
+                            });
+
+                        // Create a row for each object in the data
+                        var rows = tbody.selectAll('tr')
+                            .data(data)
+                            .enter()
+                            .append('tr');
+
+                        // Create a cell in each row for each column
+                        var cells = rows.selectAll('td')
+                            .data(function(row) {
+                                return columns.map(function(column) {
+                                    return {
+                                        column: column,
+                                        value: row[column]
+                                    };
+                                });
+                            })
+                            .enter()
+                            .append('td')
+                            .html(function (d, i) {
+                            if (i === 1) {
+                                return d.value.replace(/, /g, '<br/>');
+                            } else {
+                                return d.value;
+                            }
+                            });
+
+                        return table;
+                    }
+
+                    // Render the table(s)
+                    tabulate(data, ['Indicatif', 'Date', 'TX']); //  columns table
+                    d3.select(containerSelector).append('span').text(containerLegend);
+                }
+            });
+        }
     }
 })();
