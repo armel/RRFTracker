@@ -1,11 +1,13 @@
 <!DOCTYPE html>
-<meta charset='utf-8'>
+<html lang="fr">
 
 <head>
-    <title>RRFTracker V1.4.1 par F4HWN Armel</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset='utf-8'>
+    <title>RRFTracker V1.4.1 par F4HWN Armel</title>
     <link rel="stylesheet" href="../assets/css/main.css" />
     <link rel="stylesheet" href="../assets/css/flipclock.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
 </head>
 
 <body>
@@ -15,8 +17,8 @@
             <div class="graph-container abstract-graph"></div>
             <div class="graph-container activity-graph"></div>
             <div class="graph-container best-graph"></div>
-            <div class="graph-container porteuse-extended-graph"></div>
             <div class="graph-container author-legend"></div>
+            <div class="modal" id="porteuse-extended-modal"></div>
         </div>
         <div>
             <div class="scrollbar-hidden">
@@ -28,9 +30,11 @@
         </div>
     </div>
 
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
     <script src="https://d3js.org/d3.v3.min.js"></script>
     <script src="../assets/js/flipclock.min.js"></script>
     <script src="../assets/js/charts.js"></script>
 
 </body>
+</html>

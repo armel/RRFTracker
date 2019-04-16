@@ -349,7 +349,7 @@
 
             const containerSelector = '.abstract-graph';
             const containerTitle = 'Résumé de la journée' + data[0].Date;
-            const containerLegend = 'Ce tableau présente le résumé de l\'activité du salon dans la journée: nombre de passages en émission total, durée cumulée en émission, nombre de nœuds actifs, connectés, max et min.';
+            const containerLegend = 'Ce tableau présente le résumé de l\'activité du salon dans la journée: nombre de passages en émission total, durée cumulée en émission, nombre de nœuds actifs et connectés.';
 
             function tabulate(data, columns) {
                 d3.select(containerSelector).html('');
@@ -394,7 +394,7 @@
             }
 
             // Render the table(s)
-            tabulate(data, ['Salon', 'TX total', 'Emission cumulée', 'Nœuds actifs', 'Nœuds connectés', 'Nœuds max', 'Nœuds min']); // 7 columns table
+            tabulate(data, ['Salon', 'TX total', 'Emission cumulée', 'Nœuds actifs', 'Nœuds connectés']); // 5 columns table
             d3.select(containerSelector).append('span').text(containerLegend);
         });
 
@@ -580,7 +580,8 @@
                         .append('td')
                         .html(function (d, i) {
                         if (i === 0) {
-                            return '<a href=\'index.html?pos=' + d.id + '\'>' + d.value + '</a>';
+                            return '<a onClick="localStorage.setItem(\'pos\', \'' +  d.id + '\'); window.location.reload()">' + d.value + '</a>';
+
                         } else {
                             return d.value;
                         }
@@ -595,7 +596,9 @@
             }
         });
 
-        if (getQueryVariable('pos') !== false) {
+        pos = localStorage.getItem('pos');
+
+        if (pos !== false) {
             // Porteuse
             // Load the data
             d3.json('porteuse_extended.json', function(error, data) {
@@ -607,11 +610,10 @@
                 }
 
                 console.log(data);
-                data = [data[parseInt(getQueryVariable('pos')) - 1]];
+                data = [data[parseInt(pos) - 1]];
                 console.log(data);
-                console.log('porteuse_extended redraw');
 
-                const containerSelector = '.porteuse-extended-graph';
+                const containerSelector = '.modal';
                 const containerTitle = 'Heures des déclenchements intempestifs sur ' + data[0].Indicatif;
                 const containerLegend = 'Ce tableau présente les heures de passages en émission intempestifs ou suspects, d\'une durée de moins de 3 secondes sur le nœud sélectionné.';
 
@@ -671,6 +673,9 @@
                     // Render the table(s)
                     tabulate(data, ['Indicatif', 'Date', 'TX']); //  columns table
                     d3.select(containerSelector).append('span').text(containerLegend);
+
+                    $('#porteuse-extended-modal').modal();
+                    localStorage.removeItem('pos');
                 }
             });
         }
@@ -681,4 +686,5 @@
     d3.select(containerSelector).append('span')
         .attr('class', 'author')
         .text(containerAuthor);
+
 })();

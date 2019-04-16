@@ -15,6 +15,20 @@ body {
     font: 12px Arial, Helvetica, sans-serif;
 }
 
+.modal h2 {
+    font: 16px Arial, Helvetica, sans-serif;
+    text-align: left;
+    border-bottom: dotted 1px #000;
+}
+
+.modal span {
+    font: 12px Arial, Helvetica, sans-serif;
+    color: #999;
+    text-align: left;
+    display: block;
+    margin-bottom: 10px;
+}
+
 .graph-container {
     margin-bottom: 30px;
 }
