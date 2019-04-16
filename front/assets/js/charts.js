@@ -580,7 +580,7 @@
                         .append('td')
                         .html(function (d, i) {
                         if (i === 0) {
-                            return '<a onClick="localStorage.setItem(\'pos\', \'' +  d.id + '\'); window.location.reload()">' + d.value + '</a>';
+                            return '<a onClick="localStorage.setItem(\'porteuse_extended\', \'' +  d.id + '\'); window.location.reload()">' + d.value + '</a>';
 
                         } else {
                             return d.value;
@@ -596,9 +596,9 @@
             }
         });
 
-        pos = localStorage.getItem('pos');
+        porteuse_extended = localStorage.getItem('porteuse_extended');
 
-        if (pos !== false) {
+        if (porteuse_extended != null) {
             // Porteuse
             // Load the data
             d3.json('porteuse_extended.json', function(error, data) {
@@ -610,7 +610,7 @@
                 }
 
                 console.log(data);
-                data = [data[parseInt(pos) - 1]];
+                data = [data[parseInt(porteuse_extended) - 1]];
                 console.log(data);
 
                 const containerSelector = '.modal';
@@ -675,7 +675,7 @@
                     d3.select(containerSelector).append('span').text(containerLegend);
 
                     $('#porteuse-extended-modal').modal();
-                    localStorage.removeItem('pos');
+                    localStorage.removeItem('porteuse_extended');
                 }
             });
         }
