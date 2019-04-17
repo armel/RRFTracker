@@ -68,10 +68,10 @@ def main(argv):
         if(s.now[:5] == '00:00'):
             s.qso = 0
             s.day_duration = 0
-            for q in xrange(0, 24):         # Clean histogram
+            for q in xrange(0, 24):     # Clean histogram
                 s.qso_hour[q] = 0
-            s.node.clear()               # Clear node history
-            s.porteuse.clear()           # Clear porteuse history
+            s.node.clear()              # Clear node history
+            s.porteuse.clear()          # Clear porteuse history
 
         # Request HTTP datas
         try:
