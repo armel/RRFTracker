@@ -155,13 +155,14 @@ a:hover {
         height: 100vh;
         width: 30%;
         overflow: hidden;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     }
 
     .columns > *:last-child table {
-        width: 100%;
+        width: 90%;
+        margin-right:auto;
+        margin-left:0px
     }
-
 
     .graph-container {
         margin-bottom: 30px;
