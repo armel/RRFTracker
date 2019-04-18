@@ -1,5 +1,20 @@
-#!/bin/bash
+#!/bin/sh
 
-cd /opt/RRFTracker_Web/
-nohup python /opt/RRFTracker_Web/back/RRFTracker.py --room RRF --log-path /var/www/mrtg/RRFTracker &
-nohup python /opt/RRFTracker_Web/back/RRFTracker.py --room TEC --log-path /var/www/mrtg/RRFTracker &
+PATH_SCRIPT='/opt/RRFTracker_Web/back/RRFTracker.py'
+PATH_LOG='/var/www/RRFTracker'
+PATH_PID='/tmp'
+
+case "$1" in
+    start)
+        echo "Starting RRFTracker: RRF"
+        nohup python $PATH_SCRIPT --room RRF --log-path $PATH_LOG > /dev/null 2>&1 & echo $! > $PATH_PID/RRFTracker_RRF.pid
+        echo "Starting RRFTracker: TEC"
+        nohup python $PATH_SCRIPT --room TEC --log-path $PATH_LOG > /dev/null 2>&1 & echo $! > $PATH_PID/RRFTracker_TEC.pid
+        ;;
+    stop) 
+        echo "Stopping RRFTracker: RRF"
+        kill `cat $PATH_PID/RRFTracker_RRF.pid`
+        echo "Stopping RRFTracker: TEC"
+        kill `cat $PATH_PID/RRFTracker_TEC.pid`
+        ;;
+    esac

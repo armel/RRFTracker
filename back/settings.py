@@ -10,7 +10,7 @@ Check video about RRFTracker on https://www.youtube.com/watch?v=rVW8xczVpEo
 
 # Version
 
-version = '1.4.1'
+version = '1.4.2'
 
 # Default room and path
 
@@ -47,3 +47,4 @@ hour = ''
 minute = ''
 seconde = ''
 duration = 0
+intempestif = 2			# Tuned me !!!

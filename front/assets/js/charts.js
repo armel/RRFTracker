@@ -1,5 +1,16 @@
 ;
 (function() {
+    function getQueryVariable(variable)
+    {
+           var query = window.location.search.substring(1);
+           var vars = query.split("&");
+           for (var i=0;i<vars.length;i++) {
+                   var pair = vars[i].split("=");
+                   if(pair[0] == variable){return pair[1];}
+           }
+           return(false);
+    }
+
     let generateChartTimeout = null;
 
     window.addEventListener('resize', function() {
@@ -21,9 +32,7 @@
     var old_last = '';
     var old_all = '';
     var old_porteuse = '';
-
-    console.log(old_abstract);
-
+    var old_porteuse_extended = '';
 
     function generateD3Charts(redraw = false) {
         if (redraw === true) {
@@ -34,6 +43,7 @@
             old_last = '';
             old_all = '';
             old_porteuse = '';
+            old_porteuse_extended = '';
         }
 
         const columnWidth = document.querySelector('.columns :first-child').clientWidth;
@@ -230,7 +240,6 @@
             const containerSelector = '.best-graph';
             const containerTitle = 'Top 20 des nœuds les plus actifs';
             const containerLegend = 'Cet histogramme représente le classement des 20 nœuds les plus actifs de la journée, en terme de passages en émission.';
-            const containerAuthor = 'RRFTracker est un projet Open Source, développé par F4HWN Armel, sous licence MIT.';
 
             d3.select(containerSelector).html('');
             d3.select(containerSelector).append('h2').text(containerTitle);
@@ -323,9 +332,6 @@
                 });
 
             d3.select(containerSelector).append('span').text(containerLegend);
-            d3.select(containerSelector).append('span')
-                                        .attr('class', 'author')
-                                        .text(containerAuthor);
         });
 
         // Abstract
@@ -343,7 +349,7 @@
 
             const containerSelector = '.abstract-graph';
             const containerTitle = 'Résumé de la journée' + data[0].Date;
-            const containerLegend = 'Ce tableau présente le résumé de l\'activité du salon dans la journée: nombre de passages en émission total, durée cumulée en émission, nombre de nœuds actifs, connectés, max et min.';
+            const containerLegend = 'Ce tableau présente le résumé de l\'activité du salon dans la journée: nombre de passages en émission total, durée cumulée en émission, nombre de nœuds actifs et connectés.';
 
             function tabulate(data, columns) {
                 d3.select(containerSelector).html('');
@@ -388,7 +394,7 @@
             }
 
             // Render the table(s)
-            tabulate(data, ['Salon', 'TX total', 'Emission cumulée', 'Nœuds actifs', 'Nœuds connectés', 'Nœuds max', 'Nœuds min']); // 7 columns table
+            tabulate(data, ['Salon', 'TX total', 'Emission cumulée', 'Nœuds actifs', 'Nœuds connectés']); // 5 columns table
             d3.select(containerSelector).append('span').text(containerLegend);
         });
 
@@ -565,14 +571,20 @@
                             return columns.map(function(column) {
                                 return {
                                     column: column,
-                                    value: row[column]
+                                    value: row[column],
+                                    id: row.Pos
                                 };
                             });
                         })
                         .enter()
                         .append('td')
-                        .text(function(d) {
+                        .html(function (d, i) {
+                        if (i === 0) {
+                            return '<a onClick="localStorage.setItem(\'porteuse_extended\', \'' +  d.id + '\'); window.location.reload()">' + d.value + '</a>';
+
+                        } else {
                             return d.value;
+                        }
                         });
 
                     return table;
@@ -583,5 +595,96 @@
                 d3.select(containerSelector).append('span').text(containerLegend);
             }
         });
+
+        porteuse_extended = localStorage.getItem('porteuse_extended');
+
+        if (porteuse_extended != null) {
+            // Porteuse
+            // Load the data
+            d3.json('porteuse_extended.json', function(error, data) {
+                if (old_porteuse_extended !== JSON.stringify(data)) {
+                    old_porteuse_extended = JSON.stringify(data);
+                }
+                else {
+                    return 0;
+                }
+
+                console.log(data);
+                data = [data[parseInt(porteuse_extended) - 1]];
+                console.log(data);
+
+                const containerSelector = '.modal';
+                const containerTitle = 'Heures des déclenchements intempestifs sur ' + data[0].Indicatif;
+                const containerLegend = 'Ce tableau présente les heures de passages en émission intempestifs ou suspects, d\'une durée de moins de 3 secondes sur le nœud sélectionné.';
+
+                if (data !== undefined) {
+
+                    function tabulate(data, columns) {
+                        d3.select(containerSelector).html('');
+                        d3.select(containerSelector).append('h2').text(containerTitle);
+
+                        var table = d3.select(containerSelector).append('table');
+                        var thead = table.append('thead');
+                        var tbody = table.append('tbody');
+
+                        // Append the header row
+                        thead.append('tr')
+                            .selectAll('th')
+                            .data(columns).enter()
+                            .append('th')
+                            .text(function(column) {
+                                if (column === 'Date') {
+                                    return 'Heure';
+                                }
+                                else {
+                                    return column;
+                                }
+                            });
+
+                        // Create a row for each object in the data
+                        var rows = tbody.selectAll('tr')
+                            .data(data)
+                            .enter()
+                            .append('tr');
+
+                        // Create a cell in each row for each column
+                        var cells = rows.selectAll('td')
+                            .data(function(row) {
+                                return columns.map(function(column) {
+                                    return {
+                                        column: column,
+                                        value: row[column]
+                                    };
+                                });
+                            })
+                            .enter()
+                            .append('td')
+                            .html(function (d, i) {
+                            if (i === 1) {
+                                return d.value.replace(/, /g, '<br/>');
+                            } else {
+                                return d.value;
+                            }
+                            });
+
+                        return table;
+                    }
+
+                    // Render the table(s)
+                    tabulate(data, ['Indicatif', 'Date', 'TX']); //  columns table
+                    d3.select(containerSelector).append('span').text(containerLegend);
+
+                    $('#porteuse-extended-modal').modal();
+                    localStorage.removeItem('porteuse_extended');
+                }
+            });
+        }
     }
+
+    const containerAuthor = 'RRFTracker est un projet Open Source, développé par F4HWN Armel, sous licence MIT.';
+    const containerSelector = '.author-legend';
+    d3.select(containerSelector).append('span')
+        .attr('class', 'author')
+        .text(containerAuthor);
+
 })();

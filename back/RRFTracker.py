@@ -68,10 +68,10 @@ def main(argv):
         if(s.now[:5] == '00:00'):
             s.qso = 0
             s.day_duration = 0
-            for q in xrange(0, 24):         # Clean histogram
+            for q in xrange(0, 24):     # Clean histogram
                 s.qso_hour[q] = 0
-            s.node.clear()               # Clear node history
-            s.porteuse.clear()           # Clear porteuse history
+            s.node.clear()              # Clear node history
+            s.porteuse.clear()          # Clear porteuse history
 
         # Request HTTP datas
         try:
@@ -129,7 +129,7 @@ def main(argv):
             s.duration = int(s.tot_current) - int(s.tot_start)
 
             # Save stat only if real transmit
-            if (s.stat_save is False and s.duration > 2):
+            if (s.stat_save is False and s.duration > s.intempestif):
                 s.node = l.save_stat_node(s.node, s.call[0], 0)
                 s.qso += 1
                 s.stat_save = True
