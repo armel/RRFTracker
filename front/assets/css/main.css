@@ -29,6 +29,10 @@ body {
     margin-bottom: 10px;
 }
 
+.modal table {
+   width: 100%;
+}
+
 .graph-container {
     margin-bottom: 30px;
 }
@@ -94,7 +98,6 @@ table {
     border-collapse: collapse;
     border-spacing: 0;
     font: 12px Arial, Helvetica, sans-serif;
-    width: 100%;
 }
 
 table thead th {
@@ -154,6 +157,11 @@ a:hover {
         overflow: hidden;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
+
+    .columns > *:last-child table {
+        width: 100%;
+    }
+
 
     .graph-container {
         margin-bottom: 30px;

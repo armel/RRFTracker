@@ -24,7 +24,7 @@
 
     var inter = setInterval(function() {
         generateD3Charts(false);
-    }, 500);
+    }, 1000);
 
     var old_abstract = '';
     var old_best = '';
@@ -355,7 +355,9 @@
                 d3.select(containerSelector).html('');
                 d3.select(containerSelector).append('h2').text(containerTitle);
 
-                const table = d3.select(containerSelector).append('table');
+                const table = d3.select(containerSelector)
+                                            .append('table')
+                                            .attr('width', width + margin.left + margin.right + 'px');
                 const thead = table.append('thead');
                 const tbody = table.append('tbody');
 
@@ -418,7 +420,10 @@
                 d3.select(containerSelector).html('');
                 d3.select(containerSelector).append('h2').text(containerTitle);
 
-                var table = d3.select(containerSelector).append('table');
+                var table = d3.select(containerSelector)
+                                        .append('table')
+                                        .attr('width', width + margin.left + margin.right + 'px');
+
                 var thead = table.append('thead');
                 var tbody = table.append('tbody');
 
@@ -481,7 +486,10 @@
                 d3.select(containerSelector).html('');
                 d3.select(containerSelector).append('h2').text(containerTitle);
 
-                var table = d3.select(containerSelector).append('table');
+                var table = d3.select(containerSelector)
+                                        .append('table')
+                                        .attr('width', width + margin.left + margin.right + 'px');
+
                 var thead = table.append('thead');
                 var tbody = table.append('tbody');
 
@@ -546,7 +554,10 @@
                     d3.select(containerSelector).html('');
                     d3.select(containerSelector).append('h2').text(containerTitle);
 
-                    var table = d3.select(containerSelector).append('table');
+                    var table = d3.select(containerSelector)
+                                            .append('table')
+                                            .attr('width', width + margin.left + margin.right + 'px');
+
                     var thead = table.append('thead');
                     var tbody = table.append('tbody');
 
