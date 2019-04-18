@@ -1,7 +1,7 @@
 #!/bin/sh
 
 PATH_SCRIPT='/opt/RRFTracker_Web/back/RRFTracker.py'
-PATH_LOG='/var/www/mrtg/RRFTracker'
+PATH_LOG='/var/www/RRFTracker'
 PATH_PID='/tmp'
 
 case "$1" in
