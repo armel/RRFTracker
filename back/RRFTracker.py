@@ -94,9 +94,9 @@ def main(argv):
 
             # Clean call
             tmp = page[search_start:search_stop]
-            tmp = tmp.replace('(', '')
-            tmp = tmp.replace(') ', ' ')
-            tmp = tmp.replace('\u0026U', '&')   # Replace ampersand...
+            # tmp = tmp.replace('(', '')
+            # tmp = tmp.replace(') ', ' ')
+            # tmp = tmp.replace('\u0026U', '&')   # Replace ampersand...
 
             s.call_current = tmp
 
@@ -167,9 +167,20 @@ def main(argv):
         search_stop = page.find('],"TXmit"', search_start)      # And close it...
 
         tmp = page[search_start:search_stop]
-        tmp = tmp.split(',')
+        tmp = tmp.replace('"', '')
+        s.node_list = tmp.split(',')
 
-        s.node_count = len(tmp)
+        if 'RRF' in s.node_list:
+            s.node_list.remove('RRF')
+        if 'RRF2' in s.node_list:
+            s.node_list.remove('RRF2')
+        if 'RRF3' in s.node_list:
+            s.node_list.remove('RRF3')
+        if 'TECHNIQUE' in s.node_list:
+            s.node_list.remove('TECHNIQUE')
+
+        s.node_count = len(s.node_list)
+
         if s.node_count > s.node_count_max:
             s.node_count_max = s.node_count
 
@@ -183,7 +194,7 @@ def main(argv):
             s.duration = 0
 
         # Save log
-        l.log_write(s.log_path, s.day, s.room, s.qso_hour, s.node, s.porteuse, s.call, s.call_date, s.call_time, s.node_count, s.node_count_max, s.node_count_min, s.day_duration, s.call_current, s.duration)
+        l.log_write(s.log_path, s.day, s.room, s.qso_hour, s.node, s.node_list, s.porteuse, s.call, s.call_date, s.call_time, s.node_count, s.node_count_max, s.node_count_min, s.day_duration, s.call_current, s.duration)
 
         time.sleep(1)
 

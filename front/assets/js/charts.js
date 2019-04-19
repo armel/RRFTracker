@@ -24,7 +24,7 @@
 
     var inter = setInterval(function() {
         generateD3Charts(false);
-    }, 500);
+    }, 1000);
 
     var old_abstract = '';
     var old_best = '';
@@ -33,6 +33,7 @@
     var old_all = '';
     var old_porteuse = '';
     var old_porteuse_extended = '';
+    var old_node_extended = '';
 
     function generateD3Charts(redraw = false) {
         if (redraw === true) {
@@ -44,6 +45,7 @@
             old_all = '';
             old_porteuse = '';
             old_porteuse_extended = '';
+            old_node_extended = '';
         }
 
         const columnWidth = document.querySelector('.columns :first-child').clientWidth;
@@ -345,7 +347,6 @@
             }
 
             console.log("abstract redraw");
-            console.log(data[0].Date)
 
             const containerSelector = '.abstract-graph';
             const containerTitle = 'Résumé de la journée' + data[0].Date;
@@ -355,7 +356,9 @@
                 d3.select(containerSelector).html('');
                 d3.select(containerSelector).append('h2').text(containerTitle);
 
-                const table = d3.select(containerSelector).append('table');
+                const table = d3.select(containerSelector)
+                                            .append('table')
+                                            .attr('width', width + margin.left + margin.right + 'px');
                 const thead = table.append('thead');
                 const tbody = table.append('tbody');
 
@@ -386,8 +389,12 @@
                     })
                     .enter()
                     .append('td')
-                    .text(function(d) {
+                    .html(function (d, i) {
+                    if (i === 4) {
+                        return '<a onClick="sessionStorage.setItem(\'node_extended\', \'' +  'Node' + '\'); window.location.reload()">' + d.value + '</a>';
+                    } else {
                         return d.value;
+                    }
                     });
 
                 return table;
@@ -418,7 +425,10 @@
                 d3.select(containerSelector).html('');
                 d3.select(containerSelector).append('h2').text(containerTitle);
 
-                var table = d3.select(containerSelector).append('table');
+                var table = d3.select(containerSelector)
+                                        .append('table')
+                                        .attr('width', width + margin.left + margin.right + 'px');
+
                 var thead = table.append('thead');
                 var tbody = table.append('tbody');
 
@@ -481,7 +491,10 @@
                 d3.select(containerSelector).html('');
                 d3.select(containerSelector).append('h2').text(containerTitle);
 
-                var table = d3.select(containerSelector).append('table');
+                var table = d3.select(containerSelector)
+                                        .append('table')
+                                        .attr('width', width + margin.left + margin.right + 'px');
+
                 var thead = table.append('thead');
                 var tbody = table.append('tbody');
 
@@ -546,7 +559,10 @@
                     d3.select(containerSelector).html('');
                     d3.select(containerSelector).append('h2').text(containerTitle);
 
-                    var table = d3.select(containerSelector).append('table');
+                    var table = d3.select(containerSelector)
+                                            .append('table')
+                                            .attr('width', width + margin.left + margin.right + 'px');
+
                     var thead = table.append('thead');
                     var tbody = table.append('tbody');
 
@@ -580,8 +596,7 @@
                         .append('td')
                         .html(function (d, i) {
                         if (i === 0) {
-                            return '<a onClick="localStorage.setItem(\'porteuse_extended\', \'' +  d.id + '\'); window.location.reload()">' + d.value + '</a>';
-
+                            return '<a onClick="sessionStorage.setItem(\'porteuse_extended\', \'' +  d.id + '\'); window.location.reload()">' + d.value + '</a>';
                         } else {
                             return d.value;
                         }
@@ -596,7 +611,8 @@
             }
         });
 
-        porteuse_extended = localStorage.getItem('porteuse_extended');
+        node_extended = sessionStorage.getItem('node_extended');
+        porteuse_extended = sessionStorage.getItem('porteuse_extended');
 
         if (porteuse_extended != null) {
             // Porteuse
@@ -609,11 +625,7 @@
                     return 0;
                 }
 
-                console.log(data);
-                data = [data[parseInt(porteuse_extended) - 1]];
-                console.log(data);
-
-                const containerSelector = '.modal';
+                const containerSelector = '#porteuse-extended-modal';
                 const containerTitle = 'Heures des déclenchements intempestifs sur ' + data[0].Indicatif;
                 const containerLegend = 'Ce tableau présente les heures de passages en émission intempestifs ou suspects, d\'une durée de moins de 3 secondes sur le nœud sélectionné.';
 
@@ -670,12 +682,72 @@
                         return table;
                     }
 
-                    // Render the table(s)
-                    tabulate(data, ['Indicatif', 'Date', 'TX']); //  columns table
+                    // Render the table(s)                    
+                    tabulate(data, ['Indicatif', 'Date', 'TX']); // 3 columns table
                     d3.select(containerSelector).append('span').text(containerLegend);
 
                     $('#porteuse-extended-modal').modal();
-                    localStorage.removeItem('porteuse_extended');
+                    sessionStorage.removeItem('porteuse_extended');
+                }
+            });
+        }
+
+        if (node_extended != null) {
+            // Porteuse
+            // Load the data
+            d3.json('node_extended.json', function(error, data) {
+                if (old_node_extended !== JSON.stringify(data)) {
+                    old_node_extended = JSON.stringify(data);
+                }
+                else {
+                    return 0;
+                }
+
+                const containerSelector = '#node-extended-modal';
+                const containerTitle = 'Liste des nœuds connectés';
+                const containerLegend = 'Ce tableau présente la liste des nœuds actuellement connectés.';
+
+                if (data !== undefined) {
+
+                    function tabulate(data, columns) {
+                        d3.select(containerSelector).html('');
+                        d3.select(containerSelector).append('h2').text(containerTitle);
+
+                        var table = d3.select(containerSelector).append('table');
+                        var thead = table.append('thead');
+                        var tbody = table.append('tbody');
+
+                        // Create a row for each object in the data
+                        var rows = tbody.selectAll('tr')
+                            .data(data)
+                            .enter()
+                            .append('tr');
+
+                        // Create a cell in each row for each column
+                        var cells = rows.selectAll('td')
+                            .data(function(row) {
+                                return columns.map(function(column) {
+                                    return {
+                                        column: column,
+                                        value: row[column]
+                                    };
+                                });
+                            })
+                            .enter()
+                            .append('td')
+                            .text(function(d) {
+                                return d.value;
+                            });
+
+                        return table;
+                    }
+
+                    // Render the table(s)
+                    tabulate(data, ['Node 0', 'Node 1', 'Node 2', 'Node 3']); // 8 columns table
+                    d3.select(containerSelector).append('span').text(containerLegend);
+
+                    $('#node-extended-modal').modal();
+                    sessionStorage.removeItem('node_extended');
                 }
             });
         }

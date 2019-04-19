@@ -64,7 +64,7 @@ def save_stat_porteuse(history, call, duration=0):
     return history
 
 # Log write for history
-def log_write(log_path, day, room, qso_hour, node, porteuse, call, call_date, call_time, node_count, node_count_max, node_count_min, duration, call_current, tot):
+def log_write(log_path, day, room, qso_hour, node, node_list, porteuse, call, call_date, call_time, node_count, node_count_max, node_count_min, duration, call_current, tot):
 
     log_path_day = log_path + '/' + room + '-' + day
 
@@ -79,6 +79,7 @@ def log_write(log_path, day, room, qso_hour, node, porteuse, call, call_date, ca
     log_last(log_path_day, call, call_date, call_time)
     log_node(log_path_day, node, 'best')
     log_node(log_path_day, node, 'all')
+    log_node_list(log_path_day, node_list)
     log_porteuse(log_path_day, porteuse, 'porteuse')
     log_porteuse(log_path_day, porteuse, 'porteuse_extended')
 
@@ -237,6 +238,51 @@ def log_node(log_path, node, type):
     data = data[:last] + '' + data[last + 1:]
 
     file = open(log_path + '/' + type + '.json', 'w')
+    file.write(data)
+    file.close()
+
+    return 0
+
+# Log node list
+def log_node_list(log_path, node_list):
+
+    data = '[\n'
+
+    width = 4
+
+    tmp = []
+    for n in node_list:
+        tmp.append(n)
+    node_list = sorted(tmp)
+
+    total = len(node_list)
+    line = (total / width)
+
+    complete = total - (line * width)
+
+    if complete != 0:
+        line += 1
+        complete = (line * width) - total
+        for n in xrange(0, complete):
+            node_list.append('')
+
+    limit = len(node_list)
+    indice = 0
+
+    while(indice < limit):
+        data += '{\n'
+        for e in xrange(0, width - 1):
+            data += '\t"Node '+ str(e) +'": "' + node_list[indice + e] + '",\n'
+        data += '\t"Node '+ str(e + 1) +'": "' + node_list[indice + e + 1] + '"\n'
+        data += '},\n'
+        indice += width
+
+    data += ']\n'
+
+    last = data.rfind(',')
+    data = data[:last] + '' + data[last + 1:]
+
+    file = open(log_path + '/' + 'node_extended.json', 'w')
     file.write(data)
     file.close()
 
