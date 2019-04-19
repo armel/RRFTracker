@@ -548,63 +548,60 @@
             const containerTitle = 'Déclenchements intempestifs';
             const containerLegend = 'Ce tableau présente le classement complet des nœuds ayant fait l\'objet de passages en émission intempestifs ou suspects, d\'une durée de moins de 3 secondes: position, indicatif du nœud et nombre de passages en émission.';
 
-            if (data !== undefined) {
+            function tabulate(data, columns) {
+                d3.select(containerSelector).html('');
+                d3.select(containerSelector).append('h2').text(containerTitle);
 
-                function tabulate(data, columns) {
-                    d3.select(containerSelector).html('');
-                    d3.select(containerSelector).append('h2').text(containerTitle);
+                var table = d3.select(containerSelector)
+                                        .append('table')
+                                        .attr('width', width + margin.left + margin.right + 'px');
 
-                    var table = d3.select(containerSelector)
-                                            .append('table')
-                                            .attr('width', width + margin.left + margin.right + 'px');
+                var thead = table.append('thead');
+                var tbody = table.append('tbody');
 
-                    var thead = table.append('thead');
-                    var tbody = table.append('tbody');
+                // Append the header row
+                thead.append('tr')
+                    .selectAll('th')
+                    .data(columns).enter()
+                    .append('th')
+                    .text(function(column) {
+                        return column;
+                    });
 
-                    // Append the header row
-                    thead.append('tr')
-                        .selectAll('th')
-                        .data(columns).enter()
-                        .append('th')
-                        .text(function(column) {
-                            return column;
+                // Create a row for each object in the data
+                var rows = tbody.selectAll('tr')
+                    .data(data)
+                    .enter()
+                    .append('tr');
+
+                // Create a cell in each row for each column
+                var cells = rows.selectAll('td')
+                    .data(function(row) {
+                        return columns.map(function(column) {
+                            return {
+                                column: column,
+                                value: row[column],
+                                id: row.Pos
+                            };
                         });
+                    })
+                    .enter()
+                    .append('td')
+                    .html(function (d, i) {
+                    if (i === 0) {
+                        return '<a onClick="localStorage.setItem(\'porteuse_extended\', \'' +  d.id + '\'); window.location.reload()">' + d.value + '</a>';
 
-                    // Create a row for each object in the data
-                    var rows = tbody.selectAll('tr')
-                        .data(data)
-                        .enter()
-                        .append('tr');
+                    } else {
+                        return d.value;
+                    }
+                    });
 
-                    // Create a cell in each row for each column
-                    var cells = rows.selectAll('td')
-                        .data(function(row) {
-                            return columns.map(function(column) {
-                                return {
-                                    column: column,
-                                    value: row[column],
-                                    id: row.Pos
-                                };
-                            });
-                        })
-                        .enter()
-                        .append('td')
-                        .html(function (d, i) {
-                        if (i === 0) {
-                            return '<a onClick="localStorage.setItem(\'porteuse_extended\', \'' +  d.id + '\'); window.location.reload()">' + d.value + '</a>';
-
-                        } else {
-                            return d.value;
-                        }
-                        });
-
-                    return table;
-                }
-
-                // Render the table(s)
-                tabulate(data, ['Pos', 'Indicatif', 'TX']); // 3 columns table
-                d3.select(containerSelector).append('span').text(containerLegend);
+                return table;
             }
+
+            // Render the table(s)
+            tabulate(data, ['Pos', 'Indicatif', 'TX']); // 3 columns table
+            d3.select(containerSelector).append('span').text(containerLegend);
         });
 
         porteuse_extended = localStorage.getItem('porteuse_extended');
