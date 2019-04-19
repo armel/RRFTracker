@@ -679,7 +679,7 @@
                         return table;
                     }
 
-                    // Render the table(s)
+                    // Render the table(s)                    
                     tabulate(data, ['Indicatif', 'Date', 'TX']); // 3 columns table
                     d3.select(containerSelector).append('span').text(containerLegend);
 

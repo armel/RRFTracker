@@ -176,6 +176,8 @@ def main(argv):
             s.node_list.remove('RRF2')
         if 'RRF3' in s.node_list:
             s.node_list.remove('RRF3')
+        if 'TECHNIQUE' in s.node_list:
+            s.node_list.remove('TECHNIQUE')
 
         s.node_count = len(s.node_list)
 
