@@ -391,7 +391,7 @@
                     .append('td')
                     .html(function (d, i) {
                     if (i === 4) {
-                        return '<a onClick="localStorage.setItem(\'node_extended\', \'' +  'Node' + '\'); window.location.reload()">' + d.value + '</a>';
+                        return '<a onClick="sessionStorage.setItem(\'node_extended\', \'' +  'Node' + '\'); window.location.reload()">' + d.value + '</a>';
                     } else {
                         return d.value;
                     }
@@ -594,7 +594,7 @@
                     .append('td')
                     .html(function (d, i) {
                     if (i === 0) {
-                        return '<a onClick="localStorage.setItem(\'porteuse_extended\', \'' +  d.id + '\'); window.location.reload()">' + d.value + '</a>';
+                        return '<a onClick="sessionStorage.setItem(\'porteuse_extended\', \'' +  d.id + '\'); window.location.reload()">' + d.value + '</a>';
                     } else {
                         return d.value;
                     }
@@ -608,8 +608,8 @@
             d3.select(containerSelector).append('span').text(containerLegend);
         });
 
-        node_extended = localStorage.getItem('node_extended');
-        porteuse_extended = localStorage.getItem('porteuse_extended');
+        node_extended = sessionStorage.getItem('node_extended');
+        porteuse_extended = sessionStorage.getItem('porteuse_extended');
 
         if (porteuse_extended != null) {
             // Porteuse
@@ -684,7 +684,7 @@
                     d3.select(containerSelector).append('span').text(containerLegend);
 
                     $('#porteuse-extended-modal').modal();
-                    localStorage.removeItem('porteuse_extended');
+                    sessionStorage.removeItem('porteuse_extended');
                 }
             });
         }
@@ -701,10 +701,8 @@
                 }
 
                 const containerSelector = '#node-extended-modal';
-                const containerTitle = 'Liste des nodes';
-                const containerLegend = 'Ce tableau présente les heures de passages en émission intempestifs ou suspects, d\'une durée de moins de 3 secondes sur le nœud sélectionné.';
-
-                console.log(data);
+                const containerTitle = 'Liste des nœuds connectés';
+                const containerLegend = 'Ce tableau présente la liste des nœuds actuellement connectés.';
 
                 if (data !== undefined) {
 
@@ -746,7 +744,7 @@
                     d3.select(containerSelector).append('span').text(containerLegend);
 
                     $('#node-extended-modal').modal();
-                    localStorage.removeItem('node_extended');
+                    sessionStorage.removeItem('node_extended');
                 }
             });
         }

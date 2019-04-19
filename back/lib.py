@@ -248,33 +248,25 @@ def log_node_list(log_path, node_list):
 
     data = '[\n'
 
-    if 'RRF' in node_list:
-        node_list.remove('RRF')
-    if 'RRF2' in node_list:
-        node_list.remove('RRF2')
-    if 'RRF3' in node_list:
-        node_list.remove('RRF3')
-
-    tmp = []
     width = 4
 
+    tmp = []
     for n in node_list:
         tmp.append(n)
+    node_list = sorted(tmp)
 
-    node_list = tmp
-    node_list = sorted(node_list)
+    total = len(node_list)
+    line = (total / width)
+
+    complete = total - (line * width)
+
+    if complete != 0:
+        line += 1
+        complete = (line * width) - total
+        for n in xrange(0, complete):
+            node_list.append('')
 
     limit = len(node_list)
-
-    complete = int(limit / width)
-    print len(tmp), complete
-    complete = limit - ( width * complete)
-
-    for n in xrange(0, complete):
-        node_list.append('')
-
-    print len(tmp), complete, node_list, len(node_list)
-
     indice = 0
 
     while(indice < limit):

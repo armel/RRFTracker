@@ -170,6 +170,13 @@ def main(argv):
         tmp = tmp.replace('"', '')
         s.node_list = tmp.split(',')
 
+        if 'RRF' in s.node_list:
+            s.node_list.remove('RRF')
+        if 'RRF2' in s.node_list:
+            s.node_list.remove('RRF2')
+        if 'RRF3' in s.node_list:
+            s.node_list.remove('RRF3')
+
         s.node_count = len(s.node_list)
 
         if s.node_count > s.node_count_max:
