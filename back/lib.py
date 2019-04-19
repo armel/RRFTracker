@@ -267,10 +267,13 @@ def log_node_list(log_path, node_list):
     limit = len(node_list)
 
     complete = int(limit / width)
+    print len(tmp), complete
     complete = limit - ( width * complete)
 
     for n in xrange(0, complete):
         node_list.append('')
+
+    print len(tmp), complete, node_list, len(node_list)
 
     indice = 0
 
