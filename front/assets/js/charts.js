@@ -402,7 +402,7 @@
                     else if (i === 4) {
                         return '<a onClick="sessionStorage.setItem(\'node_extended\', \'' +  'Node' + '\'); window.location.reload()">' + d.value + '</a>';
                     } else {
-                        if (i > 5) {
+                        if (i > 4) {
                             return d.value.replace(/, /g, '<br/>');
                         } else {
                             return d.value;
