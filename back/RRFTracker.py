@@ -170,14 +170,29 @@ def main(argv):
         tmp = tmp.replace('"', '')
         s.node_list = tmp.split(',')
 
-        if 'RRF' in s.node_list:
-            s.node_list.remove('RRF')
-        if 'RRF2' in s.node_list:
-            s.node_list.remove('RRF2')
-        if 'RRF3' in s.node_list:
-            s.node_list.remove('RRF3')
-        if 'TECHNIQUE' in s.node_list:
-            s.node_list.remove('TECHNIQUE')
+        for n in ['RRF', 'RRF2', 'RRF3', 'TECHNIQUE']:
+            if n in s.node_list:
+                s.node_list.remove(n)
+
+        if s.node_list_old == []:
+            s.node_list_old = s.node_list
+        else:
+            if s.node_list_old != s.node_list:
+                if (list(set(s.node_list_old) - set(s.node_list))):
+                    s.node_list_out = list(set(s.node_list_old) - set(s.node_list))
+                    for n in s.node_list_out:
+                        if n in s.node_list_in:
+                            s.node_list_in.remove(n)
+                    s.node_list_out = sorted(s.node_list_out)
+
+                if (list(set(s.node_list) - set(s.node_list_old))):
+                    s.node_list_in = list(set(s.node_list) - set(s.node_list_old))
+                    for n in s.node_list_in:
+                        if n in s.node_list_out:
+                            s.node_list_out.remove(n)
+                    s.node_list_in = sorted(s.node_list_in)
+
+                s.node_list_old = s.node_list
 
         s.node_count = len(s.node_list)
 
@@ -194,7 +209,7 @@ def main(argv):
             s.duration = 0
 
         # Save log
-        l.log_write(s.log_path, s.day, s.room, s.qso_hour, s.node, s.node_list, s.porteuse, s.call, s.call_date, s.call_time, s.node_count, s.node_count_max, s.node_count_min, s.day_duration, s.call_current, s.duration)
+        l.log_write()
 
         time.sleep(1)
 
