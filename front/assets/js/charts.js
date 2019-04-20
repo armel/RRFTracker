@@ -625,6 +625,8 @@
                     return 0;
                 }
 
+                data = [data[parseInt(porteuse_extended) - 1]];
+
                 const containerSelector = '#porteuse-extended-modal';
                 const containerTitle = 'Heures des déclenchements intempestifs sur ' + data[0].Indicatif;
                 const containerLegend = 'Ce tableau présente les heures de passages en émission intempestifs ou suspects, d\'une durée de moins de 3 secondes sur le nœud sélectionné.';
