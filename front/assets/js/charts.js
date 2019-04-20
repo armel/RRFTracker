@@ -390,7 +390,16 @@
                     .enter()
                     .append('td')
                     .html(function (d, i) {
-                    if (i === 4) {
+                    url = window.location.href;
+                    if (d.value === 'RRF') {
+                        url = url.replace('RRF-', 'TEC-')
+                        return '<a href="' + url + '">' + d.value + '</a>';
+                    }
+                    else if (d.value === 'TEC') {
+                        url = url.replace('TEC-', 'RRF-')
+                        return '<a href="' + url + '">' + d.value + '</a>';
+                    }
+                    else if (i === 4) {
                         return '<a onClick="sessionStorage.setItem(\'node_extended\', \'' +  'Node' + '\'); window.location.reload()">' + d.value + '</a>';
                     } else {
                         return d.value;

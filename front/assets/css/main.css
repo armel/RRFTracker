@@ -119,15 +119,15 @@ table tr:hover {
 }
 
 a {
-    color: #999;
+    color: steelblue;
+    font-weight: bold;
     text-decoration: none;
 }
 
 a:hover {
-    color: #000;
+    color: steelblue;
     cursor: pointer;
 }
-
 
 @media (min-width: 1024px) {
     .axis {
