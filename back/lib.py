@@ -304,7 +304,7 @@ def log_node_list(log_path_day):
 
 # Log special
 def log_porteuse(log_path_day, type):
-    tmp = sorted(s.node.items(), key=lambda x: x[1])
+    tmp = sorted(s.porteuse.items(), key=lambda x: x[1])
     tmp.reverse()
 
     data = '[\n'
