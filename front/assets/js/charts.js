@@ -24,7 +24,7 @@
 
     var inter = setInterval(function() {
         generateD3Charts(false);
-    }, 1000);
+    }, 750);
 
     var old_abstract = '';
     var old_best = '';
@@ -402,7 +402,11 @@
                     else if (i === 4) {
                         return '<a onClick="sessionStorage.setItem(\'node_extended\', \'' +  'Node' + '\'); window.location.reload()">' + d.value + '</a>';
                     } else {
-                        return d.value;
+                        if (i > 4) {
+                            return d.value.replace(/, /g, '<br/>');
+                        } else {
+                            return d.value;
+                        }
                     }
                     });
 
@@ -410,7 +414,7 @@
             }
 
             // Render the table(s)
-            tabulate(data, ['Salon', 'TX total', 'Emission cumulée', 'Nœuds actifs', 'Nœuds connectés']); // 5 columns table
+            tabulate(data, ['Salon', 'TX total', 'Emission cumulée', 'Nœuds actifs', 'Nœuds connectés', 'Nœuds entrants', 'Nœuds sortants']); // 5 columns table
             d3.select(containerSelector).append('span').text(containerLegend);
         });
 

@@ -10,7 +10,7 @@ Check video about RRFTracker on https://www.youtube.com/watch?v=rVW8xczVpEo
 
 # Version
 
-version = '1.4.3'
+version = '1.4.4'
 
 # Default room and path
 
@@ -30,7 +30,11 @@ qso_hour = [0] * 24		# QSO list for histogramm
 node_count = 0			# Node count
 node_count_max = 0		# Node count max
 node_count_min = 10**4	# Node count min
+
 node_list = []			# Node list
+node_list_old = []		# Node list
+node_list_in = []		# Node list in
+node_list_out = []		# Node list out
 
 day_duration = 0		# Total emission time
 

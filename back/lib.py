@@ -8,6 +8,7 @@ Check video about RRFTracker on https://www.youtube.com/watch?v=rVW8xczVpEo
 73 & 88 de F4HWN Armel
 '''
 
+import settings as s
 import os
 import datetime
 import locale
@@ -64,29 +65,29 @@ def save_stat_porteuse(history, call, duration=0):
     return history
 
 # Log write for history
-def log_write(log_path, day, room, qso_hour, node, node_list, porteuse, call, call_date, call_time, node_count, node_count_max, node_count_min, duration, call_current, tot):
+def log_write():
 
-    log_path_day = log_path + '/' + room + '-' + day
+    log_path_day = s.log_path + '/' + s.room + '-' + s.day
 
     if not os.path.exists(log_path_day):
         os.makedirs(log_path_day)
         os.popen('cp /opt/RRFTracker_Web/front/index.html ' + log_path_day + '/index.html')
-        os.popen('ln -sfn ' + log_path_day + ' ' + log_path + '/' + room + '-today')
+        os.popen('ln -sfn ' + log_path_day + ' ' + s.log_path + '/' + s.room + '-today')
 
-    log_transmit(log_path_day, call_current, tot)
-    log_abstract(log_path_day, room, qso_hour, node, node_count, node_count_max, node_count_min, duration)
-    log_history(log_path_day, qso_hour)
-    log_last(log_path_day, call, call_date, call_time)
-    log_node(log_path_day, node, 'best')
-    log_node(log_path_day, node, 'all')
-    log_node_list(log_path_day, node_list)
-    log_porteuse(log_path_day, porteuse, 'porteuse')
-    log_porteuse(log_path_day, porteuse, 'porteuse_extended')
+    log_transmit(log_path_day)
+    log_abstract(log_path_day)
+    log_history(log_path_day)
+    log_last(log_path_day)
+    log_node(log_path_day, 'best')
+    log_node(log_path_day, 'all')
+    log_node_list(log_path_day)
+    log_porteuse(log_path_day, 'porteuse')
+    log_porteuse(log_path_day, 'porteuse_extended')
 
     return 0
 
 # Log abstract
-def log_abstract(log_path, room, qso_hour, history, node, node_max, node_min, tx):
+def log_abstract(log_path_day):
 
     data = '[\n'
 
@@ -96,14 +97,28 @@ def log_abstract(log_path, room, qso_hour, history, node, node_max, node_min, tx
     now = tmp.strftime(' du %A %d/%m/%Y à %H:%M')
 
     data += '{\n'
-    data += '\t"Salon": "' + room + '",\n'
+    data += '\t"Salon": "' + s.room + '",\n'
     data += '\t"Date": "' + now + '",\n'
-    data += '\t"TX total": ' + str(sum(qso_hour)) + ',\n'
-    data += '\t"Emission cumulée": "' + convert_time(tx) + '",\n'
-    data += '\t"Nœuds actifs": ' + str(len(history)) + ',\n'
-    data += '\t"Nœuds connectés": ' + str(node) + ',\n'
-    data += '\t"Nœuds max": ' + str(node_max) + ',\n'
-    data += '\t"Nœuds min": ' + str(node_min) + '\n'
+    data += '\t"TX total": ' + str(sum(s.qso_hour)) + ',\n'
+    data += '\t"Emission cumulée": "' + convert_time(s.day_duration) + '",\n'
+    data += '\t"Nœuds actifs": ' + str(len(s.node)) + ',\n'
+    data += '\t"Nœuds connectés": ' + str(s.node_count) + ',\n'
+
+    tmp = ''
+    for n in s.node_list_in:
+        tmp += str(n) + ', '
+    tmp = tmp[:-2]
+
+    data += '\t"Nœuds entrants": "' + tmp + '",\n'
+
+    tmp = ''
+    for n in s.node_list_out:
+        tmp += str(n) + ', '
+    tmp = tmp[:-2]
+
+    data += '\t"Nœuds sortants": "' + tmp + '",\n'
+    data += '\t"Nœuds max": ' + str(s.node_count_max) + ',\n'
+    data += '\t"Nœuds min": ' + str(s.node_count_min) + '\n'
     data += '},\n'
 
     data += ']\n'
@@ -111,27 +126,26 @@ def log_abstract(log_path, room, qso_hour, history, node, node_max, node_min, tx
     last = data.rfind(',')
     data = data[:last] + '' + data[last + 1:]
 
-    file = open(log_path + '/' + 'abstract.json', 'w')
+    file = open(log_path_day + '/' + 'abstract.json', 'w')
     file.write(data)
     file.close()
 
     return 0
 
 # Log transmit
-def log_transmit(log_path, call_current, tot):
+def log_transmit(log_path_day):
 
-    if tot == 0:
-        call_current = ''
+    if s.duration == 0:
+        s.call_current = ''
 
-    if call_current == '':
-        call_current = 'Waiting TX'
-        tot = 0
+    if s.call_current == '':
+        s.duration = 0
 
     data = '[\n'
 
     data += '{\n'
-    data += '\t"Indicatif": "' + call_current + '",\n'
-    data += '\t"TOT": ' + str(tot) + '\n'
+    data += '\t"Indicatif": "' + s.call_current + '",\n'
+    data += '\t"TOT": ' + str(s.duration) + '\n'
     data += '},\n'
 
     data += ']\n'
@@ -139,14 +153,14 @@ def log_transmit(log_path, call_current, tot):
     last = data.rfind(',')
     data = data[:last] + '' + data[last + 1:]
 
-    file = open(log_path + '/' + 'transmit.json', 'w')
+    file = open(log_path_day + '/' + 'transmit.json', 'w')
     file.write(data)
     file.close()
 
     return 0
 
 # Log history
-def log_history(log_path, qso_hour):
+def log_history(log_path_day):
 
     data = '[\n'
 
@@ -155,7 +169,7 @@ def log_history(log_path, qso_hour):
 
         x = str('{:0>2d}'.format(int(i)))
         y = str('{:0>2d}'.format(int(l)))
-        z = str(qso_hour[i])
+        z = str(s.qso_hour[i])
 
         x += 'h - ' + y + 'h'
 
@@ -174,24 +188,24 @@ def log_history(log_path, qso_hour):
     last = data.rfind(',')
     data = data[:last] + '' + data[last + 1:]
 
-    file = open(log_path + '/' + 'activity.json', 'w')
+    file = open(log_path_day + '/' + 'activity.json', 'w')
     file.write(data)
     file.close()
 
     return 0
 
 # Log last
-def log_last(log_path, call, call_date, call_time):
+def log_last(log_path_day):
 
     data = '[\n'
 
     for i in xrange(0, 10):
-        if call_date[i] == '':
+        if s.call_date[i] == '':
             break
         data += '{\n'
-        data += '\t"Date": "' + call_date[i] + '",\n'
-        data += '\t"Indicatif": "' + call[i] + '",\n'
-        data += '\t"Durée": "' + convert_time(call_time[i]) + '"\n'
+        data += '\t"Date": "' + s.call_date[i] + '",\n'
+        data += '\t"Indicatif": "' + s.call[i] + '",\n'
+        data += '\t"Durée": "' + convert_time(s.call_time[i]) + '"\n'
         data += '},\n'
 
     data += ']\n'
@@ -199,15 +213,15 @@ def log_last(log_path, call, call_date, call_time):
     last = data.rfind(',')
     data = data[:last] + '' + data[last + 1:]
 
-    file = open(log_path + '/' + 'last.json', 'w')
+    file = open(log_path_day + '/' + 'last.json', 'w')
     file.write(data)
     file.close()
 
     return 0
 
 # Log node
-def log_node(log_path, node, type):
-    tmp = sorted(node.items(), key=lambda x: x[1])
+def log_node(log_path_day, type):
+    tmp = sorted(s.node.items(), key=lambda x: x[1])
     tmp.reverse()
 
     if type == 'best':
@@ -237,21 +251,21 @@ def log_node(log_path, node, type):
     last = data.rfind(',')
     data = data[:last] + '' + data[last + 1:]
 
-    file = open(log_path + '/' + type + '.json', 'w')
+    file = open(log_path_day + '/' + type + '.json', 'w')
     file.write(data)
     file.close()
 
     return 0
 
 # Log node list
-def log_node_list(log_path, node_list):
+def log_node_list(log_path_day):
 
     data = '[\n'
 
     width = 4
 
     tmp = []
-    for n in node_list:
+    for n in s.node_list:
         tmp.append(n)
     node_list = sorted(tmp)
 
@@ -282,15 +296,15 @@ def log_node_list(log_path, node_list):
     last = data.rfind(',')
     data = data[:last] + '' + data[last + 1:]
 
-    file = open(log_path + '/' + 'node_extended.json', 'w')
+    file = open(log_path_day + '/' + 'node_extended.json', 'w')
     file.write(data)
     file.close()
 
     return 0
 
 # Log special
-def log_porteuse(log_path, node, type):
-    tmp = sorted(node.items(), key=lambda x: x[1])
+def log_porteuse(log_path_day, type):
+    tmp = sorted(s.porteuse.items(), key=lambda x: x[1])
     tmp.reverse()
 
     data = '[\n'
@@ -310,10 +324,12 @@ def log_porteuse(log_path, node, type):
             data += '\t"Pos": "' + str('{:0>3d}'.format(int(p))) + '",\n'
             data += '\t"Indicatif": "' + c + '",\n'
             data += '\t"TX": ' + str(t[0]) + ',\n'
+
             tmp = ''
             for e in t[1:]:
                 tmp += str(e) + ', '
             tmp = tmp[:-2]
+
             data += '\t"Date": "' + str(tmp) + '"\n'
         data += '},\n'
 
@@ -324,7 +340,7 @@ def log_porteuse(log_path, node, type):
     last = data.rfind(',')
     data = data[:last] + '' + data[last + 1:]
 
-    file = open(log_path + '/' + type + '.json', 'w')
+    file = open(log_path_day + '/' + type + '.json', 'w')
     file.write(data)
     file.close()
 
