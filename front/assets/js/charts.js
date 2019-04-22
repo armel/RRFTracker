@@ -1,14 +1,36 @@
 ;
 (function() {
-    function getQueryVariable(variable)
-    {
-           var query = window.location.search.substring(1);
-           var vars = query.split("&");
-           for (var i=0;i<vars.length;i++) {
-                   var pair = vars[i].split("=");
-                   if(pair[0] == variable){return pair[1];}
-           }
-           return(false);
+    function getQueryVariable(variable) {
+        var query = window.location.search.substring(1);
+        var vars = query.split("&");
+        for (var i = 0; i < vars.length; i++) {
+            var pair = vars[i].split("=");
+            if (pair[0] == variable) {
+                return pair[1];
+            }
+        }
+        return (false);
+    }
+
+    // Returns a flattened hierarchy containing all leaf nodes under the root.
+    function classes(data) {
+        var classes = [];
+
+        function recurse(name, node) {
+            if (node.children) node.children.forEach(function(child) {
+                recurse(node.name, child);
+            });
+            else classes.push({
+                packageName: name,
+                className: node.Indicatif,
+                value: node.TX
+            });
+        }
+
+        recurse(null, data);
+        return {
+            children: classes
+        };
     }
 
     let generateChartTimeout = null;
@@ -30,6 +52,7 @@
     var old_best = '';
     var old_activity = '';
     var old_last = '';
+    var old_bubble = '';
     var old_all = '';
     var old_porteuse = '';
     var old_porteuse_extended = '';
@@ -42,6 +65,7 @@
             old_best = '';
             old_activity = '';
             old_last = '';
+            old_bubble = '';
             old_all = '';
             old_porteuse = '';
             old_porteuse_extended = '';
@@ -123,8 +147,7 @@
         d3.json('activity.json', function(error, data) {
             if (old_activity !== JSON.stringify(data)) {
                 old_activity = JSON.stringify(data);
-            }
-            else {
+            } else {
                 return 0;
             }
 
@@ -232,8 +255,7 @@
         d3.json('best.json', function(error, data) {
             if (old_best !== JSON.stringify(data)) {
                 old_best = JSON.stringify(data);
-            }
-            else {
+            } else {
                 return 0;
             }
 
@@ -336,19 +358,123 @@
             d3.select(containerSelector).append('span').text(containerLegend);
         });
 
+        // All
+        // Load the data
+
+        d3.json('all.json', function(error, data) {
+            if (old_bubble !== JSON.stringify(data)) {
+                old_bubble = JSON.stringify(data);
+            } else {
+                return 0;
+            }
+
+            console.log("bubble redraw");
+
+            var diameter = width + margin.left + margin.right,
+                format = d3.format(',d')
+            color = d3.scale.category20c();
+
+            var bubble = d3.layout.pack()
+                .sort(null)
+                .size([diameter, diameter])
+                .padding(1);
+
+            const containerSelector = '.all-bubble';
+            const containerTitle = 'Classement des nœuds actifs par durée cumulée en émission';
+            const containerLegend = 'Ce graph présente le classement par durée cumulée en émission, des nœuds actifs dans la journée.';
+
+            d3.select(containerSelector).html('');
+            d3.select(containerSelector).append('h2').text(containerTitle);
+
+            const svg = d3.select(containerSelector)
+                .append('svg')
+                .attr('width', diameter)
+                .attr('height', diameter);
+
+            tmp = '{' +
+                '"children":' + JSON.stringify(data) +
+                '}';
+
+            data = JSON.parse(tmp)
+
+            var color = 'steelblue';
+
+            data.children.forEach(function(d) {
+                a = d.Durée;
+                b = a.split(':');
+                if (b.length === 3) {
+                    s = (+b[0]) * 60 * 60 + (+b[1]) * 60 + (+b[2]); 
+                }
+                else {
+                    s = (+b[0]) * 60 + (+b[1]); 
+                }
+                d.TX = s;
+            });
+
+            var yMax = d3.max(data.children, function(d) {
+                return d.TX;
+            });
+            var yMin = d3.min(data.children, function(d) {
+                return d.TX;
+            });
+
+            console.log(yMin);
+
+            var colorScale = d3.scale.linear()
+                .domain([yMin, yMax])
+                .range([d3.rgb(color).brighter(), d3.rgb(color).darker()]);
+
+            var node = svg.selectAll('.node')
+                .data(bubble.nodes(classes(data))
+                    .filter(function(d) {
+                        return !d.children;
+                    }))
+                .enter().append('g')
+                .attr('class', 'node')
+                .attr('transform', function(d) {
+                    return 'translate(' + d.x + ',' + d.y + ')';
+                });
+
+            node.append('circle')
+                .attr('r', function(d) {
+                    return (d.r);
+                })
+                //.style('fill', function(d) { return color; })
+                .style('fill', function(d) {
+                    return colorScale(d.value);
+                });
+
+            node.append('text')
+                .attr('class', 'value')
+                .attr('dy', '.3em')
+                .style('fill', 'white')
+                .style('font-family', 'Arial, Helvetica, sans-serif')
+                .style('font-size', function(d) {
+                    return (d.r) / 4 + 'px';
+                })
+                .style('text-anchor', 'middle')
+                .style('pointer-events', 'none')
+                .text(function(d) {
+                    return d.className;
+                });
+
+            d3.select(self.frameElement).style('height', diameter + 'px');
+            d3.select(containerSelector).append('span').text(containerLegend);
+
+        });
+
         // Abstract
         // Load the data
         d3.json('abstract.json', function(error, data) {
             if (old_abstract !== JSON.stringify(data)) {
                 old_abstract = JSON.stringify(data);
-            }
-            else {
+            } else {
                 return 0;
             }
 
             console.log("abstract redraw");
 
-            const containerSelector = '.abstract-graph';
+            const containerSelector = '.abstract-table';
             const containerTitle = 'Résumé de la journée' + data[0].Date;
             const containerLegend = 'Ce tableau présente le résumé de l\'activité du salon dans la journée: nombre de passages en émission total, durée cumulée en émission, nombre de nœuds actifs et connectés.';
 
@@ -357,8 +483,8 @@
                 d3.select(containerSelector).append('h2').text(containerTitle);
 
                 const table = d3.select(containerSelector)
-                                            .append('table')
-                                            .attr('width', width + margin.left + margin.right + 'px');
+                    .append('table')
+                    .attr('width', width + margin.left + margin.right + 'px');
                 const thead = table.append('thead');
                 const tbody = table.append('tbody');
 
@@ -389,25 +515,23 @@
                     })
                     .enter()
                     .append('td')
-                    .html(function (d, i) {
-                    url = window.location.href;
-                    if (d.value === 'RRF') {
-                        url = url.replace('RRF-', 'TEC-')
-                        return '<a href="' + url + '">' + d.value + '</a>';
-                    }
-                    else if (d.value === 'TEC') {
-                        url = url.replace('TEC-', 'RRF-')
-                        return '<a href="' + url + '">' + d.value + '</a>';
-                    }
-                    else if (i === 4) {
-                        return '<a onClick="sessionStorage.setItem(\'node_extended\', \'' +  'Node' + '\'); window.location.reload()">' + d.value + '</a>';
-                    } else {
-                        if (i > 4) {
-                            return d.value.replace(/, /g, '<br/>');
+                    .html(function(d, i) {
+                        url = window.location.href;
+                        if (d.value === 'RRF') {
+                            url = url.replace('RRF-', 'TEC-')
+                            return '<a href="' + url + '">' + d.value + '</a>';
+                        } else if (d.value === 'TEC') {
+                            url = url.replace('TEC-', 'RRF-')
+                            return '<a href="' + url + '">' + d.value + '</a>';
+                        } else if (i === 4) {
+                            return '<a onClick="sessionStorage.setItem(\'node_extended\', \'' + 'Node' + '\'); window.location.reload()">' + d.value + '</a>';
                         } else {
-                            return d.value;
+                            if (i > 4) {
+                                return d.value.replace(/, /g, '<br/>');
+                            } else {
+                                return d.value;
+                            }
                         }
-                    }
                     });
 
                 return table;
@@ -423,14 +547,13 @@
         d3.json('last.json', function(error, data) {
             if (old_last !== JSON.stringify(data)) {
                 old_last = JSON.stringify(data);
-            }
-            else {
+            } else {
                 return 0;
             }
 
             console.log("last redraw");
 
-            const containerSelector = '.last-graph';
+            const containerSelector = '.last-table';
             const containerTitle = 'Derniers passages en émission';
             const containerLegend = 'Ce tableau présente la liste des 10 derniers passages en émission: horodatage, indicatif du nœud et durée en émission.';
 
@@ -439,8 +562,8 @@
                 d3.select(containerSelector).append('h2').text(containerTitle);
 
                 var table = d3.select(containerSelector)
-                                        .append('table')
-                                        .attr('width', width + margin.left + margin.right + 'px');
+                    .append('table')
+                    .attr('width', width + margin.left + margin.right + 'px');
 
                 var thead = table.append('thead');
                 var tbody = table.append('tbody');
@@ -489,15 +612,14 @@
         d3.json('all.json', function(error, data) {
             if (old_all !== JSON.stringify(data)) {
                 old_all = JSON.stringify(data);
-            }
-            else {
+            } else {
                 return 0;
             }
 
             console.log("all redraw");
 
-            const containerSelector = '.all-graph';
-            const containerTitle = 'Classement des nœuds actifs';
+            const containerSelector = '.all-table';
+            const containerTitle = 'Classement des nœuds actifs par TX';
             const containerLegend = 'Ce tableau présente le classement complet des nœuds étant passés en émission dans la journée: position, indicatif du nœud, nombre de passages et durée cumulée en émission.';
 
             function tabulate(data, columns) {
@@ -505,8 +627,8 @@
                 d3.select(containerSelector).append('h2').text(containerTitle);
 
                 var table = d3.select(containerSelector)
-                                        .append('table')
-                                        .attr('width', width + margin.left + margin.right + 'px');
+                    .append('table')
+                    .attr('width', width + margin.left + margin.right + 'px');
 
                 var thead = table.append('thead');
                 var tbody = table.append('tbody');
@@ -555,14 +677,13 @@
         d3.json('porteuse.json', function(error, data) {
             if (old_porteuse !== JSON.stringify(data)) {
                 old_porteuse = JSON.stringify(data);
-            }
-            else {
+            } else {
                 return 0;
             }
 
             console.log("porteuse redraw");
 
-            const containerSelector = '.porteuse-graph';
+            const containerSelector = '.porteuse-table';
             const containerTitle = 'Déclenchements intempestifs';
             const containerLegend = 'Ce tableau présente le classement complet des nœuds ayant fait l\'objet de passages en émission intempestifs ou suspects, d\'une durée de moins de 3 secondes: position, indicatif du nœud et nombre de passages en émission.';
 
@@ -573,8 +694,8 @@
                     d3.select(containerSelector).append('h2').text(containerTitle);
 
                     var table = d3.select(containerSelector)
-                                            .append('table')
-                                            .attr('width', width + margin.left + margin.right + 'px');
+                        .append('table')
+                        .attr('width', width + margin.left + margin.right + 'px');
 
                     var thead = table.append('thead');
                     var tbody = table.append('tbody');
@@ -607,12 +728,12 @@
                         })
                         .enter()
                         .append('td')
-                        .html(function (d, i) {
-                        if (i === 0) {
-                            return '<a onClick="sessionStorage.setItem(\'porteuse_extended\', \'' +  d.id + '\'); window.location.reload()">' + d.value + '</a>';
-                        } else {
-                            return d.value;
-                        }
+                        .html(function(d, i) {
+                            if (i === 0) {
+                                return '<a onClick="sessionStorage.setItem(\'porteuse_extended\', \'' + d.id + '\'); window.location.reload()">' + d.value + '</a>';
+                            } else {
+                                return d.value;
+                            }
                         });
 
                     return table;
@@ -633,8 +754,7 @@
             d3.json('porteuse_extended.json', function(error, data) {
                 if (old_porteuse_extended !== JSON.stringify(data)) {
                     old_porteuse_extended = JSON.stringify(data);
-                }
-                else {
+                } else {
                     return 0;
                 }
 
@@ -662,8 +782,7 @@
                             .text(function(column) {
                                 if (column === 'Date') {
                                     return 'Heure';
-                                }
-                                else {
+                                } else {
                                     return column;
                                 }
                             });
@@ -686,12 +805,12 @@
                             })
                             .enter()
                             .append('td')
-                            .html(function (d, i) {
-                            if (i === 1) {
-                                return d.value.replace(/, /g, '<br/>');
-                            } else {
-                                return d.value;
-                            }
+                            .html(function(d, i) {
+                                if (i === 1) {
+                                    return d.value.replace(/, /g, '<br/>');
+                                } else {
+                                    return d.value;
+                                }
                             });
 
                         return table;
@@ -713,8 +832,7 @@
             d3.json('node_extended.json', function(error, data) {
                 if (old_node_extended !== JSON.stringify(data)) {
                     old_node_extended = JSON.stringify(data);
-                }
-                else {
+                } else {
                     return 0;
                 }
 
