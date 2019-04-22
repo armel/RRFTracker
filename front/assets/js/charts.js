@@ -112,6 +112,8 @@
                 Indicatif = data[0].Indicatif;
             }
 
+            sessionStorage.setItem('Indicatif', Indicatif);
+
             if (TOT == 0) {
                 title = 'Aucune émission';
             } else {
@@ -370,6 +372,8 @@
 
             console.log("bubble redraw");
 
+            Indicatif = sessionStorage.getItem('Indicatif');
+
             var diameter = width + margin.left + margin.right,
                 format = d3.format(',d')
             color = d3.scale.category20c();
@@ -418,7 +422,11 @@
                 return d.TX;
             });
 
-            console.log(yMin);
+            data.children.forEach(function(d) {
+                if (d.Indicatif === Indicatif) {
+                    d.TX = yMax;
+                }
+            });
 
             var colorScale = d3.scale.linear()
                 .domain([yMin, yMax])
@@ -441,13 +449,21 @@
                 })
                 //.style('fill', function(d) { return color; })
                 .style('fill', function(d) {
+                    if (d.className === Indicatif) {
+                        return 'lightslategray';
+                    }
                     return colorScale(d.value);
                 });
 
             node.append('text')
                 .attr('class', 'value')
                 .attr('dy', '.3em')
-                .style('fill', 'white')
+                .style('fill', function(d) {
+                    if (d.className === Indicatif) {
+                        return 'white';
+                    }
+                    return 'white';
+                })
                 .style('font-family', 'Arial, Helvetica, sans-serif')
                 .style('font-size', function(d) {
                     return (d.r) / 4 + 'px';
@@ -553,6 +569,8 @@
 
             console.log("last redraw");
 
+            Indicatif = sessionStorage.getItem('Indicatif');
+
             const containerSelector = '.last-table';
             const containerTitle = 'Derniers passages en émission';
             const containerLegend = 'Ce tableau présente la liste des 10 derniers passages en émission: horodatage, indicatif du nœud et durée en émission.';
@@ -598,7 +616,7 @@
                     .text(function(d) {
                         return d.value;
                     });
-
+                    
                 return table;
             }
 
