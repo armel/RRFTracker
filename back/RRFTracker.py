@@ -54,6 +54,14 @@ def main(argv):
     if not os.path.exists(s.log_path + '/assets'):
         os.popen('cp -a /opt/RRFTracker_Web/front/assets ' + s.log_path)
 
+    # Create geolocalisation list
+
+    data = [line.strip() for line in open('../data/wgs84.dat')]
+
+    for line in data:
+        tmp = line.split(' ')
+        s.geolocalisation[tmp[0]] = tmp[1] + ' ' + tmp[2]
+
     # Boucle principale
     while(True):
 

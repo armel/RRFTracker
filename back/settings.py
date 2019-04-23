@@ -43,6 +43,7 @@ porteuse = dict()    	# Porteuse dict
 
 transmit = True			# Detect transmit
 stat_save = False		# If False, stat need to be save
+geolocalisation = {}	# Geolocalisation
 
 # Set time and date
 

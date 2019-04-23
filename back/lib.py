@@ -141,10 +141,22 @@ def log_transmit(log_path_day):
     if s.call_current == '':
         s.duration = 0
 
+    latitude = 0
+    longitude = 0
+
+    if s.call_current != '':
+        tmp = s.call_current.split(' ')
+        if(tmp[1] in s.geolocalisation):
+            tmp = s.geolocalisation[tmp[1]].split(' ')
+            latitude = tmp[0]
+            longitude = tmp[1]
+
     data = '[\n'
 
     data += '{\n'
     data += '\t"Indicatif": "' + s.call_current + '",\n'
+    data += '\t"Latitude": ' + str(latitude) + ',\n'
+    data += '\t"Longitude": ' + str(longitude) + ',\n'
     data += '\t"TOT": ' + str(s.duration) + '\n'
     data += '},\n'
 
