@@ -101,7 +101,7 @@ table {
 }
 
 table thead th {
-    background-color: dimgray;
+    background-color: slategray;
     color: #fff;
     border: solid 1px #000;
     padding: 5px;

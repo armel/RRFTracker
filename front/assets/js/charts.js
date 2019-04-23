@@ -12,6 +12,51 @@
         return (false);
     }
 
+    function computeDistance(latitude_1, longitude_1) {
+        if (sessionStorage.getItem("Latitude") === null) {
+            return 0
+        }
+
+        latitude_2 = parseFloat(sessionStorage.getItem('Latitude'));
+        longitude_2 = parseFloat(sessionStorage.getItem('Longitude'));
+
+        p = 0.017453292519943295 // Approximation Pi/180
+        a = 0.5 - Math.cos((latitude_2 - latitude_1) * p) / 2 + Math.cos(latitude_1 * p) * Math.cos(latitude_2 * p) * (1 - Math.cos((longitude_2 - longitude_1) * p)) / 2
+        r = (12742 * Math.asin(Math.sqrt(a)))
+        if (r < 100) {
+            r = Math.round((12742 * Math.asin(Math.sqrt(a))), 1)
+        }
+        else {
+            r = Math.ceil(12742 * Math.asin(Math.sqrt(a)))
+        }
+
+        return r;
+    }
+
+    function ipLookUp () {
+        $.ajax('http://ip-api.com/json')
+        .then(
+            function success(response) {
+                sessionStorage.removeItem('Latitude');
+                sessionStorage.setItem('Latitude', response.lat);
+                sessionStorage.removeItem('Longitude');
+                sessionStorage.setItem('Longitude', response.lon);
+            },
+            function fail(data, status) {
+                sessionStorage.removeItem('Latitude');
+                sessionStorage.removeItem('Longitude');
+              // console.log('Request failed.  Returned status of', status);
+            }
+        );
+    }
+
+    ipLookUp();
+
+    if (sessionStorage.getItem('Latitude')) {
+        console.log('Latitude', sessionStorage.getItem('Latitude'));
+        console.log('Longitude', sessionStorage.getItem('Longitude'));
+    }
+
     // Returns a flattened hierarchy containing all leaf nodes under the root.
     function classes(data) {
         var classes = [];
@@ -106,10 +151,19 @@
 
             var TOT = 0;
             var Indicatif = '';
+            var Latitude = 0;
+            var Longitude = 0;
+            var Distance = 0;
 
             if (data !== undefined) {
                 TOT = data[0].TOT;
                 Indicatif = data[0].Indicatif;
+                Latitude = parseFloat(data[0].Latitude);
+                Longitude = parseFloat(data[0].Longitude);
+            }
+
+            if (Latitude !== 0) {
+                Distance = computeDistance(Latitude, Longitude);
             }
 
             sessionStorage.setItem('Indicatif', Indicatif);
@@ -117,7 +171,11 @@
             if (TOT == 0) {
                 title = 'Aucune émission';
             } else {
-                title = Indicatif + ' en émission';
+                // title = Indicatif + ' en émission';
+                title = Indicatif;
+                if (Distance !== 0) {
+                    title += ' (~ ' + Distance + ' Km)';
+                }
             }
 
             const containerTitle = title;
