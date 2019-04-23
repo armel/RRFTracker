@@ -171,15 +171,18 @@
             if (TOT == 0) {
                 title = 'Aucune émission';
             } else {
-                // title = Indicatif + ' en émission';
+                //title = Indicatif + ' en émission';
                 title = Indicatif;
                 if (Distance !== 0) {
                     title += ' (~ ' + Distance + ' Km)';
                 }
+                else {
+                    title += ' en émission';
+                }
             }
 
             const containerTitle = title;
-            const containerLegend = 'Affiche l\'indicatif du nœud en cours d\'émission ainsi que la durée de passage en émission.';
+            const containerLegend = 'Affiche l\'indicatif du nœud en cours d\'émission, la distance approximative de ce nœud, ainsi que la durée de passage en émission.';
 
             d3.select(containerSelector).html('');
             d3.select(containerSelector).append('h2').text(containerTitle);
