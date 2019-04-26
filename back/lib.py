@@ -414,13 +414,8 @@ def log_news(log_path_day):
             if search_stop != search_start:
                 message += page[search_start:search_stop] + ' en émission sur le salon ' + k + '. '
 
-    tmp = message
-    if tmp != '':
-        while len(tmp) <= 128:
-            tmp += message
-            # message += 'Bon QSO à toutes et à tous et merci de faire des blancs. '
-
-    message = tmp
+    if message == '':
+        message = 'Faites des blancs, merci !'
 
     data = '[\n'
 

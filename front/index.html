@@ -15,7 +15,7 @@
     <div class="columns">
         <div>
             <div class="graph-container abstract-table"></div>
-            <div class="graph-container news-graph"></div>
+            <div class="marquee">Waiting for news</div>
             <div class="graph-container activity-graph"></div>
             <div class="graph-container best-graph"></div>
             <div class="graph-container all-bubble"></div>
@@ -39,6 +39,16 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flipclock/0.7.8/flipclock.min.js"></script>
     <script src="../assets/js/charts.js"></script>
+
+    <script>
+        $('.marquee')
+            .bind('finished', function() {
+                $(this).html(sessionStorage.getItem('news'))
+                // Apply marquee plugin again
+                .marquee({duration: 5000, direction: 'left', pauseOnHover: 'true'})
+        })
+        .marquee({duration: 5000, direction: 'left', pauseOnHover: 'true'});
+    </script>
 
 </body>
 </html>

@@ -50,13 +50,6 @@
         );
     }
 
-    ipLookUp();
-
-    if (sessionStorage.getItem('Latitude')) {
-        console.log('Latitude', sessionStorage.getItem('Latitude'));
-        console.log('Longitude', sessionStorage.getItem('Longitude'));
-    }
-
     // Returns a flattened hierarchy containing all leaf nodes under the root.
     function classes(data) {
         var classes = [];
@@ -77,6 +70,17 @@
             children: classes
         };
     }
+
+    // Initialise IP Geoloc
+
+    ipLookUp();
+
+    if (sessionStorage.getItem('Latitude')) {
+        console.log('Latitude', sessionStorage.getItem('Latitude'));
+        console.log('Longitude', sessionStorage.getItem('Longitude'));
+    }
+
+    // And continue...
 
     let generateChartTimeout = null;
 
@@ -618,9 +622,7 @@
             // Render the table(s)
             tabulate(data, ['Salon', 'TX total', 'Emission cumulée', 'Nœuds actifs', 'Nœuds connectés']); // 5 columns table
         });
-
-        // News
-        // Load the data
+ 
         d3.json('news.json', function(error, data) {
             if (old_news !== JSON.stringify(data)) {
                 old_news = JSON.stringify(data);
@@ -628,24 +630,7 @@
                 return 0;
             }
 
-            console.log("news redraw");
-
-            var message = data[0].Message;
-
-            console.log(data);
-
-            const containerSelector = '.news-graph';
-            const containerLegend = 'Ce tableau présente le résumé de l\'activité du salon dans la journée: nombre de passages en émission total, durée cumulée en émission, nombre de nœuds actifs et connectés.';
-
-            d3.select(containerSelector).html('');
-            d3.select(containerSelector)
-                    .append('div')
-                    .attr('class', 'marquee');
-
-            d3.select('.marquee').text(message);
-            d3.select(containerSelector).append('span').text(containerLegend);
-
-            $('.marquee').marquee({duration: 8000, direction: 'left', duplicated: 'true', pauseOnHover: 'true'});
+            sessionStorage.setItem('news', data[0].Message);
         });
 
         // Last
