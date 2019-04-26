@@ -94,6 +94,7 @@
     }, 750);
 
     var old_abstract = '';
+    var old_news = '';
     var old_best = '';
     var old_activity = '';
     var old_last = '';
@@ -107,6 +108,7 @@
         if (redraw === true) {
             console.log("rezise");
             old_abstract = '';
+            old_news = '';
             old_best = '';
             old_activity = '';
             old_last = '';
@@ -553,7 +555,6 @@
 
             const containerSelector = '.abstract-table';
             const containerTitle = 'Résumé de la journée' + data[0].Date;
-            const containerLegend = 'Ce tableau présente le résumé de l\'activité du salon dans la journée: nombre de passages en émission total, durée cumulée en émission, nombre de nœuds actifs et connectés.';
 
             function tabulate(data, columns) {
                 d3.select(containerSelector).html('');
@@ -615,8 +616,36 @@
             }
 
             // Render the table(s)
-            tabulate(data, ['Salon', 'TX total', 'Emission cumulée', 'Nœuds actifs', 'Nœuds connectés', 'Nœuds entrants', 'Nœuds sortants']); // 5 columns table
+            tabulate(data, ['Salon', 'TX total', 'Emission cumulée', 'Nœuds actifs', 'Nœuds connectés']); // 5 columns table
+        });
+
+        // News
+        // Load the data
+        d3.json('news.json', function(error, data) {
+            if (old_news !== JSON.stringify(data)) {
+                old_news = JSON.stringify(data);
+            } else {
+                return 0;
+            }
+
+            console.log("news redraw");
+
+            var message = data[0].Message;
+
+            console.log(data);
+
+            const containerSelector = '.news-graph';
+            const containerLegend = 'Ce tableau présente le résumé de l\'activité du salon dans la journée: nombre de passages en émission total, durée cumulée en émission, nombre de nœuds actifs et connectés.';
+
+            d3.select(containerSelector).html('');
+            d3.select(containerSelector)
+                    .append('div')
+                    .attr('class', 'marquee');
+
+            d3.select('.marquee').text(message);
             d3.select(containerSelector).append('span').text(containerLegend);
+
+            $('.marquee').marquee({duration: 8000, direction: 'left', duplicated: 'true', pauseOnHover: 'true'});
         });
 
         // Last

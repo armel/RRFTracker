@@ -10,7 +10,7 @@ Check video about RRFTracker on https://www.youtube.com/watch?v=rVW8xczVpEo
 
 # Version
 
-version = '1.5.1'
+version = '1.6.0'
 
 # Default room and path
 
@@ -54,3 +54,10 @@ minute = ''
 seconde = ''
 duration = 0
 intempestif = 2			# Tuned me !!!
+
+# Set url
+
+url = {
+	'RRF': 'http://rrf.f5nlg.ovh/api/svxlink/RRF',
+	'TEC': 'http://rrf.f5nlg.ovh/api/svxlink/technique'
+}
