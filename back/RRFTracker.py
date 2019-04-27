@@ -13,10 +13,10 @@ import lib as l
 
 import requests
 import datetime
+import os
 import time
 import sys
 import getopt
-import os
 
 def main(argv):
 
@@ -33,19 +33,10 @@ def main(argv):
         elif opt in ('--log-path'):
             s.log_path = arg
         elif opt in ('--room'):
-            if arg not in ['RRF', 'TEC', 'FON']:
-                print 'Unknown room name (choose between \'RRF\', \'TEC\' and \'FON\')'
+            if arg not in ['RRF', 'TEC', 'INT', 'BAV', 'LOC']:
+                print 'Unknown room name (choose between \'RRF\', \'TEC\', \'INT\', \'BAV\' and \'LOC\')'
                 sys.exit()
             s.room = arg
-
-    # Set url
-    if s.room == 'RRF':
-        url = 'http://rrf.f5nlg.ovh/api/svxlink/RRF'
-    elif s.room == 'TEC':
-        url = 'http://rrf.f5nlg.ovh/api/svxlink/technique'
-    elif s.room == 'FON':
-        url = 'http://fon.f1tzo.com:81'
-
 
     # Create directory and copy asset if necessary
 
@@ -83,7 +74,7 @@ def main(argv):
 
         # Request HTTP datas
         try:
-            r = requests.get(url, verify=False, timeout=10)
+            r = requests.get(s.url[s.room], verify=False, timeout=10)
             page = r.content
         except requests.exceptions.ConnectionError as errc:
             print ('Error Connecting:', errc)
@@ -100,13 +91,7 @@ def main(argv):
             if s.transmit is False:
                 s.transmit = True
 
-            # Clean call
-            tmp = page[search_start:search_stop]
-            # tmp = tmp.replace('(', '')
-            # tmp = tmp.replace(') ', ' ')
-            # tmp = tmp.replace('\u0026U', '&')   # Replace ampersand...
-
-            s.call_current = tmp
+            s.call_current = page[search_start:search_stop]
 
             if (s.call_previous != s.call_current):
                 s.tot_start = time.time()

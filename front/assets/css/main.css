@@ -92,6 +92,16 @@ svg {
     fill: steelblue;
 }
 
+.marquee {
+    font: 12px Arial, Helvetica, sans-serif;
+    overflow: hidden;
+    background: #fff;
+    width:500px;
+    margin: 0 auto;
+    margin-bottom: 25px;
+    letter-spacing: 5px;
+}
+
 table {
     margin: 10px auto;
     padding: 10px;

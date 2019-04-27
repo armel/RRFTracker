@@ -9,8 +9,10 @@ Check video about RRFTracker on https://www.youtube.com/watch?v=rVW8xczVpEo
 '''
 
 import settings as s
-import os
+
+import requests
 import datetime
+import os
 import locale
 
 # Usage
@@ -20,7 +22,7 @@ def usage():
     print '--help               this help'
     print
     print 'Room settings:'
-    print '  --room ROOM        set room (default=RRF, choose between [RRF, TEC, FON])'
+    print '  --room ROOM        set room (default=RRF, choose between [RRF, TEC, INT, BAV, LOC])'
     print
     print 'Log settings:'
     print '  --log-path         set the location of log files'
@@ -76,6 +78,7 @@ def log_write():
 
     log_transmit(log_path_day)
     log_abstract(log_path_day)
+    log_news(log_path_day)
     log_history(log_path_day)
     log_last(log_path_day)
     log_node(log_path_day, 'best')
@@ -146,10 +149,11 @@ def log_transmit(log_path_day):
 
     if s.call_current != '':
         tmp = s.call_current.split(' ')
-        if(tmp[1] in s.geolocalisation):
-            tmp = s.geolocalisation[tmp[1]].split(' ')
-            latitude = tmp[0]
-            longitude = tmp[1]
+        if (len(tmp) > 1):
+            if(tmp[1] in s.geolocalisation):
+                tmp = s.geolocalisation[tmp[1]].split(' ')
+                latitude = tmp[0]
+                longitude = tmp[1]
 
     data = '[\n'
 
@@ -353,6 +357,82 @@ def log_porteuse(log_path_day, type):
     data = data[:last] + '' + data[last + 1:]
 
     file = open(log_path_day + '/' + type + '.json', 'w')
+    file.write(data)
+    file.close()
+
+    return 0
+
+# Log news
+def log_news(log_path_day):
+
+    message = ''
+
+    # On emissions
+
+    for k in s.url.keys():
+
+        if k != s.room:
+            # Request HTTP datas
+            try:
+                r = requests.get(s.url[k], verify=False, timeout=10)
+                page = r.content
+            except requests.exceptions.ConnectionError as errc:
+                print ('Error Connecting:', errc)
+            except requests.exceptions.Timeout as errt:
+                print ('Timeout Error:', errt)
+
+            search_start = page.find('TXmit":"')            # Search this pattern
+            search_start += 8                               # Shift...
+            search_stop = page.find('"', search_start)      # And close it...
+
+            # If transmitter...
+            if search_stop != search_start:
+                message += page[search_start:search_stop] + ' en émission sur le salon ' + k + '. '
+
+    # Nœuds entrants
+
+    tmp = ''
+    for n in s.node_list_in:
+        tmp += str(n) + ', '
+    tmp = tmp[:-2]
+
+    if tmp != '':
+        if len(s.node_list_in) == 1:
+            message += 'Nœud entrant: ' + tmp + '. '
+        else:
+            message += 'Nœuds entrants: ' + tmp + '. '
+
+    # Nœuds sortants
+
+    tmp = ''
+    for n in s.node_list_out:
+        tmp += str(n) + ', '
+    tmp = tmp[:-2]
+
+    if tmp != '':
+        if len(s.node_list_out) == 1:
+            message += 'Nœud sortant: ' + tmp + '. '
+        else:
+            message += 'Nœuds sortants: ' + tmp + '. '
+
+    if s.minute % 5 == 0:
+        message += 'Merci de faire des blancs ! '
+
+    # Format JSON
+
+    data = '[\n'
+
+    data += '{\n'
+
+    data += '\t"Message": "' + message + '"\n'
+    data += '},\n'
+
+    data += ']\n'
+
+    last = data.rfind(',')
+    data = data[:last] + '' + data[last + 1:]
+
+    file = open(log_path_day + '/' + 'news.json', 'w')
     file.write(data)
     file.close()
 
