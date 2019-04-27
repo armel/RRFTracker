@@ -80,6 +80,15 @@
         console.log('Longitude', sessionStorage.getItem('Longitude'));
     }
 
+    // Initialise Marquee
+
+    $('.marquee')
+        .bind('finished', function() {
+            $(this).html(sessionStorage.getItem('news'))
+            .marquee({duration: 4000, direction: 'left', pauseOnHover: 'true'})
+        })
+        .marquee({duration: 4000, direction: 'left', pauseOnHover: 'true'});
+
     // And continue...
 
     let generateChartTimeout = null;
@@ -559,7 +568,9 @@
 
             const containerSelector = '.abstract-table';
             const containerTitle = 'Résumé de la journée' + data[0].Date;
-
+            const containerLegend = 'Ce tableau présente le résumé de l\'activité du salon dans la journée: nombre de passages en émission total, durée cumulée en émission, nombre de nœuds actifs et connectés. ';
+            const containerLegendBis = 'En complément, vous pouvez suivre les mouvements des nœuds entrants et sortants sur ce salon, ainsi que les éventuelles émissions sur les autres salons, en suivant le fil d\'informations défilant ci-dessous.';
+    
             function tabulate(data, columns) {
                 d3.select(containerSelector).html('');
                 d3.select(containerSelector).append('h2').text(containerTitle);
@@ -621,15 +632,18 @@
 
             // Render the table(s)
             tabulate(data, ['Salon', 'TX total', 'Emission cumulée', 'Nœuds actifs', 'Nœuds connectés']); // 5 columns table
+            d3.select(containerSelector).append('span').text(containerLegend + containerLegendBis);
         });
  
+        // News
+        // Load the data
         d3.json('news.json', function(error, data) {
             if (old_news !== JSON.stringify(data)) {
                 old_news = JSON.stringify(data);
             } else {
                 return 0;
             }
-
+                        
             sessionStorage.setItem('news', data[0].Message);
         });
 
