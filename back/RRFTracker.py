@@ -55,6 +55,7 @@ def main(argv):
 
     # Boucle principale
     while(True):
+        chrono_start = time.time()
 
         # If midnight...
         tmp = datetime.datetime.now()
@@ -204,7 +205,14 @@ def main(argv):
         # Save log
         l.log_write()
 
-        time.sleep(0.750)
+        chrono_stop = time.time()
+        chrono_time = chrono_stop - chrono_start
+        if chrono_time < 1:
+            sleep = 1 - chrono_time
+        else:
+            sleep = 0
+        # print "Temps d'execution : %.1f %.1f secondes" % (chrono_time, sleep)
+        time.sleep(sleep)
 
 if __name__ == '__main__':
     try:
