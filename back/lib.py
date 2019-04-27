@@ -366,6 +366,28 @@ def log_news(log_path_day):
 
     message = ''
 
+    # On emissions
+
+    for k in s.url.keys():
+
+        if k != s.room:
+            # Request HTTP datas
+            try:
+                r = requests.get(s.url[k], verify=False, timeout=10)
+                page = r.content
+            except requests.exceptions.ConnectionError as errc:
+                print ('Error Connecting:', errc)
+            except requests.exceptions.Timeout as errt:
+                print ('Timeout Error:', errt)
+
+            search_start = page.find('TXmit":"')            # Search this pattern
+            search_start += 8                               # Shift...
+            search_stop = page.find('"', search_start)      # And close it...
+
+            # If transmitter...
+            if search_stop != search_start:
+                message += page[search_start:search_stop] + ' en émission sur le salon ' + k + '. '
+
     # Nœuds entrants
 
     tmp = ''
@@ -392,30 +414,7 @@ def log_news(log_path_day):
         else:
             message += 'Nœuds sortants: ' + tmp + '. '
 
-    # Others emissions
-
-    for k in s.url.keys():
-
-        if k != s.room:
-            # Request HTTP datas
-            try:
-                r = requests.get(s.url[k], verify=False, timeout=10)
-                page = r.content
-            except requests.exceptions.ConnectionError as errc:
-                print ('Error Connecting:', errc)
-            except requests.exceptions.Timeout as errt:
-                print ('Timeout Error:', errt)
-
-            search_start = page.find('TXmit":"')            # Search this pattern
-            search_start += 8                               # Shift...
-            search_stop = page.find('"', search_start)      # And close it...
-
-            # If transmitter...
-            if search_stop != search_start:
-                message += page[search_start:search_stop] + ' en émission sur le salon ' + k + '. '
-
-    if message == '':
-        message = 'Faites des blancs, merci !'
+    # Format JSON
 
     data = '[\n'
 
