@@ -416,7 +416,7 @@ def log_news(log_path_day):
             message += 'Nœuds sortants: ' + tmp + '. '
 
     if s.minute % 5 == 0:
-        message += 'Merci de faire des blancs !'
+        message += 'Merci de faire des blancs ! '
 
     # Format JSON
 
