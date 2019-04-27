@@ -204,7 +204,7 @@ def main(argv):
         # Save log
         l.log_write()
 
-        time.sleep(1)
+        time.sleep(0.750)
 
 if __name__ == '__main__':
     try:
