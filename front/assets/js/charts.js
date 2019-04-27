@@ -75,19 +75,21 @@
 
     ipLookUp();
 
+    /*
     if (sessionStorage.getItem('Latitude')) {
         console.log('Latitude', sessionStorage.getItem('Latitude'));
         console.log('Longitude', sessionStorage.getItem('Longitude'));
     }
+    */
 
     // Initialise Marquee
 
     $('.marquee')
         .bind('finished', function() {
             $(this).html(sessionStorage.getItem('news'))
-            .marquee({duration: 4000, direction: 'left', pauseOnHover: 'true'})
+            .marquee({duration: 5000, direction: 'left', pauseOnHover: 'true'})
         })
-        .marquee({duration: 4000, direction: 'left', pauseOnHover: 'true'});
+        .marquee({duration: 5000, direction: 'left', pauseOnHover: 'true'});
 
     // And continue...
 
