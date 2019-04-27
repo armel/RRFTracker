@@ -45,7 +45,7 @@
             function fail(data, status) {
                 sessionStorage.removeItem('Latitude');
                 sessionStorage.removeItem('Longitude');
-              // console.log('Request failed.  Returned status of', status);
+                //console.log('Request failed.  Returned status of', status);
             }
         );
     }
@@ -231,7 +231,7 @@
                 return 0;
             }
 
-            console.log("activity redraw");
+            //console.log("activity redraw");
 
             const containerSelector = '.activity-graph';
             const containerTitle = 'Activité heure par heure';
@@ -339,7 +339,7 @@
                 return 0;
             }
 
-            console.log("best redraw");
+            //console.log("best redraw");
 
             const containerSelector = '.best-graph';
             const containerTitle = 'Top 20 des nœuds les plus actifs';
@@ -448,7 +448,7 @@
                 return 0;
             }
 
-            console.log("bubble redraw");
+            //console.log("bubble redraw");
 
             Indicatif = sessionStorage.getItem('Indicatif');
 
@@ -566,7 +566,7 @@
                 return 0;
             }
 
-            console.log("abstract redraw");
+            //console.log("abstract redraw");
 
             const containerSelector = '.abstract-table';
             const containerTitle = 'Résumé de la journée' + data[0].Date;
@@ -658,7 +658,7 @@
                 return 0;
             }
 
-            console.log("last redraw");
+            //console.log("last redraw");
 
             Indicatif = sessionStorage.getItem('Indicatif');
 
@@ -725,7 +725,7 @@
                 return 0;
             }
 
-            console.log("all redraw");
+            //console.log("all redraw");
 
             const containerSelector = '.all-table';
             const containerTitle = 'Classement des nœuds actifs par TX';
@@ -790,7 +790,7 @@
                 return 0;
             }
 
-            console.log("porteuse redraw");
+            //console.log("porteuse redraw");
 
             const containerSelector = '.porteuse-table';
             const containerTitle = 'Déclenchements intempestifs';
