@@ -10,7 +10,7 @@ Check video about RRFTracker on https://www.youtube.com/watch?v=rVW8xczVpEo
 
 # Version
 
-version = '1.6.0'
+version = '1.6.1'
 
 # Default room and path
 
@@ -59,6 +59,8 @@ intempestif = 2			# Tuned me !!!
 
 url = {
 	'RRF': 'http://rrf.f5nlg.ovh/api/svxlink/RRF',
-	'TEC': 'http://rrf.f5nlg.ovh/api/svxlink/technique',
-	'INT': 'http://rrf.f5nlg.ovh/api/svxlink/international',
+	'TECHNIQUE': 'http://rrf.f5nlg.ovh/api/svxlink/technique',
+	'INTERNATIONAL': 'http://rrf.f5nlg.ovh/api/svxlink/international',
+	'BAVARDAGE': 'http://rrf.f5nlg.ovh/api/svxlink/bavardage',
+	'LOCAL': 'http://rrf.f5nlg.ovh/api/svxlink/local'
 }
