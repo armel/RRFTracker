@@ -106,7 +106,7 @@
 
     var inter = setInterval(function() {
         generateD3Charts(false);
-    }, 750);
+    }, 500);
 
     var old_abstract = '';
     var old_news = '';
