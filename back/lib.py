@@ -149,10 +149,11 @@ def log_transmit(log_path_day):
 
     if s.call_current != '':
         tmp = s.call_current.split(' ')
-        if(tmp[1] in s.geolocalisation):
-            tmp = s.geolocalisation[tmp[1]].split(' ')
-            latitude = tmp[0]
-            longitude = tmp[1]
+        if (len(tmp) > 1):
+            if(tmp[1] in s.geolocalisation):
+                tmp = s.geolocalisation[tmp[1]].split(' ')
+                latitude = tmp[0]
+                longitude = tmp[1]
 
     data = '[\n'
 
@@ -413,6 +414,9 @@ def log_news(log_path_day):
             message += 'Nœud sortant: ' + tmp + '. '
         else:
             message += 'Nœuds sortants: ' + tmp + '. '
+
+    if s.minute % 5 == 0:
+        message += 'Merci de faire des blancs ! 88 & 73 de F4HWN Armel ;)'
 
     # Format JSON
 
