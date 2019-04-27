@@ -59,5 +59,6 @@ intempestif = 2			# Tuned me !!!
 
 url = {
 	'RRF': 'http://rrf.f5nlg.ovh/api/svxlink/RRF',
-	'TEC': 'http://rrf.f5nlg.ovh/api/svxlink/technique'
+	'TEC': 'http://rrf.f5nlg.ovh/api/svxlink/technique',
+	'INT': 'http://rrf.f5nlg.ovh/api/svxlink/international',
 }
