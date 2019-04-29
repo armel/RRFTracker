@@ -76,16 +76,20 @@ def log_write():
         os.popen('cp /opt/RRFTracker_Web/front/index.html ' + log_path_day + '/index.html')
         os.popen('ln -sfn ' + log_path_day + ' ' + s.log_path + '/' + s.room + '-today')
 
-    log_transmit(log_path_day)
     log_abstract(log_path_day)
     log_news(log_path_day)
-    log_history(log_path_day)
-    log_last(log_path_day)
-    log_node(log_path_day, 'best')
-    log_node(log_path_day, 'all')
     log_node_list(log_path_day)
     log_porteuse(log_path_day, 'porteuse')
     log_porteuse(log_path_day, 'porteuse_extended')
+
+    # Change only if transmitter...
+
+    if s.call_current != '':
+        log_transmit(log_path_day)
+        log_history(log_path_day)
+        log_last(log_path_day)
+        log_node(log_path_day, 'best')
+        log_node(log_path_day, 'all')
 
     return 0
 
