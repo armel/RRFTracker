@@ -164,7 +164,7 @@ def main(argv):
         tmp = tmp.replace('"', '')
         s.node_list = tmp.split(',')
 
-        for n in ['RRF', 'RRF2', 'RRF3', 'TECHNIQUE', 'BAVARDAGE', 'INTERNATIONAL']:
+        for n in ['RRF', 'RRF2', 'RRF3', 'TECHNIQUE', 'BAVARDAGE', 'INTERNATIONAL', 'LOCAL']:
             if n in s.node_list:
                 s.node_list.remove(n)
 

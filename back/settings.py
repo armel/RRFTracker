@@ -10,40 +10,40 @@ Check video about RRFTracker on https://www.youtube.com/watch?v=rVW8xczVpEo
 
 # Version
 
-version = '1.6.2'
+version = '1.6.3'
 
 # Default room and path
 
-room = 'RRF'			# Room: Default value !
-log_path = '/tmp/RRF'	# Log path: Default value !
+room = 'RRF'            # Room: Default value !
+log_path = '/tmp/RRF'   # Log path: Default value !
 
 # Set call
 
-call = ['', '', '', '', '', '', '', '', '', '']     	# Call list
-call_date = ['', '', '', '', '', '', '', '', '', '']  	# Call date list
-call_time = ['', '', '', '', '', '', '', '', '', '']  	# Call time list
-call_current = call[0]                                	# Call current
-call_previous = call[1]                               	# Call previous
+call = ['', '', '', '', '', '', '', '', '', '']         # Call list
+call_date = ['', '', '', '', '', '', '', '', '', '']    # Call date list
+call_time = ['', '', '', '', '', '', '', '', '', '']    # Call time list
+call_current = call[0]                                  # Call current
+call_previous = call[1]                                 # Call previous
 
-qso = 0					# QSO count
-qso_hour = [0] * 24		# QSO list for histogramm
-node_count = 0			# Node count
-node_count_max = 0		# Node count max
-node_count_min = 10**4	# Node count min
+qso = 0                 # QSO count
+qso_hour = [0] * 24     # QSO list for histogramm
+node_count = 0          # Node count
+node_count_max = 0      # Node count max
+node_count_min = 10**4  # Node count min
 
-node_list = []			# Node list
-node_list_old = []		# Node list
-node_list_in = []		# Node list in
-node_list_out = []		# Node list out
+node_list = []          # Node list
+node_list_old = []      # Node list
+node_list_in = []       # Node list in
+node_list_out = []      # Node list out
 
-day_duration = 0		# Total emission time
+day_duration = 0        # Total emission time
 
-node = dict()			# Node dict
-porteuse = dict()    	# Porteuse dict
+node = dict()           # Node dict
+porteuse = dict()       # Porteuse dict
 
-transmit = True			# Detect transmit
-stat_save = False		# If False, stat need to be save
-geolocalisation = {}	# Geolocalisation
+transmit = True         # Detect transmit
+stat_save = False       # If False, stat need to be save
+geolocalisation = {}    # Geolocalisation
 
 # Set time and date
 
@@ -53,14 +53,14 @@ hour = ''
 minute = ''
 seconde = ''
 duration = 0
-intempestif = 2			# Tuned me !!!
+intempestif = 2         # Tuned me !!!
 
 # Set url
 
 url = {
-	'RRF': 'http://rrf.f5nlg.ovh/api/svxlink/RRF',
-	'TECHNIQUE': 'http://rrf.f5nlg.ovh/api/svxlink/technique',
-	'INTERNATIONAL': 'http://rrf.f5nlg.ovh/api/svxlink/international',
-	'BAVARDAGE': 'http://rrf.f5nlg.ovh/api/svxlink/bavardage',
-	'LOCAL': 'http://rrf.f5nlg.ovh/api/svxlink/local'
+    'RRF': 'http://rrf.f5nlg.ovh/api/svxlink/RRF',
+    'TECHNIQUE': 'http://rrf.f5nlg.ovh/api/svxlink/technique',
+    'INTERNATIONAL': 'http://rrf.f5nlg.ovh/api/svxlink/international',
+    'BAVARDAGE': 'http://rrf.f5nlg.ovh/api/svxlink/bavardage',
+    'LOCAL': 'http://rrf.f5nlg.ovh/api/svxlink/local'
 }

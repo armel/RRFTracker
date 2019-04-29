@@ -588,6 +588,7 @@
                     })
                     .enter()
                     .append('td')
+                    .attr('width', '20%')
                     .html(function(d, i) {
                         url = window.location.href;
                         if (d.value === 'RRF') {
@@ -600,7 +601,10 @@
                             url = url.replace('BAVARDAGE-', 'INTERNATIONAL-')
                             return '<a href="' + url + '">' + d.value + '</a>';
                         } else if (d.value === 'INTERNATIONAL') {
-                            url = url.replace('INTERNATIONAL-', 'RRF-')
+                            url = url.replace('INTERNATIONAL-', 'LOCAL-')
+                            return '<a href="' + url + '">' + d.value + '</a>';
+                        } else if (d.value === 'LOCAL') {
+                            url = url.replace('LOCAL-', 'RRF-')
                             return '<a href="' + url + '">' + d.value + '</a>';
                         } else if (i === 4) {
                             return '<a onClick="sessionStorage.setItem(\'node_extended\', \'' + 'Node' + '\'); window.location.reload()">' + d.value + '</a>';

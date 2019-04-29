@@ -14,6 +14,8 @@ case "$1" in
         nohup python $PATH_SCRIPT --room BAVARDAGE --log-path $PATH_LOG > $PATH_PID/RRFTracker_BAVARDAGE.log 2>&1 & echo $! > $PATH_PID/RRFTracker_BAVARDAGE.pid
         echo "Starting RRFTracker: INTERNATIONAL"
         nohup python $PATH_SCRIPT --room INTERNATIONAL --log-path $PATH_LOG > $PATH_PID/RRFTracker_INTERNATIONAL.log 2>&1 & echo $! > $PATH_PID/RRFTracker_INTERNATIONAL.pid
+        echo "Starting RRFTracker: LOCAL"
+        nohup python $PATH_SCRIPT --room LOCAL --log-path $PATH_LOG > $PATH_PID/RRFTracker_LOCAL.log 2>&1 & echo $! > $PATH_PID/RRFTracker_LOCAL.pid
         ;;
     stop) 
         echo "Stopping RRFTracker: RRF"
@@ -24,5 +26,7 @@ case "$1" in
         kill `cat $PATH_PID/RRFTracker_BAVARDAGE.pid`
         echo "Stopping RRFTracker: INTERNATIONAL"
         kill `cat $PATH_PID/RRFTracker_INTERNATIONAL.pid`
+        echo "Stopping RRFTracker: LOCAL"
+        kill `cat $PATH_PID/RRFTracker_LOCAL.pid`
         ;;
     esac
