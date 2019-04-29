@@ -79,6 +79,7 @@ def log_write():
     log_abstract(log_path_day)
     log_news(log_path_day)
     log_node_list(log_path_day)
+    log_transmit(log_path_day)
 
     # Change only if porteuse...
 
@@ -90,7 +91,6 @@ def log_write():
     # Change only if transmitter...
 
     if s.call_current != '':
-        log_transmit(log_path_day)
         log_history(log_path_day)
         log_last(log_path_day)
         log_node(log_path_day, 'best')
