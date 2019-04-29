@@ -846,7 +846,7 @@
         porteuse_extended = sessionStorage.getItem('porteuse_extended');
 
         if (porteuse_extended != null) {
-            // Porteuse
+            // Porteuse Extended
             // Load the data
             d3.json('porteuse_extended.json', function(error, data) {
                 if (old_porteuse_extended !== JSON.stringify(data)) {
@@ -924,7 +924,7 @@
         }
 
         if (node_extended != null) {
-            // Porteuse
+            // Node Extended
             // Load the data
             d3.json('node_extended.json', function(error, data) {
                 if (old_node_extended !== JSON.stringify(data)) {
@@ -965,6 +965,7 @@
                             })
                             .enter()
                             .append('td')
+                            .attr('width', '25%')
                             .text(function(d) {
                                 return d.value;
                             });
