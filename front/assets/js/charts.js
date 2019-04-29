@@ -1,17 +1,6 @@
 ;
 (function() {
-    function getQueryVariable(variable) {
-        var query = window.location.search.substring(1);
-        var vars = query.split("&");
-        for (var i = 0; i < vars.length; i++) {
-            var pair = vars[i].split("=");
-            if (pair[0] == variable) {
-                return pair[1];
-            }
-        }
-        return (false);
-    }
-
+    // Compute Distance
     function computeDistance(latitude_1, longitude_1) {
         if (sessionStorage.getItem("Latitude") === null) {
             return 0
@@ -33,6 +22,7 @@
         return r;
     }
 
+    // Get IP Location
     function ipLookUp () {
         $.ajax('http://ip-api.com/json')
         .then(
@@ -45,12 +35,11 @@
             function fail(data, status) {
                 sessionStorage.removeItem('Latitude');
                 sessionStorage.removeItem('Longitude');
-                //console.log('Request failed.  Returned status of', status);
             }
         );
     }
 
-    // Returns a flattened hierarchy containing all leaf nodes under the root.
+    // Returns a flattened hierarchy containing all leaf nodes under the root
     function classes(data) {
         var classes = [];
 
@@ -72,18 +61,9 @@
     }
 
     // Initialise IP Geoloc
-
     ipLookUp();
 
-    /*
-    if (sessionStorage.getItem('Latitude')) {
-        console.log('Latitude', sessionStorage.getItem('Latitude'));
-        console.log('Longitude', sessionStorage.getItem('Longitude'));
-    }
-    */
-
     // Initialise Marquee
-
     $('.marquee')
         .bind('finished', function() {
             $(this).html(sessionStorage.getItem('news'))
@@ -92,8 +72,7 @@
         .marquee({duration: 5000, direction: 'left', pauseOnHover: 'true'});
 
     // And continue...
-
-    let generateChartTimeout = null;
+    var generateChartTimeout = null;
 
     window.addEventListener('resize', function() {
         clearTimeout(generateChartTimeout);
@@ -102,27 +81,27 @@
         }, 200);
     });
 
-    generateD3Charts();
+    old_abstract = '';
+    old_transmit = '';
+    old_news = '';
+    old_best = '';
+    old_activity = '';
+    old_last = '';
+    old_bubble = '';
+    old_all = '';
+    old_porteuse = '';
+    old_porteuse_extended = '';
+    old_node_extended = '';
 
     var inter = setInterval(function() {
         generateD3Charts(false);
     }, 500);
 
-    var old_abstract = '';
-    var old_news = '';
-    var old_best = '';
-    var old_activity = '';
-    var old_last = '';
-    var old_bubble = '';
-    var old_all = '';
-    var old_porteuse = '';
-    var old_porteuse_extended = '';
-    var old_node_extended = '';
-
     function generateD3Charts(redraw = false) {
         if (redraw === true) {
             console.log("rezise");
             old_abstract = '';
+            old_transmit = '';
             old_news = '';
             old_best = '';
             old_activity = '';
@@ -164,20 +143,20 @@
         // Load the data
 
         d3.json('transmit.json', function(error, data) {
-            const containerSelector = '.tot-graph';
-
-            var TOT = 0;
-            var Indicatif = '';
-            var Latitude = 0;
-            var Longitude = 0;
-            var Distance = 0;
-
-            if (data !== undefined) {
-                TOT = data[0].TOT;
-                Indicatif = data[0].Indicatif;
-                Latitude = parseFloat(data[0].Latitude);
-                Longitude = parseFloat(data[0].Longitude);
+            if (old_transmit !== JSON.stringify(data)) {
+                old_transmit = JSON.stringify(data);
+            } else {
+                clock.stop(function() {});
+                return 0;
             }
+
+            //console.log("transmit redraw");
+
+            var TOT = data[0].TOT;
+            var Indicatif = data[0].Indicatif;
+            var Latitude = parseFloat(data[0].Latitude);
+            var Longitude = parseFloat(data[0].Longitude);
+            var Distance = 0;
 
             if (Latitude !== 0) {
                 Distance = computeDistance(Latitude, Longitude);
@@ -198,6 +177,7 @@
                 }
             }
 
+            const containerSelector = '.tot-graph';
             const containerTitle = title;
             const containerLegend = 'Affiche l\'indicatif du nœud en cours d\'émission, la distance approximative de ce nœud, ainsi que la durée de passage en émission.';
 
@@ -208,8 +188,6 @@
                 .append('div')
                 .attr('class', 'clock')
 
-            var clock;
-            // Instantiate a counter
             clock = new FlipClock($('.clock'), TOT, {
                 clockFace: 'MinuteCounter',
                 language: 'french',
@@ -566,7 +544,7 @@
                 return 0;
             }
 
-            //console.log("abstract redraw");
+            console.log("abstract redraw");
 
             const containerSelector = '.abstract-table';
             const containerTitle = 'Résumé de la journée' + data[0].Date;

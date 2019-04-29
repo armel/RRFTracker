@@ -415,9 +415,14 @@ def log_news(log_path_day):
         else:
             message += 'Nœuds sortants: ' + tmp + '. '
 
-    if s.minute % 5 == 0:
-        message += 'Merci de faire des blancs ! '
-
+    if s.minute % 10 == 0:
+        message += 'Si vous constatez un problème (panne, perturbation, etc.), envoyez un mail à admin@f5nlg.ovh afin que nous puissions intervenir. '
+    elif s.minute % 5 == 0:
+        message += 'Merci de faire des blancs de l\'ordre de 5 secondes ! '
+    elif s.minute % 3 == 0:
+        message += 'Ne monopolisez pas le réseau. Soyez poli et courtois. Respectez les autres utilisateurs. '
+    elif s.minute % 2 == 0:
+        message += 'Le salon RRF doit être considéré comme une « fréquence d\'appel », pensez à faire QSY sur un des salons annexes. '
     # Format JSON
 
     data = '[\n'
