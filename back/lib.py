@@ -82,7 +82,7 @@ def log_write():
 
     # Change only if porteuse...
 
-    if s.porteuse_check == True:
+    if s.porteuse_check is True:
         log_porteuse(log_path_day, 'porteuse')
         log_porteuse(log_path_day, 'porteuse_extended')
         s.porteuse_check = False
