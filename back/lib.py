@@ -79,8 +79,13 @@ def log_write():
     log_abstract(log_path_day)
     log_news(log_path_day)
     log_node_list(log_path_day)
-    log_porteuse(log_path_day, 'porteuse')
-    log_porteuse(log_path_day, 'porteuse_extended')
+
+    # Change only if porteuse...
+
+    if s.porteuse_check == True:
+        log_porteuse(log_path_day, 'porteuse')
+        log_porteuse(log_path_day, 'porteuse_extended')
+        s.porteuse_check = False
 
     # Change only if transmitter...
 

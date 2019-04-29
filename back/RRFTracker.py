@@ -149,6 +149,7 @@ def main(argv):
                 if s.stat_save is False:
                     tmp = datetime.datetime.now()
                     s.porteuse = l.save_stat_porteuse(s.porteuse, s.call[0], tmp.strftime('%H:%M:%S'))
+                    s.porteuse_check = True
 
                 s.transmit = False
                 s.stat_save = False
