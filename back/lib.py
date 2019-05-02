@@ -77,6 +77,7 @@ def log_write():
         log_activity()
         log_node('best')
         log_node('all')
+        log_last()
 
         s.init = False
 

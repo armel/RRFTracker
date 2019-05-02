@@ -140,6 +140,26 @@
             .orient('left')
             .ticks(10);
 
+        // Other QSO
+
+        var room = ['RRF', 'TECHNIQUE', 'INTERNATIONAL', 'BAVARDAGE', 'LOCAL'];
+        var room_other = [];
+        var room_file = {};
+        var room_transmit = [];
+
+        room.forEach(function(d) {
+            if (d !== sessionStorage.getItem('Room')) {
+                room_other.push(d);
+                room_file[d] = '../' + d + '-today/transmit.json';
+            }
+        });
+
+        for (const [key, value] of Object.entries(room_file)) {
+            $.getJSON(value, function(data) {
+                room_transmit[key] = data[0].Indicatif;
+            });
+        }
+
         // Tot
         // Load the data
 
@@ -542,11 +562,13 @@
         // Abstract
         // Load the data
         d3.json('abstract.json' + '?_=' + noCache, function(error, data) {
+            /*
             if (old_abstract !== JSON.stringify(data)) {
                 old_abstract = JSON.stringify(data);
             } else {
                 return 0;
             }
+            */
 
             console.log("abstract redraw");
 
@@ -555,11 +577,6 @@
             const containerLegend = 'Ce tableau présente le résumé de l\'activité du salon dans la journée: nombre de passages en émission total, durée cumulée en émission, nombre de nœuds actifs et connectés. ';
             const containerLegendBis = 'En complément, vous pouvez suivre les mouvements des nœuds entrants et sortants sur ce salon, ainsi que les éventuelles émissions sur les autres salons, en suivant le fil d\'informations défilant ci-dessous.';
     
-            var room = ['RRF', 'TECHNIQUE', 'INTERNATIONAL', 'BAVARDAGE', 'LOCAL'];
-            var room_other = [];
-            var room_file = [];
-            var room_transmit = [];
-            var room_promise = [];
             var room_current = '';
 
             function tabulate(data, columns) {
@@ -633,11 +650,61 @@
                         }
                     });
 
+                sessionStorage.setItem('Room', room_current);
+                return table;
+            }
+
+            function tabulate_outside(data, columns) {
+                const table = d3.select(containerSelector)
+                    .append('table')
+                    .attr('width', width + margin.left + margin.right + 'px');
+                const thead = table.append('thead');
+                const tbody = table.append('tbody');
+
+                // Append the header row
+                thead.append('tr')
+                    .selectAll('th')
+                    .data(columns).enter()
+                    .append('th')
+                    .text(function(column) {
+                        return column;
+                    });
+
+                // Create a row for each object in the data
+                const rows = tbody.selectAll('tr')
+                    .data(data)
+                    .enter()
+                    .append('tr');
+
+                // Create a cell in each row for each column
+                var cells = rows.selectAll('td')
+                    .data(function(row) {
+                        return columns.map(function(column) {
+                            return {
+                                column: column,
+                                value: row[column]
+                            };
+                        });
+                    })
+                    .enter()
+                    .append('td')
+                    .attr('width', '20%')
+                    .text(function(d) {
+                        if (d.value === undefined) {
+                            return 'Aucune émission';
+                        }
+                        else {
+                            return d.value;
+                        }
+                    });
+
                 return table;
             }
 
             // Render the table(s)
             tabulate(data, ['Salon', 'TX total', 'Emission cumulée', 'Nœuds actifs', 'Nœuds connectés']); // 5 columns table
+            console.log('ici', room_transmit);
+            tabulate_outside(room_transmit, room_other); // 5 columns table
             d3.select(containerSelector).append('span').text(containerLegend + containerLegendBis);
         });
  
