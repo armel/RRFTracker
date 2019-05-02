@@ -555,6 +555,8 @@
                 return 0;
             }
 
+            sessionStorage.setItem('Room', data[0].Salon);
+
             //console.log("abstract redraw");
 
             const containerSelector = '.abstract-table';
@@ -603,39 +605,12 @@
                     .append('td')
                     .attr('width', '20%')
                     .html(function(d, i) {
-                        url = window.location.href;
-                        if (d.value === 'RRF') {
-                            room_current = 'RRF';
-                            url = url.replace('RRF-', 'TECHNIQUE-')
-                            return '<a href="' + url + '">' + d.value + '</a>';
-                        } else if (d.value === 'TECHNIQUE') {
-                            room_current = 'TECHNIQUE';
-                            url = url.replace('TECHNIQUE-', 'BAVARDAGE-')
-                            return '<a href="' + url + '">' + d.value + '</a>';
-                        } else if (d.value === 'BAVARDAGE') {
-                            room_current = 'BAVARDAGE';
-                            url = url.replace('BAVARDAGE-', 'INTERNATIONAL-')
-                            return '<a href="' + url + '">' + d.value + '</a>';
-                        } else if (d.value === 'INTERNATIONAL') {
-                            room_current = 'INTERNATIONAL';
-                            url = url.replace('INTERNATIONAL-', 'LOCAL-')
-                            return '<a href="' + url + '">' + d.value + '</a>';
-                        } else if (d.value === 'LOCAL') {
-                            room_current = 'LOCAL';
-                            url = url.replace('LOCAL-', 'RRF-')
-                            return '<a href="' + url + '">' + d.value + '</a>';
-                        } else if (i === 4) {
+                        if (i === 4) {
                             return '<a onClick="sessionStorage.setItem(\'node_extended\', \'' + 'Node' + '\'); window.location.reload()">' + d.value + '</a>';
                         } else {
-                            if (i > 4) {
-                                return d.value.replace(/, /g, '<br/>');
-                            } else {
-                                return d.value;
-                            }
+                            return d.value;
                         }
                     });
-
-                sessionStorage.setItem('Room', room_current);
                 return table;
             }
 
@@ -644,15 +619,9 @@
             d3.select(containerSelector).append('span').text(containerLegend + containerLegendBis);
         });
  
-         // Abstract
+        // Elsewhere
         // Load the data
         d3.json('elsewhere.json' + '?_=' + noCache, function(error, data) {
-            if (old_elsewhere !== JSON.stringify(data)) {
-                old_elsewhere = JSON.stringify(data);
-            } else {
-                return 0;
-            }
-
             //console.log("elsewhere redraw");
 
             const containerSelector = '.elsewhere-table';
@@ -680,8 +649,10 @@
                     .selectAll('th')
                     .data(columns).enter()
                     .append('th')
-                    .text(function(column) {
-                        return column;
+                    .html(function(column) {
+                        url = window.location.href;
+                        url = url.replace('/' + sessionStorage.getItem('Room') + '-', '/' + column +'-')
+                        return '<a href="' + url + '">' + column + '</a>';
                     });
 
                 // Create a row for each object in the data
