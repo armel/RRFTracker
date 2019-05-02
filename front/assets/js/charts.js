@@ -113,6 +113,7 @@
             old_node_extended = '';
         }
 
+        const noCache = new Date().getTime();
         const columnWidth = document.querySelector('.columns :first-child').clientWidth;
 
         // Set the dimensions of the canvas
@@ -142,7 +143,7 @@
         // Tot
         // Load the data
 
-        d3.json('transmit.json', function(error, data) {
+        d3.json('transmit.json' + '?_=' + noCache, function(error, data) {
             if (old_transmit !== JSON.stringify(data)) {
                 old_transmit = JSON.stringify(data);
             } else {
@@ -202,7 +203,7 @@
 
         // Activity
         // Load the data
-        d3.json('activity.json', function(error, data) {
+        d3.json('activity.json' + '?_=' + noCache, function(error, data) {
             if (old_activity !== JSON.stringify(data)) {
                 old_activity = JSON.stringify(data);
             } else {
@@ -310,234 +311,237 @@
 
         // Best
         // Load the data
-        d3.json('best.json', function(error, data) {
+        d3.json('best.json' + '?_=' + noCache, function(error, data) {
             if (old_best !== JSON.stringify(data)) {
                 old_best = JSON.stringify(data);
             } else {
                 return 0;
             }
 
-            //console.log("best redraw");
+            if(data !== undefined) {
+                //console.log("best redraw");
 
-            const containerSelector = '.best-graph';
-            const containerTitle = 'Top 20 des nœuds les plus actifs';
-            const containerLegend = 'Cet histogramme représente le classement des 20 nœuds les plus actifs de la journée, en terme de passages en émission.';
+                const containerSelector = '.best-graph';
+                const containerTitle = 'Top 20 des nœuds les plus actifs';
+                const containerLegend = 'Cet histogramme représente le classement des 20 nœuds les plus actifs de la journée, en terme de passages en émission.';
 
-            d3.select(containerSelector).html('');
-            d3.select(containerSelector).append('h2').text(containerTitle);
+                d3.select(containerSelector).html('');
+                d3.select(containerSelector).append('h2').text(containerTitle);
 
-            data.forEach(function(d) {
-                d.Indicatif = d.Indicatif;
-                d.TX = d.TX;
-            });
-
-            var color = "steelblue";
-            var yMax = d3.max(data, function(d) {
-                return d.TX
-            });
-            var yMin = d3.min(data, function(d) {
-                return d.TX
-            });
-            var colorScale = d3.scale.linear()
-                .domain([yMin, yMax])
-                .range([d3.rgb(color).brighter(), d3.rgb(color).darker()]);
-
-            const svg_best = d3.select(containerSelector)
-                .append('svg')
-                .attr('width', width + margin.left + margin.right)
-                .attr('height', height + margin.top + margin.bottom)
-                .append('g')
-                .attr('transform',
-                    'translate(' + margin.left + ',' + margin.top + ')');
-
-            // Scale the range of the data
-            x.domain(data.map(function(d) {
-                return d.Indicatif;
-            }));
-            y.domain([0, d3.max(data, function(d) {
-                return d.TX;
-            })]);
-
-            // Add axis
-            svg_best.append('g')
-                .attr('class', 'x axis')
-                .attr('transform', 'translate(0,' + (height + 0.5) + ')')
-                .call(xAxis)
-                .selectAll('text')
-                .style('text-anchor', 'end')
-                .attr('dx', '-.8em')
-                .attr('dy', '-.55em')
-                .attr('transform', 'rotate(-45)');
-
-            svg_best.append('g')
-                .attr('class', 'y axis')
-                .call(yAxis)
-                .append('text')
-                .attr('transform', 'rotate(0)')
-                .attr('y', -10)
-                .attr('dy', '.71em')
-                .style('text-anchor', 'end')
-                .text('TX');
-
-            // Add bar chart
-            svg_best.selectAll('bar')
-                .data(data)
-                .enter().append('rect')
-                .attr('class', 'bar')
-                .attr("fill", function(d) {
-                    return colorScale(d.TX)
-                })
-                .attr('x', function(d) {
-                    return x(d.Indicatif);
-                })
-                .attr('width', x.rangeBand())
-                .attr('y', function(d) {
-                    return y(d.TX);
-                })
-                .attr('height', function(d) {
-                    return height - y(d.TX);
-                })
-
-            svg_best.selectAll('text.bar')
-                .data(data)
-                .enter().append('text')
-                .attr('class', 'value')
-                .attr('text-anchor', 'middle')
-                .attr("x", function(d) {
-                    return x(d.Indicatif) + x.rangeBand() / 2;
-                })
-                .attr('y', function(d) {
-                    return y(d.TX) - 5;
-                })
-                .text(function(d) {
-                    return d.TX;
+                data.forEach(function(d) {
+                    d.Indicatif = d.Indicatif;
+                    d.TX = d.TX;
                 });
 
-            d3.select(containerSelector).append('span').text(containerLegend);
+                var color = "steelblue";
+                var yMax = d3.max(data, function(d) {
+                    return d.TX
+                });
+                var yMin = d3.min(data, function(d) {
+                    return d.TX
+                });
+                var colorScale = d3.scale.linear()
+                    .domain([yMin, yMax])
+                    .range([d3.rgb(color).brighter(), d3.rgb(color).darker()]);
+
+                const svg_best = d3.select(containerSelector)
+                    .append('svg')
+                    .attr('width', width + margin.left + margin.right)
+                    .attr('height', height + margin.top + margin.bottom)
+                    .append('g')
+                    .attr('transform',
+                        'translate(' + margin.left + ',' + margin.top + ')');
+
+                // Scale the range of the data
+                x.domain(data.map(function(d) {
+                    return d.Indicatif;
+                }));
+                y.domain([0, d3.max(data, function(d) {
+                    return d.TX;
+                })]);
+
+                // Add axis
+                svg_best.append('g')
+                    .attr('class', 'x axis')
+                    .attr('transform', 'translate(0,' + (height + 0.5) + ')')
+                    .call(xAxis)
+                    .selectAll('text')
+                    .style('text-anchor', 'end')
+                    .attr('dx', '-.8em')
+                    .attr('dy', '-.55em')
+                    .attr('transform', 'rotate(-45)');
+
+                svg_best.append('g')
+                    .attr('class', 'y axis')
+                    .call(yAxis)
+                    .append('text')
+                    .attr('transform', 'rotate(0)')
+                    .attr('y', -10)
+                    .attr('dy', '.71em')
+                    .style('text-anchor', 'end')
+                    .text('TX');
+
+                // Add bar chart
+                svg_best.selectAll('bar')
+                    .data(data)
+                    .enter().append('rect')
+                    .attr('class', 'bar')
+                    .attr("fill", function(d) {
+                        return colorScale(d.TX)
+                    })
+                    .attr('x', function(d) {
+                        return x(d.Indicatif);
+                    })
+                    .attr('width', x.rangeBand())
+                    .attr('y', function(d) {
+                        return y(d.TX);
+                    })
+                    .attr('height', function(d) {
+                        return height - y(d.TX);
+                    })
+
+                svg_best.selectAll('text.bar')
+                    .data(data)
+                    .enter().append('text')
+                    .attr('class', 'value')
+                    .attr('text-anchor', 'middle')
+                    .attr("x", function(d) {
+                        return x(d.Indicatif) + x.rangeBand() / 2;
+                    })
+                    .attr('y', function(d) {
+                        return y(d.TX) - 5;
+                    })
+                    .text(function(d) {
+                        return d.TX;
+                    });
+
+                d3.select(containerSelector).append('span').text(containerLegend);
+            }
         });
 
         // All
         // Load the data
 
-        d3.json('all.json', function(error, data) {
+        d3.json('all.json' + '?_=' + noCache, function(error, data) {
             if (old_bubble !== JSON.stringify(data)) {
                 old_bubble = JSON.stringify(data);
             } else {
                 return 0;
             }
 
-            //console.log("bubble redraw");
+            if(data !== undefined) {
+                //console.log("bubble redraw");
 
-            Indicatif = sessionStorage.getItem('Indicatif');
+                Indicatif = sessionStorage.getItem('Indicatif');
 
-            var diameter = width + margin.left + margin.right,
-                format = d3.format(',d')
-            color = d3.scale.category20c();
+                var diameter = width + margin.left + margin.right,
+                    format = d3.format(',d')
+                color = d3.scale.category20c();
 
-            var bubble = d3.layout.pack()
-                .sort(null)
-                .size([diameter, diameter])
-                .padding(1);
+                var bubble = d3.layout.pack()
+                    .sort(null)
+                    .size([diameter, diameter])
+                    .padding(1);
 
-            const containerSelector = '.all-bubble';
-            const containerTitle = 'Classement des nœuds actifs par durée cumulée en émission';
-            const containerLegend = 'Ce graph présente le classement par durée cumulée en émission, des nœuds actifs dans la journée.';
+                const containerSelector = '.all-bubble';
+                const containerTitle = 'Classement des nœuds actifs par durée cumulée en émission';
+                const containerLegend = 'Ce graph présente le classement par durée cumulée en émission, des nœuds actifs dans la journée.';
 
-            d3.select(containerSelector).html('');
-            d3.select(containerSelector).append('h2').text(containerTitle);
+                d3.select(containerSelector).html('');
+                d3.select(containerSelector).append('h2').text(containerTitle);
 
-            const svg = d3.select(containerSelector)
-                .append('svg')
-                .attr('width', diameter)
-                .attr('height', diameter);
+                const svg = d3.select(containerSelector)
+                    .append('svg')
+                    .attr('width', diameter)
+                    .attr('height', diameter);
 
-            tmp = '{' +
-                '"children":' + JSON.stringify(data) +
-                '}';
+                tmp = '{' +
+                    '"children":' + JSON.stringify(data) +
+                    '}';
 
-            data = JSON.parse(tmp)
+                data = JSON.parse(tmp)
 
-            var color = 'steelblue';
+                var color = 'steelblue';
 
-            data.children.forEach(function(d) {
-                a = d.Durée;
-                b = a.split(':');
-                if (b.length === 3) {
-                    s = (+b[0]) * 60 * 60 + (+b[1]) * 60 + (+b[2]); 
-                }
-                else {
-                    s = (+b[0]) * 60 + (+b[1]); 
-                }
-                d.TX = s;
-            });
-
-            var yMax = d3.max(data.children, function(d) {
-                return d.TX;
-            });
-            var yMin = d3.min(data.children, function(d) {
-                return d.TX;
-            });
-
-            data.children.forEach(function(d) {
-                if (d.Indicatif === Indicatif) {
-                    d.TX = yMax;
-                }
-            });
-
-            var colorScale = d3.scale.linear()
-                .domain([yMin, yMax])
-                .range([d3.rgb(color).brighter(), d3.rgb(color).darker()]);
-
-            var node = svg.selectAll('.node')
-                .data(bubble.nodes(classes(data))
-                    .filter(function(d) {
-                        return !d.children;
-                    }))
-                .enter().append('g')
-                .attr('class', 'node')
-                .attr('transform', function(d) {
-                    return 'translate(' + d.x + ',' + d.y + ')';
-                });
-
-            node.append('circle')
-                .attr('r', function(d) {
-                    return (d.r);
-                })
-                //.style('fill', function(d) { return color; })
-                .style('fill', function(d) {
-                    if (d.className === Indicatif) {
-                        return 'lightslategray';
+                data.children.forEach(function(d) {
+                    a = d.Durée;
+                    b = a.split(':');
+                    if (b.length === 3) {
+                        s = (+b[0]) * 60 * 60 + (+b[1]) * 60 + (+b[2]); 
                     }
-                    return colorScale(d.value);
+                    else {
+                        s = (+b[0]) * 60 + (+b[1]); 
+                    }
+                    d.TX = s;
                 });
 
-            node.append('text')
-                .attr('class', 'value')
-                .attr('dy', '.3em')
-                .style('fill', function(d) {
-                    if (d.className === Indicatif) {
+                var yMax = d3.max(data.children, function(d) {
+                    return d.TX;
+                });
+                var yMin = d3.min(data.children, function(d) {
+                    return d.TX;
+                });
+
+                data.children.forEach(function(d) {
+                    if (d.Indicatif === Indicatif) {
+                        d.TX = yMax;
+                    }
+                });
+
+                var colorScale = d3.scale.linear()
+                    .domain([yMin, yMax])
+                    .range([d3.rgb(color).brighter(), d3.rgb(color).darker()]);
+
+                var node = svg.selectAll('.node')
+                    .data(bubble.nodes(classes(data))
+                        .filter(function(d) {
+                            return !d.children;
+                        }))
+                    .enter().append('g')
+                    .attr('class', 'node')
+                    .attr('transform', function(d) {
+                        return 'translate(' + d.x + ',' + d.y + ')';
+                    });
+
+                node.append('circle')
+                    .attr('r', function(d) {
+                        return (d.r);
+                    })
+                    //.style('fill', function(d) { return color; })
+                    .style('fill', function(d) {
+                        if (d.className === Indicatif) {
+                            return 'lightslategray';
+                        }
+                        return colorScale(d.value);
+                    });
+
+                node.append('text')
+                    .attr('class', 'value')
+                    .attr('dy', '.3em')
+                    .style('fill', function(d) {
+                        if (d.className === Indicatif) {
+                            return 'white';
+                        }
                         return 'white';
-                    }
-                    return 'white';
-                })
-                .style('font-family', 'Arial, Helvetica, sans-serif')
-                .style('font-size', function(d) {
-                    return (d.r) / 4 + 'px';
-                })
-                .style('text-anchor', 'middle')
-                .style('pointer-events', 'none')
-                .text(function(d) {
-                    return d.className;
-                });
+                    })
+                    .style('font-family', 'Arial, Helvetica, sans-serif')
+                    .style('font-size', function(d) {
+                        return (d.r) / 4 + 'px';
+                    })
+                    .style('text-anchor', 'middle')
+                    .style('pointer-events', 'none')
+                    .text(function(d) {
+                        return d.className;
+                    });
 
-            d3.select(self.frameElement).style('height', diameter + 'px');
-            d3.select(containerSelector).append('span').text(containerLegend);
-
+                d3.select(self.frameElement).style('height', diameter + 'px');
+                d3.select(containerSelector).append('span').text(containerLegend);
+            }
         });
 
         // Abstract
         // Load the data
-        d3.json('abstract.json', function(error, data) {
+        d3.json('abstract.json' + '?_=' + noCache, function(error, data) {
             if (old_abstract !== JSON.stringify(data)) {
                 old_abstract = JSON.stringify(data);
             } else {
@@ -551,6 +555,13 @@
             const containerLegend = 'Ce tableau présente le résumé de l\'activité du salon dans la journée: nombre de passages en émission total, durée cumulée en émission, nombre de nœuds actifs et connectés. ';
             const containerLegendBis = 'En complément, vous pouvez suivre les mouvements des nœuds entrants et sortants sur ce salon, ainsi que les éventuelles émissions sur les autres salons, en suivant le fil d\'informations défilant ci-dessous.';
     
+            var room = ['RRF', 'TECHNIQUE', 'INTERNATIONAL', 'BAVARDAGE', 'LOCAL'];
+            var room_other = [];
+            var room_file = [];
+            var room_transmit = [];
+            var room_promise = [];
+            var room_current = '';
+
             function tabulate(data, columns) {
                 d3.select(containerSelector).html('');
                 d3.select(containerSelector).append('h2').text(containerTitle);
@@ -592,18 +603,23 @@
                     .html(function(d, i) {
                         url = window.location.href;
                         if (d.value === 'RRF') {
+                            room_current = 'RRF';
                             url = url.replace('RRF-', 'TECHNIQUE-')
                             return '<a href="' + url + '">' + d.value + '</a>';
                         } else if (d.value === 'TECHNIQUE') {
+                            room_current = 'TECHNIQUE';
                             url = url.replace('TECHNIQUE-', 'BAVARDAGE-')
                             return '<a href="' + url + '">' + d.value + '</a>';
                         } else if (d.value === 'BAVARDAGE') {
+                            room_current = 'BAVARDAGE';
                             url = url.replace('BAVARDAGE-', 'INTERNATIONAL-')
                             return '<a href="' + url + '">' + d.value + '</a>';
                         } else if (d.value === 'INTERNATIONAL') {
+                            room_current = 'INTERNATIONAL';
                             url = url.replace('INTERNATIONAL-', 'LOCAL-')
                             return '<a href="' + url + '">' + d.value + '</a>';
                         } else if (d.value === 'LOCAL') {
+                            room_current = 'LOCAL';
                             url = url.replace('LOCAL-', 'RRF-')
                             return '<a href="' + url + '">' + d.value + '</a>';
                         } else if (i === 4) {
@@ -627,7 +643,7 @@
  
         // News
         // Load the data
-        d3.json('news.json', function(error, data) {
+        d3.json('news.json' + '?_=' + noCache, function(error, data) {
             if (old_news !== JSON.stringify(data)) {
                 old_news = JSON.stringify(data);
             } else {
@@ -639,152 +655,153 @@
 
         // Last
         // Load the data
-        d3.json('last.json', function(error, data) {
+        d3.json('last.json' + '?_=' + noCache, function(error, data) {
             if (old_last !== JSON.stringify(data)) {
                 old_last = JSON.stringify(data);
             } else {
                 return 0;
             }
 
-            //console.log("last redraw");
+            if (data !== undefined) {
+                //console.log("last redraw");
 
-            Indicatif = sessionStorage.getItem('Indicatif');
+                const containerSelector = '.last-table';
+                const containerTitle = 'Derniers passages en émission';
+                const containerLegend = 'Ce tableau présente la liste des 10 derniers passages en émission: horodatage, indicatif du nœud et durée en émission.';
 
-            const containerSelector = '.last-table';
-            const containerTitle = 'Derniers passages en émission';
-            const containerLegend = 'Ce tableau présente la liste des 10 derniers passages en émission: horodatage, indicatif du nœud et durée en émission.';
+                function tabulate(data, columns) {
+                    d3.select(containerSelector).html('');
+                    d3.select(containerSelector).append('h2').text(containerTitle);
 
-            function tabulate(data, columns) {
-                d3.select(containerSelector).html('');
-                d3.select(containerSelector).append('h2').text(containerTitle);
+                    var table = d3.select(containerSelector)
+                        .append('table')
+                        .attr('width', width + margin.left + margin.right + 'px');
 
-                var table = d3.select(containerSelector)
-                    .append('table')
-                    .attr('width', width + margin.left + margin.right + 'px');
+                    var thead = table.append('thead');
+                    var tbody = table.append('tbody');
 
-                var thead = table.append('thead');
-                var tbody = table.append('tbody');
-
-                // Append the header row
-                thead.append('tr')
-                    .selectAll('th')
-                    .data(columns).enter()
-                    .append('th')
-                    .text(function(column) {
-                        return column;
-                    });
-
-                // Create a row for each object in the data
-                var rows = tbody.selectAll('tr')
-                    .data(data)
-                    .enter()
-                    .append('tr');
-
-                // Create a cell in each row for each column
-                var cells = rows.selectAll('td')
-                    .data(function(row) {
-                        return columns.map(function(column) {
-                            return {
-                                column: column,
-                                value: row[column]
-                            };
+                    // Append the header row
+                    thead.append('tr')
+                        .selectAll('th')
+                        .data(columns).enter()
+                        .append('th')
+                        .text(function(column) {
+                            return column;
                         });
-                    })
-                    .enter()
-                    .append('td')
-                    .text(function(d) {
-                        return d.value;
-                    });
-                    
-                return table;
-            }
 
-            // Render the table(s)
-            tabulate(data, ['Date', 'Indicatif', 'Durée']); // 3 columns table
-            d3.select(containerSelector).append('span').text(containerLegend);
+                    // Create a row for each object in the data
+                    var rows = tbody.selectAll('tr')
+                        .data(data)
+                        .enter()
+                        .append('tr');
+
+                    // Create a cell in each row for each column
+                    var cells = rows.selectAll('td')
+                        .data(function(row) {
+                            return columns.map(function(column) {
+                                return {
+                                    column: column,
+                                    value: row[column]
+                                };
+                            });
+                        })
+                        .enter()
+                        .append('td')
+                        .text(function(d) {
+                            return d.value;
+                        });
+                        
+                    return table;
+                }
+
+                // Render the table(s)
+                tabulate(data, ['Date', 'Indicatif', 'Durée']); // 3 columns table
+                d3.select(containerSelector).append('span').text(containerLegend);
+            }
         });
 
         // All
         // Load the data
-        d3.json('all.json', function(error, data) {
+        d3.json('all.json' + '?_=' + noCache, function(error, data) {
             if (old_all !== JSON.stringify(data)) {
                 old_all = JSON.stringify(data);
             } else {
                 return 0;
             }
 
-            //console.log("all redraw");
+            if(data !== undefined) {
+                //console.log("all redraw");
 
-            const containerSelector = '.all-table';
-            const containerTitle = 'Classement des nœuds actifs par TX';
-            const containerLegend = 'Ce tableau présente le classement complet des nœuds étant passés en émission dans la journée: position, indicatif du nœud, nombre de passages et durée cumulée en émission.';
+                const containerSelector = '.all-table';
+                const containerTitle = 'Classement des nœuds actifs par TX';
+                const containerLegend = 'Ce tableau présente le classement complet des nœuds étant passés en émission dans la journée: position, indicatif du nœud, nombre de passages et durée cumulée en émission.';
 
-            function tabulate(data, columns) {
-                d3.select(containerSelector).html('');
-                d3.select(containerSelector).append('h2').text(containerTitle);
+                function tabulate(data, columns) {
+                    d3.select(containerSelector).html('');
+                    d3.select(containerSelector).append('h2').text(containerTitle);
 
-                var table = d3.select(containerSelector)
-                    .append('table')
-                    .attr('width', width + margin.left + margin.right + 'px');
+                    var table = d3.select(containerSelector)
+                        .append('table')
+                        .attr('width', width + margin.left + margin.right + 'px');
 
-                var thead = table.append('thead');
-                var tbody = table.append('tbody');
+                    var thead = table.append('thead');
+                    var tbody = table.append('tbody');
 
-                // Append the header row
-                thead.append('tr')
-                    .selectAll('th')
-                    .data(columns).enter()
-                    .append('th')
-                    .text(function(column) {
-                        return column;
-                    });
-
-                // Create a row for each object in the data
-                var rows = tbody.selectAll('tr')
-                    .data(data)
-                    .enter()
-                    .append('tr');
-
-                // Create a cell in each row for each column
-                var cells = rows.selectAll('td')
-                    .data(function(row) {
-                        return columns.map(function(column) {
-                            return {
-                                column: column,
-                                value: row[column]
-                            };
+                    // Append the header row
+                    thead.append('tr')
+                        .selectAll('th')
+                        .data(columns).enter()
+                        .append('th')
+                        .text(function(column) {
+                            return column;
                         });
-                    })
-                    .enter()
-                    .append('td')
-                    .text(function(d) {
-                        return d.value;
-                    });
 
-                return table;
+                    // Create a row for each object in the data
+                    var rows = tbody.selectAll('tr')
+                        .data(data)
+                        .enter()
+                        .append('tr');
+
+                    // Create a cell in each row for each column
+                    var cells = rows.selectAll('td')
+                        .data(function(row) {
+                            return columns.map(function(column) {
+                                return {
+                                    column: column,
+                                    value: row[column]
+                                };
+                            });
+                        })
+                        .enter()
+                        .append('td')
+                        .text(function(d) {
+                            return d.value;
+                        });
+
+                    return table;
+                }
+
+                // Render the table(s)
+                tabulate(data, ['Pos', 'Indicatif', 'TX', 'Durée']); // 4 columns table
+                d3.select(containerSelector).append('span').text(containerLegend);
             }
-
-            // Render the table(s)
-            tabulate(data, ['Pos', 'Indicatif', 'TX', 'Durée']); // 4 columns table
-            d3.select(containerSelector).append('span').text(containerLegend);
         });
 
         // Porteuse
         // Load the data
-        d3.json('porteuse.json', function(error, data) {
+        d3.json('porteuse.json' + '?_=' + noCache, function(error, data) {
             if (old_porteuse !== JSON.stringify(data)) {
                 old_porteuse = JSON.stringify(data);
             } else {
                 return 0;
             }
 
-            //console.log("porteuse redraw");
-
-            const containerSelector = '.porteuse-table';
-            const containerTitle = 'Déclenchements intempestifs';
-            const containerLegend = 'Ce tableau présente le classement complet des nœuds ayant fait l\'objet de passages en émission intempestifs ou suspects, d\'une durée de moins de 3 secondes: position, indicatif du nœud et nombre de passages en émission.';
-
             if (data !== undefined) {
+                //console.log("porteuse redraw");
+
+                const containerSelector = '.porteuse-table';
+                const containerTitle = 'Déclenchements intempestifs';
+                const containerLegend = 'Ce tableau présente le classement complet des nœuds ayant fait l\'objet de passages en émission intempestifs ou suspects, d\'une durée de moins de 3 secondes: position, indicatif du nœud et nombre de passages en émission.';
 
                 function tabulate(data, columns) {
                     d3.select(containerSelector).html('');
@@ -848,7 +865,7 @@
         if (porteuse_extended != null) {
             // Porteuse Extended
             // Load the data
-            d3.json('porteuse_extended.json', function(error, data) {
+            d3.json('porteuse_extended.json' + '?_=' + noCache, function(error, data) {
                 if (old_porteuse_extended !== JSON.stringify(data)) {
                     old_porteuse_extended = JSON.stringify(data);
                 } else {
@@ -926,7 +943,7 @@
         if (node_extended != null) {
             // Node Extended
             // Load the data
-            d3.json('node_extended.json', function(error, data) {
+            d3.json('node_extended.json' + '?_=' + noCache, function(error, data) {
                 if (old_node_extended !== JSON.stringify(data)) {
                     old_node_extended = JSON.stringify(data);
                 } else {

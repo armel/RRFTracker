@@ -81,20 +81,27 @@ def log_write():
     log_node_list(log_path_day)
     log_transmit(log_path_day)
 
-    # Change only if porteuse...
-
-    if s.porteuse_check is True:
+    # Write if init
+    if s.init is True:
         log_porteuse(log_path_day, 'porteuse')
         log_porteuse(log_path_day, 'porteuse_extended')
-        s.porteuse_check = False
-
-    # Change only if transmitter...
-
-    if s.call_current != '':
         log_history(log_path_day)
         log_last(log_path_day)
         log_node(log_path_day, 'best')
         log_node(log_path_day, 'all')
+        s.init = False
+    else:
+        # Change only if porteuse...
+        if s.porteuse_check is True:
+            log_porteuse(log_path_day, 'porteuse')
+            log_porteuse(log_path_day, 'porteuse_extended')
+            s.porteuse_check = False
+        # Change only if transmitter...
+        if s.call_current != '':
+            log_history(log_path_day)
+            log_last(log_path_day)
+            log_node(log_path_day, 'best')
+            log_node(log_path_day, 'all')
 
     return 0
 
@@ -382,6 +389,7 @@ def log_news(log_path_day):
 
         if k != s.room:
             # Request HTTP datas
+            page = '{"nodes":["FOO"],"TXmit":"","network":"","transmit":false,"receive":false,"transmitter":"","digits":[]}'
             try:
                 r = requests.get(s.url[k], verify=False, timeout=10)
                 page = r.content

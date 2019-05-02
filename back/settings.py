@@ -10,7 +10,7 @@ Check video about RRFTracker on https://www.youtube.com/watch?v=rVW8xczVpEo
 
 # Version
 
-version = '1.6.3'
+version = '1.6.4'
 
 # Default room and path
 
@@ -55,6 +55,10 @@ minute = ''
 seconde = ''
 duration = 0
 intempestif = 2         # Tuned me !!!
+
+# Set init
+
+init = True				# Check if init...
 
 # Set url
 
