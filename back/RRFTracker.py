@@ -42,8 +42,18 @@ def main(argv):
 
     if not os.path.exists(s.log_path):
         os.makedirs(s.log_path)
-    if not os.path.exists(s.log_path + '/assets'):
-        os.popen('cp -a /opt/RRFTracker_Web/front/assets ' + s.log_path)
+    if not os.path.exists(s.log_path + '/' + 'assets'):
+        os.popen('cp -a ../front/assets ' + s.log_path)
+
+    tmp = datetime.datetime.now()
+    s.day = tmp.strftime('%Y-%m-%d')
+
+    s.log_path_day = s.log_path + '/' + s.room + '-' + s.day
+
+    if not os.path.exists(s.log_path_day):
+        os.makedirs(s.log_path_day)
+        os.popen('cp /opt/RRFTracker_Web/front/index.html ' + s.log_path_day + '/' + 'index.html')
+        os.popen('ln -sfn ' + s.log_path_day + ' ' + s.log_path + '/' + s.room + '-today')
 
     # Create geolocalisation list
 
@@ -66,12 +76,21 @@ def main(argv):
         s.seconde = int(s.now[-2:])
 
         if(s.now[:5] == '00:00'):
+            s.log_path_day = s.log_path + '/' + s.room + '-' + s.day
+
+            if not os.path.exists(s.log_path_day):
+                os.makedirs(s.log_path_day)
+                os.popen('cp /opt/RRFTracker_Web/front/index.html ' + s.log_path_day + '/index.html')
+                os.popen('ln -sfn ' + s.log_path_day + ' ' + s.log_path + '/' + s.room + '-today')
+
             s.qso = 0
             s.day_duration = 0
             for q in xrange(0, 24):     # Clean histogram
                 s.qso_hour[q] = 0
             s.node.clear()              # Clear node history
             s.porteuse.clear()          # Clear porteuse history
+            s.node_list_old.clear()     # Clear node list
+            s.init = True               # Reset init
 
         # Request HTTP datas
         try:
@@ -126,6 +145,13 @@ def main(argv):
             if (s.stat_save is False and s.duration > s.intempestif):
                 s.node = l.save_stat_node(s.node, s.call[0], 0)
                 s.qso += 1
+                # Log best.json
+                l.log_node('best')
+                # Log activity.json
+                tmp = datetime.datetime.now()
+                s.qso_hour[s.hour] = s.qso - sum(s.qso_hour[:s.hour])
+                l.log_activity()
+
                 s.stat_save = True
 
             # Format call time
@@ -149,7 +175,10 @@ def main(argv):
                 if s.stat_save is False:
                     tmp = datetime.datetime.now()
                     s.porteuse = l.save_stat_porteuse(s.porteuse, s.call[0], tmp.strftime('%H:%M:%S'))
-                    s.porteuse_check = True
+
+                    # Log porteuse.json and porteuse_extended.json
+                    l.log_porteuse('porteuse')
+                    l.log_porteuse('porteuse_extended')
 
                 s.transmit = False
                 s.stat_save = False
@@ -171,6 +200,8 @@ def main(argv):
 
         if s.node_list_old == []:
             s.node_list_old = s.node_list
+            # Log node_extended.json
+            l.log_node_list()
         else:
             if s.node_list_old != s.node_list:
                 if (list(set(s.node_list_old) - set(s.node_list))):
@@ -188,6 +219,10 @@ def main(argv):
                     s.node_list_in = sorted(s.node_list_in)
 
                 s.node_list_old = s.node_list
+
+                # Log node_extended.json
+                l.log_node_list()
+
 
         s.node_count = len(s.node_list)
 
