@@ -82,6 +82,7 @@
     });
 
     old_abstract = '';
+    old_elsewhere = '';
     old_transmit = '';
     old_news = '';
     old_best = '';
@@ -101,6 +102,7 @@
         if (redraw === true) {
             console.log("rezise");
             old_abstract = '';
+            old_elsewhere = '';
             old_transmit = '';
             old_news = '';
             old_best = '';
@@ -144,21 +146,6 @@
 
         var room = ['RRF', 'TECHNIQUE', 'INTERNATIONAL', 'BAVARDAGE', 'LOCAL'];
         var room_other = [];
-        var room_file = {};
-        var room_transmit = [];
-
-        room.forEach(function(d) {
-            if (d !== sessionStorage.getItem('Room')) {
-                room_other.push(d);
-                room_file[d] = '../' + d + '-today/transmit.json';
-            }
-        });
-
-        for (const [key, value] of Object.entries(room_file)) {
-            $.getJSON(value, function(data) {
-                room_transmit[key] = data[0].Indicatif;
-            });
-        }
 
         // Tot
         // Load the data
@@ -562,21 +549,19 @@
         // Abstract
         // Load the data
         d3.json('abstract.json' + '?_=' + noCache, function(error, data) {
-            /*
             if (old_abstract !== JSON.stringify(data)) {
                 old_abstract = JSON.stringify(data);
             } else {
                 return 0;
             }
-            */
 
-            console.log("abstract redraw");
+            //console.log("abstract redraw");
 
             const containerSelector = '.abstract-table';
             const containerTitle = 'Résumé de la journée' + data[0].Date;
             const containerLegend = 'Ce tableau présente le résumé de l\'activité du salon dans la journée: nombre de passages en émission total, durée cumulée en émission, nombre de nœuds actifs et connectés. ';
-            const containerLegendBis = 'En complément, vous pouvez suivre les mouvements des nœuds entrants et sortants sur ce salon, ainsi que les éventuelles émissions sur les autres salons, en suivant le fil d\'informations défilant ci-dessous.';
-    
+            const containerLegendBis = 'En complément, vous pouvez suivre les mouvements des nœuds entrants et sortants sur ce salon, en suivant le fil d\'informations défilant ci-dessous.';
+
             var room_current = '';
 
             function tabulate(data, columns) {
@@ -654,7 +639,36 @@
                 return table;
             }
 
-            function tabulate_outside(data, columns) {
+            // Render the table(s)
+            tabulate(data, ['Salon', 'TX total', 'Emission cumulée', 'Nœuds actifs', 'Nœuds connectés']); // 5 columns table
+            d3.select(containerSelector).append('span').text(containerLegend + containerLegendBis);
+        });
+ 
+         // Abstract
+        // Load the data
+        d3.json('elsewhere.json' + '?_=' + noCache, function(error, data) {
+            if (old_elsewhere !== JSON.stringify(data)) {
+                old_elsewhere = JSON.stringify(data);
+            } else {
+                return 0;
+            }
+
+            //console.log("elsewhere redraw");
+
+            const containerSelector = '.elsewhere-table';
+            const containerTitle = 'Activité sur les autres salons';
+            const containerLegend = 'Ce tableau présente l\'activité éventuelle sur les autres salons. ';
+    
+            room.forEach(function(d) {
+                if (d !== sessionStorage.getItem('Room')) {
+                    room_other.push(d);
+                }
+            });
+
+            function tabulate(data, columns) {
+                d3.select(containerSelector).html('');
+                d3.select(containerSelector).append('h2').text(containerTitle);
+
                 const table = d3.select(containerSelector)
                     .append('table')
                     .attr('width', width + margin.left + margin.right + 'px');
@@ -688,26 +702,19 @@
                     })
                     .enter()
                     .append('td')
-                    .attr('width', '20%')
+                    .attr('width', '25%')
                     .text(function(d) {
-                        if (d.value === undefined) {
-                            return 'Aucune émission';
-                        }
-                        else {
-                            return d.value;
-                        }
+                        return d.value;
                     });
-
+                    
                 return table;
             }
 
             // Render the table(s)
-            tabulate(data, ['Salon', 'TX total', 'Emission cumulée', 'Nœuds actifs', 'Nœuds connectés']); // 5 columns table
-            console.log('ici', room_transmit);
-            tabulate_outside(room_transmit, room_other); // 5 columns table
-            d3.select(containerSelector).append('span').text(containerLegend + containerLegendBis);
+            tabulate(data, room_other); // 5 columns table
+            d3.select(containerSelector).append('span').text(containerLegend);
         });
- 
+
         // News
         // Load the data
         d3.json('news.json' + '?_=' + noCache, function(error, data) {

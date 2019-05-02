@@ -94,12 +94,14 @@ svg {
 
 .marquee {
     font: 12px Arial, Helvetica, sans-serif;
+    color: #999;
     overflow: hidden;
     background: #fff;
     width:500px;
     margin: 0 auto;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
     letter-spacing: 5px;
+    height: 20px;
 }
 
 table {

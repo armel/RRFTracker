@@ -42,8 +42,8 @@ def main(argv):
 
     if not os.path.exists(s.log_path):
         os.makedirs(s.log_path)
-    if not os.path.exists(s.log_path + '/assets'):
-        os.popen('cp -a /opt/RRFTracker_Web/front/assets ' + s.log_path)
+    if not os.path.exists(s.log_path + '/' + 'assets'):
+        os.popen('cp -a ../front/assets ' + s.log_path)
 
     tmp = datetime.datetime.now()
     s.day = tmp.strftime('%Y-%m-%d')
@@ -52,7 +52,7 @@ def main(argv):
 
     if not os.path.exists(s.log_path_day):
         os.makedirs(s.log_path_day)
-        os.popen('cp /opt/RRFTracker_Web/front/index.html ' + s.log_path_day + '/index.html')
+        os.popen('cp /opt/RRFTracker_Web/front/index.html ' + s.log_path_day + '/' + 'index.html')
         os.popen('ln -sfn ' + s.log_path_day + ' ' + s.log_path + '/' + s.room + '-today')
 
     # Create geolocalisation list

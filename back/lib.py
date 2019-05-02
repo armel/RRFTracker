@@ -87,6 +87,7 @@ def log_write():
     log_news()
     log_transmit()
     log_node('all')
+    log_elsewhere()
 
     # Change only if transmitter...
     if s.call_current != '':
@@ -372,29 +373,6 @@ def log_news():
 
     message = ''
 
-    # On emissions
-
-    for k in s.url.keys():
-
-        if k != s.room:
-            # Request HTTP datas
-            page = '{"nodes":["FOO"],"TXmit":"","network":"","transmit":false,"receive":false,"transmitter":"","digits":[]}'
-            try:
-                r = requests.get(s.url[k], verify=False, timeout=10)
-                page = r.content
-            except requests.exceptions.ConnectionError as errc:
-                print ('Error Connecting:', errc)
-            except requests.exceptions.Timeout as errt:
-                print ('Timeout Error:', errt)
-
-            search_start = page.find('TXmit":"')            # Search this pattern
-            search_start += 8                               # Shift...
-            search_stop = page.find('"', search_start)      # And close it...
-
-            # If transmitter...
-            if search_stop != search_start:
-                message += page[search_start:search_stop] + ' en émission sur le salon ' + k + '. '
-
     # Nœuds entrants
 
     tmp = ''
@@ -444,6 +422,41 @@ def log_news():
     data = data[:last] + '' + data[last + 1:]
 
     file = open(s.log_path_day + '/' + 'news.json', 'w')
+    file.write(data)
+    file.close()
+
+    return 0
+
+# Log everywhere
+def log_elsewhere():
+    room_other = ['RRF', 'TECHNIQUE', 'INTERNATIONAL', 'BAVARDAGE', 'LOCAL']
+    room_other.remove(s.room)
+
+    data = '[\n'
+    data += '{\n'
+
+    for room in room_other:
+        with open(s.log_path + '/' + room + '-today/transmit.json', 'r') as content_file:
+            content = content_file.read()
+
+            search_start = content.find('Indicatif": "')     # Search this pattern
+            search_start += 13                              # Shift...
+            search_stop = content.find('"', search_start)   # And close it...
+
+            call = content[search_start:search_stop]
+
+            if call == '':
+                data += '\t"' + room + '": "Aucune émission",\n'
+            else:
+                data += '\t"' + room + '": "' + call + '",\n'
+
+    data += '}\n'
+    data += ']\n'
+
+    last = data.rfind(',')
+    data = data[:last] + '' + data[last + 1:]
+
+    file = open(s.log_path_day + '/' + 'elsewhere.json', 'w')
     file.write(data)
     file.close()
 
