@@ -69,44 +69,32 @@ def save_stat_porteuse(history, call, duration=0):
 # Log write for history
 def log_write():
 
-    log_path_day = s.log_path + '/' + s.room + '-' + s.day
-
-    if not os.path.exists(log_path_day):
-        os.makedirs(log_path_day)
-        os.popen('cp /opt/RRFTracker_Web/front/index.html ' + log_path_day + '/index.html')
-        os.popen('ln -sfn ' + log_path_day + ' ' + s.log_path + '/' + s.room + '-today')
-
-    log_abstract(log_path_day)
-    log_news(log_path_day)
-    log_node_list(log_path_day)
-    log_transmit(log_path_day)
-
     # Write if init
     if s.init is True:
-        log_porteuse(log_path_day, 'porteuse')
-        log_porteuse(log_path_day, 'porteuse_extended')
-        log_history(log_path_day)
-        log_last(log_path_day)
-        log_node(log_path_day, 'best')
-        log_node(log_path_day, 'all')
+        log_porteuse('porteuse')
+        log_porteuse('porteuse_extended')
+        log_node_list()
+        log_activity()
+        log_node('best')
+        log_node('all')
+
         s.init = False
-    else:
-        # Change only if porteuse...
-        if s.porteuse_check is True:
-            log_porteuse(log_path_day, 'porteuse')
-            log_porteuse(log_path_day, 'porteuse_extended')
-            s.porteuse_check = False
-        # Change only if transmitter...
-        if s.call_current != '':
-            log_history(log_path_day)
-            log_last(log_path_day)
-            log_node(log_path_day, 'best')
-            log_node(log_path_day, 'all')
+
+    # Refresh always
+
+    log_abstract()
+    log_news()
+    log_transmit()
+    log_node('all')
+
+    # Change only if transmitter...
+    if s.call_current != '':
+        log_last()
 
     return 0
 
 # Log abstract
-def log_abstract(log_path_day):
+def log_abstract():
 
     data = '[\n'
 
@@ -145,14 +133,14 @@ def log_abstract(log_path_day):
     last = data.rfind(',')
     data = data[:last] + '' + data[last + 1:]
 
-    file = open(log_path_day + '/' + 'abstract.json', 'w')
+    file = open(s.log_path_day + '/' + 'abstract.json', 'w')
     file.write(data)
     file.close()
 
     return 0
 
 # Log transmit
-def log_transmit(log_path_day):
+def log_transmit():
 
     if s.duration == 0:
         s.call_current = ''
@@ -185,14 +173,14 @@ def log_transmit(log_path_day):
     last = data.rfind(',')
     data = data[:last] + '' + data[last + 1:]
 
-    file = open(log_path_day + '/' + 'transmit.json', 'w')
+    file = open(s.log_path_day + '/' + 'transmit.json', 'w')
     file.write(data)
     file.close()
 
     return 0
 
 # Log history
-def log_history(log_path_day):
+def log_activity():
 
     data = '[\n'
 
@@ -220,14 +208,14 @@ def log_history(log_path_day):
     last = data.rfind(',')
     data = data[:last] + '' + data[last + 1:]
 
-    file = open(log_path_day + '/' + 'activity.json', 'w')
+    file = open(s.log_path_day + '/' + 'activity.json', 'w')
     file.write(data)
     file.close()
 
     return 0
 
 # Log last
-def log_last(log_path_day):
+def log_last():
 
     data = '[\n'
 
@@ -245,14 +233,14 @@ def log_last(log_path_day):
     last = data.rfind(',')
     data = data[:last] + '' + data[last + 1:]
 
-    file = open(log_path_day + '/' + 'last.json', 'w')
+    file = open(s.log_path_day + '/' + 'last.json', 'w')
     file.write(data)
     file.close()
 
     return 0
 
 # Log node
-def log_node(log_path_day, type):
+def log_node(type):
     tmp = sorted(s.node.items(), key=lambda x: x[1])
     tmp.reverse()
 
@@ -283,14 +271,14 @@ def log_node(log_path_day, type):
     last = data.rfind(',')
     data = data[:last] + '' + data[last + 1:]
 
-    file = open(log_path_day + '/' + type + '.json', 'w')
+    file = open(s.log_path_day + '/' + type + '.json', 'w')
     file.write(data)
     file.close()
 
     return 0
 
 # Log node list
-def log_node_list(log_path_day):
+def log_node_list():
 
     data = '[\n'
 
@@ -328,14 +316,14 @@ def log_node_list(log_path_day):
     last = data.rfind(',')
     data = data[:last] + '' + data[last + 1:]
 
-    file = open(log_path_day + '/' + 'node_extended.json', 'w')
+    file = open(s.log_path_day + '/' + 'node_extended.json', 'w')
     file.write(data)
     file.close()
 
     return 0
 
 # Log special
-def log_porteuse(log_path_day, type):
+def log_porteuse(type):
     tmp = sorted(s.porteuse.items(), key=lambda x: x[1])
     tmp.reverse()
 
@@ -372,14 +360,14 @@ def log_porteuse(log_path_day, type):
     last = data.rfind(',')
     data = data[:last] + '' + data[last + 1:]
 
-    file = open(log_path_day + '/' + type + '.json', 'w')
+    file = open(s.log_path_day + '/' + type + '.json', 'w')
     file.write(data)
     file.close()
 
     return 0
 
 # Log news
-def log_news(log_path_day):
+def log_news():
 
     message = ''
 
@@ -454,7 +442,7 @@ def log_news(log_path_day):
     last = data.rfind(',')
     data = data[:last] + '' + data[last + 1:]
 
-    file = open(log_path_day + '/' + 'news.json', 'w')
+    file = open(s.log_path_day + '/' + 'news.json', 'w')
     file.write(data)
     file.close()
 
