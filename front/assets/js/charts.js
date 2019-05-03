@@ -622,6 +622,12 @@
         // Elsewhere
         // Load the data
         d3.json('elsewhere.json' + '?_=' + noCache, function(error, data) {
+            if (old_elsewhere !== JSON.stringify(data)) {
+                old_elsewhere = JSON.stringify(data);
+            } else {
+                return 0;
+            }
+
             //console.log("elsewhere redraw");
 
             const containerSelector = '.elsewhere-table';
