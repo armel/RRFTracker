@@ -452,7 +452,7 @@
 
                 const containerSelector = '.all-bubble';
                 const containerTitle = 'Classement des nœuds actifs par durée cumulée en émission';
-                const containerLegend = 'Ce graph présente le classement par durée cumulée en émission, des nœuds actifs dans la journée.';
+                const containerLegend = 'Ce graphe présente le classement par durée cumulée en émission, des nœuds actifs dans la journée.';
 
                 d3.select(containerSelector).html('');
                 d3.select(containerSelector).append('h2').text(containerTitle);
@@ -1046,10 +1046,10 @@
         }
     }
 
-    const containerAuthor = 'RRFTracker est un projet Open Source, développé par F4HWN Armel, sous licence MIT.';
+    const containerAuthor = '<a href="https://github.com/armel/RRFTracker_Web">RRFTracker</a> est un projet Open Source, développé par F4HWN Armel, sous licence MIT.';
     const containerSelector = '.author-legend';
     d3.select(containerSelector).append('span')
         .attr('class', 'author')
-        .text(containerAuthor);
+        .html(containerAuthor);
 
 })();

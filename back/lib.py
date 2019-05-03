@@ -78,6 +78,7 @@ def log_write():
         log_node('best')
         log_node('all')
         log_last()
+        log_transmit()
 
         s.init = False
 
@@ -400,13 +401,15 @@ def log_news():
             message += 'Nœuds sortants: ' + tmp + '. '
 
     if s.minute % 10 == 0:
-        message += 'Si vous constatez un problème (panne, perturbation, etc.), envoyez un mail à admin@f5nlg.ovh afin que nous puissions intervenir. '
+        message += 'Si vous testez un système, si vous faites des réglages, basculez sur un salon non occupé. '
     elif s.minute % 5 == 0:
-        message += 'Merci de faire des blancs de l\'ordre de 5 secondes ! '
+        message += 'Si vous constatez un problème (panne, perturbation, etc.), envoyez un mail à admin@f5nlg.ovh afin que nous puissions intervenir. '
     elif s.minute % 3 == 0:
         message += 'Ne monopolisez pas le réseau. Soyez poli et courtois. Respectez les autres utilisateurs. '
     elif s.minute % 2 == 0:
         message += 'Le salon RRF doit être considéré comme une « fréquence d\'appel », pensez à faire QSY sur un des salons annexes. '
+    else:
+        message += 'Merci de faire des blancs de l\'ordre de 5 secondes ! '
     # Format JSON
 
     data = '[\n'
@@ -436,19 +439,24 @@ def log_elsewhere():
     data += '{\n'
 
     for room in room_other:
-        with open(s.log_path + '/' + room + '-today/transmit.json', 'r') as content_file:
-            content = content_file.read()
+        filename = s.log_path + '/' + room + '-today/transmit.json'
 
-            search_start = content.find('Indicatif": "')     # Search this pattern
-            search_start += 13                              # Shift...
-            search_stop = content.find('"', search_start)   # And close it...
+        if os.path.isfile(filename):
+            with open(filename, 'r') as content_file:
+                content = content_file.read()
 
-            call = content[search_start:search_stop]
+                search_start = content.find('Indicatif": "')     # Search this pattern
+                search_start += 13                              # Shift...
+                search_stop = content.find('"', search_start)   # And close it...
 
-            if call == '':
-                data += '\t"' + room + '": "Aucune émission",\n'
-            else:
-                data += '\t"' + room + '": "' + call + '",\n'
+                call = content[search_start:search_stop]
+
+                if call == '':
+                    data += '\t"' + room + '": "Aucune émission",\n'
+                else:
+                    data += '\t"' + room + '": "' + call + '",\n'
+        else:
+            data += '\t"' + room + '": "Aucune émission",\n'
 
     data += '}\n'
     data += ']\n'

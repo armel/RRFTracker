@@ -115,20 +115,20 @@ table {
 table thead th {
     background-color: lightgray;
     color: #000;
-    border: solid 1px #000;
+    border: solid 1px dimgray;
     padding: 5px;
     text-align: center;
 }
 
 table tbody td {
-    border: solid 1px #000;
+    border: solid 1px dimgray;
     color: #000;
     padding: 5px;
     text-align: center;
 }
 
 table tr:hover {
-    background-color: silver;
+    background-color: whitesmoke;
 }
 
 a {
