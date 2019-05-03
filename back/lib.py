@@ -439,19 +439,24 @@ def log_elsewhere():
     data += '{\n'
 
     for room in room_other:
-        with open(s.log_path + '/' + room + '-today/transmit.json', 'r') as content_file:
-            content = content_file.read()
+        filename = s.log_path + '/' + room + '-today/transmit.json'
 
-            search_start = content.find('Indicatif": "')     # Search this pattern
-            search_start += 13                              # Shift...
-            search_stop = content.find('"', search_start)   # And close it...
+        if os.path.isfile(filename):
+            with open(filename, 'r') as content_file:
+                content = content_file.read()
 
-            call = content[search_start:search_stop]
+                search_start = content.find('Indicatif": "')     # Search this pattern
+                search_start += 13                              # Shift...
+                search_stop = content.find('"', search_start)   # And close it...
 
-            if call == '':
-                data += '\t"' + room + '": "Aucune émission",\n'
-            else:
-                data += '\t"' + room + '": "' + call + '",\n'
+                call = content[search_start:search_stop]
+
+                if call == '':
+                    data += '\t"' + room + '": "Aucune émission",\n'
+                else:
+                    data += '\t"' + room + '": "' + call + '",\n'
+        else:
+            data += '\t"' + room + '": "Aucune émission",\n'
 
     data += '}\n'
     data += ']\n'
