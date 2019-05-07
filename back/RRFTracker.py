@@ -89,7 +89,7 @@ def main(argv):
                 s.qso_hour[q] = 0
             s.node.clear()              # Clear node history
             s.porteuse.clear()          # Clear porteuse history
-            s.node_list_old.clear()     # Clear node list
+            #s.node_list_old.clear()     # Clear node list
             s.init = True               # Reset init
 
         # Request HTTP datas
