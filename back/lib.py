@@ -432,14 +432,25 @@ def log_news():
 
 # Log everywhere
 def log_elsewhere():
-    room_other = ['RRF', 'TECHNIQUE', 'INTERNATIONAL', 'BAVARDAGE', 'LOCAL']
-    room_other.remove(s.room)
+    room_other = s.room_list.copy()
+    room_other.pop(s.room, None)
 
     data = '[\n'
     data += '{\n'
 
     for room in room_other:
+        data += '\t"' + room + '": "' + room_other[room]['dtmf'] + '",\n'
+
+    last = data.rfind(',')
+    data = data[:last] + '' + data[last + 1:]
+
+    data += '}, \n'
+    data += '{\n'
+
+    for room in room_other:
         filename = s.log_path + '/' + room + '-today/transmit.json'
+
+        print filename
 
         if os.path.isfile(filename):
             with open(filename, 'r') as content_file:

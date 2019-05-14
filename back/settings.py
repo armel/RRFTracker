@@ -10,7 +10,7 @@ Check video about RRFTracker on https://www.youtube.com/watch?v=rVW8xczVpEo
 
 # Version
 
-version = '1.7.1'
+version = '1.7.2'
 
 # Default room and path
 
@@ -62,10 +62,27 @@ init = True				# Check if init...
 
 # Set url
 
-url = {
-    'RRF': 'http://rrf.f5nlg.ovh/api/svxlink/RRF',
-    'TECHNIQUE': 'http://rrf.f5nlg.ovh/api/svxlink/technique',
-    'INTERNATIONAL': 'http://rrf.f5nlg.ovh/api/svxlink/international',
-    'BAVARDAGE': 'http://rrf.f5nlg.ovh/api/svxlink/bavardage',
-    'LOCAL': 'http://rrf.f5nlg.ovh/api/svxlink/local'
+# http://rrf2.f5nlg.ovh:8000/status-json.xsl
+
+room_list = {
+    'RRF': {
+    	'url': 'http://rrf.f5nlg.ovh/api/svxlink/RRF',
+    	'dtmf': '9 6 #'
+    },
+    'TECHNIQUE': {
+    	'url': 'http://rrf.f5nlg.ovh/api/svxlink/technique',
+    	'dtmf': '9 8 #'
+    },
+    'INTERNATIONAL': {
+    	'url': 'http://rrf.f5nlg.ovh/api/svxlink/international',
+    	'dtmf': '9 9 #'
+    },
+    'BAVARDAGE': {
+    	'url': 'http://rrf.f5nlg.ovh/api/svxlink/bavardage',
+    	'dtmf': '1 0 0 #'
+    },
+    'LOCAL': {
+    	'url': 'http://rrf.f5nlg.ovh/api/svxlink/local',
+    	'dtmf': '1 0 1 #'
+    }
 }

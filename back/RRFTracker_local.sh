@@ -1,7 +1,7 @@
 #!/bin/sh
 
 PATH_SCRIPT='/Users/armel/Dropbox/RRFTracker_Web/back/RRFTracker.py'
-PATH_LOG='/Users/armel/WebRoot/armel/RRF'
+PATH_LOG='/Users/armel/Sites/RRF'
 PATH_PID='/tmp'
 
 case "$1" in

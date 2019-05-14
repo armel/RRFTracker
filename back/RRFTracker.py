@@ -89,12 +89,11 @@ def main(argv):
                 s.qso_hour[q] = 0
             s.node.clear()              # Clear node history
             s.porteuse.clear()          # Clear porteuse history
-            #s.node_list_old.clear()     # Clear node list
             s.init = True               # Reset init
 
         # Request HTTP datas
         try:
-            r = requests.get(s.url[s.room], verify=False, timeout=10)
+            r = requests.get(s.room_list[s.room]['url'], verify=False, timeout=10)
             page = r.content
         except requests.exceptions.ConnectionError as errc:
             print ('Error Connecting:', errc)
