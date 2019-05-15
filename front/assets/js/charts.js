@@ -1,5 +1,23 @@
 ;
 (function() {
+    // Compute Yesterday date
+    function getYesterday() {
+        var todayTimeStamp = +new Date; // Unix timestamp in milliseconds
+        var oneDayTimeStamp = 1000 * 60 * 60 * 24; // Milliseconds in a day
+        var diff = todayTimeStamp - oneDayTimeStamp;
+        var yesterdayDate = new Date(diff);
+        var result = yesterdayDate.getFullYear() + '-'
+        if ((yesterdayDate.getMonth() + 1) < 10) {
+            result += '0';
+        }
+        result += yesterdayDate.getMonth() + 1 + '-'
+        if (yesterdayDate.getDate() < 10) {
+            result += '0';
+        }
+        result += yesterdayDate.getDate();
+        return result;
+    }
+
     // Compute Distance
     function computeDistance(latitude_1, longitude_1) {
         if (sessionStorage.getItem("Latitude") === null) {
@@ -557,10 +575,29 @@
 
             sessionStorage.setItem('Room', data[0].Salon);
 
+            url = window.location.href;
+            if (url.indexOf('today') > 0) {
+                url = url.substring(0, url.lastIndexOf(sessionStorage.getItem('Room') + '-'));
+                url += sessionStorage.getItem('Room') + '-' + getYesterday();
+                
+                date = new Date(Date.now()).toLocaleString();
+                date = date.substring(0, date.lastIndexOf(':'));
+
+                var containerTitle = 'Résumé de la journée du ' + date + ' (<a href="' + url + '">archive d\'hier</a>)';
+            }
+            else {
+                url = url.substring(0, url.lastIndexOf(sessionStorage.getItem('Room') + '-'));
+                url += sessionStorage.getItem('Room') + '-today';
+
+                date = new Date(Date.now() - (1 * 24 * 3600 * 1000)).toLocaleString();
+                date = date.substring(0, date.indexOf(' '));
+
+                var containerTitle = 'Résumé de la journée du ' + date + ' (<a href="' + url + '">aujourd\'hui</a>)';
+            }
+
             //console.log("abstract redraw");
 
             const containerSelector = '.abstract-table';
-            const containerTitle = 'Résumé de la journée' + data[0].Date;
             const containerLegend = 'Ce tableau présente le résumé de l\'activité du salon dans la journée: nombre de passages en émission total, durée cumulée en émission, nombre de nœuds actifs et connectés. ';
             const containerLegendBis = 'En complément, vous pouvez suivre les mouvements des nœuds entrants et sortants sur ce salon, en suivant le fil d\'informations défilant ci-dessous.';
 
@@ -568,7 +605,7 @@
 
             function tabulate(data, columns) {
                 d3.select(containerSelector).html('');
-                d3.select(containerSelector).append('h2').text(containerTitle);
+                d3.select(containerSelector).append('h2').html(containerTitle);
 
                 const table = d3.select(containerSelector)
                     .append('table')
@@ -657,7 +694,7 @@
                     .append('th')
                     .html(function(column) {
                         url = window.location.href;
-                        url = url.replace('/' + sessionStorage.getItem('Room') + '-', '/' + column +'-')
+                        url = url.replace('/' + sessionStorage.getItem('Room') + '-', '/' + column + '-')
                         return '<a href="' + url + '">' + column + '</a>';
                     });
 
