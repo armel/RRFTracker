@@ -669,7 +669,7 @@
 
             const containerSelector = '.elsewhere-table';
             const containerTitle = 'Activité sur les autres salons';
-            const containerLegend = 'Ce tableau présente l\'activité éventuelle sur les autres salons. ';
+            const containerLegend = 'Ce tableau présente l\'activité éventuelle sur les autres salons ainsi qu\'un rappel des codes DTMF. ';
     
             room.forEach(function(d) {
                 if (d !== sessionStorage.getItem('Room')) {
