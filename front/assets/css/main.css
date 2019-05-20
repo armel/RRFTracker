@@ -94,7 +94,7 @@ svg {
 
 .marquee {
     font: 12px Arial, Helvetica, sans-serif;
-    color: #999;
+    color: #000;
     overflow: hidden;
     background: #fff;
     width:500px;
