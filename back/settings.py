@@ -55,6 +55,7 @@ minute = ''
 seconde = ''
 duration = 0
 intempestif = 2         # Tuned me !!!
+main_loop = .25         # Main loop tempo
 
 # Set init
 

@@ -242,11 +242,11 @@ def main(argv):
 
         chrono_stop = time.time()
         chrono_time = chrono_stop - chrono_start
-        if chrono_time < 1:
-            sleep = 1 - chrono_time
+        if chrono_time < s.main_loop:
+            sleep = s.main_loop - chrono_time
         else:
             sleep = 0
-        # print "Temps d'execution : %.1f %.1f secondes" % (chrono_time, sleep)
+        #print "Temps d'execution : %.2f %.2f secondes" % (chrono_time, sleep)
         time.sleep(sleep)
 
 if __name__ == '__main__':
