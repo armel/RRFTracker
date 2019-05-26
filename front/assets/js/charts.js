@@ -191,7 +191,7 @@
             sessionStorage.setItem('Indicatif', Indicatif);
 
             if (TOT == 0) {
-                title = 'Aucune émission';
+                title = 'Aucune émission en cours';
             } else {
                 //title = Indicatif + ' en émission';
                 title = Indicatif;
@@ -653,7 +653,10 @@
 
             // Render the table(s)
             tabulate(data, ['Salon', 'TX total', 'Emission cumulée', 'Nœuds actifs', 'Nœuds connectés']); // 5 columns table
-            d3.select(containerSelector).append('span').text(containerLegend + containerLegendBis);
+            d3.select(containerSelector)
+                .append('span')
+                .attr('width', width + margin.left + margin.right + 'px')
+                .text(containerLegend + containerLegendBis);
         });
  
         // Elsewhere
@@ -669,7 +672,7 @@
 
             const containerSelector = '.elsewhere-table';
             const containerTitle = 'Activité sur les autres salons';
-            const containerLegend = 'Ce tableau présente l\'activité éventuelle sur les autres salons ainsi qu\'un rappel des codes DTMF. ';
+            const containerLegend = 'Ce tableau présente l\'activité éventuelle sur les autres salons: indicatif en cours d\'émission, TX total, émission cumulée ainsi qu\'un rappel des codes DTMF standards. ';
     
             room.forEach(function(d) {
                 if (d !== sessionStorage.getItem('Room')) {

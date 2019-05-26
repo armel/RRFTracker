@@ -113,6 +113,8 @@ def log_abstract():
     data += '\t"Emission cumulée": "' + convert_time(s.day_duration) + '",\n'
     data += '\t"Nœuds actifs": ' + str(len(s.node)) + ',\n'
     data += '\t"Nœuds connectés": ' + str(s.node_count) + ',\n'
+    data += '\t"Indicatif": "' + s.call_current + '",\n'
+    data += '\t"TOT": ' + str(s.duration) + ',\n'
 
     tmp = ''
     for n in s.node_list_in:
@@ -447,31 +449,105 @@ def log_elsewhere():
     data += '}, \n'
     data += '{\n'
 
+    tx = []
+    time = []
+    call = []
+    actif = []
+    connected = []
+
     for room in room_other:
-        filename = s.log_path + '/' + room + '-today/transmit.json'
+        filename = s.log_path + '/' + room + '-today/abstract.json'
 
         if os.path.isfile(filename):
             with open(filename, 'r') as content_file:
                 content = content_file.read()
 
-                search_start = content.find('Indicatif": "')     # Search this pattern
-                search_start += 13                              # Shift...
-                search_stop = content.find('"', search_start)   # And close it...
+                # Indicatif 
 
-                call = content[search_start:search_stop]
+                search_start = content.find('Indicatif": "')        # Search this pattern
+                search_start += 13                                  # Shift...
+                search_stop = content.find('"', search_start)       # And close it...
 
-                if call == '':
-                    data += '\t"' + room + '": "Aucune émission",\n'
+                tmp = content[search_start:search_stop]
+
+                if tmp == '':
+                    call.append("Aucune émission en cours")
                 else:
-                    data += '\t"' + room + '": "' + call + '",\n'
-        else:
-            data += '\t"' + room + '": "Aucune émission",\n'
+                    call.append(tmp)
 
-    data += '}\n'
-    data += ']\n'
+                # Emission cumulée
+
+                search_start = content.find('Emission cumulée": "') # Search this pattern
+                search_start += 21                                  # Shift...
+                search_stop = content.find('"', search_start)       # And close it...
+
+                tmp = content[search_start:search_stop]
+
+                time.append(tmp)
+
+                # Emission cumulée
+                
+                search_start = content.find('TX total": ')          # Search this pattern
+                search_start += 11                                  # Shift...
+                search_stop = content.find(',', search_start)       # And close it...
+
+                tmp = content[search_start:search_stop]
+
+                tx.append(tmp)
+
+                # Noeuds actifs
+                
+                search_start = content.find('Nœuds actifs": ')      # Search this pattern
+                search_start += 15                                  # Shift...
+                search_stop = content.find(',', search_start)       # And close it...
+
+                tmp = content[search_start:search_stop]
+
+                actif.append(tmp)
+
+                # Noeuds connectés
+                
+                search_start = content.find('Nœuds connectés": ')   # Search this pattern
+                search_start += 19                                  # Shift...
+                search_stop = content.find(',', search_start)       # And close it...
+
+                tmp = content[search_start:search_stop]
+
+                connected.append(tmp)
+                
+
+    tmp = 0
+    for room in room_other:
+        data += '\t"' + room + '": "' + call[tmp] + '",\n'
+        tmp += 1
 
     last = data.rfind(',')
     data = data[:last] + '' + data[last + 1:]
+
+    data += '}, \n'
+    data += '{\n'
+
+    tmp = 0
+    for room in room_other:
+        data += '\t"' + room + '": "' + tx[tmp] + '",\n'
+        tmp += 1
+
+    last = data.rfind(',')
+    data = data[:last] + '' + data[last + 1:]
+
+    data += '}, \n'
+    data += '{\n'
+
+    tmp = 0
+    for room in room_other:
+        data += '\t"' + room + '": "' + time[tmp] + '",\n'
+        tmp += 1
+
+    last = data.rfind(',')
+    data = data[:last] + '' + data[last + 1:]
+
+    data += '}\n'
+    data += ']\n'
 
     file = open(s.log_path_day + '/' + 'elsewhere.json', 'w')
     file.write(data)
