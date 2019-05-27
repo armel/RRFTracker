@@ -46,7 +46,7 @@ room_list = {
 for r in room_list:
 
     print r
-    path = '/Users/armel/Sites/RRF/' + r + '-2019-05-*/abstract.json'
+    path = '/var/www/RRFTracker/' + r + '-2019-05-*/abstract.json'
     file = glob.glob(path)
     time_total = 0
 
