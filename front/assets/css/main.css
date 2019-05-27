@@ -48,6 +48,15 @@ body {
     border-bottom: dotted 1px #000;
 }
 
+.graph-container h3 {
+    font: 12px Arial, Helvetica, sans-serif;
+    text-align: center;
+    font-weight: normal;
+    font-style: italic;
+    display: inline;
+    color: #999;
+}
+
 .graph-container span {
     font: 12px Arial, Helvetica, sans-serif;
     color: #999;

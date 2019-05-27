@@ -758,7 +758,7 @@
 
                 const containerSelector = '.last-table';
                 const containerTitle = 'Derniers passages en émission';
-                const containerLegend = 'Ce tableau présente la liste des 10 derniers passages en émission: horodatage, indicatif du nœud et durée en émission.';
+                const containerLegend = 'Ce tableau présente la liste des 10 derniers passages en émission: horodatage, indicatif du nœud et durée en émission. Les durées en émission de moins de 3 secondes sont grisées et comptabilisées comme déclenchements intempestifs.';
 
                 function tabulate(data, columns) {
                     d3.select(containerSelector).html('');
@@ -798,7 +798,12 @@
                         })
                         .enter()
                         .append('td')
-                        .text(function(d) {
+                        .html(function(d) {
+                            if (d.column == 'Durée') {
+                                if (d.value == '00:01' || d.value == '00:02') {
+                                    return '<h3>' + d.value + '</h3>';
+                                }
+                            }
                             return d.value;
                         });
                         
@@ -806,7 +811,7 @@
                 }
 
                 // Render the table(s)
-                tabulate(data, ['Date', 'Indicatif', 'Durée']); // 3 columns table
+                tabulate(data, ['Heure', 'Indicatif', 'Durée']); // 3 columns table
                 d3.select(containerSelector).append('span').text(containerLegend);
             }
         });

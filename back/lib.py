@@ -29,8 +29,8 @@ def usage():
     print
     print '88 & 73 from F4HWN Armel'
 
-# Convert time in second to minute
-def convert_time(time):
+# Convert second to time
+def convert_second_to_time(time):
     hours = time // 3600
     time = time - (hours * 3600)
 
@@ -41,6 +41,15 @@ def convert_time(time):
         return str('{:0>2d}'.format(int(minutes))) + ':' + str('{:0>2d}'.format(int(seconds)))
     else:
         return str('{:0>2d}'.format(int(hours))) + ':' + str('{:0>2d}'.format(int(minutes))) + ':' + str('{:0>2d}'.format(int(seconds)))
+
+# Convert time to second
+def convert_time_to_second(time):
+    if len(time) > 5:
+        format = [3600, 60, 1]
+    else:
+        format = [60, 1]        
+    
+    return sum([a * b for a, b in zip(format, map(int, time.split(':')))])
 
 # Save stats
 def save_stat_node(history, call, duration=0):
@@ -110,7 +119,7 @@ def log_abstract():
     data += '\t"Salon": "' + s.room + '",\n'
     data += '\t"Date": "' + now + '",\n'
     data += '\t"TX total": ' + str(sum(s.qso_hour)) + ',\n'
-    data += '\t"Emission cumulée": "' + convert_time(s.day_duration) + '",\n'
+    data += '\t"Emission cumulée": "' + convert_second_to_time(s.day_duration + s.duration) + '",\n'
     data += '\t"Nœuds actifs": ' + str(len(s.node)) + ',\n'
     data += '\t"Nœuds connectés": ' + str(s.node_count) + ',\n'
     data += '\t"Indicatif": "' + s.call_current + '",\n'
@@ -228,9 +237,9 @@ def log_last():
         if s.call_date[i] == '':
             break
         data += '{\n'
-        data += '\t"Date": "' + s.call_date[i] + '",\n'
+        data += '\t"Heure": "' + s.call_date[i] + '",\n'
         data += '\t"Indicatif": "' + s.call[i] + '",\n'
-        data += '\t"Durée": "' + convert_time(s.call_time[i]) + '"\n'
+        data += '\t"Durée": "' + convert_second_to_time(s.call_time[i]) + '"\n'
         data += '},\n'
 
     data += ']\n'
@@ -263,7 +272,10 @@ def log_node(type):
             data += '\t"Pos": "' + str('{:0>3d}'.format(int(p))) + '",\n'
         data += '\t"Indicatif": "' + c + '",\n'
         if type in ['all']:
-            data += '\t"Durée": "' + convert_time(t[1]) + '",\n'
+            if c == s.call_current:
+                data += '\t"Durée": "' + convert_second_to_time(t[1] + s.duration) + '",\n'
+            else:
+                data += '\t"Durée": "' + convert_second_to_time(t[1]) + '",\n'
         data += '\t"TX": ' + str(t[0]) + '\n'
         data += '},\n'
 
