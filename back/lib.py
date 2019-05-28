@@ -13,6 +13,7 @@ import settings as s
 import requests
 import datetime
 import os
+import time
 import locale
 
 # Usage
