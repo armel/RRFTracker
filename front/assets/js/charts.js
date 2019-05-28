@@ -653,7 +653,10 @@
 
             // Render the table(s)
             tabulate(data, ['Salon', 'TX total', 'Emission cumulée', 'Nœuds actifs', 'Nœuds connectés']); // 5 columns table
-            d3.select(containerSelector).append('span').text(containerLegend + containerLegendBis);
+            d3.select(containerSelector)
+                .append('span')
+                .attr('width', width + margin.left + margin.right + 'px')
+                .text(containerLegend + containerLegendBis);
         });
  
         // Elsewhere
@@ -669,13 +672,15 @@
 
             const containerSelector = '.elsewhere-table';
             const containerTitle = 'Activité sur les autres salons';
-            const containerLegend = 'Ce tableau présente l\'activité éventuelle sur les autres salons ainsi qu\'un rappel des codes DTMF. ';
-    
+            const containerLegend = 'Ce tableau présente l\'activité éventuelle sur les autres salons: indicatif en cours d\'émission, nombre de passages en émission total, durée cumulée en émission, nombre de nœuds actifs et connectés, ainsi qu\'un rappel des codes DTMF standards. ';
+
             room.forEach(function(d) {
                 if (d !== sessionStorage.getItem('Room')) {
                     room_other.push(d);
                 }
             });
+
+            room_other.unshift('Scanner RRF');
 
             function tabulate(data, columns) {
                 d3.select(containerSelector).html('');
@@ -693,9 +698,14 @@
                     .data(columns).enter()
                     .append('th')
                     .html(function(column) {
-                        url = window.location.href;
-                        url = url.replace('/' + sessionStorage.getItem('Room') + '-', '/' + column + '-')
-                        return '<a href="' + url + '">' + column + '</a>';
+                        if (column != 'Scanner RRF') {
+                            url = window.location.href;
+                            url = url.replace('/' + sessionStorage.getItem('Room') + '-', '/' + column + '-')
+                            return '<a href="' + url + '">' + column + '</a>';
+                        }
+                        else {
+                            return column;
+                        }
                     });
 
                 // Create a row for each object in the data
@@ -705,6 +715,7 @@
                     .append('tr');
 
                 // Create a cell in each row for each column
+
                 var cells = rows.selectAll('td')
                     .data(function(row) {
                         return columns.map(function(column) {
@@ -716,9 +727,14 @@
                     })
                     .enter()
                     .append('td')
-                    .attr('width', '25%')
-                    .text(function(d) {
-                        return d.value;
+                    .attr('width', '20%')
+                    .html(function(d) {
+                        if (d.column == 'Scanner RRF') {
+                            return '<b>' + d.value + '</b>';
+                        }
+                        else {
+                            return d.value;
+                        }
                     });
                     
                 return table;
@@ -755,7 +771,7 @@
 
                 const containerSelector = '.last-table';
                 const containerTitle = 'Derniers passages en émission';
-                const containerLegend = 'Ce tableau présente la liste des 10 derniers passages en émission: horodatage, indicatif du nœud et durée en émission.';
+                const containerLegend = 'Ce tableau présente la liste des 10 derniers passages en émission: horodatage, indicatif du nœud et durée en émission. Les durées en émission de moins de 3 secondes sont grisées et comptabilisées comme déclenchements intempestifs.';
 
                 function tabulate(data, columns) {
                     d3.select(containerSelector).html('');
@@ -795,7 +811,12 @@
                         })
                         .enter()
                         .append('td')
-                        .text(function(d) {
+                        .html(function(d) {
+                            if (d.column == 'Durée') {
+                                if (d.value == '00:00' || d.value == '00:01' || d.value == '00:02') {
+                                    return '<h3>' + d.value + '</h3>';
+                                }
+                            }
                             return d.value;
                         });
                         
@@ -803,7 +824,7 @@
                 }
 
                 // Render the table(s)
-                tabulate(data, ['Date', 'Indicatif', 'Durée']); // 3 columns table
+                tabulate(data, ['Heure', 'Indicatif', 'Durée']); // 3 columns table
                 d3.select(containerSelector).append('span').text(containerLegend);
             }
         });
