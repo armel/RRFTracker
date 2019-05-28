@@ -88,6 +88,9 @@ def log_write():
         log_node('all')
         log_last()
         log_transmit()
+        log_abstract()
+
+        time.sleep(2)   # Fix me !!!
 
         s.init = False
 
