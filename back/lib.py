@@ -562,6 +562,30 @@ def log_elsewhere():
     last = data.rfind(',')
     data = data[:last] + '' + data[last + 1:]
 
+    data += '}, \n'
+    data += '{\n'
+
+    data += '\t"Scanner RRF": "Nœuds actifs",\n'
+    tmp = 0
+    for room in room_other:
+        data += '\t"' + room + '": "' + actif[tmp] + '",\n'
+        tmp += 1
+
+    last = data.rfind(',')
+    data = data[:last] + '' + data[last + 1:]
+
+    data += '}, \n'
+    data += '{\n'
+
+    data += '\t"Scanner RRF": "Nœuds connectés",\n'
+    tmp = 0
+    for room in room_other:
+        data += '\t"' + room + '": "' + connected[tmp] + '",\n'
+        tmp += 1
+
+    last = data.rfind(',')
+    data = data[:last] + '' + data[last + 1:]
+
     data += '}\n'
     data += ']\n'
 

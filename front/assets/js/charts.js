@@ -672,8 +672,8 @@
 
             const containerSelector = '.elsewhere-table';
             const containerTitle = 'Activité sur les autres salons';
-            const containerLegend = 'Ce tableau présente l\'activité éventuelle sur les autres salons: indicatif en cours d\'émission, TX total, émission cumulée ainsi qu\'un rappel des codes DTMF standards. ';
-    
+            const containerLegend = 'Ce tableau présente l\'activité éventuelle sur les autres salons: indicatif en cours d\'émission, nombre de passages en émission total, durée cumulée en émission, nombre de nœuds actifs et connectés, ainsi qu\'un rappel des codes DTMF standards. ';
+
             room.forEach(function(d) {
                 if (d !== sessionStorage.getItem('Room')) {
                     room_other.push(d);
