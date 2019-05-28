@@ -151,6 +151,20 @@ a:hover {
     cursor: pointer;
 }
 
+.elsewhere-table td:nth-child(1) {
+    background-color: lightgray;
+}
+
+.elsewhere-table th:nth-child(1) {
+    background-color: whitesmoke;
+    font-weight: normal;
+    font-style: italic;
+}
+
+.elsewhere-table tr:hover {
+    background-color: whitesmoke;
+}
+
 @media (min-width: 1024px) {
     .axis {
         font: 12px Arial, Helvetica, sans-serif;

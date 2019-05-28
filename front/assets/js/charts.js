@@ -191,7 +191,7 @@
             sessionStorage.setItem('Indicatif', Indicatif);
 
             if (TOT == 0) {
-                title = 'Aucune émission en cours';
+                title = 'Aucune émission';
             } else {
                 //title = Indicatif + ' en émission';
                 title = Indicatif;
@@ -680,6 +680,8 @@
                 }
             });
 
+            room_other.unshift('Scanner RRF');
+
             function tabulate(data, columns) {
                 d3.select(containerSelector).html('');
                 d3.select(containerSelector).append('h2').text(containerTitle);
@@ -696,9 +698,14 @@
                     .data(columns).enter()
                     .append('th')
                     .html(function(column) {
-                        url = window.location.href;
-                        url = url.replace('/' + sessionStorage.getItem('Room') + '-', '/' + column + '-')
-                        return '<a href="' + url + '">' + column + '</a>';
+                        if (column != 'Scanner RRF') {
+                            url = window.location.href;
+                            url = url.replace('/' + sessionStorage.getItem('Room') + '-', '/' + column + '-')
+                            return '<a href="' + url + '">' + column + '</a>';
+                        }
+                        else {
+                            return column;
+                        }
                     });
 
                 // Create a row for each object in the data
@@ -708,6 +715,7 @@
                     .append('tr');
 
                 // Create a cell in each row for each column
+
                 var cells = rows.selectAll('td')
                     .data(function(row) {
                         return columns.map(function(column) {
@@ -719,9 +727,14 @@
                     })
                     .enter()
                     .append('td')
-                    .attr('width', '25%')
-                    .text(function(d) {
-                        return d.value;
+                    .attr('width', '20%')
+                    .html(function(d) {
+                        if (d.column == 'Scanner RRF') {
+                            return '<b>' + d.value + '</b>';
+                        }
+                        else {
+                            return d.value;
+                        }
                     });
                     
                 return table;
@@ -800,7 +813,7 @@
                         .append('td')
                         .html(function(d) {
                             if (d.column == 'Durée') {
-                                if (d.value == '00:01' || d.value == '00:02') {
+                                if (d.value == '00:00' || d.value == '00:01' || d.value == '00:02') {
                                     return '<h3>' + d.value + '</h3>';
                                 }
                             }

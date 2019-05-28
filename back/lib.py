@@ -451,6 +451,7 @@ def log_elsewhere():
 
     data = '[\n'
     data += '{\n'
+    data += '\t"Scanner RRF": "Code DTMF",\n'
 
     for room in room_other:
         data += '\t"' + room + '": "' + room_other[room]['dtmf'] + '",\n'
@@ -483,7 +484,7 @@ def log_elsewhere():
                 tmp = content[search_start:search_stop]
 
                 if tmp == '':
-                    call.append("Aucune émission en cours")
+                    call.append("Aucune émission")
                 else:
                     call.append(tmp)
 
@@ -528,6 +529,7 @@ def log_elsewhere():
                 connected.append(tmp)
                 
 
+    data += '\t"Scanner RRF": "Emission en cours",\n'
     tmp = 0
     for room in room_other:
         data += '\t"' + room + '": "' + call[tmp] + '",\n'
@@ -539,6 +541,7 @@ def log_elsewhere():
     data += '}, \n'
     data += '{\n'
 
+    data += '\t"Scanner RRF": "TX total",\n'
     tmp = 0
     for room in room_other:
         data += '\t"' + room + '": "' + tx[tmp] + '",\n'
@@ -550,6 +553,7 @@ def log_elsewhere():
     data += '}, \n'
     data += '{\n'
 
+    data += '\t"Scanner RRF": "Emission cumulée",\n'
     tmp = 0
     for room in room_other:
         data += '\t"' + room + '": "' + time[tmp] + '",\n'
