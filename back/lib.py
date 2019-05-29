@@ -91,7 +91,7 @@ def log_write():
         log_transmit()
         log_abstract()
 
-        time.sleep(2)   # Fix me !!!
+        time.sleep(5)   # Fix me !!!
 
         s.init = False
 

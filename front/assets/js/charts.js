@@ -668,6 +668,7 @@
                 return 0;
             }
 
+            console.log(old_elsewhere.length)
             //console.log("elsewhere redraw");
 
             const containerSelector = '.elsewhere-table';
