@@ -987,14 +987,14 @@
                 data = [data[parseInt(porteuse_extended) - 1]];
 
                 const containerSelector = '#porteuse-extended-modal';
-                const containerTitle = 'Heures des déclenchements intempestifs sur ' + data[0].Indicatif;
+                const containerTitle = '<div class="icon"><i class="icofont-info-circle"></i></div> ' + 'Heures des déclenchements intempestifs sur ' + data[0].Indicatif;
                 const containerLegend = 'Ce tableau présente les heures de passages en émission intempestifs ou suspects, d\'une durée de moins de 3 secondes sur le nœud sélectionné.';
 
                 if (data !== undefined) {
 
                     function tabulate(data, columns) {
                         d3.select(containerSelector).html('');
-                        d3.select(containerSelector).append('h2').text(containerTitle);
+                        d3.select(containerSelector).append('h2').html(containerTitle);
 
                         var table = d3.select(containerSelector).append('table');
                         var thead = table.append('thead');
@@ -1063,14 +1063,14 @@
                 }
 
                 const containerSelector = '#node-extended-modal';
-                const containerTitle = 'Liste des nœuds connectés';
+                const containerTitle = '<div class="icon"><i class="icofont-info-circle"></i></div> ' + 'Liste des nœuds connectés';
                 const containerLegend = 'Ce tableau présente la liste des nœuds actuellement connectés.';
 
                 if (data !== undefined) {
 
                     function tabulate(data, columns) {
                         d3.select(containerSelector).html('');
-                        d3.select(containerSelector).append('h2').text(containerTitle);
+                        d3.select(containerSelector).append('h2').html(containerTitle);
 
                         var table = d3.select(containerSelector).append('table');
                         var thead = table.append('thead');
