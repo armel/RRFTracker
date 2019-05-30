@@ -113,6 +113,12 @@ svg {
     height: 20px;
 }
 
+.icon {
+    display: inline;
+    font-size: 22px;
+    color: dimgray;
+}
+
 table {
     margin: 10px auto;
     padding: 10px;
