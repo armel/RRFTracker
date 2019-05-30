@@ -987,7 +987,7 @@
                 data = [data[parseInt(porteuse_extended) - 1]];
 
                 const containerSelector = '#porteuse-extended-modal';
-                const containerTitle = '<div class="icon"><i class="icofont-info-circle"></i></div> ' + 'Heures des déclenchements intempestifs sur ' + data[0].Indicatif;
+                const containerTitle = '<div class="icon"><i class="icofont-info-circle"></i></div> ' + 'Déclenchements intempestifs sur ' + data[0].Indicatif;
                 const containerLegend = 'Ce tableau présente les heures de passages en émission intempestifs ou suspects, d\'une durée de moins de 3 secondes sur le nœud sélectionné.';
 
                 if (data !== undefined) {
