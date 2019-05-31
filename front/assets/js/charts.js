@@ -670,7 +670,7 @@
                 return 0;
             }
 
-            console.log(old_elsewhere.length)
+            //console.log(old_elsewhere.length)
             //console.log("elsewhere redraw");
 
             const containerSelector = '.elsewhere-table';
@@ -684,6 +684,8 @@
             });
 
             room_other.unshift('Scanner RRF');
+
+            var count = (old_elsewhere.match(/Aucune émission/g) || []).length;
 
             function tabulate(data, columns) {
                 d3.select(containerSelector).html('');
@@ -707,7 +709,12 @@
                             return '<a href="' + url + '">' + column + '</a>';
                         }
                         else {
-                            return column;
+                            if (count < 4) {
+                                return ('<div class="blink">' + column + '</div>');
+                            }
+                            else {
+                                return column;
+                            }
                         }
                     });
 

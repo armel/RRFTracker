@@ -164,11 +164,18 @@ a:hover {
 .elsewhere-table th:nth-child(1) {
     background-color: whitesmoke;
     font-weight: normal;
-    font-style: italic;
 }
 
 .elsewhere-table tr:hover {
     background-color: whitesmoke;
+}
+
+.blink {
+  animation: blinker 1s linear infinite;
+}
+
+@keyframes blinker {  
+  50% { opacity: 0; }
 }
 
 @media (min-width: 1024px) {
