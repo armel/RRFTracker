@@ -470,7 +470,7 @@
                     .padding(1);
 
                 const containerSelector = '.all-bubble';
-                const containerTitle = '<div class="icon"><i class="icofont-badge"></i></div> ' + 'Classement des nœuds actifs par durée cumulée en émission';
+                const containerTitle = '<div class="icon"><i class="icofont-badge"></i></div> ' + 'Classement des nœuds par durée cumulée en émission';
                 const containerLegend = 'Ce graphe présente le classement par durée cumulée en émission, des nœuds actifs dans la journée.';
 
                 d3.select(containerSelector).html('');
@@ -710,10 +710,10 @@
                         }
                         else {
                             if (count < 4) {
-                                return ('<div class="blink">' + column + '</div>');
+                                return ('<div class="blink"><div class="icon"><i class="icofont-headphone-alt-1"></i></div></div>');
                             }
                             else {
-                                return column;
+                                return ('<div class="icon"><i class="icofont-headphone-alt-3"></i></div>');
                             }
                         }
                     });
@@ -852,7 +852,7 @@
                 //console.log("all redraw");
 
                 const containerSelector = '.all-table';
-                const containerTitle = '<div class="icon"><i class="icofont-badge"></i></div> ' + 'Classement des nœuds actifs par TX';
+                const containerTitle = '<div class="icon"><i class="icofont-badge"></i></div> ' + 'Classement des nœuds par TX';
                 const containerLegend = 'Ce tableau présente le classement complet des nœuds étant passés en émission dans la journée: position, indicatif du nœud, nombre de passages et durée cumulée en émission.';
 
                 function tabulate(data, columns) {
@@ -1125,5 +1125,4 @@
     d3.select(containerSelector).append('span')
         .attr('class', 'author')
         .html(containerAuthor);
-
 })();

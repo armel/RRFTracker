@@ -32,6 +32,31 @@
   -webkit-font-smoothing: antialiased;
 }
 
+.icofont-bug:before
+{
+  content: "\eec7";
+}
+
+.icofont-badge:before
+{
+  content: "\eeaa";
+}
+
+.icofont-dashboard-web:before
+{
+  content: "\eef9";
+}
+
+.icofont-info-circle:before
+{
+  content: "\ef4e";
+}
+
+.icofont-listening:before
+{
+  content: "\ef73";
+}
+
 .icofont-mic-mute:before
 {
   content: "\ef94";
@@ -42,19 +67,9 @@
   content: "\ef95";
 }
 
-.icofont-badge:before
+.icofont-paint:before
 {
-  content: "\eeaa";
-}
-
-.icofont-bug:before
-{
-  content: "\eec7";
-}
-
-.icofont-dashboard-web:before
-{
-  content: "\eef9";
+  content: "\efb3";
 }
 
 .icofont-spreadsheet:before
@@ -67,9 +82,14 @@
   content: "\f022";
 }
 
-.icofont-info-circle:before
+.icofont-headphone-alt-1:before
 {
-  content: "\ef4e";
+  content: "\ea33";
+}
+
+.icofont-headphone-alt-3:before
+{
+  content: "\ea35";
 }
 
 .icofont-xs

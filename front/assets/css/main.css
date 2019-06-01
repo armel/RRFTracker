@@ -131,8 +131,8 @@ table thead th {
     background-color: lightgray;
     color: #000;
     border: solid 1px dimgray;
-    padding: 5px;
     text-align: center;
+    height: 30px;
 }
 
 table tbody td {
