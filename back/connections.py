@@ -10,6 +10,10 @@ Check video about RRFTracker on https://www.youtube.com/watch?v=rVW8xczVpEo
 
 import requests
 import re
+import time
+
+chrono_start = time.time()
+
 
 # Request HTTP datas
 try:
@@ -32,3 +36,8 @@ data += '}\n'
 data += ']\n'
 
 print data
+
+chrono_stop = time.time()
+chrono_time = chrono_stop - chrono_start
+
+print chrono_time
