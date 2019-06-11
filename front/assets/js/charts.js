@@ -575,6 +575,7 @@
             }
 
             sessionStorage.setItem('Room', data[0].Salon);
+            sessionStorage.setItem('User', data[0].User);
 
             url = window.location.href;
             if (url.indexOf('today') > 0) {
@@ -1120,9 +1121,12 @@
         }
     }
 
-    const containerAuthor = '<a href="https://github.com/armel/RRFTracker_Web">RRFTracker</a> est un projet Open Source, développé par F4HWN Armel, sous licence MIT.';
+    const containerAuthor = '<a href="https://github.com/armel/RRFTracker_Web">RRFTracker</a> est un projet Open Source, développé par <a href="https://www.qrz.com/db/F4HWN">F4HWN Armel</a>, sous licence MIT. ';
+    const containerUser = 'Actuellement ' + sessionStorage.getItem('User') + ' utilisateurs sont en ligne.'
+
     const containerSelector = '.author-legend';
     d3.select(containerSelector).append('span')
         .attr('class', 'author')
-        .html(containerAuthor);
+        .html(containerAuthor + '<br/>' + containerUser);
+
 })();
