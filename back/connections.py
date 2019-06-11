@@ -27,6 +27,8 @@ except requests.exceptions.Timeout as errt:
 ip = re.findall( r'[0-9]+(?:\.[0-9]+){3}', page)
 ip = list(set(ip))
 
+print ip
+
 total = str(len(ip))
 
 data = '[\n'

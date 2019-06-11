@@ -63,6 +63,9 @@ def main(argv):
         tmp = line.split(' ')
         s.geolocalisation[tmp[0]] = tmp[1] + ' ' + tmp[2]
 
+    # Get user online
+    s.user_count = l.log_user()
+
     # Boucle principale
     while(True):
         chrono_start = time.time()
@@ -74,6 +77,9 @@ def main(argv):
         s.hour = int(tmp.strftime('%H'))
         s.minute = int(s.now[3:-3])
         s.seconde = int(s.now[-2:])
+
+        if(s.minute % 5 == 0):
+            s.user_count = l.log_user()
 
         if(s.now[:5] == '00:00'):
             s.log_path_day = s.log_path + '/' + s.room + '-' + s.day

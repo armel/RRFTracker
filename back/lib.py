@@ -15,6 +15,7 @@ import datetime
 import os
 import time
 import locale
+import re
 
 # Usage
 def usage():
@@ -128,6 +129,7 @@ def log_abstract():
     data += '\t"Nœuds connectés": ' + str(s.node_count) + ',\n'
     data += '\t"Indicatif": "' + s.call_current + '",\n'
     data += '\t"TOT": ' + str(s.duration) + ',\n'
+    data += '\t"User": ' + str(s.user_count) + ',\n'
 
     tmp = ''
     for n in s.node_list_in:
@@ -598,3 +600,19 @@ def log_elsewhere():
     file.close()
 
     return 0
+
+# Log user
+def log_user():
+
+    try:
+        r = requests.get('http://rrf.f5nlg.ovh:8080/server-status', verify=False, timeout=10)
+        page = r.content
+    except requests.exceptions.ConnectionError as errc:
+        print ('Error Connecting:', errc)
+    except requests.exceptions.Timeout as errt:
+        print ('Timeout Error:', errt)
+
+    ip = re.findall( r'[0-9]+(?:\.[0-9]+){3}', page)
+    ip = list(set(ip))
+
+    return str(len(ip) - 1)

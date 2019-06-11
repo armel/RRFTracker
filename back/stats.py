@@ -43,10 +43,12 @@ room_list = {
     'LOCAL'
 }
 
+time_super_total = 0
+
 for r in room_list:
 
     print r
-    path = '/var/www/RRFTracker/' + r + '-2019-05-*/abstract.json'
+    path = '/var/www/RRFTracker/' + r + '-2019-06-*/abstract.json'
     file = glob.glob(path)
     time_total = 0
 
@@ -64,6 +66,7 @@ for r in room_list:
                 print f, '-->', content[search_start:search_stop]
 
                 time_total += convert_time_to_second(content[search_start:search_stop])
-
+    time_super_total += time_total
     print 'Total:', convert_second_to_time(time_total)
+print 'Total cumulée:', convert_second_to_time(time_super_total)
 
