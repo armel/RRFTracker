@@ -10,7 +10,7 @@ Check video about RRFTracker on https://www.youtube.com/watch?v=rVW8xczVpEo
 
 # Version
 
-version = '1.8.5'
+version = '1.9.0'
 
 # Default room and path
 
@@ -86,5 +86,9 @@ room_list = {
     'LOCAL': {
         'url': 'http://rrf.f5nlg.ovh/api/svxlink/local',
         'dtmf': '1 0 1 #'
+    },
+    'FON': {
+        'url': 'http://fon.f1tzo.com:8080/api/svxlink/testFON',
+        'dtmf': '9 7 #'
     }
 }

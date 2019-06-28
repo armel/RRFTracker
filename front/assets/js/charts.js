@@ -111,6 +111,7 @@
     old_porteuse = '';
     old_porteuse_extended = '';
     old_node_extended = '';
+    old_user = 0
 
     var inter = setInterval(function() {
         generateD3Charts(false);
@@ -131,6 +132,7 @@
             old_porteuse = '';
             old_porteuse_extended = '';
             old_node_extended = '';
+            old_user = 0
         }
 
         const noCache = new Date().getTime();
@@ -162,8 +164,10 @@
 
         // Other QSO
 
-        var room = ['RRF', 'TECHNIQUE', 'INTERNATIONAL', 'BAVARDAGE', 'LOCAL'];
+        var room = ['RRF', 'TECHNIQUE', 'INTERNATIONAL', 'BAVARDAGE', 'LOCAL', 'FON'];
         var room_other = [];
+
+        //console.table(room);
 
         // Tot
         // Load the data
@@ -577,6 +581,8 @@
             sessionStorage.setItem('Room', data[0].Salon);
             sessionStorage.setItem('User', data[0].User);
 
+            //console.log(sessionStorage.getItem('User'));
+
             url = window.location.href;
             if (url.indexOf('today') > 0) {
                 url = url.substring(0, url.lastIndexOf(sessionStorage.getItem('Room') + '-'));
@@ -738,7 +744,7 @@
                     })
                     .enter()
                     .append('td')
-                    .attr('width', '20%')
+                    .attr('width', '16%')
                     .html(function(d) {
                         if (d.column == 'Scanner RRF') {
                             return '<b>' + d.value + '</b>';
@@ -1121,12 +1127,19 @@
         }
     }
 
-    const containerAuthor = '<a href="https://github.com/armel/RRFTracker_Web">RRFTracker</a> est un projet Open Source, développé par <a href="https://www.qrz.com/db/F4HWN">F4HWN Armel</a>, sous licence MIT. ';
-    const containerUser = 'Actuellement ' + sessionStorage.getItem('User') + ' utilisateurs sont en ligne.'
-
     const containerSelector = '.author-legend';
+    var containerAuthor = '<a href="https://github.com/armel/RRFTracker_Web">RRFTracker</a> est un projet Open Source, développé par <a href="https://www.qrz.com/db/F4HWN">F4HWN Armel</a>, sous licence MIT. ';
+
+    if (sessionStorage.getItem('User') != null) {
+        if (old_user != sessionStorage.getItem('User')) {
+            old_user = sessionStorage.getItem('User');
+            containerAuthor += '<br>Actuellement ' + old_user + ' utilisateurs sont en ligne.';
+        }
+    }
+
+    d3.select(containerSelector).html('');
     d3.select(containerSelector).append('span')
         .attr('class', 'author')
-        .html(containerAuthor + '<br/>' + containerUser);
+        .html(containerAuthor);
 
 })();

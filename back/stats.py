@@ -71,7 +71,8 @@ def main(argv):
         'TECHNIQUE',
         'INTERNATIONAL',
         'BAVARDAGE',
-        'LOCAL'
+        'LOCAL',
+        'FON'
     }
 
     tmp = datetime.datetime.now()
