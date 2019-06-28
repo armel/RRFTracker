@@ -92,6 +92,10 @@
     // And continue...
     var generateChartTimeout = null;
 
+    //const styleColor = 'forestgreen';
+    //const styleColor = 'lightcoral';
+    const styleColor = 'steelblue';
+
     window.addEventListener('resize', function() {
         clearTimeout(generateChartTimeout);
         generateChartTimeout = setTimeout(function() {
@@ -254,7 +258,7 @@
                 d.TX = d.TX;
             });
 
-            var color = "steelblue";
+            var color = styleColor;
             var yMax = d3.max(data, function(d) {
                 return d.TX
             });
@@ -363,7 +367,7 @@
                     d.TX = d.TX;
                 });
 
-                var color = "steelblue";
+                var color = styleColor;
                 var yMax = d3.max(data, function(d) {
                     return d.TX
                 });
@@ -491,7 +495,7 @@
 
                 data = JSON.parse(tmp)
 
-                var color = 'steelblue';
+                var color = styleColor;
 
                 data.children.forEach(function(d) {
                     a = d.Durée;
