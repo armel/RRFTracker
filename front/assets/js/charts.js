@@ -748,7 +748,14 @@
                     })
                     .enter()
                     .append('td')
-                    .attr('width', '16%')
+                    .attr('width', function(d, i) {
+                    	if (i === 0) {
+                    		return '20%';
+                    	}
+                    	else {
+                    		return '16%';
+                    	}
+                    })
                     .html(function(d) {
                         if (d.column == 'Scanner RRF') {
                             return '<b>' + d.value + '</b>';
