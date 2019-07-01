@@ -10,7 +10,7 @@ Check video about RRFTracker on https://www.youtube.com/watch?v=rVW8xczVpEo
 
 # Version
 
-version = '1.9.0'
+version = '1.9.1'
 
 # Default room and path
 
