@@ -720,7 +720,7 @@
                             return '<a href="' + url + '">' + column + '</a>';
                         }
                         else {
-                            if (count < 4) {
+                            if (count < 5) {
                                 return ('<div class="blink"><div class="icon"><i class="icofont-headphone-alt-1"></i></div></div>');
                             }
                             else {
