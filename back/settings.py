@@ -88,7 +88,7 @@ room_list = {
         'dtmf': '1 0 1 #'
     },
     'FON': {
-        'url': 'http://fon.f1tzo.com:8080/api/svxlink/testFON',
+        'url': 'http://f1tzo.com:8008/api/svxlink/FON',
         'dtmf': '9 7 #'
     }
 }
