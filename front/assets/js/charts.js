@@ -19,7 +19,7 @@
         clearTimeout(generateChartTimeout);
         generateChartTimeout = setTimeout(function() {
             generateD3Charts(true);
-        }, 200);
+        }, 250);
     });
 
     var abstract, old_abstract = '';
@@ -38,7 +38,7 @@
 
     var inter = setInterval(function() {
         generateD3Charts(false);
-    }, 500);
+    }, 250);
 
     function generateD3Charts(redraw = false) {
         if (redraw === true) {
@@ -140,7 +140,6 @@
                 }
 
                 containerTitle = '<div class="icon"><i class="icofont-info-circle"></i></div> ' + containerTitle;
-                //console.log("abstract redraw");
 
                 const containerSelector = '.abstract-table';
                 const containerLegend = 'Ce tableau présente le résumé de l\'activité du salon dans la journée: nombre de passages en émission total, durée cumulée en émission, nombre de nœuds actifs et connectés. ';
