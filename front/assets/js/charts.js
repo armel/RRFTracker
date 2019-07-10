@@ -13,7 +13,8 @@
 
     // And continue...
     var generateChartTimeout = null;
-    const styleColor = 'steelblue';
+
+    const styleColor = 'forestgreen';
 
     window.addEventListener('resize', function() {
         clearTimeout(generateChartTimeout);
@@ -27,10 +28,9 @@
     var elsewhere, old_elsewhere = '';
     var activity, old_activity = '';
     var best, old_best = '';
-    var bubble, old_bubble = '';
     var transmit, old_transmit = '';
     var last, old_last = '';
-    var all, old_all = '';
+    var all, old_all = '', old_bubble = '';
     var porteuse, old_porteuse = '';
     var porteuse_extended, old_porteuse_extended = '';
     var node_extended, old_node_extended = '';
@@ -96,7 +96,6 @@
             elsewhere = data['elsewhere'];
             activity = data['activity'];
             best = data['best'];
-            bubble = data['all'];
             transmit = data['transmit'];
             last = data['last'];
             all = data['all'];
@@ -539,9 +538,9 @@
         // Bubble
         // ---------------------------------
 
-        if (bubble !== undefined && bubble.length != 0) {
-            if (old_bubble !== JSON.stringify(bubble)) {
-                old_bubble = JSON.stringify(bubble);
+        if (all !== undefined && all.length != 0) {
+            if (old_bubble !== JSON.stringify(all)) {
+                old_bubble = JSON.stringify(all);
 
                 Indicatif = sessionStorage.getItem('Indicatif');
 
@@ -549,7 +548,7 @@
                     format = d3.format(',d')
                 color = d3.scale.category20c();
 
-                var cloud = d3.layout.pack()
+                var bubble = d3.layout.pack()
                     .sort(null)
                     .size([diameter, diameter])
                     .padding(1);
@@ -561,7 +560,7 @@
                 d3.select(containerSelector).html('');
                 d3.select(containerSelector).append('h2').html(containerTitle);
 
-                data = bubble;
+                data = all;
 
                 const svg = d3.select(containerSelector)
                     .append('svg')
@@ -606,7 +605,7 @@
                     .range([d3.rgb(color).brighter(), d3.rgb(color).darker()]);
 
                 var node = svg.selectAll('.node')
-                    .data(cloud.nodes(classes(data))
+                    .data(bubble.nodes(classes(data))
                         .filter(function(d) {
                             return !d.children;
                         }))

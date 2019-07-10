@@ -98,7 +98,7 @@ svg {
 }
 
 .bar:hover {
-    fill: steelblue;
+    fill: forestgreen;
 }
 
 .marquee {
@@ -147,13 +147,13 @@ table tr:hover {
 }
 
 a {
-    color: steelblue;
+    color: forestgreen;
     font-weight: bold;
     text-decoration: none;
 }
 
 a:hover {
-    color: steelblue;
+    color: forestgreen;
     cursor: pointer;
 }
 
