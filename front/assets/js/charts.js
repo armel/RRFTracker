@@ -322,7 +322,7 @@
         // Activity
         // ---------------------------------
 
-        if (activity !== undefined) {
+        if (activity !== undefined && activity.length != 0) {
             if (old_activity !== JSON.stringify(activity)) {
                 old_activity = JSON.stringify(activity);
 
@@ -430,7 +430,7 @@
         // Best
         // ---------------------------------
 
-        if (best !== undefined) {
+        if (best !== undefined && best.length != 0) {
             if (old_best !== JSON.stringify(best)) {
                 old_best = JSON.stringify(best);
 
@@ -539,7 +539,7 @@
         // Bubble
         // ---------------------------------
 
-        if (bubble !== undefined) {
+        if (bubble !== undefined && bubble.length != 0) {
             if (old_bubble !== JSON.stringify(bubble)) {
                 old_bubble = JSON.stringify(bubble);
 
@@ -719,7 +719,7 @@
         // Last
         // ---------------------------------
 
-        if (last !== undefined) {
+        if (last !== undefined && last.length != 0) {
             if (old_last !== JSON.stringify(last)) {
                 old_last = JSON.stringify(last);
 
@@ -789,7 +789,7 @@
         // All
         // ---------------------------------
 
-        if (all !== undefined) {
+        if (all !== undefined && all.length != 0) {
             if (old_all !== JSON.stringify(all)) {
                 old_all = JSON.stringify(all);
 
@@ -854,7 +854,7 @@
         // Porteuse
         // ---------------------------------
 
-        if (porteuse !== undefined) {
+        if (porteuse !== undefined && porteuse.length != 0) {
             if (old_porteuse !== JSON.stringify(porteuse)) {
                 old_porteuse = JSON.stringify(porteuse);
 

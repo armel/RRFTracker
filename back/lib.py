@@ -94,16 +94,20 @@ def log_write():
     data += log_porteuse('porteuse')
     data += log_porteuse('porteuse_extended')
 
-    if s.init is True:
-        s.init = False
-    else:
+    if s.init is False:
         data += log_elsewhere()
 
     data += '}\n'
 
-    file = open(s.log_path_day + '/' + 'rrf.json', 'w')
+    file = open(s.log_path_day + '/' + 'rrf_new.json', 'w')
     file.write(data)
     file.close()
+
+    os.rename(s.log_path_day + '/' + 'rrf_new.json', s.log_path_day + '/' + 'rrf.json')
+
+    if s.init is True:
+        time.sleep(1)
+        s.init = False
 
     return 0
 
@@ -579,8 +583,6 @@ def log_elsewhere():
 
     data += '}\n'
     data += ']\n'
-
-    print data
 
     return data
 
