@@ -79,41 +79,39 @@ def save_stat_porteuse(history, call, duration=0):
 
 # Log write for history
 def log_write():
-
-    # Write if init
-    if s.init is True:
-        log_porteuse('porteuse')
-        log_porteuse('porteuse_extended')
-        log_node_list()
-        log_activity()
-        log_node('best')
-        log_node('all')
-        log_last()
-        log_transmit()
-        log_abstract()
-
-        time.sleep(5)   # Fix me !!!
-
-        s.init = False
+    data = ''
+    data += '{\n'
 
     # Refresh always
+    data += log_abstract()
+    data += log_activity()
+    data += log_news()
+    data += log_transmit()
+    data += log_last()
+    data += log_node('best')
+    data += log_node('all')
+    data += log_node_list()
+    data += log_porteuse('porteuse')
+    data += log_porteuse('porteuse_extended')
 
-    log_abstract()
-    log_news()
-    log_transmit()
-    log_node('all')
-    log_elsewhere()
+    if s.init is True:
+        s.init = False
+    else:
+        data += log_elsewhere()
 
-    # Change only if transmitter...
-    if s.call_current != '':
-        log_last()
+    data += '}\n'
+
+    file = open(s.log_path_day + '/' + 'rrf.json', 'w')
+    file.write(data)
+    file.close()
 
     return 0
 
 # Log abstract
 def log_abstract():
 
-    data = '[\n'
+    data = '"abstract":\n'
+    data += '[\n'
 
     locale.setlocale(locale.LC_TIME, '')
 
@@ -148,16 +146,12 @@ def log_abstract():
     data += '\t"Nœuds min": ' + str(s.node_count_min) + '\n'
     data += '},\n'
 
-    data += ']\n'
-
     last = data.rfind(',')
     data = data[:last] + '' + data[last + 1:]
 
-    file = open(s.log_path_day + '/' + 'abstract.json', 'w')
-    file.write(data)
-    file.close()
+    data += '],\n'
 
-    return 0
+    return data
 
 # Log transmit
 def log_transmit():
@@ -179,7 +173,8 @@ def log_transmit():
                 latitude = tmp[0]
                 longitude = tmp[1]
 
-    data = '[\n'
+    data = '"transmit":\n'
+    data += '[\n'
 
     data += '{\n'
     data += '\t"Indicatif": "' + s.call_current + '",\n'
@@ -188,21 +183,18 @@ def log_transmit():
     data += '\t"TOT": ' + str(s.duration) + '\n'
     data += '},\n'
 
-    data += ']\n'
-
     last = data.rfind(',')
     data = data[:last] + '' + data[last + 1:]
 
-    file = open(s.log_path_day + '/' + 'transmit.json', 'w')
-    file.write(data)
-    file.close()
+    data += '],\n'
 
-    return 0
+    return data
 
 # Log history
 def log_activity():
 
-    data = '[\n'
+    data = '"activity":\n'
+    data += '[\n'
 
     l = 1
     for i in xrange(0, 24):
@@ -223,21 +215,20 @@ def log_activity():
         data += '\t"TX": ' + z + '\n'
         data += '},\n'
 
-    data += ']\n'
-
     last = data.rfind(',')
     data = data[:last] + '' + data[last + 1:]
 
-    file = open(s.log_path_day + '/' + 'activity.json', 'w')
-    file.write(data)
-    file.close()
+    data += '],\n'
 
-    return 0
+    return data
 
 # Log last
 def log_last():
 
-    data = '[\n'
+    data = '"last":\n'
+    data += '[\n'
+
+    p = 0
 
     for i in xrange(0, 10):
         if s.call_date[i] == '':
@@ -248,16 +239,15 @@ def log_last():
         data += '\t"Durée": "' + convert_second_to_time(s.call_time[i]) + '"\n'
         data += '},\n'
 
-    data += ']\n'
+        p += 1
 
-    last = data.rfind(',')
-    data = data[:last] + '' + data[last + 1:]
+    if p > 0:
+        last = data.rfind(',')
+        data = data[:last] + '' + data[last + 1:]
 
-    file = open(s.log_path_day + '/' + 'last.json', 'w')
-    file.write(data)
-    file.close()
+    data += '],\n'
 
-    return 0
+    return data
 
 # Log node
 def log_node(type):
@@ -266,10 +256,12 @@ def log_node(type):
 
     if type == 'best':
         limit = 20
+        data = '"best":\n'
     else:
         limit = 10**4
+        data = '"all":\n'
 
-    data = '[\n'
+    data += '[\n'
 
     p = 1
     for c, t in tmp:
@@ -289,21 +281,19 @@ def log_node(type):
         if p > limit:
             break
 
-    data += ']\n'
+    if p > 1:
+        last = data.rfind(',')
+        data = data[:last] + '' + data[last + 1:]
 
-    last = data.rfind(',')
-    data = data[:last] + '' + data[last + 1:]
+    data += '],\n'
 
-    file = open(s.log_path_day + '/' + type + '.json', 'w')
-    file.write(data)
-    file.close()
-
-    return 0
+    return data
 
 # Log node list
 def log_node_list():
 
-    data = '[\n'
+    data = '"node_extended":\n'
+    data += '[\n'
 
     width = 4
 
@@ -334,23 +324,24 @@ def log_node_list():
         data += '},\n'
         indice += width
 
-    data += ']\n'
-
     last = data.rfind(',')
     data = data[:last] + '' + data[last + 1:]
 
-    file = open(s.log_path_day + '/' + 'node_extended.json', 'w')
-    file.write(data)
-    file.close()
+    data += '],\n'
 
-    return 0
+    return data
 
 # Log special
 def log_porteuse(type):
     tmp = sorted(s.porteuse.items(), key=lambda x: x[1])
     tmp.reverse()
 
-    data = '[\n'
+    if type == 'porteuse':
+        data = '"porteuse":\n'
+    else:
+        data = '"porteuse_extended":\n'
+
+    data += '[\n'
 
     p = 1
     for c, t in tmp:
@@ -378,16 +369,13 @@ def log_porteuse(type):
 
         p += 1
 
-    data += ']\n'
+    if p > 1:
+        last = data.rfind(',')
+        data = data[:last] + '' + data[last + 1:]
 
-    last = data.rfind(',')
-    data = data[:last] + '' + data[last + 1:]
+    data += '],\n'
 
-    file = open(s.log_path_day + '/' + type + '.json', 'w')
-    file.write(data)
-    file.close()
-
-    return 0
+    return data
 
 # Log news
 def log_news():
@@ -432,30 +420,30 @@ def log_news():
         message += 'Merci de faire des blancs de l\'ordre de 5 secondes ! '
     # Format JSON
 
-    data = '[\n'
+    data = '"news":\n'
+
+    data += '[\n'
 
     data += '{\n'
 
     data += '\t"Message": "' + message + '"\n'
     data += '},\n'
 
-    data += ']\n'
-
     last = data.rfind(',')
     data = data[:last] + '' + data[last + 1:]
 
-    file = open(s.log_path_day + '/' + 'news.json', 'w')
-    file.write(data)
-    file.close()
+    data += '],\n'
 
-    return 0
+    return data
 
 # Log everywhere
 def log_elsewhere():
     room_other = s.room_list.copy()
     room_other.pop(s.room, None)
 
-    data = '[\n'
+    data = '"elsewhere":\n'
+
+    data += '[\n'
     data += '{\n'
     data += '\t"Scanner RRF": "Code DTMF",\n'
 
@@ -475,7 +463,7 @@ def log_elsewhere():
     connected = []
 
     for room in room_other:
-        filename = s.log_path + '/' + room + '-today/abstract.json'
+        filename = s.log_path + '/' + room + '-today/rrf.json'
 
         if os.path.isfile(filename):
             with open(filename, 'r') as content_file:
@@ -505,7 +493,6 @@ def log_elsewhere():
                 time.append(tmp)
 
                 # Emission cumulée
-                
                 search_start = content.find('TX total": ')          # Search this pattern
                 search_start += 11                                  # Shift...
                 search_stop = content.find(',', search_start)       # And close it...
@@ -515,7 +502,6 @@ def log_elsewhere():
                 tx.append(tmp)
 
                 # Noeuds actifs
-                
                 search_start = content.find('Nœuds actifs": ')      # Search this pattern
                 search_start += 15                                  # Shift...
                 search_stop = content.find(',', search_start)       # And close it...
@@ -525,7 +511,6 @@ def log_elsewhere():
                 actif.append(tmp)
 
                 # Noeuds connectés
-                
                 search_start = content.find('Nœuds connectés": ')   # Search this pattern
                 search_start += 19                                  # Shift...
                 search_stop = content.find(',', search_start)       # And close it...
@@ -533,10 +518,10 @@ def log_elsewhere():
                 tmp = content[search_start:search_stop]
 
                 connected.append(tmp)
-                
 
     data += '\t"Scanner RRF": "Emission en cours",\n'
     tmp = 0
+
     for room in room_other:
         data += '\t"' + room + '": "' + call[tmp] + '",\n'
         tmp += 1
@@ -595,11 +580,9 @@ def log_elsewhere():
     data += '}\n'
     data += ']\n'
 
-    file = open(s.log_path_day + '/' + 'elsewhere.json', 'w')
-    file.write(data)
-    file.close()
+    print data
 
-    return 0
+    return data
 
 # Log user
 def log_user():
