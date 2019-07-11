@@ -1076,12 +1076,21 @@
 
         if (old_user != sessionStorage.getItem('User') || old_color != localStorage.getItem('Color')) {
             old_user = sessionStorage.getItem('User');
-            old_color = localStorage.getItem('Color');
+
+            if(old_color != localStorage.getItem('Color')) {
+                old_color = localStorage.getItem('Color');
+
+                old_activity = '';
+                old_best = '';
+                old_bubble = '';
+
+                console.log('Change color');
+            }
 
             const containerSelector = '.author-legend';
             var containerAuthor = '<a href="https://github.com/armel/RRFTracker_Web">RRFTracker</a> est un projet Open Source, développé par <a href="https://www.qrz.com/db/F4HWN">F4HWN Armel</a>, sous licence MIT. ';
 
-            containerAuthor += '<br>Couleur actuelle du thème <a onClick="color(\'' + colorSelected + '\'); window.location.reload()">' + colorSelected + '</a>.';
+            containerAuthor += '<br>Couleur actuelle du thème <a onClick="color(\'' + colorSelected + '\');">' + colorSelected + '</a>.';
 
             if (old_user > 1)
                 containerAuthor += ' Actuellement ' + old_user + ' utilisateurs sont en ligne.';
