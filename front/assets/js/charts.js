@@ -11,10 +11,16 @@
         })
         .marquee({duration: 5000, direction: 'left', pauseOnHover: 'true'});
 
+    // Initialise color
+
+    if (localStorage.getItem('Color') === null) {
+        localStorage.setItem('Color', 'ForestGreen');
+    }
+    
+    var colorSelected = localStorage.getItem('Color');
+
     // And continue...
     var generateChartTimeout = null;
-
-    const styleColor = 'forestgreen';
 
     window.addEventListener('resize', function() {
         clearTimeout(generateChartTimeout);
@@ -34,7 +40,8 @@
     var porteuse, old_porteuse = '';
     var porteuse_extended, old_porteuse_extended = '';
     var node_extended, old_node_extended = '';
-    var user, old_user = 0
+    var old_color = '';
+    var old_user = 0
 
     var inter = setInterval(function() {
         generateD3Charts(false);
@@ -55,8 +62,14 @@
             old_porteuse = '';
             old_porteuse_extended = '';
             old_node_extended = '';
+            old_color = '';
             old_user = 0
         }
+
+        colorSelected = localStorage.getItem('Color');
+
+        var bodyStyles = document.body.style;
+        bodyStyles.setProperty('--color-theme', colorSelected);
 
         const noCache = new Date().getTime();
         const columnWidth = document.querySelector('.columns :first-child').clientWidth;
@@ -339,7 +352,7 @@
                     d.TX = d.TX;
                 });
 
-                var color = styleColor;
+                var color = colorSelected;
                 var yMax = d3.max(data, function(d) {
                     return d.TX
                 });
@@ -447,7 +460,7 @@
                     d.TX = d.TX;
                 });
 
-                var color = styleColor;
+                var color = colorSelected;
                 var yMax = d3.max(data, function(d) {
                     return d.TX
                 });
@@ -573,7 +586,7 @@
 
                 data = JSON.parse(tmp)
 
-                var color = styleColor;
+                var color = colorSelected;
 
                 data.children.forEach(function(d) {
                     a = d.Durée;
@@ -1056,21 +1069,31 @@
                 }
             }
         }
-    }
 
-    const containerSelector = '.author-legend';
-    var containerAuthor = '<a href="https://github.com/armel/RRFTracker_Web">RRFTracker</a> est un projet Open Source, développé par <a href="https://www.qrz.com/db/F4HWN">F4HWN Armel</a>, sous licence MIT. ';
+        // ---------------------------------
+        // Author and Color
+        // ---------------------------------
 
-    if (sessionStorage.getItem('User') != null) {
-        if (old_user != sessionStorage.getItem('User')) {
+        if (old_user != sessionStorage.getItem('User') || old_color != localStorage.getItem('Color')) {
             old_user = sessionStorage.getItem('User');
-            containerAuthor += '<br>Actuellement ' + old_user + ' utilisateurs sont en ligne.';
+            old_color = localStorage.getItem('Color');
+
+            const containerSelector = '.author-legend';
+            var containerAuthor = '<a href="https://github.com/armel/RRFTracker_Web">RRFTracker</a> est un projet Open Source, développé par <a href="https://www.qrz.com/db/F4HWN">F4HWN Armel</a>, sous licence MIT. ';
+
+            containerAuthor += '<br>Couleur actuelle du thème <a onClick="color(\'' + colorSelected + '\'); window.location.reload()">' + colorSelected + '</a>.';
+
+            if (old_user > 1)
+                containerAuthor += ' Actuellement ' + old_user + ' utilisateurs sont en ligne.';
+            else if(old_user == 1)
+                containerAuthor += ' Actuellement ' + old_user + ' utilisateur est en ligne.';
+
+            d3.select(containerSelector).html('');
+            d3.select(containerSelector).append('span')
+                .attr('class', 'author')
+                .html(containerAuthor);
+
         }
     }
-
-    d3.select(containerSelector).html('');
-    d3.select(containerSelector).append('span')
-        .attr('class', 'author')
-        .html(containerAuthor);
 
 })();

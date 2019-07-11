@@ -1,3 +1,7 @@
+:root {
+    --color-theme: forestgreen;
+}
+
 html, body {
     padding: 0;
     margin: 0;
@@ -98,7 +102,7 @@ svg {
 }
 
 .bar:hover {
-    fill: forestgreen;
+    fill: var(--color-theme);
 }
 
 .marquee {
@@ -147,13 +151,13 @@ table tr:hover {
 }
 
 a {
-    color: forestgreen;
+    color: var(--color-theme);
     font-weight: bold;
     text-decoration: none;
 }
 
 a:hover {
-    color: forestgreen;
+    color: var(--color-theme);
     cursor: pointer;
 }
 

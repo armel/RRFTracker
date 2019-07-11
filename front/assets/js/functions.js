@@ -18,7 +18,7 @@ function getYesterday() {
 
 // Compute Distance
 function computeDistance(latitude_1, longitude_1) {
-    if (sessionStorage.getItem("Latitude") === null) {
+    if (sessionStorage.getItem('Latitude') === null) {
         return 0
     }
 
@@ -74,4 +74,39 @@ function classes(data) {
     return {
         children: classes
     };
+}
+
+// Change color
+function color(selectedColor) {
+
+    var newColor;
+
+    if (selectedColor == 'SteelBlue') {
+        newColor = 'ForestGreen';
+    }
+    else if (selectedColor == 'ForestGreen') {
+        newColor = 'DarkOrange';
+    }
+    else if (selectedColor == 'DarkOrange') {
+        newColor = 'DarkCyan';
+    }
+    else if (selectedColor == 'DarkCyan') {
+        newColor = 'DarkMagenta';
+    }
+    else if (selectedColor == 'DarkMagenta') {
+        newColor = 'DarkKhaki';
+    }
+    else if (selectedColor == 'DarkKhaki') {
+        newColor = 'DimGray';
+    }
+    else if (selectedColor == 'DimGray') {
+        newColor = 'Crimson';
+    }
+    else if (selectedColor == 'Crimson') {
+        newColor = 'SteelBlue';
+    }
+
+    localStorage.setItem('Color', newColor);
+
+    return 0;
 }
