@@ -1083,8 +1083,6 @@
                 old_activity = '';
                 old_best = '';
                 old_bubble = '';
-
-                console.log('Change color');
             }
 
             const containerSelector = '.author-legend';
