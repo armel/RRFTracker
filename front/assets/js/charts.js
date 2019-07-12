@@ -45,7 +45,7 @@
 
     var inter = setInterval(function() {
         generateD3Charts(false);
-    }, 250);
+    }, 500);
 
     function generateD3Charts(redraw = false) {
         if (redraw === true) {
