@@ -328,8 +328,9 @@ def log_node_list():
         data += '},\n'
         indice += width
 
-    last = data.rfind(',')
-    data = data[:last] + '' + data[last + 1:]
+    if limit != 0:
+        last = data.rfind(',')
+        data = data[:last] + '' + data[last + 1:]
 
     data += '],\n'
 
