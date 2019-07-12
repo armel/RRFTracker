@@ -1,83 +1,5 @@
 ;
 (function() {
-    // Compute Yesterday date
-    function getYesterday() {
-        var todayTimeStamp = +new Date; // Unix timestamp in milliseconds
-        var oneDayTimeStamp = 1000 * 60 * 60 * 24; // Milliseconds in a day
-        var diff = todayTimeStamp - oneDayTimeStamp;
-        var yesterdayDate = new Date(diff);
-        var result = yesterdayDate.getFullYear() + '-'
-        if ((yesterdayDate.getMonth() + 1) < 10) {
-            result += '0';
-        }
-        result += yesterdayDate.getMonth() + 1 + '-'
-        if (yesterdayDate.getDate() < 10) {
-            result += '0';
-        }
-        result += yesterdayDate.getDate();
-        return result;
-    }
-
-    // Compute Distance
-    function computeDistance(latitude_1, longitude_1) {
-        if (sessionStorage.getItem("Latitude") === null) {
-            return 0
-        }
-
-        latitude_2 = parseFloat(sessionStorage.getItem('Latitude'));
-        longitude_2 = parseFloat(sessionStorage.getItem('Longitude'));
-
-        p = 0.017453292519943295 // Approximation Pi/180
-        a = 0.5 - Math.cos((latitude_2 - latitude_1) * p) / 2 + Math.cos(latitude_1 * p) * Math.cos(latitude_2 * p) * (1 - Math.cos((longitude_2 - longitude_1) * p)) / 2
-        r = (12742 * Math.asin(Math.sqrt(a)))
-        if (r < 100) {
-            r = Math.round((12742 * Math.asin(Math.sqrt(a))), 1)
-        }
-        else {
-            r = Math.ceil(12742 * Math.asin(Math.sqrt(a)))
-        }
-
-        return r;
-    }
-
-    // Get IP Location
-    function ipLookUp () {
-        $.ajax('http://ip-api.com/json')
-        .then(
-            function success(response) {
-                sessionStorage.removeItem('Latitude');
-                sessionStorage.setItem('Latitude', response.lat);
-                sessionStorage.removeItem('Longitude');
-                sessionStorage.setItem('Longitude', response.lon);
-            },
-            function fail(data, status) {
-                sessionStorage.removeItem('Latitude');
-                sessionStorage.removeItem('Longitude');
-            }
-        );
-    }
-
-    // Returns a flattened hierarchy containing all leaf nodes under the root
-    function classes(data) {
-        var classes = [];
-
-        function recurse(name, node) {
-            if (node.children) node.children.forEach(function(child) {
-                recurse(node.name, child);
-            });
-            else classes.push({
-                packageName: name,
-                className: node.Indicatif,
-                value: node.TX
-            });
-        }
-
-        recurse(null, data);
-        return {
-            children: classes
-        };
-    }
-
     // Initialise IP Geoloc
     ipLookUp();
 
@@ -89,55 +11,65 @@
         })
         .marquee({duration: 5000, direction: 'left', pauseOnHover: 'true'});
 
+    // Initialise color
+
+    if (localStorage.getItem('Color') === null) {
+        localStorage.setItem('Color', 'ForestGreen');
+    }
+    
+    var colorSelected = localStorage.getItem('Color');
+
     // And continue...
     var generateChartTimeout = null;
-
-    //const styleColor = 'forestgreen';
-    //const styleColor = 'lightcoral';
-    const styleColor = 'steelblue';
 
     window.addEventListener('resize', function() {
         clearTimeout(generateChartTimeout);
         generateChartTimeout = setTimeout(function() {
             generateD3Charts(true);
-        }, 200);
+        }, 250);
     });
 
-    old_abstract = '';
-    old_elsewhere = '';
-    old_transmit = '';
-    old_news = '';
-    old_best = '';
-    old_activity = '';
-    old_last = '';
-    old_bubble = '';
-    old_all = '';
-    old_porteuse = '';
-    old_porteuse_extended = '';
-    old_node_extended = '';
-    old_user = 0
+    var abstract, old_abstract = '';
+    var news, old_news = '';
+    var elsewhere, old_elsewhere = '';
+    var activity, old_activity = '';
+    var best, old_best = '';
+    var transmit, old_transmit = '';
+    var last, old_last = '';
+    var all, old_all = '', old_bubble = '';
+    var porteuse, old_porteuse = '';
+    var porteuse_extended, old_porteuse_extended = '';
+    var node_extended, old_node_extended = '';
+    var old_color = '';
+    var old_user = 0
 
     var inter = setInterval(function() {
         generateD3Charts(false);
-    }, 500);
+    }, 250);
 
     function generateD3Charts(redraw = false) {
         if (redraw === true) {
             console.log("rezise");
             old_abstract = '';
-            old_elsewhere = '';
-            old_transmit = '';
             old_news = '';
-            old_best = '';
+            old_elsewhere = '';
             old_activity = '';
-            old_last = '';
+            old_best = '';
             old_bubble = '';
+            old_transmit = '';
+            old_last = '';
             old_all = '';
             old_porteuse = '';
             old_porteuse_extended = '';
             old_node_extended = '';
+            old_color = '';
             old_user = 0
         }
+
+        colorSelected = localStorage.getItem('Color');
+
+        var bodyStyles = document.body.style;
+        bodyStyles.setProperty('--color-theme', colorSelected);
 
         const noCache = new Date().getTime();
         const columnWidth = document.querySelector('.columns :first-child').clientWidth;
@@ -167,193 +99,352 @@
             .ticks(10);
 
         // Other QSO
-
         var room = ['RRF', 'TECHNIQUE', 'INTERNATIONAL', 'BAVARDAGE', 'LOCAL', 'FON'];
         var room_other = [];
 
-        //console.table(room);
-
-        // Tot
         // Load the data
+        d3.json('rrf.json' + '?_=' + noCache, function(error, data) {
+            abstract = data['abstract'];
+            news = data['news'];
+            elsewhere = data['elsewhere'];
+            activity = data['activity'];
+            best = data['best'];
+            transmit = data['transmit'];
+            last = data['last'];
+            all = data['all'];
+            porteuse = data['porteuse'];
+            porteuse_extended = data['porteuse_extended'];
+            node_extended = data['node_extended'];
+        });
 
-        d3.json('transmit.json' + '?_=' + noCache, function(error, data) {
-            if (old_transmit !== JSON.stringify(data)) {
-                old_transmit = JSON.stringify(data);
-            } else {
-                clock.stop(function() {});
-                return 0;
-            }
+        node_extended_modal = sessionStorage.getItem('node_extended_modal');
+        porteuse_extended_modal = sessionStorage.getItem('porteuse_extended_modal');
 
-            //console.log("transmit redraw");
+        // ---------------------------------
+        // Abstract
+        // ---------------------------------
 
-            var TOT = data[0].TOT;
-            var Indicatif = data[0].Indicatif;
-            var Latitude = parseFloat(data[0].Latitude);
-            var Longitude = parseFloat(data[0].Longitude);
-            var Distance = 0;
+        if (abstract !== undefined) {
+            if (old_abstract !== JSON.stringify(abstract)) {
+                old_abstract = JSON.stringify(abstract);
+           
+                sessionStorage.setItem('Room', abstract[0].Salon);
+                sessionStorage.setItem('User', abstract[0].User);
 
-            if (Latitude !== 0) {
-                Distance = computeDistance(Latitude, Longitude);
-            }
+                url = window.location.href;
+                if (url.indexOf('today') > 0) {
+                    url = url.substring(0, url.lastIndexOf(sessionStorage.getItem('Room') + '-'));
+                    url += sessionStorage.getItem('Room') + '-' + getYesterday();
+                    
+                    date = new Date(Date.now()).toLocaleString();
+                    date = date.substring(0, date.lastIndexOf(':'));
 
-            sessionStorage.setItem('Indicatif', Indicatif);
-
-            if (TOT == 0) {
-                title = '<div class="icon"><i class="icofont-mic-mute"></i></div> ' + 'Aucune émission';
-                
-            } else {
-                //title = Indicatif + ' en émission';
-                title = '<div class="icon"><i class="icofont-mic"></i></div> ' + Indicatif;
-                if (Distance !== 0) {
-                    title += ' (~ ' + Distance + ' Km)';
+                    var containerTitle = 'Résumé de la journée du ' + date + ' (<a href="' + url + '">archive d\'hier</a>)';
                 }
                 else {
-                    title += ' en émission';
+                    url = url.substring(0, url.lastIndexOf(sessionStorage.getItem('Room') + '-'));
+                    url += sessionStorage.getItem('Room') + '-today';
+
+                    date = new Date(Date.now() - (1 * 24 * 3600 * 1000)).toLocaleString();
+                    date = date.substring(0, date.indexOf(' '));
+
+                    var containerTitle = 'Résumé de la journée du ' + date + ' (<a href="' + url + '">aujourd\'hui</a>)';
                 }
+
+                containerTitle = '<div class="icon"><i class="icofont-info-circle"></i></div> ' + containerTitle;
+
+                const containerSelector = '.abstract-table';
+                const containerLegend = 'Ce tableau présente le résumé de l\'activité du salon dans la journée: nombre de passages en émission total, durée cumulée en émission, nombre de nœuds actifs et connectés. ';
+                const containerLegendBis = 'En complément, vous pouvez suivre les mouvements des nœuds entrants et sortants sur ce salon, en suivant le fil d\'informations défilant ci-dessous.';
+
+                data = abstract;
+
+                var room_current = '';
+
+                function tabulate(data, columns) {
+                    d3.select(containerSelector).html('');
+                    d3.select(containerSelector).append('h2').html(containerTitle);
+
+                    const table = d3.select(containerSelector)
+                        .append('table')
+                        .attr('width', width + margin.left + margin.right + 'px');
+                    const thead = table.append('thead');
+                    const tbody = table.append('tbody');
+
+                    // Append the header row
+                    thead.append('tr')
+                        .selectAll('th')
+                        .data(columns).enter()
+                        .append('th')
+                        .text(function(column) {
+                            return column;
+                        });
+
+                    // Create a row for each object in the data
+                    const rows = tbody.selectAll('tr')
+                        .data(data)
+                        .enter()
+                        .append('tr');
+
+                    // Create a cell in each row for each column
+                    const cells = rows.selectAll('td')
+                        .data(function(row) {
+                            return columns.map(function(column) {
+                                return {
+                                    column: column,
+                                    value: row[column]
+                                };
+                            });
+                        })
+                        .enter()
+                        .append('td')
+                        .attr('width', '20%')
+                        .html(function(d, i) {
+                            if (i === 4) {
+                                return '<a onClick="sessionStorage.setItem(\'node_extended_modal\', \'' + 'Node' + '\'); window.location.reload()">' + d.value + '</a>';
+                            } else {
+                                return d.value;
+                            }
+                        });
+                    return table;
+                }
+
+                // Render the table(s)
+                tabulate(data, ['Salon', 'TX total', 'Emission cumulée', 'Nœuds actifs', 'Nœuds connectés']); // 5 columns table
+                d3.select(containerSelector)
+                    .append('span')
+                    .attr('width', width + margin.left + margin.right + 'px')
+                    .text(containerLegend + containerLegendBis);
             }
+        }
 
-            const containerSelector = '.tot-graph';
-            const containerTitle = title;
-            const containerLegend = 'Affiche l\'indicatif du nœud en cours d\'émission, la distance approximative de ce nœud, ainsi que la durée de passage en émission.';
+        // ---------------------------------
+        // News
+        // ---------------------------------
 
-            d3.select(containerSelector).html('');
-            d3.select(containerSelector).append('h2').html(containerTitle);
+        if (news !== undefined) {
+            if (old_news !== JSON.stringify(news)) {
+                old_news = JSON.stringify(news);
 
-            var svg_tot = d3.select(containerSelector)
-                .append('div')
-                .attr('class', 'clock')
+                sessionStorage.setItem('news', news[0].Message);
+            }
+        }
 
-            clock = new FlipClock($('.clock'), TOT, {
-                clockFace: 'MinuteCounter',
-                language: 'french',
-                clockFaceOptions: {
-                    autoPlay: false,
-                    autoStart: false
+        // ---------------------------------
+        // Elsewhere
+        // ---------------------------------
+
+        if (elsewhere !== undefined) {
+            if (old_elsewhere !== JSON.stringify(elsewhere)) {
+                old_elsewhere = JSON.stringify(elsewhere);
+
+                const containerSelector = '.elsewhere-table';
+                const containerTitle = '<div class="icon"><i class="icofont-dashboard-web"></i></div> ' + 'Activité sur les autres salons';
+                const containerLegend = 'Ce tableau présente l\'activité éventuelle sur les autres salons: indicatif en cours d\'émission, nombre de passages en émission total, durée cumulée en émission, nombre de nœuds actifs et connectés, ainsi qu\'un rappel des codes DTMF standards. ';
+
+                data = elsewhere;
+
+                room.forEach(function(d) {
+                    if (d !== sessionStorage.getItem('Room')) {
+                        room_other.push(d);
+                    }
+                });
+
+                room_other.unshift('Scanner RRF');
+
+                var count = (old_elsewhere.match(/Aucune émission/g) || []).length;
+
+                function tabulate(data, columns) {
+                    d3.select(containerSelector).html('');
+                    d3.select(containerSelector).append('h2').html(containerTitle);
+
+                    const table = d3.select(containerSelector)
+                        .append('table')
+                        .attr('width', width + margin.left + margin.right + 'px');
+                    const thead = table.append('thead');
+                    const tbody = table.append('tbody');
+
+                    // Append the header row
+                    thead.append('tr')
+                        .selectAll('th')
+                        .data(columns).enter()
+                        .append('th')
+                        .html(function(column) {
+                            if (column != 'Scanner RRF') {
+                                url = window.location.href;
+                                url = url.replace('/' + sessionStorage.getItem('Room') + '-', '/' + column + '-')
+                                return '<a href="' + url + '">' + column + '</a>';
+                            }
+                            else {
+                                if (count < 5) {
+                                    return ('<div class="blink"><div class="icon"><i class="icofont-headphone-alt-1"></i></div></div>');
+                                }
+                                else {
+                                    return ('<div class="icon"><i class="icofont-headphone-alt-3"></i></div>');
+                                }
+                            }
+                        });
+
+                    // Create a row for each object in the data
+                    const rows = tbody.selectAll('tr')
+                        .data(data)
+                        .enter()
+                        .append('tr');
+
+                    // Create a cell in each row for each column
+
+                    var cells = rows.selectAll('td')
+                        .data(function(row) {
+                            return columns.map(function(column) {
+                                return {
+                                    column: column,
+                                    value: row[column]
+                                };
+                            });
+                        })
+                        .enter()
+                        .append('td')
+                        .attr('width', function(d, i) {
+                            if (i === 0) {
+                                return '20%';
+                            }
+                            else {
+                                return '16%';
+                            }
+                        })
+                        .html(function(d) {
+                            if (d.column == 'Scanner RRF') {
+                                return '<b>' + d.value + '</b>';
+                            }
+                            else {
+                                return d.value;
+                            }
+                        });
+                        
+                    return table;
                 }
-            });
 
-            d3.select(containerSelector).append('span').text(containerLegend);
-        });
+                // Render the table(s)
+                tabulate(data, room_other); // 5 columns table
+                d3.select(containerSelector).append('span').text(containerLegend);
+            }
+        }
 
+        // ---------------------------------
         // Activity
-        // Load the data
-        d3.json('activity.json' + '?_=' + noCache, function(error, data) {
-            if (old_activity !== JSON.stringify(data)) {
-                old_activity = JSON.stringify(data);
-            } else {
-                return 0;
-            }
+        // ---------------------------------
 
-            //console.log("activity redraw");
+        if (activity !== undefined && activity.length != 0) {
+            if (old_activity !== JSON.stringify(activity)) {
+                old_activity = JSON.stringify(activity);
 
-            const containerSelector = '.activity-graph';
-            const containerTitle = '<div class="icon"><i class="icofont-spreadsheet"></i></div> ' +'Activité heure par heure';
-            const containerLegend = 'Cet histogramme représente le nombre de passages en émission, heure par heure. Seuls les passages en émission de plus de 3 secondes sont comptabilisés.';
+                const containerSelector = '.activity-graph';
+                const containerTitle = '<div class="icon"><i class="icofont-spreadsheet"></i></div> ' +'Activité heure par heure';
+                const containerLegend = 'Cet histogramme représente le nombre de passages en émission, heure par heure. Seuls les passages en émission de plus de 3 secondes sont comptabilisés.';
 
-            d3.select(containerSelector).html('');
-            d3.select(containerSelector).append('h2').html(containerTitle);
+                d3.select(containerSelector).html('');
+                d3.select(containerSelector).append('h2').html(containerTitle);
 
-            data.forEach(function(d) {
-                d.Hour = d.Hour;
-                d.TX = d.TX;
-            });
+                data = activity;
 
-            var color = styleColor;
-            var yMax = d3.max(data, function(d) {
-                return d.TX
-            });
-            var yMin = d3.min(data, function(d) {
-                return d.TX
-            });
-            var colorScale = d3.scale.linear()
-                .domain([yMin, yMax])
-                .range([d3.rgb(color).brighter(), d3.rgb(color).darker()]);
-
-            // Scale the range of the data
-            x.domain(data.map(function(d) {
-                return d.Hour;
-            }));
-            y.domain([0, d3.max(data, function(d) {
-                return d.TX;
-            })]);
-
-            var svg_activity = d3.select(containerSelector)
-                .append('svg')
-                .attr('width', width + margin.left + margin.right)
-                .attr('height', height + margin.top + margin.bottom)
-                .append('g')
-                .attr('transform',
-                    'translate(' + margin.left + ',' + margin.top + ')');
-
-            // Add axis
-            svg_activity.append('g')
-                .attr('class', 'x axis')
-                .attr('transform', 'translate(0,' + (height + 0.5) + ')')
-                .call(xAxis)
-                .selectAll('text')
-                .style('text-anchor', 'end')
-                .attr('dx', '-.8em')
-                .attr('dy', '-.55em')
-                .attr('transform', 'rotate(-45)');
-
-            svg_activity.append('g')
-                .attr('class', 'y axis')
-                .call(yAxis)
-                .append('text')
-                .attr('transform', 'rotate(0)')
-                .attr('y', -10)
-                .attr('dy', '.71em')
-                .style('text-anchor', 'end')
-                .text('TX');
-
-            // Add bar chart
-            svg_activity.selectAll('bar')
-                .data(data)
-                .enter().append('rect')
-                .attr('class', 'bar')
-                .attr("fill", function(d) {
-                    return colorScale(d.TX)
-                })
-                .attr('x', function(d) {
-                    return x(d.Hour);
-                })
-                .attr('width', x.rangeBand())
-                .attr('y', function(d) {
-                    return y(d.TX);
-                })
-                .attr('height', function(d) {
-                    return height - y(d.TX);
+                data.forEach(function(d) {
+                    d.Hour = d.Hour;
+                    d.TX = d.TX;
                 });
 
-            svg_activity.selectAll('text.bar')
-                .data(data)
-                .enter().append('text')
-                .attr('class', 'value')
-                .attr('text-anchor', 'middle')
-                .attr("x", function(d) {
-                    return x(d.Hour) + x.rangeBand() / 2;
-                })
-                .attr('y', function(d) {
-                    return y(d.TX) - 5;
-                })
-                .text(function(d) {
+                var color = colorSelected;
+                var yMax = d3.max(data, function(d) {
+                    return d.TX
+                });
+                var yMin = d3.min(data, function(d) {
+                    return d.TX
+                });
+                var colorScale = d3.scale.linear()
+                    .domain([yMin, yMax])
+                    .range([d3.rgb(color).brighter(), d3.rgb(color).darker()]);
+
+                // Scale the range of the data
+                x.domain(data.map(function(d) {
+                    return d.Hour;
+                }));
+                y.domain([0, d3.max(data, function(d) {
                     return d.TX;
-                });
+                })]);
 
-            d3.select(containerSelector).append('span').text(containerLegend);
-        });
+                var svg_activity = d3.select(containerSelector)
+                    .append('svg')
+                    .attr('width', width + margin.left + margin.right)
+                    .attr('height', height + margin.top + margin.bottom)
+                    .append('g')
+                    .attr('transform',
+                        'translate(' + margin.left + ',' + margin.top + ')');
 
-        // Best
-        // Load the data
-        d3.json('best.json' + '?_=' + noCache, function(error, data) {
-            if (old_best !== JSON.stringify(data)) {
-                old_best = JSON.stringify(data);
-            } else {
-                return 0;
+                // Add axis
+                svg_activity.append('g')
+                    .attr('class', 'x axis')
+                    .attr('transform', 'translate(0,' + (height + 0.5) + ')')
+                    .call(xAxis)
+                    .selectAll('text')
+                    .style('text-anchor', 'end')
+                    .attr('dx', '-.8em')
+                    .attr('dy', '-.55em')
+                    .attr('transform', 'rotate(-45)');
+
+                svg_activity.append('g')
+                    .attr('class', 'y axis')
+                    .call(yAxis)
+                    .append('text')
+                    .attr('transform', 'rotate(0)')
+                    .attr('y', -10)
+                    .attr('dy', '.71em')
+                    .style('text-anchor', 'end')
+                    .text('TX');
+
+                // Add bar chart
+                svg_activity.selectAll('bar')
+                    .data(data)
+                    .enter().append('rect')
+                    .attr('class', 'bar')
+                    .attr("fill", function(d) {
+                        return colorScale(d.TX)
+                    })
+                    .attr('x', function(d) {
+                        return x(d.Hour);
+                    })
+                    .attr('width', x.rangeBand())
+                    .attr('y', function(d) {
+                        return y(d.TX);
+                    })
+                    .attr('height', function(d) {
+                        return height - y(d.TX);
+                    });
+
+                svg_activity.selectAll('text.bar')
+                    .data(data)
+                    .enter().append('text')
+                    .attr('class', 'value')
+                    .attr('text-anchor', 'middle')
+                    .attr("x", function(d) {
+                        return x(d.Hour) + x.rangeBand() / 2;
+                    })
+                    .attr('y', function(d) {
+                        return y(d.TX) - 5;
+                    })
+                    .text(function(d) {
+                        return d.TX;
+                    });
+
+                d3.select(containerSelector).append('span').text(containerLegend);
             }
+        }
 
-            if(data !== undefined) {
-                //console.log("best redraw");
+        // ---------------------------------
+        // Best
+        // ---------------------------------
+
+        if (best !== undefined && best.length != 0) {
+            if (old_best !== JSON.stringify(best)) {
+                old_best = JSON.stringify(best);
 
                 const containerSelector = '.best-graph';
                 const containerTitle = '<div class="icon"><i class="icofont-spreadsheet"></i></div> ' + 'Top 20 des nœuds les plus actifs';
@@ -362,12 +453,14 @@
                 d3.select(containerSelector).html('');
                 d3.select(containerSelector).append('h2').html(containerTitle);
 
+                data = best;
+
                 data.forEach(function(d) {
                     d.Indicatif = d.Indicatif;
                     d.TX = d.TX;
                 });
 
-                var color = styleColor;
+                var color = colorSelected;
                 var yMax = d3.max(data, function(d) {
                     return d.TX
                 });
@@ -450,21 +543,17 @@
                     });
 
                 d3.select(containerSelector).append('span').text(containerLegend);
+
             }
-        });
+        }
 
-        // All
-        // Load the data
+        // ---------------------------------
+        // Bubble
+        // ---------------------------------
 
-        d3.json('all.json' + '?_=' + noCache, function(error, data) {
-            if (old_bubble !== JSON.stringify(data)) {
-                old_bubble = JSON.stringify(data);
-            } else {
-                return 0;
-            }
-
-            if(data !== undefined) {
-                //console.log("bubble redraw");
+        if (all !== undefined && all.length != 0) {
+            if (old_bubble !== JSON.stringify(all)) {
+                old_bubble = JSON.stringify(all);
 
                 Indicatif = sessionStorage.getItem('Indicatif');
 
@@ -484,6 +573,8 @@
                 d3.select(containerSelector).html('');
                 d3.select(containerSelector).append('h2').html(containerTitle);
 
+                data = all;
+
                 const svg = d3.select(containerSelector)
                     .append('svg')
                     .attr('width', diameter)
@@ -495,7 +586,7 @@
 
                 data = JSON.parse(tmp)
 
-                var color = styleColor;
+                var color = colorSelected;
 
                 data.children.forEach(function(d) {
                     a = d.Durée;
@@ -571,235 +662,84 @@
                 d3.select(self.frameElement).style('height', diameter + 'px');
                 d3.select(containerSelector).append('span').text(containerLegend);
             }
-        });
+        }
 
-        // Abstract
-        // Load the data
-        d3.json('abstract.json' + '?_=' + noCache, function(error, data) {
-            if (old_abstract !== JSON.stringify(data)) {
-                old_abstract = JSON.stringify(data);
-            } else {
-                return 0;
-            }
+        // ---------------------------------
+        // Transmit
+        // ---------------------------------
 
-            sessionStorage.setItem('Room', data[0].Salon);
-            sessionStorage.setItem('User', data[0].User);
+        if (transmit !== undefined) {
+            if (old_transmit !== JSON.stringify(transmit)) {
+                old_transmit = JSON.stringify(transmit);
 
-            //console.log(sessionStorage.getItem('User'));
+                data = transmit;
 
-            url = window.location.href;
-            if (url.indexOf('today') > 0) {
-                url = url.substring(0, url.lastIndexOf(sessionStorage.getItem('Room') + '-'));
-                url += sessionStorage.getItem('Room') + '-' + getYesterday();
-                
-                date = new Date(Date.now()).toLocaleString();
-                date = date.substring(0, date.lastIndexOf(':'));
+                var TOT = data[0].TOT;
+                var Indicatif = data[0].Indicatif;
+                var Latitude = parseFloat(data[0].Latitude);
+                var Longitude = parseFloat(data[0].Longitude);
+                var Distance = 0;
 
-                var containerTitle = 'Résumé de la journée du ' + date + ' (<a href="' + url + '">archive d\'hier</a>)';
+                if (Latitude !== 0) {
+                    Distance = computeDistance(Latitude, Longitude);
+                }
+
+                sessionStorage.setItem('Indicatif', Indicatif);
+
+                if (TOT == 0) {
+                    title = '<div class="icon"><i class="icofont-mic-mute"></i></div> ' + 'Aucune émission';
+                    
+                } else {
+                    //title = Indicatif + ' en émission';
+                    title = '<div class="icon"><i class="icofont-mic"></i></div> ' + Indicatif;
+                    if (Distance !== 0) {
+                        title += ' (~ ' + Distance + ' Km)';
+                    }
+                    else {
+                        title += ' en émission';
+                    }
+                }
+
+                const containerSelector = '.tot-graph';
+                const containerTitle = title;
+                const containerLegend = 'Affiche l\'indicatif du nœud en cours d\'émission, la distance approximative de ce nœud, ainsi que la durée de passage en émission.';
+
+                d3.select(containerSelector).html('');
+                d3.select(containerSelector).append('h2').html(containerTitle);
+
+                var svg_tot = d3.select(containerSelector)
+                    .append('div')
+                    .attr('class', 'clock')
+
+                clock = new FlipClock($('.clock'), TOT, {
+                    clockFace: 'MinuteCounter',
+                    language: 'french',
+                    clockFaceOptions: {
+                        autoPlay: false,
+                        autoStart: false
+                    }
+                });
+
+                d3.select(containerSelector).append('span').text(containerLegend);
             }
             else {
-                url = url.substring(0, url.lastIndexOf(sessionStorage.getItem('Room') + '-'));
-                url += sessionStorage.getItem('Room') + '-today';
-
-                date = new Date(Date.now() - (1 * 24 * 3600 * 1000)).toLocaleString();
-                date = date.substring(0, date.indexOf(' '));
-
-                var containerTitle = 'Résumé de la journée du ' + date + ' (<a href="' + url + '">aujourd\'hui</a>)';
+                clock.stop(function() {});
             }
+        }
 
-            containerTitle = '<div class="icon"><i class="icofont-info-circle"></i></div> ' + containerTitle;
-            //console.log("abstract redraw");
-
-            const containerSelector = '.abstract-table';
-            const containerLegend = 'Ce tableau présente le résumé de l\'activité du salon dans la journée: nombre de passages en émission total, durée cumulée en émission, nombre de nœuds actifs et connectés. ';
-            const containerLegendBis = 'En complément, vous pouvez suivre les mouvements des nœuds entrants et sortants sur ce salon, en suivant le fil d\'informations défilant ci-dessous.';
-
-            var room_current = '';
-
-            function tabulate(data, columns) {
-                d3.select(containerSelector).html('');
-                d3.select(containerSelector).append('h2').html(containerTitle);
-
-                const table = d3.select(containerSelector)
-                    .append('table')
-                    .attr('width', width + margin.left + margin.right + 'px');
-                const thead = table.append('thead');
-                const tbody = table.append('tbody');
-
-                // Append the header row
-                thead.append('tr')
-                    .selectAll('th')
-                    .data(columns).enter()
-                    .append('th')
-                    .text(function(column) {
-                        return column;
-                    });
-
-                // Create a row for each object in the data
-                const rows = tbody.selectAll('tr')
-                    .data(data)
-                    .enter()
-                    .append('tr');
-
-                // Create a cell in each row for each column
-                const cells = rows.selectAll('td')
-                    .data(function(row) {
-                        return columns.map(function(column) {
-                            return {
-                                column: column,
-                                value: row[column]
-                            };
-                        });
-                    })
-                    .enter()
-                    .append('td')
-                    .attr('width', '20%')
-                    .html(function(d, i) {
-                        if (i === 4) {
-                            return '<a onClick="sessionStorage.setItem(\'node_extended\', \'' + 'Node' + '\'); window.location.reload()">' + d.value + '</a>';
-                        } else {
-                            return d.value;
-                        }
-                    });
-                return table;
-            }
-
-            // Render the table(s)
-            tabulate(data, ['Salon', 'TX total', 'Emission cumulée', 'Nœuds actifs', 'Nœuds connectés']); // 5 columns table
-            d3.select(containerSelector)
-                .append('span')
-                .attr('width', width + margin.left + margin.right + 'px')
-                .text(containerLegend + containerLegendBis);
-        });
- 
-        // Elsewhere
-        // Load the data
-        d3.json('elsewhere.json' + '?_=' + noCache, function(error, data) {
-            if (old_elsewhere !== JSON.stringify(data)) {
-                old_elsewhere = JSON.stringify(data);
-            } else {
-                return 0;
-            }
-
-            //console.log(old_elsewhere.length)
-            //console.log("elsewhere redraw");
-
-            const containerSelector = '.elsewhere-table';
-            const containerTitle = '<div class="icon"><i class="icofont-dashboard-web"></i></div> ' + 'Activité sur les autres salons';
-            const containerLegend = 'Ce tableau présente l\'activité éventuelle sur les autres salons: indicatif en cours d\'émission, nombre de passages en émission total, durée cumulée en émission, nombre de nœuds actifs et connectés, ainsi qu\'un rappel des codes DTMF standards. ';
-
-            room.forEach(function(d) {
-                if (d !== sessionStorage.getItem('Room')) {
-                    room_other.push(d);
-                }
-            });
-
-            room_other.unshift('Scanner RRF');
-
-            var count = (old_elsewhere.match(/Aucune émission/g) || []).length;
-
-            function tabulate(data, columns) {
-                d3.select(containerSelector).html('');
-                d3.select(containerSelector).append('h2').html(containerTitle);
-
-                const table = d3.select(containerSelector)
-                    .append('table')
-                    .attr('width', width + margin.left + margin.right + 'px');
-                const thead = table.append('thead');
-                const tbody = table.append('tbody');
-
-                // Append the header row
-                thead.append('tr')
-                    .selectAll('th')
-                    .data(columns).enter()
-                    .append('th')
-                    .html(function(column) {
-                        if (column != 'Scanner RRF') {
-                            url = window.location.href;
-                            url = url.replace('/' + sessionStorage.getItem('Room') + '-', '/' + column + '-')
-                            return '<a href="' + url + '">' + column + '</a>';
-                        }
-                        else {
-                            if (count < 5) {
-                                return ('<div class="blink"><div class="icon"><i class="icofont-headphone-alt-1"></i></div></div>');
-                            }
-                            else {
-                                return ('<div class="icon"><i class="icofont-headphone-alt-3"></i></div>');
-                            }
-                        }
-                    });
-
-                // Create a row for each object in the data
-                const rows = tbody.selectAll('tr')
-                    .data(data)
-                    .enter()
-                    .append('tr');
-
-                // Create a cell in each row for each column
-
-                var cells = rows.selectAll('td')
-                    .data(function(row) {
-                        return columns.map(function(column) {
-                            return {
-                                column: column,
-                                value: row[column]
-                            };
-                        });
-                    })
-                    .enter()
-                    .append('td')
-                    .attr('width', function(d, i) {
-                    	if (i === 0) {
-                    		return '20%';
-                    	}
-                    	else {
-                    		return '16%';
-                    	}
-                    })
-                    .html(function(d) {
-                        if (d.column == 'Scanner RRF') {
-                            return '<b>' + d.value + '</b>';
-                        }
-                        else {
-                            return d.value;
-                        }
-                    });
-                    
-                return table;
-            }
-
-            // Render the table(s)
-            tabulate(data, room_other); // 5 columns table
-            d3.select(containerSelector).append('span').text(containerLegend);
-        });
-
-        // News
-        // Load the data
-        d3.json('news.json' + '?_=' + noCache, function(error, data) {
-            if (old_news !== JSON.stringify(data)) {
-                old_news = JSON.stringify(data);
-            } else {
-                return 0;
-            }
-                        
-            sessionStorage.setItem('news', data[0].Message);
-        });
-
+        // ---------------------------------
         // Last
-        // Load the data
-        d3.json('last.json' + '?_=' + noCache, function(error, data) {
-            if (old_last !== JSON.stringify(data)) {
-                old_last = JSON.stringify(data);
-            } else {
-                return 0;
-            }
+        // ---------------------------------
 
-            if (data !== undefined) {
-                //console.log("last redraw");
+        if (last !== undefined && last.length != 0) {
+            if (old_last !== JSON.stringify(last)) {
+                old_last = JSON.stringify(last);
 
                 const containerSelector = '.last-table';
                 const containerTitle = '<div class="icon"><i class="icofont-wall-clock"></i></div> ' + 'Derniers passages en émission';
                 const containerLegend = 'Ce tableau présente la liste des 10 derniers passages en émission: horodatage, indicatif du nœud et durée en émission. Les durées en émission de moins de 3 secondes sont grisées et comptabilisées comme déclenchements intempestifs.';
+
+                data = last;
 
                 function tabulate(data, columns) {
                     d3.select(containerSelector).html('');
@@ -855,23 +795,21 @@
                 tabulate(data, ['Heure', 'Indicatif', 'Durée']); // 3 columns table
                 d3.select(containerSelector).append('span').text(containerLegend);
             }
-        });
+        }
 
+        // ---------------------------------
         // All
-        // Load the data
-        d3.json('all.json' + '?_=' + noCache, function(error, data) {
-            if (old_all !== JSON.stringify(data)) {
-                old_all = JSON.stringify(data);
-            } else {
-                return 0;
-            }
+        // ---------------------------------
 
-            if(data !== undefined) {
-                //console.log("all redraw");
+        if (all !== undefined && all.length != 0) {
+            if (old_all !== JSON.stringify(all)) {
+                old_all = JSON.stringify(all);
 
                 const containerSelector = '.all-table';
                 const containerTitle = '<div class="icon"><i class="icofont-badge"></i></div> ' + 'Classement des nœuds par TX';
                 const containerLegend = 'Ce tableau présente le classement complet des nœuds étant passés en émission dans la journée: position, indicatif du nœud, nombre de passages et durée cumulée en émission.';
+
+                data = all;
 
                 function tabulate(data, columns) {
                     d3.select(containerSelector).html('');
@@ -922,23 +860,21 @@
                 tabulate(data, ['Pos', 'Indicatif', 'TX', 'Durée']); // 4 columns table
                 d3.select(containerSelector).append('span').text(containerLegend);
             }
-        });
+        }
 
+        // ---------------------------------
         // Porteuse
-        // Load the data
-        d3.json('porteuse.json' + '?_=' + noCache, function(error, data) {
-            if (old_porteuse !== JSON.stringify(data)) {
-                old_porteuse = JSON.stringify(data);
-            } else {
-                return 0;
-            }
+        // ---------------------------------
 
-            if (data !== undefined) {
-                //console.log("porteuse redraw");
+        if (porteuse !== undefined && porteuse.length != 0) {
+            if (old_porteuse !== JSON.stringify(porteuse)) {
+                old_porteuse = JSON.stringify(porteuse);
 
                 const containerSelector = '.porteuse-table';
                 const containerTitle = '<div class="icon"><i class="icofont-bug"></i></div> ' + 'Déclenchements intempestifs';
                 const containerLegend = 'Ce tableau présente le classement complet des nœuds ayant fait l\'objet de passages en émission intempestifs ou suspects, d\'une durée de moins de 3 secondes: position, indicatif du nœud et nombre de passages en émission.';
+
+                data = porteuse;
 
                 function tabulate(data, columns) {
                     d3.select(containerSelector).html('');
@@ -981,7 +917,7 @@
                         .append('td')
                         .html(function(d, i) {
                             if (i === 0) {
-                                return '<a onClick="sessionStorage.setItem(\'porteuse_extended\', \'' + d.id + '\'); window.location.reload()">' + d.value + '</a>';
+                                return '<a onClick="sessionStorage.setItem(\'porteuse_extended_modal\', \'' + d.id + '\'); window.location.reload()">' + d.value + '</a>';
                             } else {
                                 return d.value;
                             }
@@ -993,29 +929,85 @@
                 // Render the table(s)
                 tabulate(data, ['Pos', 'Indicatif', 'TX']); // 3 columns table
                 d3.select(containerSelector).append('span').text(containerLegend);
+
             }
-        });
+        }
 
-        node_extended = sessionStorage.getItem('node_extended');
-        porteuse_extended = sessionStorage.getItem('porteuse_extended');
+        // ---------------------------------
+        // Node extended
+        // ---------------------------------
 
-        if (porteuse_extended != null) {
-            // Porteuse Extended
-            // Load the data
-            d3.json('porteuse_extended.json' + '?_=' + noCache, function(error, data) {
-                if (old_porteuse_extended !== JSON.stringify(data)) {
-                    old_porteuse_extended = JSON.stringify(data);
-                } else {
-                    return 0;
+        if (node_extended_modal != null) {
+
+            if (node_extended !== undefined) {
+                if (old_node_extended !== JSON.stringify(node_extended)) {
+                    old_node_extended = JSON.stringify(node_extended);
+
+                    const containerSelector = '#node-extended-modal';
+                    const containerTitle = '<div class="icon"><i class="icofont-info-circle"></i></div> ' + 'Liste des nœuds connectés';
+                    const containerLegend = 'Ce tableau présente la liste des nœuds actuellement connectés.';
+
+                    data = node_extended;
+
+                    function tabulate(data, columns) {
+                        d3.select(containerSelector).html('');
+                        d3.select(containerSelector).append('h2').html(containerTitle);
+
+                        var table = d3.select(containerSelector).append('table');
+                        var thead = table.append('thead');
+                        var tbody = table.append('tbody');
+
+                        // Create a row for each object in the data
+                        var rows = tbody.selectAll('tr')
+                            .data(data)
+                            .enter()
+                            .append('tr');
+
+                        // Create a cell in each row for each column
+                        var cells = rows.selectAll('td')
+                            .data(function(row) {
+                                return columns.map(function(column) {
+                                    return {
+                                        column: column,
+                                        value: row[column]
+                                    };
+                                });
+                            })
+                            .enter()
+                            .append('td')
+                            .attr('width', '25%')
+                            .text(function(d) {
+                                return d.value;
+                            });
+
+                        return table;
+                    }
+
+                    // Render the table(s)
+                    tabulate(data, ['Node 0', 'Node 1', 'Node 2', 'Node 3']); // 8 columns table
+                    d3.select(containerSelector).append('span').text(containerLegend);
+
+                    $('#node-extended-modal').modal();
+                    sessionStorage.removeItem('node_extended_modal');
                 }
+            }
+        }
 
-                data = [data[parseInt(porteuse_extended) - 1]];
+        // ---------------------------------
+        // Porteuse extended
+        // ---------------------------------
 
-                const containerSelector = '#porteuse-extended-modal';
-                const containerTitle = '<div class="icon"><i class="icofont-info-circle"></i></div> ' + 'Déclenchements intempestifs sur ' + data[0].Indicatif;
-                const containerLegend = 'Ce tableau présente les heures de passages en émission intempestifs ou suspects, d\'une durée de moins de 3 secondes sur le nœud sélectionné.';
+        if (porteuse_extended_modal != null) {
 
-                if (data !== undefined) {
+            if (porteuse_extended !== undefined) {
+                if (old_porteuse_extended !== JSON.stringify(porteuse_extended)) {
+                    old_porteuse_extended = JSON.stringify(porteuse_extended);
+
+                    const containerSelector = '#porteuse-extended-modal';
+                    const containerTitle = '<div class="icon"><i class="icofont-info-circle"></i></div> ' + 'Déclenchements intempestifs sur ' + data[0].Indicatif;
+                    const containerLegend = 'Ce tableau présente les heures de passages en émission intempestifs ou suspects, d\'une durée de moins de 3 secondes sur le nœud sélectionné.';
+
+                    data = [porteuse_extended[parseInt(porteuse_extended_modal) - 1]];
 
                     function tabulate(data, columns) {
                         d3.select(containerSelector).html('');
@@ -1072,85 +1064,43 @@
                     d3.select(containerSelector).append('span').text(containerLegend);
 
                     $('#porteuse-extended-modal').modal();
-                    sessionStorage.removeItem('porteuse_extended');
+                    sessionStorage.removeItem('porteuse_extended_modal');
+
                 }
-            });
+            }
         }
 
-        if (node_extended != null) {
-            // Node Extended
-            // Load the data
-            d3.json('node_extended.json' + '?_=' + noCache, function(error, data) {
-                if (old_node_extended !== JSON.stringify(data)) {
-                    old_node_extended = JSON.stringify(data);
-                } else {
-                    return 0;
-                }
+        // ---------------------------------
+        // Author and Color
+        // ---------------------------------
 
-                const containerSelector = '#node-extended-modal';
-                const containerTitle = '<div class="icon"><i class="icofont-info-circle"></i></div> ' + 'Liste des nœuds connectés';
-                const containerLegend = 'Ce tableau présente la liste des nœuds actuellement connectés.';
-
-                if (data !== undefined) {
-
-                    function tabulate(data, columns) {
-                        d3.select(containerSelector).html('');
-                        d3.select(containerSelector).append('h2').html(containerTitle);
-
-                        var table = d3.select(containerSelector).append('table');
-                        var thead = table.append('thead');
-                        var tbody = table.append('tbody');
-
-                        // Create a row for each object in the data
-                        var rows = tbody.selectAll('tr')
-                            .data(data)
-                            .enter()
-                            .append('tr');
-
-                        // Create a cell in each row for each column
-                        var cells = rows.selectAll('td')
-                            .data(function(row) {
-                                return columns.map(function(column) {
-                                    return {
-                                        column: column,
-                                        value: row[column]
-                                    };
-                                });
-                            })
-                            .enter()
-                            .append('td')
-                            .attr('width', '25%')
-                            .text(function(d) {
-                                return d.value;
-                            });
-
-                        return table;
-                    }
-
-                    // Render the table(s)
-                    tabulate(data, ['Node 0', 'Node 1', 'Node 2', 'Node 3']); // 8 columns table
-                    d3.select(containerSelector).append('span').text(containerLegend);
-
-                    $('#node-extended-modal').modal();
-                    sessionStorage.removeItem('node_extended');
-                }
-            });
-        }
-    }
-
-    const containerSelector = '.author-legend';
-    var containerAuthor = '<a href="https://github.com/armel/RRFTracker_Web">RRFTracker</a> est un projet Open Source, développé par <a href="https://www.qrz.com/db/F4HWN">F4HWN Armel</a>, sous licence MIT. ';
-
-    if (sessionStorage.getItem('User') != null) {
-        if (old_user != sessionStorage.getItem('User')) {
+        if (old_user != sessionStorage.getItem('User') || old_color != localStorage.getItem('Color')) {
             old_user = sessionStorage.getItem('User');
-            containerAuthor += '<br>Actuellement ' + old_user + ' utilisateurs sont en ligne.';
+
+            if(old_color != localStorage.getItem('Color')) {
+                old_color = localStorage.getItem('Color');
+
+                old_activity = '';
+                old_best = '';
+                old_bubble = '';
+            }
+
+            const containerSelector = '.author-legend';
+            var containerAuthor = '<a href="https://github.com/armel/RRFTracker_Web">RRFTracker</a> est un projet Open Source, développé par <a href="https://www.qrz.com/db/F4HWN">F4HWN Armel</a>, sous licence MIT. ';
+
+            containerAuthor += '<br>Couleur actuelle du thème <a onClick="color(\'' + colorSelected + '\');">' + colorSelected + '</a>.';
+
+            if (old_user > 1)
+                containerAuthor += ' Actuellement ' + old_user + ' utilisateurs sont en ligne.';
+            else if(old_user == 1)
+                containerAuthor += ' Actuellement ' + old_user + ' utilisateur est en ligne.';
+
+            d3.select(containerSelector).html('');
+            d3.select(containerSelector).append('span')
+                .attr('class', 'author')
+                .html(containerAuthor);
+
         }
     }
-
-    d3.select(containerSelector).html('');
-    d3.select(containerSelector).append('span')
-        .attr('class', 'author')
-        .html(containerAuthor);
 
 })();

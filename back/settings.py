@@ -10,7 +10,7 @@ Check video about RRFTracker on https://www.youtube.com/watch?v=rVW8xczVpEo
 
 # Version
 
-version = '1.9.1'
+version = '2.0.1'
 
 # Default room and path
 
@@ -56,7 +56,7 @@ minute = ''
 seconde = ''
 duration = 0
 intempestif = 2         # Tuned me !!!
-main_loop = .50         # Main loop tempo
+main_loop = .250        # Main loop tempo
 
 # Set init
 

@@ -150,12 +150,8 @@ def main(argv):
             if (s.stat_save is False and s.duration > s.intempestif):
                 s.node = l.save_stat_node(s.node, s.call[0], 0)
                 s.qso += 1
-                # Log best.json
-                l.log_node('best')
-                # Log activity.json
                 tmp = datetime.datetime.now()
                 s.qso_hour[s.hour] = s.qso - sum(s.qso_hour[:s.hour])
-                l.log_activity()
 
                 s.stat_save = True
 
@@ -181,10 +177,6 @@ def main(argv):
                     tmp = datetime.datetime.now()
                     s.porteuse = l.save_stat_porteuse(s.porteuse, s.call[0], tmp.strftime('%H:%M:%S'))
 
-                    # Log porteuse.json and porteuse_extended.json
-                    l.log_porteuse('porteuse')
-                    l.log_porteuse('porteuse_extended')
-
                 s.transmit = False
                 s.stat_save = False
                 s.tot_current = ''
@@ -205,8 +197,6 @@ def main(argv):
 
         if s.node_list_old == []:
             s.node_list_old = s.node_list
-            # Log node_extended.json
-            l.log_node_list()
         else:
             if s.node_list_old != s.node_list:
                 if (list(set(s.node_list_old) - set(s.node_list))):
@@ -224,10 +214,6 @@ def main(argv):
                     s.node_list_in = sorted(s.node_list_in)
 
                 s.node_list_old = s.node_list
-
-                # Log node_extended.json
-                l.log_node_list()
-
 
         s.node_count = len(s.node_list)
 
