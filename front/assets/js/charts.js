@@ -107,17 +107,19 @@
             if (error) {
                 return console.warn('Erreur', error);
             }
-            abstract = data['abstract'];
-            news = data['news'];
-            elsewhere = data['elsewhere'];
-            activity = data['activity'];
-            best = data['best'];
-            transmit = data['transmit'];
-            last = data['last'];
-            all = data['all'];
-            porteuse = data['porteuse'];
-            porteuse_extended = data['porteuse_extended'];
-            node_extended = data['node_extended'];
+            else {
+                abstract = data['abstract'];
+                news = data['news'];
+                elsewhere = data['elsewhere'];
+                activity = data['activity'];
+                best = data['best'];
+                transmit = data['transmit'];
+                last = data['last'];
+                all = data['all'];
+                porteuse = data['porteuse'];
+                porteuse_extended = data['porteuse_extended'];
+                node_extended = data['node_extended'];
+            }
         });
 
         node_extended_modal = sessionStorage.getItem('node_extended_modal');
