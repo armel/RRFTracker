@@ -563,6 +563,8 @@
 
                 Indicatif = sessionStorage.getItem('Indicatif');
 
+                console.log(Indicatif);
+
                 var diameter = width + margin.left + margin.right,
                     format = d3.format(',d')
                 color = d3.scale.category20c();
