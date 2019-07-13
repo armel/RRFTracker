@@ -103,7 +103,8 @@
         var room_other = [];
 
         // Load the data
-        d3.json('rrf.json' + '?_=' + noCache, function(error, data) {
+        // d3.json('rrf.json' + '?_=' + noCache, function(error, data) {
+        d3.json('rrf.json', function(error, data) {
             if (error) {
                 return console.warn('Erreur', error);
             }
