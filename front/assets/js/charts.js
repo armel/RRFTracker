@@ -41,7 +41,7 @@
     var porteuse_extended, old_porteuse_extended = '';
     var node_extended, old_node_extended = '';
     var old_color = '';
-    var old_user = 0
+    var old_user = 0;
 
     var inter = setInterval(function() {
         generateD3Charts(false);
@@ -221,6 +221,69 @@
                     .append('span')
                     .attr('width', width + margin.left + margin.right + 'px')
                     .text(containerLegend + containerLegendBis);
+            }
+        }
+
+        // ---------------------------------
+        // Transmit
+        // ---------------------------------
+
+        if (transmit !== undefined) {
+            if (old_transmit !== JSON.stringify(transmit)) {
+                old_transmit = JSON.stringify(transmit);
+
+                data = transmit;
+
+                var TOT = data[0].TOT;
+                var Indicatif = data[0].Indicatif;
+                var Latitude = parseFloat(data[0].Latitude);
+                var Longitude = parseFloat(data[0].Longitude);
+                var Distance = 0;
+
+                if (Latitude !== 0) {
+                    Distance = computeDistance(Latitude, Longitude);
+                }
+
+                sessionStorage.setItem('Indicatif', Indicatif);
+
+                if (TOT == 0) {
+                    title = '<div class="icon"><i class="icofont-mic-mute"></i></div> ' + 'Aucune émission';
+                    
+                } else {
+                    //title = Indicatif + ' en émission';
+                    title = '<div class="icon"><i class="icofont-mic"></i></div> ' + Indicatif;
+                    if (Distance !== 0) {
+                        title += ' (~ ' + Distance + ' Km)';
+                    }
+                    else {
+                        title += ' en émission';
+                    }
+                }
+
+                const containerSelector = '.tot-graph';
+                const containerTitle = title;
+                const containerLegend = 'Affiche l\'indicatif du nœud en cours d\'émission, la distance approximative de ce nœud, ainsi que la durée de passage en émission.';
+
+                d3.select(containerSelector).html('');
+                d3.select(containerSelector).append('h2').html(containerTitle);
+
+                var svg_tot = d3.select(containerSelector)
+                    .append('div')
+                    .attr('class', 'clock')
+
+                clock = new FlipClock($('.clock'), TOT, {
+                    clockFace: 'MinuteCounter',
+                    language: 'french',
+                    clockFaceOptions: {
+                        autoPlay: false,
+                        autoStart: false
+                    }
+                });
+
+                d3.select(containerSelector).append('span').text(containerLegend);
+            }
+            else {
+                clock.stop(function() {});
             }
         }
 
@@ -667,69 +730,6 @@
 
                 d3.select(self.frameElement).style('height', diameter + 'px');
                 d3.select(containerSelector).append('span').text(containerLegend);
-            }
-        }
-
-        // ---------------------------------
-        // Transmit
-        // ---------------------------------
-
-        if (transmit !== undefined) {
-            if (old_transmit !== JSON.stringify(transmit)) {
-                old_transmit = JSON.stringify(transmit);
-
-                data = transmit;
-
-                var TOT = data[0].TOT;
-                var Indicatif = data[0].Indicatif;
-                var Latitude = parseFloat(data[0].Latitude);
-                var Longitude = parseFloat(data[0].Longitude);
-                var Distance = 0;
-
-                if (Latitude !== 0) {
-                    Distance = computeDistance(Latitude, Longitude);
-                }
-
-                sessionStorage.setItem('Indicatif', Indicatif);
-
-                if (TOT == 0) {
-                    title = '<div class="icon"><i class="icofont-mic-mute"></i></div> ' + 'Aucune émission';
-                    
-                } else {
-                    //title = Indicatif + ' en émission';
-                    title = '<div class="icon"><i class="icofont-mic"></i></div> ' + Indicatif;
-                    if (Distance !== 0) {
-                        title += ' (~ ' + Distance + ' Km)';
-                    }
-                    else {
-                        title += ' en émission';
-                    }
-                }
-
-                const containerSelector = '.tot-graph';
-                const containerTitle = title;
-                const containerLegend = 'Affiche l\'indicatif du nœud en cours d\'émission, la distance approximative de ce nœud, ainsi que la durée de passage en émission.';
-
-                d3.select(containerSelector).html('');
-                d3.select(containerSelector).append('h2').html(containerTitle);
-
-                var svg_tot = d3.select(containerSelector)
-                    .append('div')
-                    .attr('class', 'clock')
-
-                clock = new FlipClock($('.clock'), TOT, {
-                    clockFace: 'MinuteCounter',
-                    language: 'french',
-                    clockFaceOptions: {
-                        autoPlay: false,
-                        autoStart: false
-                    }
-                });
-
-                d3.select(containerSelector).append('span').text(containerLegend);
-            }
-            else {
-                clock.stop(function() {});
             }
         }
 
