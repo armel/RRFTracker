@@ -104,6 +104,9 @@
 
         // Load the data
         d3.json('rrf.json' + '?_=' + noCache, function(error, data) {
+            if (error) {
+                return console.warn('Erreur', error);
+            }
             abstract = data['abstract'];
             news = data['news'];
             elsewhere = data['elsewhere'];
