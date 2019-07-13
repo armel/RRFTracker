@@ -105,7 +105,6 @@
         // Load the data
         d3.json('rrf.json' + '?_=' + noCache, function(error, data) {
             if (error) {
-                console.log(data);
                 return console.warn('Erreur', error);
             }
             else {
