@@ -13,11 +13,11 @@
 
     // Initialise color
 
-    if (localStorage.getItem('Color') === null) {
-        localStorage.setItem('Color', 'ForestGreen');
+    if (localStorage.getItem('color') === null) {
+        localStorage.setItem('color', 'ForestGreen');
     }
     
-    var colorSelected = localStorage.getItem('Color');
+    var colorSelected = localStorage.getItem('color');
 
     // And continue...
     var generateChartTimeout = null;
@@ -29,19 +29,19 @@
         }, 250);
     });
 
-    var abstract, old_abstract = '';
-    var news, old_news = '';
-    var elsewhere, old_elsewhere = '';
-    var activity, old_activity = '';
-    var best, old_best = '';
-    var transmit, old_transmit = '';
-    var last, old_last = '';
-    var all, old_all = '', old_bubble = '';
-    var porteuse, old_porteuse = '';
-    var porteuse_extended, old_porteuse_extended = '';
-    var node_extended, old_node_extended = '';
-    var old_color = '';
-    var old_user = 0;
+    var abstract, abstractOld = '';
+    var news, newsOld = '';
+    var elsewhere, elsewhereOld = '';
+    var activity, activityOld = '';
+    var best, bestOld = '';
+    var transmit, transmitOld = '';
+    var last, lastOld = '';
+    var all, allOld = '', bubbleOld = '';
+    var porteuse, porteuseOld = '';
+    var porteuseExtended, porteuseExtendedOld = '';
+    var nodeExtended, nodeExtendedOld = '';
+    var colorOld = '';
+    var userOld = 0
 
     var inter = setInterval(function() {
         generateD3Charts(false);
@@ -50,23 +50,23 @@
     function generateD3Charts(redraw = false) {
         if (redraw === true) {
             console.log("rezise");
-            old_abstract = '';
-            old_news = '';
-            old_elsewhere = '';
-            old_activity = '';
-            old_best = '';
-            old_bubble = '';
-            old_transmit = '';
-            old_last = '';
-            old_all = '';
-            old_porteuse = '';
-            old_porteuse_extended = '';
-            old_node_extended = '';
-            old_color = '';
-            old_user = 0
+            abstractOld = '';
+            newsOld = '';
+            elsewhereOld = '';
+            activityOld = '';
+            bestOld = '';
+            transmitOld = '';
+            lastOld = '';
+            allOld = '';
+            bubbleOld = '';
+            porteuseOld = '';
+            porteuseExtendedOld = '';
+            nodeExtendedOld = '';
+            colorOld = '';
+            userOld = 0
         }
 
-        colorSelected = localStorage.getItem('Color');
+        colorSelected = localStorage.getItem('color');
 
         var bodyStyles = document.body.style;
         bodyStyles.setProperty('--color-theme', colorSelected);
@@ -100,7 +100,7 @@
 
         // Other QSO
         var room = ['RRF', 'TECHNIQUE', 'INTERNATIONAL', 'BAVARDAGE', 'LOCAL', 'FON'];
-        var room_other = [];
+        var roomOther = [];
 
         // Load the data
         // d3.json('rrf.json' + '?_=' + noCache, function(error, data) {
@@ -118,29 +118,29 @@
                 last = data['last'];
                 all = data['all'];
                 porteuse = data['porteuse'];
-                porteuse_extended = data['porteuse_extended'];
-                node_extended = data['node_extended'];
+                porteuseExtended = data['porteuseExtended'];
+                nodeExtended = data['nodeExtended'];
             }
         });
 
-        node_extended_modal = sessionStorage.getItem('node_extended_modal');
-        porteuse_extended_modal = sessionStorage.getItem('porteuse_extended_modal');
+        nodeExtendedModal = sessionStorage.getItem('nodeExtendedModal');
+        porteuseExtendedModal = sessionStorage.getItem('porteuseExtendedModal');
 
         // ---------------------------------
         // Abstract
         // ---------------------------------
 
         if (abstract !== undefined) {
-            if (old_abstract !== JSON.stringify(abstract)) {
-                old_abstract = JSON.stringify(abstract);
+            if (abstractOld !== JSON.stringify(abstract)) {
+                abstractOld = JSON.stringify(abstract);
            
-                sessionStorage.setItem('Room', abstract[0].Salon);
-                sessionStorage.setItem('User', abstract[0].User);
+                sessionStorage.setItem('room', abstract[0].Salon);
+                sessionStorage.setItem('user', abstract[0].User);
 
                 url = window.location.href;
                 if (url.indexOf('today') > 0) {
-                    url = url.substring(0, url.lastIndexOf(sessionStorage.getItem('Room') + '-'));
-                    url += sessionStorage.getItem('Room') + '-' + getYesterday();
+                    url = url.substring(0, url.lastIndexOf(sessionStorage.getItem('room') + '-'));
+                    url += sessionStorage.getItem('room') + '-' + getYesterday();
                     
                     date = new Date(Date.now()).toLocaleString();
                     date = date.substring(0, date.lastIndexOf(':'));
@@ -148,8 +148,8 @@
                     var containerTitle = 'Résumé de la journée du ' + date + ' (<a href="' + url + '">archive d\'hier</a>)';
                 }
                 else {
-                    url = url.substring(0, url.lastIndexOf(sessionStorage.getItem('Room') + '-'));
-                    url += sessionStorage.getItem('Room') + '-today';
+                    url = url.substring(0, url.lastIndexOf(sessionStorage.getItem('room') + '-'));
+                    url += sessionStorage.getItem('room') + '-today';
 
                     date = new Date(Date.now() - (1 * 24 * 3600 * 1000)).toLocaleString();
                     date = date.substring(0, date.indexOf(' '));
@@ -165,7 +165,7 @@
 
                 data = abstract;
 
-                var room_current = '';
+                var roomCurrent = '';
 
                 function tabulate(data, columns) {
                     d3.select(containerSelector).html('');
@@ -207,7 +207,7 @@
                         .attr('width', '20%')
                         .html(function(d, i) {
                             if (i === 4) {
-                                return '<a onClick="sessionStorage.setItem(\'node_extended_modal\', \'' + 'Node' + '\'); window.location.reload()">' + d.value + '</a>';
+                                return '<a onClick="sessionStorage.setItem(\'nodeExtendedModal\', \'' + 'Node' + '\'); window.location.reload()">' + d.value + '</a>';
                             } else {
                                 return d.value;
                             }
@@ -225,75 +225,12 @@
         }
 
         // ---------------------------------
-        // Transmit
-        // ---------------------------------
-
-        if (transmit !== undefined) {
-            if (old_transmit !== JSON.stringify(transmit)) {
-                old_transmit = JSON.stringify(transmit);
-
-                data = transmit;
-
-                var TOT = data[0].TOT;
-                var Indicatif = data[0].Indicatif;
-                var Latitude = parseFloat(data[0].Latitude);
-                var Longitude = parseFloat(data[0].Longitude);
-                var Distance = 0;
-
-                if (Latitude !== 0) {
-                    Distance = computeDistance(Latitude, Longitude);
-                }
-
-                sessionStorage.setItem('Indicatif', Indicatif);
-
-                if (TOT == 0) {
-                    title = '<div class="icon"><i class="icofont-mic-mute"></i></div> ' + 'Aucune émission';
-                    
-                } else {
-                    //title = Indicatif + ' en émission';
-                    title = '<div class="icon"><i class="icofont-mic"></i></div> ' + Indicatif;
-                    if (Distance !== 0) {
-                        title += ' (~ ' + Distance + ' Km)';
-                    }
-                    else {
-                        title += ' en émission';
-                    }
-                }
-
-                const containerSelector = '.tot-graph';
-                const containerTitle = title;
-                const containerLegend = 'Affiche l\'indicatif du nœud en cours d\'émission, la distance approximative de ce nœud, ainsi que la durée de passage en émission.';
-
-                d3.select(containerSelector).html('');
-                d3.select(containerSelector).append('h2').html(containerTitle);
-
-                var svg_tot = d3.select(containerSelector)
-                    .append('div')
-                    .attr('class', 'clock')
-
-                clock = new FlipClock($('.clock'), TOT, {
-                    clockFace: 'MinuteCounter',
-                    language: 'french',
-                    clockFaceOptions: {
-                        autoPlay: false,
-                        autoStart: false
-                    }
-                });
-
-                d3.select(containerSelector).append('span').text(containerLegend);
-            }
-            else {
-                clock.stop(function() {});
-            }
-        }
-
-        // ---------------------------------
         // News
         // ---------------------------------
 
         if (news !== undefined) {
-            if (old_news !== JSON.stringify(news)) {
-                old_news = JSON.stringify(news);
+            if (newsOld !== JSON.stringify(news)) {
+                newsOld = JSON.stringify(news);
 
                 sessionStorage.setItem('news', news[0].Message);
             }
@@ -304,8 +241,8 @@
         // ---------------------------------
 
         if (elsewhere !== undefined) {
-            if (old_elsewhere !== JSON.stringify(elsewhere)) {
-                old_elsewhere = JSON.stringify(elsewhere);
+            if (elsewhereOld !== JSON.stringify(elsewhere)) {
+                elsewhereOld = JSON.stringify(elsewhere);
 
                 const containerSelector = '.elsewhere-table';
                 const containerTitle = '<div class="icon"><i class="icofont-dashboard-web"></i></div> ' + 'Activité sur les autres salons';
@@ -314,14 +251,14 @@
                 data = elsewhere;
 
                 room.forEach(function(d) {
-                    if (d !== sessionStorage.getItem('Room')) {
-                        room_other.push(d);
+                    if (d !== sessionStorage.getItem('room')) {
+                        roomOther.push(d);
                     }
                 });
 
-                room_other.unshift('Scanner RRF');
+                roomOther.unshift('Scanner RRF');
 
-                var count = (old_elsewhere.match(/Aucune émission/g) || []).length;
+                var count = (elsewhereOld.match(/Aucune émission/g) || []).length;
 
                 function tabulate(data, columns) {
                     d3.select(containerSelector).html('');
@@ -341,7 +278,7 @@
                         .html(function(column) {
                             if (column != 'Scanner RRF') {
                                 url = window.location.href;
-                                url = url.replace('/' + sessionStorage.getItem('Room') + '-', '/' + column + '-')
+                                url = url.replace('/' + sessionStorage.getItem('room') + '-', '/' + column + '-')
                                 return '<a href="' + url + '">' + column + '</a>';
                             }
                             else {
@@ -394,7 +331,7 @@
                 }
 
                 // Render the table(s)
-                tabulate(data, room_other); // 5 columns table
+                tabulate(data, roomOther); // 5 columns table
                 d3.select(containerSelector).append('span').text(containerLegend);
             }
         }
@@ -404,8 +341,8 @@
         // ---------------------------------
 
         if (activity !== undefined && activity.length != 0) {
-            if (old_activity !== JSON.stringify(activity)) {
-                old_activity = JSON.stringify(activity);
+            if (activityOld !== JSON.stringify(activity)) {
+                activityOld = JSON.stringify(activity);
 
                 const containerSelector = '.activity-graph';
                 const containerTitle = '<div class="icon"><i class="icofont-spreadsheet"></i></div> ' +'Activité heure par heure';
@@ -440,7 +377,7 @@
                     return d.TX;
                 })]);
 
-                var svg_activity = d3.select(containerSelector)
+                var svgActivity = d3.select(containerSelector)
                     .append('svg')
                     .attr('width', width + margin.left + margin.right)
                     .attr('height', height + margin.top + margin.bottom)
@@ -449,7 +386,7 @@
                         'translate(' + margin.left + ',' + margin.top + ')');
 
                 // Add axis
-                svg_activity.append('g')
+                svgActivity.append('g')
                     .attr('class', 'x axis')
                     .attr('transform', 'translate(0,' + (height + 0.5) + ')')
                     .call(xAxis)
@@ -459,7 +396,7 @@
                     .attr('dy', '-.55em')
                     .attr('transform', 'rotate(-45)');
 
-                svg_activity.append('g')
+                svgActivity.append('g')
                     .attr('class', 'y axis')
                     .call(yAxis)
                     .append('text')
@@ -470,7 +407,7 @@
                     .text('TX');
 
                 // Add bar chart
-                svg_activity.selectAll('bar')
+                svgActivity.selectAll('bar')
                     .data(data)
                     .enter().append('rect')
                     .attr('class', 'bar')
@@ -488,7 +425,7 @@
                         return height - y(d.TX);
                     });
 
-                svg_activity.selectAll('text.bar')
+                svgActivity.selectAll('text.bar')
                     .data(data)
                     .enter().append('text')
                     .attr('class', 'value')
@@ -512,8 +449,8 @@
         // ---------------------------------
 
         if (best !== undefined && best.length != 0) {
-            if (old_best !== JSON.stringify(best)) {
-                old_best = JSON.stringify(best);
+            if (bestOld !== JSON.stringify(best)) {
+                bestOld = JSON.stringify(best);
 
                 const containerSelector = '.best-graph';
                 const containerTitle = '<div class="icon"><i class="icofont-spreadsheet"></i></div> ' + 'Top 20 des nœuds les plus actifs';
@@ -540,7 +477,7 @@
                     .domain([yMin, yMax])
                     .range([d3.rgb(color).brighter(), d3.rgb(color).darker()]);
 
-                const svg_best = d3.select(containerSelector)
+                const svgBest = d3.select(containerSelector)
                     .append('svg')
                     .attr('width', width + margin.left + margin.right)
                     .attr('height', height + margin.top + margin.bottom)
@@ -557,7 +494,7 @@
                 })]);
 
                 // Add axis
-                svg_best.append('g')
+                svgBest.append('g')
                     .attr('class', 'x axis')
                     .attr('transform', 'translate(0,' + (height + 0.5) + ')')
                     .call(xAxis)
@@ -567,7 +504,7 @@
                     .attr('dy', '-.55em')
                     .attr('transform', 'rotate(-45)');
 
-                svg_best.append('g')
+                svgBest.append('g')
                     .attr('class', 'y axis')
                     .call(yAxis)
                     .append('text')
@@ -578,7 +515,7 @@
                     .text('TX');
 
                 // Add bar chart
-                svg_best.selectAll('bar')
+                svgBest.selectAll('bar')
                     .data(data)
                     .enter().append('rect')
                     .attr('class', 'bar')
@@ -596,7 +533,7 @@
                         return height - y(d.TX);
                     })
 
-                svg_best.selectAll('text.bar')
+                svgBest.selectAll('text.bar')
                     .data(data)
                     .enter().append('text')
                     .attr('class', 'value')
@@ -621,10 +558,10 @@
         // ---------------------------------
 
         if (all !== undefined && all.length != 0) {
-            if (old_bubble !== JSON.stringify(all)) {
-                old_bubble = JSON.stringify(all);
+            if (bubbleOld !== JSON.stringify(all)) {
+                bubbleOld = JSON.stringify(all);
 
-                Indicatif = sessionStorage.getItem('Indicatif');
+                indicatif = sessionStorage.getItem('indicatif');
 
                 var diameter = width + margin.left + margin.right,
                     format = d3.format(',d')
@@ -677,7 +614,7 @@
                 });
 
                 data.children.forEach(function(d) {
-                    if (d.Indicatif === Indicatif) {
+                    if (d.Indicatif === indicatif) {
                         d.TX = yMax;
                     }
                 });
@@ -703,7 +640,7 @@
                     })
                     //.style('fill', function(d) { return color; })
                     .style('fill', function(d) {
-                        if (d.className === Indicatif) {
+                        if (d.className === indicatif) {
                             return 'lightslategray';
                         }
                         return colorScale(d.value);
@@ -713,7 +650,7 @@
                     .attr('class', 'value')
                     .attr('dy', '.3em')
                     .style('fill', function(d) {
-                        if (d.className === Indicatif) {
+                        if (d.className === indicatif) {
                             return 'white';
                         }
                         return 'white';
@@ -734,12 +671,75 @@
         }
 
         // ---------------------------------
+        // Transmit
+        // ---------------------------------
+
+        if (transmit !== undefined) {
+            if (transmitOld !== JSON.stringify(transmit)) {
+                transmitOld = JSON.stringify(transmit);
+
+                data = transmit;
+
+                var tot = data[0].TOT;
+                var indicatif = data[0].Indicatif;
+                var latitude = parseFloat(data[0].Latitude);
+                var longitude = parseFloat(data[0].Longitude);
+                var distance = 0;
+
+                if (latitude !== 0) {
+                    distance = computeDistance(latitude, longitude);
+                }
+
+                sessionStorage.setItem('indicatif', indicatif);
+
+                if (tot == 0) {
+                    title = '<div class="icon"><i class="icofont-mic-mute"></i></div> ' + 'Aucune émission';
+                    
+                } else {
+                    //title = Indicatif + ' en émission';
+                    title = '<div class="icon"><i class="icofont-mic"></i></div> ' + indicatif;
+                    if (distance !== 0) {
+                        title += ' (~ ' + distance + ' Km)';
+                    }
+                    else {
+                        title += ' en émission';
+                    }
+                }
+
+                const containerSelector = '.tot-graph';
+                const containerTitle = title;
+                const containerLegend = 'Affiche l\'indicatif du nœud en cours d\'émission, la distance approximative de ce nœud, ainsi que la durée de passage en émission.';
+
+                d3.select(containerSelector).html('');
+                d3.select(containerSelector).append('h2').html(containerTitle);
+
+                var svgTot = d3.select(containerSelector)
+                    .append('div')
+                    .attr('class', 'clock')
+
+                clock = new FlipClock($('.clock'), tot, {
+                    clockFace: 'MinuteCounter',
+                    language: 'french',
+                    clockFaceOptions: {
+                        autoPlay: false,
+                        autoStart: false
+                    }
+                });
+
+                d3.select(containerSelector).append('span').text(containerLegend);
+            }
+            else {
+                clock.stop(function() {});
+            }
+        }
+
+        // ---------------------------------
         // Last
         // ---------------------------------
 
         if (last !== undefined && last.length != 0) {
-            if (old_last !== JSON.stringify(last)) {
-                old_last = JSON.stringify(last);
+            if (lastOld !== JSON.stringify(last)) {
+                lastOld = JSON.stringify(last);
 
                 const containerSelector = '.last-table';
                 const containerTitle = '<div class="icon"><i class="icofont-wall-clock"></i></div> ' + 'Derniers passages en émission';
@@ -808,8 +808,8 @@
         // ---------------------------------
 
         if (all !== undefined && all.length != 0) {
-            if (old_all !== JSON.stringify(all)) {
-                old_all = JSON.stringify(all);
+            if (allOld !== JSON.stringify(all)) {
+                allOld = JSON.stringify(all);
 
                 const containerSelector = '.all-table';
                 const containerTitle = '<div class="icon"><i class="icofont-badge"></i></div> ' + 'Classement des nœuds par TX';
@@ -873,8 +873,8 @@
         // ---------------------------------
 
         if (porteuse !== undefined && porteuse.length != 0) {
-            if (old_porteuse !== JSON.stringify(porteuse)) {
-                old_porteuse = JSON.stringify(porteuse);
+            if (porteuseOld !== JSON.stringify(porteuse)) {
+                porteuseOld = JSON.stringify(porteuse);
 
                 const containerSelector = '.porteuse-table';
                 const containerTitle = '<div class="icon"><i class="icofont-bug"></i></div> ' + 'Déclenchements intempestifs';
@@ -923,7 +923,7 @@
                         .append('td')
                         .html(function(d, i) {
                             if (i === 0) {
-                                return '<a onClick="sessionStorage.setItem(\'porteuse_extended_modal\', \'' + d.id + '\'); window.location.reload()">' + d.value + '</a>';
+                                return '<a onClick="sessionStorage.setItem(\'porteuseExtendedModal\', \'' + d.id + '\'); window.location.reload()">' + d.value + '</a>';
                             } else {
                                 return d.value;
                             }
@@ -943,17 +943,17 @@
         // Node extended
         // ---------------------------------
 
-        if (node_extended_modal != null) {
+        if (nodeExtendedModal != null) {
 
-            if (node_extended !== undefined) {
-                if (old_node_extended !== JSON.stringify(node_extended)) {
-                    old_node_extended = JSON.stringify(node_extended);
+            if (nodeExtended !== undefined) {
+                if (nodeExtendedOld !== JSON.stringify(nodeExtended)) {
+                    nodeExtendedOld = JSON.stringify(nodeExtended);
 
                     const containerSelector = '#node-extended-modal';
                     const containerTitle = '<div class="icon"><i class="icofont-info-circle"></i></div> ' + 'Liste des nœuds connectés';
                     const containerLegend = 'Ce tableau présente la liste des nœuds actuellement connectés.';
 
-                    data = node_extended;
+                    data = nodeExtended;
 
                     function tabulate(data, columns) {
                         d3.select(containerSelector).html('');
@@ -994,7 +994,7 @@
                     d3.select(containerSelector).append('span').text(containerLegend);
 
                     $('#node-extended-modal').modal();
-                    sessionStorage.removeItem('node_extended_modal');
+                    sessionStorage.removeItem('nodeExtendedModal');
                 }
             }
         }
@@ -1003,17 +1003,17 @@
         // Porteuse extended
         // ---------------------------------
 
-        if (porteuse_extended_modal != null) {
+        if (porteuseExtendedModal != null) {
 
-            if (porteuse_extended !== undefined) {
-                if (old_porteuse_extended !== JSON.stringify(porteuse_extended)) {
-                    old_porteuse_extended = JSON.stringify(porteuse_extended);
+            if (porteuseExtended !== undefined) {
+                if (porteuseExtendedOld !== JSON.stringify(porteuseExtended)) {
+                    porteuseExtendedOld = JSON.stringify(porteuseExtended);
 
                     const containerSelector = '#porteuse-extended-modal';
                     const containerTitle = '<div class="icon"><i class="icofont-info-circle"></i></div> ' + 'Déclenchements intempestifs sur ' + data[0].Indicatif;
                     const containerLegend = 'Ce tableau présente les heures de passages en émission intempestifs ou suspects, d\'une durée de moins de 3 secondes sur le nœud sélectionné.';
 
-                    data = [porteuse_extended[parseInt(porteuse_extended_modal) - 1]];
+                    data = [porteuseExtended[parseInt(porteuseExtendedModal) - 1]];
 
                     function tabulate(data, columns) {
                         d3.select(containerSelector).html('');
@@ -1070,7 +1070,7 @@
                     d3.select(containerSelector).append('span').text(containerLegend);
 
                     $('#porteuse-extended-modal').modal();
-                    sessionStorage.removeItem('porteuse_extended_modal');
+                    sessionStorage.removeItem('porteuseExtendedModal');
 
                 }
             }
@@ -1080,15 +1080,15 @@
         // Author and Color
         // ---------------------------------
 
-        if (old_user != sessionStorage.getItem('User') || old_color != localStorage.getItem('Color')) {
-            old_user = sessionStorage.getItem('User');
+        if (userOld != sessionStorage.getItem('user') || colorOld != localStorage.getItem('color')) {
+            userOld = sessionStorage.getItem('user');
 
-            if(old_color != localStorage.getItem('Color')) {
-                old_color = localStorage.getItem('Color');
+            if(colorOld != localStorage.getItem('color')) {
+                colorOld = localStorage.getItem('color');
 
-                old_activity = '';
-                old_best = '';
-                old_bubble = '';
+                activityOld = '';
+                bestOld = '';
+                bubbleOld = '';
             }
 
             const containerSelector = '.author-legend';
@@ -1096,10 +1096,10 @@
 
             containerAuthor += '<br>Couleur actuelle du thème <a onClick="color(\'' + colorSelected + '\');">' + colorSelected + '</a>.';
 
-            if (old_user > 1)
-                containerAuthor += ' Actuellement ' + old_user + ' utilisateurs sont en ligne.';
-            else if(old_user == 1)
-                containerAuthor += ' Actuellement ' + old_user + ' utilisateur est en ligne.';
+            if (userOld > 1)
+                containerAuthor += ' Actuellement ' + userOld + ' utilisateurs sont en ligne.';
+            else if(userOld == 1)
+                containerAuthor += ' Actuellement ' + userOld + ' utilisateur est en ligne.';
 
             d3.select(containerSelector).html('');
             d3.select(containerSelector).append('span')

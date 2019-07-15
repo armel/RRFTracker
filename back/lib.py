@@ -92,7 +92,7 @@ def log_write():
     data += log_node('all')
     data += log_node_list()
     data += log_porteuse('porteuse')
-    data += log_porteuse('porteuse_extended')
+    data += log_porteuse('porteuseExtended')
 
     if s.init is False:
         data += log_elsewhere()
@@ -296,7 +296,7 @@ def log_node(type):
 # Log node list
 def log_node_list():
 
-    data = '"node_extended":\n'
+    data = '"nodeExtended":\n'
     data += '[\n'
 
     width = 4
@@ -344,7 +344,7 @@ def log_porteuse(type):
     if type == 'porteuse':
         data = '"porteuse":\n'
     else:
-        data = '"porteuse_extended":\n'
+        data = '"porteuseExtended":\n'
 
     data += '[\n'
 

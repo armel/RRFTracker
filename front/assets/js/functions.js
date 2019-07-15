@@ -18,12 +18,12 @@ function getYesterday() {
 
 // Compute Distance
 function computeDistance(latitude_1, longitude_1) {
-    if (sessionStorage.getItem('Latitude') === null) {
+    if (sessionStorage.getItem('latitude') === null) {
         return 0
     }
 
-    latitude_2 = parseFloat(sessionStorage.getItem('Latitude'));
-    longitude_2 = parseFloat(sessionStorage.getItem('Longitude'));
+    latitude_2 = parseFloat(sessionStorage.getItem('latitude'));
+    longitude_2 = parseFloat(sessionStorage.getItem('longitude'));
 
     p = 0.017453292519943295 // Approximation Pi/180
     a = 0.5 - Math.cos((latitude_2 - latitude_1) * p) / 2 + Math.cos(latitude_1 * p) * Math.cos(latitude_2 * p) * (1 - Math.cos((longitude_2 - longitude_1) * p)) / 2
@@ -43,14 +43,14 @@ function ipLookUp () {
     $.ajax('http://ip-api.com/json')
     .then(
         function success(response) {
-            sessionStorage.removeItem('Latitude');
-            sessionStorage.setItem('Latitude', response.lat);
-            sessionStorage.removeItem('Longitude');
-            sessionStorage.setItem('Longitude', response.lon);
+            sessionStorage.removeItem('latitude');
+            sessionStorage.setItem('latitude', response.lat);
+            sessionStorage.removeItem('longitude');
+            sessionStorage.setItem('longitude', response.lon);
         },
         function fail(data, status) {
-            sessionStorage.removeItem('Latitude');
-            sessionStorage.removeItem('Longitude');
+            sessionStorage.removeItem('latitude');
+            sessionStorage.removeItem('longitude');
         }
     );
 }
@@ -106,7 +106,7 @@ function color(selectedColor) {
         newColor = 'SteelBlue';
     }
 
-    localStorage.setItem('Color', newColor);
+    localStorage.setItem('color', newColor);
 
     return 0;
 }
