@@ -17,16 +17,16 @@ function getYesterday() {
 }
 
 // Compute Distance
-function computeDistance(latitude_1, longitude_1) {
+function computeDistance(latitudeLink, longitudeLink) {
     if (sessionStorage.getItem('latitude') === null) {
         return 0
     }
 
-    latitude_2 = parseFloat(sessionStorage.getItem('latitude'));
-    longitude_2 = parseFloat(sessionStorage.getItem('longitude'));
+    latitudeUser = parseFloat(sessionStorage.getItem('latitude'));
+    longitudeUser = parseFloat(sessionStorage.getItem('longitude'));
 
     p = 0.017453292519943295 // Approximation Pi/180
-    a = 0.5 - Math.cos((latitude_2 - latitude_1) * p) / 2 + Math.cos(latitude_1 * p) * Math.cos(latitude_2 * p) * (1 - Math.cos((longitude_2 - longitude_1) * p)) / 2
+    a = 0.5 - Math.cos((latitudeUser - latitudeLink) * p) / 2 + Math.cos(latitudeLink * p) * Math.cos(latitudeUser * p) * (1 - Math.cos((longitudeUser - longitudeLink) * p)) / 2
     r = (12742 * Math.asin(Math.sqrt(a)))
     if (r < 100) {
         r = Math.round((12742 * Math.asin(Math.sqrt(a))), 1)
