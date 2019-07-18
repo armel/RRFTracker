@@ -1009,11 +1009,11 @@
                 if (porteuseExtendedOld !== JSON.stringify(porteuseExtended)) {
                     porteuseExtendedOld = JSON.stringify(porteuseExtended);
 
+                    data = [porteuseExtended[parseInt(porteuseExtendedModal) - 1]];
+
                     const containerSelector = '#porteuse-extended-modal';
                     const containerTitle = '<div class="icon"><i class="icofont-info-circle"></i></div> ' + 'Déclenchements intempestifs sur ' + data[0].Indicatif;
                     const containerLegend = 'Ce tableau présente les heures de passages en émission intempestifs ou suspects, d\'une durée de moins de 3 secondes sur le nœud sélectionné.';
-
-                    data = [porteuseExtended[parseInt(porteuseExtendedModal) - 1]];
 
                     function tabulate(data, columns) {
                         d3.select(containerSelector).html('');
