@@ -33,8 +33,8 @@ def main(argv):
         elif opt in ('--log-path'):
             s.log_path = arg
         elif opt in ('--room'):
-            if arg not in ['RRF', 'TECHNIQUE', 'INTERNATIONAL', 'BAVARDAGE', 'LOCAL', 'FON']:
-                print 'Unknown room name (choose between \'RRF\', \'TECHNIQUE\', \'INTERNATIONAL\', \'BAVARDAGE\', \'LOCAL\' and \'FON\')'
+            if arg not in ['RRF', 'RRF3', 'TECHNIQUE', 'INTERNATIONAL', 'BAVARDAGE', 'LOCAL', 'FON']:
+                print 'Unknown room name (choose between \'RRF\', \'RRF3\', \'TECHNIQUE\', \'INTERNATIONAL\', \'BAVARDAGE\', \'LOCAL\' and \'FON\')'
                 sys.exit()
             s.room = arg
 

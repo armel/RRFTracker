@@ -24,7 +24,7 @@ def usage():
     print '--help               this help'
     print
     print 'Room settings:'
-    print '  --room ROOM        set room (default=RRF, choose between [RRF, TECHNIQUE, INTERNATIONAL, BAVARDAGE, LOCAL])'
+    print '  --room ROOM        set room (default=RRF, choose between [RRF, RRF3, TECHNIQUE, INTERNATIONAL, BAVARDAGE, LOCAL])'
     print
     print 'Log settings:'
     print '  --log-path         set the location of log files'
@@ -91,7 +91,7 @@ def log_write():
     data += log_node('best')
     data += log_node('all')
     data += log_node_list()
-    data += log_porteuse('porteuse')
+    # data += log_porteuse('porteuse')
     data += log_porteuse('porteuseExtended')
 
     if s.init is False:

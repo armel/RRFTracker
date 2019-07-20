@@ -19,6 +19,14 @@
     
     var colorSelected = localStorage.getItem('color');
 
+    // Initialise porteuse
+
+    if (localStorage.getItem('porteuse') === null) {
+        localStorage.setItem('porteuse', 10);
+    }
+    
+    var porteuseSelected = localStorage.getItem('porteuse');
+
     // And continue...
     var generateChartTimeout = null;
 
@@ -40,8 +48,9 @@
     var porteuse, porteuseOld = '';
     var porteuseExtended, porteuseExtendedOld = '';
     var nodeExtended, nodeExtendedOld = '';
-    var colorOld = '';
-    var userOld = 0
+    var colorSelectedOld = '';
+    var porteuseSelectedOld = 10;
+    var userCountOld = 0
 
     var inter = setInterval(function() {
         generateD3Charts(false);
@@ -62,11 +71,13 @@
             porteuseOld = '';
             porteuseExtendedOld = '';
             nodeExtendedOld = '';
-            colorOld = '';
-            userOld = 0
+            colorSelectedOld = '';
+            porteuseSelectedOld = 10;
+            userCountOld = 0
         }
 
         colorSelected = localStorage.getItem('color');
+        porteuseSelected = localStorage.getItem('porteuse');
 
         var bodyStyles = document.body.style;
         bodyStyles.setProperty('--color-theme', colorSelected);
@@ -99,7 +110,7 @@
             .ticks(10);
 
         // Other QSO
-        var room = ['RRF', 'TECHNIQUE', 'INTERNATIONAL', 'BAVARDAGE', 'LOCAL', 'FON'];
+        var room = ['RRF', 'RRF3', 'TECHNIQUE', 'INTERNATIONAL', 'FON'];
         var roomOther = [];
 
         // Load the data
@@ -872,19 +883,47 @@
         // Porteuse
         // ---------------------------------
 
-        if (porteuse !== undefined && porteuse.length != 0) {
-            if (porteuseOld !== JSON.stringify(porteuse)) {
-                porteuseOld = JSON.stringify(porteuse);
+        if (porteuseExtended !== undefined && porteuseExtended.length != 0) {
+            if (porteuseOld !== JSON.stringify(porteuseExtended)) {
+                porteuseOld = JSON.stringify(porteuseExtended);
+
+                data = porteuseExtended;
+
+                var porteuseTotal = 0;
+                var porteuseView = false;
+                var linkTotal = 0;
+
+                data.forEach(function(d) {
+                    if (d.TX >= porteuseSelected) {
+                        porteuseView = true;
+                    }
+                    porteuseTotal += d.TX;
+                    linkTotal += 1;
+                });
+
 
                 const containerSelector = '.porteuse-table';
                 const containerTitle = '<div class="icon"><i class="icofont-bug"></i></div> ' + 'Déclenchements intempestifs';
-                const containerLegend = 'Ce tableau présente le classement complet des nœuds ayant fait l\'objet de passages en émission intempestifs ou suspects, d\'une durée de moins de 3 secondes: position, indicatif du nœud et nombre de passages en émission.';
+                
+                if (porteuseSelected == 1) {
+                    var containerLegend = 'Ce tableau présente le classement des nœuds ayant fait l\'objet d\'au moins <a onClick="porteuse(\'' + porteuseSelected + '\');">' + porteuseSelected + '</a> déclenchement intempestif ou suspects, d\'une durée de moins de 3 secondes: position, indicatif du nœud et nombre de passages en émission.';
+                }
+                else {
+                    var containerLegend = 'Ce tableau présente le classement des nœuds ayant fait l\'objet d\'au moins <a onClick="porteuse(\'' + porteuseSelected + '\');">' + porteuseSelected + '</a> déclenchements intempestifs ou suspects, d\'une durée de moins de 3 secondes: position, indicatif du nœud et nombre de passages en émission.';                    
+                }
 
-                data = porteuse;
+                if (linkTotal == 1) {
+                    var containerTotal = 'Aujourd\'hui, il y a eu un total de 1 déclenchement, en provenance de 1 nœud.';
+                }
+                else if (linkTotal > 1) {
+                    var containerTotal = 'Aujourd\'hui, il y a eu un total de ' + porteuseTotal + ' déclenchements, en provenance de ' + linkTotal + ' nœuds distincts.';
+                } 
 
                 function tabulate(data, columns) {
                     d3.select(containerSelector).html('');
                     d3.select(containerSelector).append('h2').html(containerTitle);
+
+                    d3.select(containerSelector).append('span').text(containerTotal);
 
                     var table = d3.select(containerSelector)
                         .append('table')
@@ -911,6 +950,9 @@
                     // Create a cell in each row for each column
                     var cells = rows.selectAll('td')
                         .data(function(row) {
+                            if(row.TX < porteuseSelected) {
+                                return 0;
+                            }
                             return columns.map(function(column) {
                                 return {
                                     column: column,
@@ -933,9 +975,13 @@
                 }
 
                 // Render the table(s)
-                tabulate(data, ['Pos', 'Indicatif', 'TX']); // 3 columns table
-                d3.select(containerSelector).append('span').text(containerLegend);
-
+                if (porteuseView == true) {
+                    tabulate(data, ['Pos', 'Indicatif', 'TX']); // 3 columns table
+                    d3.select(containerSelector).append('span').html(containerLegend);
+                }
+                else {
+                    d3.select(containerSelector).html('');
+                }
             }
         }
 
@@ -1080,15 +1126,21 @@
         // Author and Color
         // ---------------------------------
 
-        if (userOld != sessionStorage.getItem('user') || colorOld != localStorage.getItem('color')) {
-            userOld = sessionStorage.getItem('user');
+        if (userCountOld != sessionStorage.getItem('user') || colorSelectedOld != localStorage.getItem('color') || porteuseSelectedOld != localStorage.getItem('porteuse')) {
+            userCountOld = sessionStorage.getItem('user');
 
-            if(colorOld != localStorage.getItem('color')) {
-                colorOld = localStorage.getItem('color');
+            if(colorSelectedOld != localStorage.getItem('color')) {
+                colorSelectedOld = localStorage.getItem('color');
 
                 activityOld = '';
                 bestOld = '';
                 bubbleOld = '';
+            }
+
+            if(porteuseSelectedOld != localStorage.getItem('porteuse')) {
+                porteuseSelectedOld = localStorage.getItem('porteuse');
+
+                porteuseOld = '';
             }
 
             const containerSelector = '.author-legend';
@@ -1096,10 +1148,10 @@
 
             containerAuthor += '<br>Couleur actuelle du thème <a onClick="color(\'' + colorSelected + '\');">' + colorSelected + '</a>.';
 
-            if (userOld > 1)
-                containerAuthor += ' Actuellement ' + userOld + ' utilisateurs sont en ligne.';
-            else if(userOld == 1)
-                containerAuthor += ' Actuellement ' + userOld + ' utilisateur est en ligne.';
+            if (userCountOld > 1)
+                containerAuthor += ' Actuellement ' + userCountOld + ' utilisateurs sont en ligne.';
+            else if(userCountOld == 1)
+                containerAuthor += ' Actuellement ' + userCountOld + ' utilisateur est en ligne.';
 
             d3.select(containerSelector).html('');
             d3.select(containerSelector).append('span')

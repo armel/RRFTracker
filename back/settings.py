@@ -10,7 +10,7 @@ Check video about RRFTracker on https://www.youtube.com/watch?v=rVW8xczVpEo
 
 # Version
 
-version = '2.0.2'
+version = '2.0.3'
 
 # Default room and path
 
@@ -71,6 +71,30 @@ room_list = {
         'url': 'http://rrf.f5nlg.ovh/api/svxlink/RRF',
         'dtmf': '9 6 #'
     },
+    'RRF3': {
+        'url': 'http://rrf.f5nlg.ovh/api/svxlink/RRF3',
+        'dtmf': '9 6 #'
+    },
+    'TECHNIQUE': {
+        'url': 'http://rrf.f5nlg.ovh/api/svxlink/technique',
+        'dtmf': '9 8 #'
+    },
+    'INTERNATIONAL': {
+        'url': 'http://rrf.f5nlg.ovh/api/svxlink/international',
+        'dtmf': '9 9 #'
+    },
+    'FON': {
+        'url': 'http://f1tzo.com:8008/api/svxlink/FON',
+        'dtmf': '9 7 #'
+    }
+}
+
+'''
+room_list = {
+    'RRF': {
+        'url': 'http://rrf.f5nlg.ovh/api/svxlink/RRF',
+        'dtmf': '9 6 #'
+    },
     'TECHNIQUE': {
         'url': 'http://rrf.f5nlg.ovh/api/svxlink/technique',
         'dtmf': '9 8 #'
@@ -92,3 +116,4 @@ room_list = {
         'dtmf': '9 7 #'
     }
 }
+'''

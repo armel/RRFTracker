@@ -77,36 +77,56 @@ function classes(data) {
 }
 
 // Change color
-function color(selectedColor) {
+function color(colorSelected) {
 
     var newColor;
 
-    if (selectedColor == 'SteelBlue') {
+    if (colorSelected == 'SteelBlue') {
         newColor = 'ForestGreen';
     }
-    else if (selectedColor == 'ForestGreen') {
+    else if (colorSelected == 'ForestGreen') {
         newColor = 'DarkOrange';
     }
-    else if (selectedColor == 'DarkOrange') {
+    else if (colorSelected == 'DarkOrange') {
         newColor = 'DarkCyan';
     }
-    else if (selectedColor == 'DarkCyan') {
+    else if (colorSelected == 'DarkCyan') {
         newColor = 'DarkMagenta';
     }
-    else if (selectedColor == 'DarkMagenta') {
+    else if (colorSelected == 'DarkMagenta') {
         newColor = 'DarkKhaki';
     }
-    else if (selectedColor == 'DarkKhaki') {
+    else if (colorSelected == 'DarkKhaki') {
         newColor = 'DimGray';
     }
-    else if (selectedColor == 'DimGray') {
+    else if (colorSelected == 'DimGray') {
         newColor = 'Crimson';
     }
-    else if (selectedColor == 'Crimson') {
+    else if (colorSelected == 'Crimson') {
         newColor = 'SteelBlue';
     }
 
     localStorage.setItem('color', newColor);
+
+    return 0;
+}
+
+// Change porteuse
+function porteuse(porteuseSelected) {
+
+    var newPorteuse;
+
+    if (porteuseSelected == 1) {
+        newPorteuse = 5;
+    }
+    else if (porteuseSelected == 5) {
+        newPorteuse = 10;
+    }
+    else {
+        newPorteuse = 1;
+    }
+    
+    localStorage.setItem('porteuse', newPorteuse);
 
     return 0;
 }
