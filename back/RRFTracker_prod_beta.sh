@@ -20,14 +20,12 @@ case "$1" in
     stop) 
         echo "Stopping RRFTracker: RRF"
         kill `cat $PATH_PID/RRFTracker_RRF.pid`
+        echo "Stopping RRFTracker: RRF3"
+        kill `cat $PATH_PID/RRFTracker_RRF3.pid`
         echo "Stopping RRFTracker: TECHNIQUE"
         kill `cat $PATH_PID/RRFTracker_TECHNIQUE.pid`
-        echo "Stopping RRFTracker: BAVARDAGE"
-        kill `cat $PATH_PID/RRFTracker_BAVARDAGE.pid`
         echo "Stopping RRFTracker: INTERNATIONAL"
         kill `cat $PATH_PID/RRFTracker_INTERNATIONAL.pid`
-        echo "Stopping RRFTracker: LOCAL"
-        kill `cat $PATH_PID/RRFTracker_LOCAL.pid`
         echo "Stopping RRFTracker: FON"
         kill `cat $PATH_PID/RRFTracker_FON.pid`
         ;;
