@@ -218,7 +218,7 @@
                         .attr('width', '20%')
                         .html(function(d, i) {
                             if (i === 4) {
-                                return '<a onClick="sessionStorage.setItem(\'nodeExtendedModal\', \'' + 'Node' + '\'); window.location.reload()">' + d.value + '</a>';
+                                return '<a onClick="sessionStorage.setItem(\'nodeExtendedModal\', \'' + 'Node' + '\');">' + d.value + '</a>';
                             } else {
                                 return d.value;
                             }
@@ -966,7 +966,7 @@
                         .append('td')
                         .html(function(d, i) {
                             if (i === 0) {
-                                return '<a onClick="sessionStorage.setItem(\'porteuseExtendedModal\', \'' + d.id + '\'); window.location.reload()">' + d.value + '</a>';
+                                return '<a onClick="sessionStorage.setItem(\'porteuseExtendedModal\', \'' + d.id + '\');">' + d.value + '</a>';
                             } else {
                                 return d.value;
                             }
@@ -991,58 +991,54 @@
         // ---------------------------------
 
         if (nodeExtendedModal != null) {
-
             if (nodeExtended !== undefined) {
-                if (nodeExtendedOld !== JSON.stringify(nodeExtended)) {
-                    nodeExtendedOld = JSON.stringify(nodeExtended);
 
-                    const containerSelector = '#node-extended-modal';
-                    const containerTitle = '<div class="icon"><i class="icofont-info-circle"></i></div> ' + 'Liste des nœuds connectés';
-                    const containerLegend = 'Ce tableau présente la liste des nœuds actuellement connectés.';
+                const containerSelector = '#node-extended-modal';
+                const containerTitle = '<div class="icon"><i class="icofont-info-circle"></i></div> ' + 'Liste des nœuds connectés';
+                const containerLegend = 'Ce tableau présente la liste des nœuds actuellement connectés.';
 
-                    data = nodeExtended;
+                data = nodeExtended;
 
-                    function tabulate(data, columns) {
-                        d3.select(containerSelector).html('');
-                        d3.select(containerSelector).append('h2').html(containerTitle);
+                function tabulate(data, columns) {
+                    d3.select(containerSelector).html('');
+                    d3.select(containerSelector).append('h2').html(containerTitle);
 
-                        var table = d3.select(containerSelector).append('table');
-                        var thead = table.append('thead');
-                        var tbody = table.append('tbody');
+                    var table = d3.select(containerSelector).append('table');
+                    var thead = table.append('thead');
+                    var tbody = table.append('tbody');
 
-                        // Create a row for each object in the data
-                        var rows = tbody.selectAll('tr')
-                            .data(data)
-                            .enter()
-                            .append('tr');
+                    // Create a row for each object in the data
+                    var rows = tbody.selectAll('tr')
+                        .data(data)
+                        .enter()
+                        .append('tr');
 
-                        // Create a cell in each row for each column
-                        var cells = rows.selectAll('td')
-                            .data(function(row) {
-                                return columns.map(function(column) {
-                                    return {
-                                        column: column,
-                                        value: row[column]
-                                    };
-                                });
-                            })
-                            .enter()
-                            .append('td')
-                            .attr('width', '25%')
-                            .text(function(d) {
-                                return d.value;
+                    // Create a cell in each row for each column
+                    var cells = rows.selectAll('td')
+                        .data(function(row) {
+                            return columns.map(function(column) {
+                                return {
+                                    column: column,
+                                    value: row[column]
+                                };
                             });
+                        })
+                        .enter()
+                        .append('td')
+                        .attr('width', '25%')
+                        .text(function(d) {
+                            return d.value;
+                        });
 
-                        return table;
-                    }
-
-                    // Render the table(s)
-                    tabulate(data, ['Node 0', 'Node 1', 'Node 2', 'Node 3']); // 8 columns table
-                    d3.select(containerSelector).append('span').text(containerLegend);
-
-                    $('#node-extended-modal').modal();
-                    sessionStorage.removeItem('nodeExtendedModal');
+                    return table;
                 }
+
+                // Render the table(s)
+                tabulate(data, ['Node 0', 'Node 1', 'Node 2', 'Node 3']); // 8 columns table
+                d3.select(containerSelector).append('span').text(containerLegend);
+
+                $('#node-extended-modal').modal();
+                sessionStorage.removeItem('nodeExtendedModal');
             }
         }
 
@@ -1051,75 +1047,71 @@
         // ---------------------------------
 
         if (porteuseExtendedModal != null) {
-
             if (porteuseExtended !== undefined) {
-                if (porteuseExtendedOld !== JSON.stringify(porteuseExtended)) {
-                    porteuseExtendedOld = JSON.stringify(porteuseExtended);
 
-                    data = [porteuseExtended[parseInt(porteuseExtendedModal) - 1]];
+                data = [porteuseExtended[parseInt(porteuseExtendedModal) - 1]];
 
-                    const containerSelector = '#porteuse-extended-modal';
-                    const containerTitle = '<div class="icon"><i class="icofont-info-circle"></i></div> ' + 'Déclenchements intempestifs sur ' + data[0].Indicatif;
-                    const containerLegend = 'Ce tableau présente les heures de passages en émission intempestifs ou suspects, d\'une durée de moins de 3 secondes sur le nœud sélectionné.';
+                const containerSelector = '#porteuse-extended-modal';
+                const containerTitle = '<div class="icon"><i class="icofont-info-circle"></i></div> ' + 'Déclenchements intempestifs sur ' + data[0].Indicatif;
+                const containerLegend = 'Ce tableau présente les heures de passages en émission intempestifs ou suspects, d\'une durée de moins de 3 secondes sur le nœud sélectionné.';
 
-                    function tabulate(data, columns) {
-                        d3.select(containerSelector).html('');
-                        d3.select(containerSelector).append('h2').html(containerTitle);
+                function tabulate(data, columns) {
+                    d3.select(containerSelector).html('');
+                    d3.select(containerSelector).append('h2').html(containerTitle);
 
-                        var table = d3.select(containerSelector).append('table');
-                        var thead = table.append('thead');
-                        var tbody = table.append('tbody');
+                    var table = d3.select(containerSelector).append('table');
+                    var thead = table.append('thead');
+                    var tbody = table.append('tbody');
 
-                        // Append the header row
-                        thead.append('tr')
-                            .selectAll('th')
-                            .data(columns).enter()
-                            .append('th')
-                            .text(function(column) {
-                                if (column === 'Date') {
-                                    return 'Heure';
-                                } else {
-                                    return column;
-                                }
+                    // Append the header row
+                    thead.append('tr')
+                        .selectAll('th')
+                        .data(columns).enter()
+                        .append('th')
+                        .text(function(column) {
+                            if (column === 'Date') {
+                                return 'Heure';
+                            } else {
+                                return column;
+                            }
+                        });
+
+                    // Create a row for each object in the data
+                    var rows = tbody.selectAll('tr')
+                        .data(data)
+                        .enter()
+                        .append('tr');
+
+                    // Create a cell in each row for each column
+                    var cells = rows.selectAll('td')
+                        .data(function(row) {
+                            return columns.map(function(column) {
+                                return {
+                                    column: column,
+                                    value: row[column]
+                                };
                             });
+                        })
+                        .enter()
+                        .append('td')
+                        .html(function(d, i) {
+                            if (i === 1) {
+                                return d.value.replace(/, /g, '<br/>');
+                            } else {
+                                return d.value;
+                            }
+                        });
 
-                        // Create a row for each object in the data
-                        var rows = tbody.selectAll('tr')
-                            .data(data)
-                            .enter()
-                            .append('tr');
-
-                        // Create a cell in each row for each column
-                        var cells = rows.selectAll('td')
-                            .data(function(row) {
-                                return columns.map(function(column) {
-                                    return {
-                                        column: column,
-                                        value: row[column]
-                                    };
-                                });
-                            })
-                            .enter()
-                            .append('td')
-                            .html(function(d, i) {
-                                if (i === 1) {
-                                    return d.value.replace(/, /g, '<br/>');
-                                } else {
-                                    return d.value;
-                                }
-                            });
-
-                        return table;
-                    }
-
-                    // Render the table(s)                    
-                    tabulate(data, ['Indicatif', 'Date', 'TX']); // 3 columns table
-                    d3.select(containerSelector).append('span').text(containerLegend);
-
-                    $('#porteuse-extended-modal').modal();
-                    sessionStorage.removeItem('porteuseExtendedModal');
-
+                    return table;
                 }
+
+                // Render the table(s)                    
+                tabulate(data, ['Indicatif', 'Date', 'TX']); // 3 columns table
+                d3.select(containerSelector).append('span').text(containerLegend);
+
+                $('#porteuse-extended-modal').modal();
+                sessionStorage.removeItem('porteuseExtendedModal');
+
             }
         }
 
