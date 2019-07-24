@@ -110,7 +110,7 @@
             .ticks(10);
 
         // Other QSO
-        var room = ['RRF', 'RRF3', 'TECHNIQUE', 'INTERNATIONAL', 'FON'];
+        var room = ['RRF', 'RRF1', 'TECHNIQUE', 'INTERNATIONAL', 'BAVARDAGE', 'LOCAL', 'FON'];
         var roomOther = [];
 
         // Load the data
@@ -293,7 +293,7 @@
                                 return '<a href="' + url + '">' + column + '</a>';
                             }
                             else {
-                                if (count < 4) { // Fix me after migration with 5
+                                if (count < 6) { // Fix me after migration with 5
                                     return ('<div class="blink"><div class="icon"><i class="icofont-headphone-alt-1"></i></div></div>');
                                 }
                                 else {
@@ -326,7 +326,7 @@
                                 return '20%';
                             }
                             else {
-                                return '20%';
+                                return '14%';
                                 // return '16%';
                             }
                         })

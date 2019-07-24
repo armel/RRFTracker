@@ -72,19 +72,27 @@ room_list = {
         'dtmf': '9 6 #'
     },
     'RRF3': {
-        'url': 'http://rrf.f5nlg.ovh/api/svxlink/RRF3',
+        'url': 'http://rrf.f5nlg.ovh/api/svxlink/RRF%20V1',
         'dtmf': '9 6 #'
     },
     'TECHNIQUE': {
-        'url': 'http://rrf.f5nlg.ovh/api/svxlink/TEC3',
+        'url': 'http://rrf.f5nlg.ovh/api/svxlink/technique',
         'dtmf': '9 8 #'
     },
     'INTERNATIONAL': {
-        'url': 'http://rrf.f5nlg.ovh/api/svxlink/INT3',
+        'url': 'http://rrf.f5nlg.ovh/api/svxlink/international',
         'dtmf': '9 9 #'
     },
+    'BAVARDAGE': {
+        'url': 'http://rrf.f5nlg.ovh/api/svxlink/bavardage',
+        'dtmf': '1 0 0 #'
+    },
+    'LOCAL': {
+        'url': 'http://rrf.f5nlg.ovh/api/svxlink/local',
+        'dtmf': '1 0 1 #'
+    },
     'FON': {
-        'url': 'http://f1tzo.com:8008/api/svxlink/FON',
+        'url': 'http://rrf.f5nlg.ovh/api/svxlink/FON',
         'dtmf': '9 7 #'
     }
 }
