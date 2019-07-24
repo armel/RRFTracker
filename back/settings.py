@@ -68,7 +68,7 @@ init = True				# Check if init...
 
 room_list = {
     'RRF': {
-        'url': 'http://rrf.f5nlg.ovh/api/svxlink/RRF2',
+        'url': 'http://rrf.f5nlg.ovh/api/svxlink/RRF',
         'dtmf': '9 6 #'
     },
     'RRF3': {
