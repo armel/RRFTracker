@@ -191,7 +191,7 @@ def main(argv):
         tmp = tmp.replace('"', '')
         s.node_list = tmp.split(',')
 
-        for n in ['RRF', 'RRF2', 'R.R.F', 'R.R.F_V2', 'TECHNIQUE', 'TEC1', 'BAVARDAGE', 'INTERNATIONAL', 'INT1', 'LOCAL', 'MsgNodeJoined(']:
+        for n in ['RRF', 'RRF2', 'RRF3', 'R.R.F', 'R.R.F_V2', 'TECHNIQUE', 'BAVARDAGE', 'INTERNATIONAL', 'LOCAL', 'MsgNodeJoined(']:
             if n in s.node_list:
                 s.node_list.remove(n)
 
