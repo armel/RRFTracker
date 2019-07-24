@@ -76,11 +76,11 @@ room_list = {
         'dtmf': '9 6 #'
     },
     'TECHNIQUE': {
-        'url': 'http://rrf.f5nlg.ovh/api/svxlink/technique',
+        'url': 'http://rrf.f5nlg.ovh/api/svxlink/TEC3',
         'dtmf': '9 8 #'
     },
     'INTERNATIONAL': {
-        'url': 'http://rrf.f5nlg.ovh/api/svxlink/international',
+        'url': 'http://rrf.f5nlg.ovh/api/svxlink/INT3',
         'dtmf': '9 9 #'
     },
     'FON': {
