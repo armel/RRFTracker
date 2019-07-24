@@ -25,7 +25,7 @@ case "$1" in
         echo "Stopping RRFTracker: RRF"
         kill `cat $PATH_PID/RRFTracker_RRF.pid`
         echo "Stopping RRFTracker: RRF_V1"
-        kill `cat $PATH_PID/RRFTracker_RRF1.pid`
+        kill `cat $PATH_PID/RRFTracker_RRF_V1.pid`
         echo "Stopping RRFTracker: TECHNIQUE"
         kill `cat $PATH_PID/RRFTracker_TECHNIQUE.pid`
         echo "Stopping RRFTracker: INTERNATIONAL"
