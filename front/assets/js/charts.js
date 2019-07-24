@@ -323,7 +323,7 @@
                         .append('td')
                         .attr('width', function(d, i) {
                             if (i === 0) {
-                                return '20%';
+                                return '16%';
                             }
                             else {
                                 return '14%';
