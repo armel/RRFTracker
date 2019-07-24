@@ -110,7 +110,7 @@
             .ticks(10);
 
         // Other QSO
-        var room = ['RRF', 'RRF V1', 'TECHNIQUE', 'INTERNATIONAL', 'BAVARDAGE', 'LOCAL', 'FON'];
+        var room = ['RRF', 'RRF_V1', 'TECHNIQUE', 'INTERNATIONAL', 'BAVARDAGE', 'LOCAL', 'FON'];
         var roomOther = [];
 
         // Load the data

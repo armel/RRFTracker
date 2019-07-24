@@ -24,7 +24,7 @@ def usage():
     print '--help               this help'
     print
     print 'Room settings:'
-    print '  --room ROOM        set room (default=RRF, choose between [RRF, RRF1, TECHNIQUE, INTERNATIONAL, BAVARDAGE, LOCAL])'
+    print '  --room ROOM        set room (default=RRF, choose between [RRF, RRF_V1, TECHNIQUE, INTERNATIONAL, BAVARDAGE, LOCAL])'
     print
     print 'Log settings:'
     print '  --log-path         set the location of log files'

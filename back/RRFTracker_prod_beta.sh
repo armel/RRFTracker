@@ -8,8 +8,8 @@ case "$1" in
     start)
         echo "Starting RRFTracker: RRF"
         nohup python $PATH_SCRIPT --room RRF --log-path $PATH_LOG > $PATH_PID/RRFTracker_RRF.log 2>&1 & echo $! > $PATH_PID/RRFTracker_RRF.pid
-        echo "Starting RRFTracker: RRF V1"
-        nohup python $PATH_SCRIPT --room RRF1 --log-path $PATH_LOG > $PATH_PID/RRFTracker_RRF1.log 2>&1 & echo $! > $PATH_PID/RRFTracker_RRF1.pid
+        echo "Starting RRFTracker: RRF_V1"
+        nohup python $PATH_SCRIPT --room RRF_V1 --log-path $PATH_LOG > $PATH_PID/RRFTracker_RRF_V1.log 2>&1 & echo $! > $PATH_PID/RRFTracker_RRF_V1.pid
         echo "Starting RRFTracker: TECHNIQUE"
         nohup python $PATH_SCRIPT --room TECHNIQUE --log-path $PATH_LOG > $PATH_PID/RRFTracker_TECHNIQUE.log 2>&1 & echo $! > $PATH_PID/RRFTracker_TECHNIQUE.pid
         echo "Starting RRFTracker: INTERNATIONAL"
@@ -24,7 +24,7 @@ case "$1" in
     stop) 
         echo "Stopping RRFTracker: RRF"
         kill `cat $PATH_PID/RRFTracker_RRF.pid`
-        echo "Stopping RRFTracker: RRF V1"
+        echo "Stopping RRFTracker: RRF_V1"
         kill `cat $PATH_PID/RRFTracker_RRF1.pid`
         echo "Stopping RRFTracker: TECHNIQUE"
         kill `cat $PATH_PID/RRFTracker_TECHNIQUE.pid`
