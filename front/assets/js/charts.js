@@ -358,7 +358,7 @@
 
                 const containerSelector = '.activity-graph';
                 const containerTitle = '<div class="icon"><i class="icofont-spreadsheet"></i></div> ' +'Activité heure par heure';
-                const containerLegend = 'Cet histogramme représente le nombre de passages en émission, heure par heure. Seuls les passages en émission de plus de 3 secondes sont comptabilisés.';
+                const containerLegend = 'Cet histogramme représente le nombre de passages en émission, heure par heure. Seuls les passages en émission de plus de 2 secondes sont comptabilisés.';
 
                 d3.select(containerSelector).html('');
                 d3.select(containerSelector).append('h2').html(containerTitle);
@@ -755,7 +755,7 @@
 
                 const containerSelector = '.last-table';
                 const containerTitle = '<div class="icon"><i class="icofont-wall-clock"></i></div> ' + 'Derniers passages en émission';
-                const containerLegend = 'Ce tableau présente la liste des 10 derniers passages en émission: horodatage, indicatif du nœud et durée en émission. Les durées en émission de moins de 3 secondes sont grisées et comptabilisées comme déclenchements intempestifs.';
+                const containerLegend = 'Ce tableau présente la liste des 10 derniers passages en émission: horodatage, indicatif du nœud et durée en émission. Les durées en émission de moins de 2 secondes sont grisées et comptabilisées comme déclenchements intempestifs.';
 
                 data = last;
 
@@ -799,7 +799,7 @@
                         .append('td')
                         .html(function(d) {
                             if (d.column == 'Durée') {
-                                if (d.value == '00:00' || d.value == '00:01' || d.value == '00:02') {
+                                if (d.value == '00:00' || d.value == '00:01') {
                                     return '<h3>' + d.value + '</h3>';
                                 }
                             }
@@ -907,10 +907,10 @@
                 const containerTitle = '<div class="icon"><i class="icofont-bug"></i></div> ' + 'Déclenchements intempestifs';
                 
                 if (porteuseSelected == 1) {
-                    var containerLegend = 'Ce tableau présente le classement des nœuds ayant fait l\'objet d\'au moins <a onClick="porteuse(\'' + porteuseSelected + '\');">' + porteuseSelected + '</a> déclenchement intempestif ou suspects, d\'une durée de moins de 3 secondes: position, indicatif du nœud et nombre de passages en émission.';
+                    var containerLegend = 'Ce tableau présente le classement des nœuds ayant fait l\'objet d\'au moins <a onClick="porteuse(\'' + porteuseSelected + '\');">' + porteuseSelected + '</a> déclenchement intempestif ou suspects, d\'une durée de moins de 2 secondes: position, indicatif du nœud et nombre de passages en émission.';
                 }
                 else {
-                    var containerLegend = 'Ce tableau présente le classement des nœuds ayant fait l\'objet d\'au moins <a onClick="porteuse(\'' + porteuseSelected + '\');">' + porteuseSelected + '</a> déclenchements intempestifs ou suspects, d\'une durée de moins de 3 secondes: position, indicatif du nœud et nombre de passages en émission.';                    
+                    var containerLegend = 'Ce tableau présente le classement des nœuds ayant fait l\'objet d\'au moins <a onClick="porteuse(\'' + porteuseSelected + '\');">' + porteuseSelected + '</a> déclenchements intempestifs ou suspects, d\'une durée de moins de 2 secondes: position, indicatif du nœud et nombre de passages en émission.';                    
                 }
 
                 if (linkTotal == 1) {
@@ -1053,7 +1053,7 @@
 
                 const containerSelector = '#porteuse-extended-modal';
                 const containerTitle = '<div class="icon"><i class="icofont-info-circle"></i></div> ' + 'Déclenchements intempestifs sur ' + data[0].Indicatif;
-                const containerLegend = 'Ce tableau présente les heures de passages en émission intempestifs ou suspects, d\'une durée de moins de 3 secondes sur le nœud sélectionné.';
+                const containerLegend = 'Ce tableau présente les heures de passages en émission intempestifs ou suspects, d\'une durée de moins de 2 secondes sur le nœud sélectionné.';
 
                 function tabulate(data, columns) {
                     d3.select(containerSelector).html('');
