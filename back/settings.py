@@ -55,7 +55,7 @@ hour = ''
 minute = ''
 seconde = ''
 duration = 0
-intempestif = 1         # Tuned me !!!
+intempestif = 2         # Tuned me !!!
 main_loop = .250        # Main loop tempo
 
 # Set init
