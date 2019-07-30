@@ -357,7 +357,7 @@
                 activityOld = JSON.stringify(activity);
 
                 const containerSelector = '.activity-graph';
-                const containerTitle = '<div class="icon"><i class="icofont-spreadsheet"></i></div> ' +'Activité heure par heure';
+                const containerTitle = '<div class="icon"><i class="icofont-spreadsheet"></i></div> ' +'Activité heure par heure par TX';
                 const containerLegend = 'Cet histogramme représente le nombre de passages en émission, heure par heure. Seuls les passages en émission de plus de 3 secondes sont comptabilisés.';
 
                 d3.select(containerSelector).html('');
@@ -465,7 +465,7 @@
                 bestOld = JSON.stringify(best);
 
                 const containerSelector = '.best-graph';
-                const containerTitle = '<div class="icon"><i class="icofont-spreadsheet"></i></div> ' + 'Top 20 des nœuds les plus actifs';
+                const containerTitle = '<div class="icon"><i class="icofont-spreadsheet"></i></div> ' + 'Top 20 des nœuds les plus actifs par TX';
                 const containerLegend = 'Cet histogramme représente le classement des 20 nœuds les plus actifs de la journée, en terme de passages en émission.';
 
                 d3.select(containerSelector).html('');
@@ -824,8 +824,8 @@
                 allOld = JSON.stringify(all);
 
                 const containerSelector = '.all-table';
-                const containerTitle = '<div class="icon"><i class="icofont-badge"></i></div> ' + 'Classement des nœuds par TX';
-                const containerLegend = 'Ce tableau présente le classement complet des nœuds étant passés en émission dans la journée: position, indicatif du nœud, nombre de passages et durée cumulée en émission.';
+                const containerTitle = '<div class="icon"><i class="icofont-badge"></i></div> ' + 'Classement des nœuds par durée';
+                const containerLegend = 'Ce tableau présente le classement complet par durée des nœuds étant passés en émission dans la journée: position, indicatif du nœud, nombre de passages et durée cumulée en émission.';
 
                 data = all;
 

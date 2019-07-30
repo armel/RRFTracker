@@ -255,7 +255,7 @@ def log_last():
 
 # Log node
 def log_node(type):
-    tmp = sorted(s.node.items(), key=lambda x: x[1])
+    tmp = sorted(s.node.items(), key=lambda x: x[1][1])
     tmp.reverse()
 
     if type == 'best':
