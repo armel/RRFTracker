@@ -255,13 +255,16 @@ def log_last():
 
 # Log node
 def log_node(type):
-    tmp = sorted(s.node.items(), key=lambda x: x[1][1])
-    tmp.reverse()
-
     if type == 'best':
+        tmp = sorted(s.node.items(), key=lambda x: x[1][0])
+        tmp.reverse()
+
         limit = 20
         data = '"best":\n'
     else:
+        tmp = sorted(s.node.items(), key=lambda x: x[1][1])
+        tmp.reverse()
+
         limit = 10**4
         data = '"all":\n'
 
