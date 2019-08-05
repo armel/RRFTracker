@@ -16,6 +16,9 @@ import os
 import time
 import locale
 import re
+import sys
+
+from random import randrange
 
 # Usage
 def usage():
@@ -387,50 +390,63 @@ def log_porteuse(type):
 
 # Log news
 def log_news():
-
+    message_node = ''
     message = ''
 
-    # Nœuds entrants
+    if s.message_timer > 100:
+        s.message_timer = 0
 
-    tmp = ''
-    for n in s.node_list_in:
-        tmp += str(n) + ', '
-    tmp = tmp[:-2]
+        # Nœuds entrants
 
-    if tmp != '':
-        if len(s.node_list_in) == 1:
-            message += 'Nœud entrant: ' + tmp + '. '
+        tmp = ''
+        for n in s.node_list_in:
+            tmp += str(n) + ', '
+        tmp = tmp[:-2]
+
+        if tmp != '':
+            if len(s.node_list_in) == 1:
+                message_node += 'Nœud entrant : ' + tmp + '. '
+            else:
+                message_node += 'Nœuds entrants : ' + tmp + '. '
+
+        # Nœuds sortants
+
+        tmp = ''
+        for n in s.node_list_out:
+            tmp += str(n) + ', '
+        tmp = tmp[:-2]
+
+        if tmp != '':
+            if len(s.node_list_out) == 1:
+                message_node += 'Nœud sortant : ' + tmp + '. '
+            else:
+                message_node += 'Nœuds sortants : ' + tmp + '. '
+
+        if s.message_node_old != message_node:
+            s.message_current = message_node
+            s.message_node_old = message_node
+
         else:
-            message += 'Nœuds entrants: ' + tmp + '. '
+            tmp = randrange(5)
 
-    # Nœuds sortants
+            if tmp == 0:
+                s.message_current = 'Si vous testez un système, si vous faites des réglages, basculez sur un salon non occupé. '
+            elif tmp == 1:
+                s.message_current = 'Si vous constatez un problème (panne, perturbation, etc.), envoyez un mail à admin@f5nlg.ovh afin que nous puissions intervenir. '
+            elif tmp == 2:
+                s.message_current = 'Ne monopolisez pas le réseau. Soyez polis et courtois. Respectez les autres utilisateurs. '
+            elif tmp == 3:
+                s.message_current = 'Le salon RRF doit être considéré comme une « fréquence d\'appel », pensez à faire QSY sur un des salons annexes. '
+            elif tmp == 4:
+                s.message_current = 'Merci de faire des blancs de l\'ordre de 5 secondes. '
 
-    tmp = ''
-    for n in s.node_list_out:
-        tmp += str(n) + ', '
-    tmp = tmp[:-2]
+            print tmp
+    
+    s.message_timer += 1
 
-    if tmp != '':
-        if len(s.node_list_out) == 1:
-            message += 'Nœud sortant: ' + tmp + '. '
-        else:
-            message += 'Nœuds sortants: ' + tmp + '. '
+    print s.message_timer, s.message_current
+    sys.stdout.flush()
 
-    if message != '':
-        message = 'Mouvement sur le salon... ' + message + ' Conseils et bonnes pratiques... '
-    else:
-        message = 'Conseils et bonnes pratiques... '
-
-    if s.minute % 10 == 0:
-        message += 'Si vous testez un système, si vous faites des réglages, basculez sur un salon non occupé. '
-    elif s.minute % 5 == 0:
-        message += 'Si vous constatez un problème (panne, perturbation, etc.), envoyez un mail à admin@f5nlg.ovh afin que nous puissions intervenir. '
-    elif s.minute % 3 == 0:
-        message += 'Ne monopolisez pas le réseau. Soyez poli et courtois. Respectez les autres utilisateurs. '
-    elif s.minute % 2 == 0:
-        message += 'Le salon RRF doit être considéré comme une « fréquence d\'appel », pensez à faire QSY sur un des salons annexes. '
-    else:
-        message += 'Merci de faire des blancs de l\'ordre de 5 secondes ! '
     # Format JSON
 
     data = '"news":\n'
@@ -439,7 +455,7 @@ def log_news():
 
     data += '{\n'
 
-    data += '\t"Message": "' + message + '"\n'
+    data += '\t"Message": "' + s.message_current + '"\n'
     data += '},\n'
 
     last = data.rfind(',')

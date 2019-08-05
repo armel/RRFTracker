@@ -47,6 +47,10 @@ transmit = True         	# Detect transmit
 stat_save = False       	# If False, stat need to be save
 geolocalisation = {}    	# Geolocalisation
 
+message_node_old = ''       # Old message node
+message_current = ''        # Current message
+message_timer = 0           # Timer message
+
 # Set time and date
 
 tot_start = ''
