@@ -416,6 +416,11 @@ def log_news():
         else:
             message += 'Nœuds sortants: ' + tmp + '. '
 
+    if message != '':
+        message = 'Mouvement sur le salon... ' + message + ' Conseils et bonnes pratiques... '
+    else:
+        message = 'Conseils et bonnes pratiques... '
+
     if s.minute % 10 == 0:
         message += 'Si vous testez un système, si vous faites des réglages, basculez sur un salon non occupé. '
     elif s.minute % 5 == 0:
