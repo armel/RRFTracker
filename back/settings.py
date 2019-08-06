@@ -10,7 +10,7 @@ Check video about RRFTracker on https://www.youtube.com/watch?v=rVW8xczVpEo
 
 # Version
 
-version = '2.0.8'
+version = '2.0.9'
 
 # Default room and path
 
@@ -77,7 +77,7 @@ room_list = {
         'dtmf': '9 6 #'
     },
     'RRF_V1': {
-        'url': 'http://rrf.f5nlg.ovh/api/svxlink/RRF V1',
+        'url': 'http://rrf.f5nlg.ovh/api/svxlink/RRF_V1',
         'dtmf': '9 6 #'
     },
     'TECHNIQUE': {
