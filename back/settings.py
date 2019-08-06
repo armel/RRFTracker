@@ -10,7 +10,7 @@ Check video about RRFTracker on https://www.youtube.com/watch?v=rVW8xczVpEo
 
 # Version
 
-version = '2.0.7'
+version = '2.0.8'
 
 # Default room and path
 
@@ -50,6 +50,7 @@ geolocalisation = {}    	# Geolocalisation
 message_node_old = ''       # Old message node
 message_current = ''        # Current message
 message_timer = 0           # Timer message
+message_timer_limit = 0     # Timer limit message
 
 # Set time and date
 

@@ -16,7 +16,6 @@ import os
 import time
 import locale
 import re
-import sys
 
 from random import randrange
 
@@ -393,40 +392,41 @@ def log_news():
     message_node = ''
     message = ''
 
-    if s.message_timer > 100:
-        s.message_timer = 0
+    # Nœuds entrants
 
-        # Nœuds entrants
+    tmp = ''
+    for n in s.node_list_in:
+        tmp += str(n) + ', '
+    tmp = tmp[:-2]
 
-        tmp = ''
-        for n in s.node_list_in:
-            tmp += str(n) + ', '
-        tmp = tmp[:-2]
-
-        if tmp != '':
-            if len(s.node_list_in) == 1:
-                message_node += 'Nœud entrant : ' + tmp + '. '
-            else:
-                message_node += 'Nœuds entrants : ' + tmp + '. '
-
-        # Nœuds sortants
-
-        tmp = ''
-        for n in s.node_list_out:
-            tmp += str(n) + ', '
-        tmp = tmp[:-2]
-
-        if tmp != '':
-            if len(s.node_list_out) == 1:
-                message_node += 'Nœud sortant : ' + tmp + '. '
-            else:
-                message_node += 'Nœuds sortants : ' + tmp + '. '
-
-        if s.message_node_old != message_node:
-            s.message_current = message_node
-            s.message_node_old = message_node
-
+    if tmp != '':
+        if len(s.node_list_in) == 1:
+            message_node += 'Nœud entrant : ' + tmp + '. '
         else:
+            message_node += 'Nœuds entrants : ' + tmp + '. '
+
+    # Nœuds sortants
+
+    tmp = ''
+    for n in s.node_list_out:
+        tmp += str(n) + ', '
+    tmp = tmp[:-2]
+
+    if tmp != '':
+        if len(s.node_list_out) == 1:
+            message_node += 'Nœud sortant : ' + tmp + '. '
+        else:
+            message_node += 'Nœuds sortants : ' + tmp + '. '
+
+    if s.message_node_old != message_node:
+        s.message_current = message_node
+        s.message_node_old = message_node
+        s.message_timer = 0
+        s.message_timer_limit = 100
+
+    else:
+        if s.message_timer > s.message_timer_limit:
+            s.message_timer = 0
             tmp = randrange(5)
 
             if tmp == 0:
@@ -440,12 +440,9 @@ def log_news():
             elif tmp == 4:
                 s.message_current = 'Merci de faire des blancs de l\'ordre de 5 secondes. '
 
-            print tmp
+            s.message_timer_limit = len(s.message_current)
     
     s.message_timer += 1
-
-    print s.message_timer, s.message_current
-    sys.stdout.flush()
 
     # Format JSON
 
