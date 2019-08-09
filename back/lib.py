@@ -16,6 +16,7 @@ import os
 import time
 import locale
 import re
+import json
 
 from random import randrange
 
@@ -623,3 +624,20 @@ def log_user():
     ip = list(set(ip))
 
     return str(len(ip) - 1)
+
+# Restart
+def restart():
+
+    filename = s.log_path + '/' + s.room + '-today/rrf.json'
+    if os.path.isfile(filename):
+        rrf_json = open (filename)
+        rrf_data = json.load(rrf_json)
+
+    for key in rrf_data:
+        print key
+        for data in rrf_data[key]:
+            for element in data:
+                print element, data[element]
+
+
+    exit(0)

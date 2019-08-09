@@ -55,6 +55,12 @@ def main(argv):
         os.popen('cp /opt/RRFTracker_Web/front/index.html ' + s.log_path_day + '/' + 'index.html')
         os.popen('ln -sfn ' + s.log_path_day + ' ' + s.log_path + '/' + s.room + '-today')
 
+    # If restart on day...
+
+    filename = s.log_path + '/' + s.room + '-today/rrf.json'
+    if os.path.isfile(filename):
+        l.restart()
+
     # Create geolocalisation list
 
     data = [line.strip() for line in open('../data/wgs84.dat')]
