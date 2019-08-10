@@ -633,11 +633,37 @@ def restart():
         rrf_json = open (filename)
         rrf_data = json.load(rrf_json)
 
-    for key in rrf_data:
-        print key
-        for data in rrf_data[key]:
-            for element in data:
-                print element, data[element]
+    # Section activity and abstract
 
+    i = 0
+    for data in rrf_data['activity']:
+        s.qso_hour[i] = data['TX']
+        i += 1
 
-    exit(0)
+    s.qso = sum(s.qso_hour)
+
+    for data in rrf_data['abstract']:
+        s.day_duration = convert_time_to_second(data[u'Emission cumulée'])
+
+    # Section last
+
+    i = 0
+    for data in rrf_data['last']:
+        s.call[i] = data[u'Indicatif'].encode('utf-8')
+        s.call_date[i] = data[u'Heure'].encode('utf-8')
+        s.call_time[i] = convert_time_to_second(data[u'Durée'])
+        i += 1
+
+    # Section all
+
+    for data in rrf_data['all']:
+        s.node[data[u'Indicatif'].encode('utf-8')] = [data[u'TX'], convert_time_to_second(data[u'Durée'])]
+
+    # Section porteuse
+
+    for data in rrf_data['porteuseExtended']:
+        s.porteuse[data[u'Indicatif'].encode('utf-8')] = [data[u'TX'], data[u'Date'].encode('utf-8')]
+
+    s.transmit = False
+
+    return 0

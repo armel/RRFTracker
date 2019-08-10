@@ -105,7 +105,7 @@ def main(argv):
     for r in room_list:
 
         print color.BLUE + r + color.END
-        path = search_path + r + '-' + search_pattern + '-*/abstract.json'
+        path = search_path + r + '-' + search_pattern + '-*/rrf.json'
         file = glob.glob(path)
         file.sort()
 
