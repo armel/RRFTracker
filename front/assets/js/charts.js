@@ -110,7 +110,7 @@
             .ticks(10);
 
         // Other QSO
-        var room = ['RRF', 'RRF_V1', 'TECHNIQUE', 'INTERNATIONAL', 'BAVARDAGE', 'LOCAL', 'FON'];
+        var room = ['RRF', 'TECHNIQUE', 'INTERNATIONAL', 'BAVARDAGE', 'LOCAL', 'FON'];
         var roomOther = [];
 
         // Load the data
@@ -323,10 +323,10 @@
                         .append('td')
                         .attr('width', function(d, i) {
                             if (i === 0) {
-                                return '16%';
+                                return '20%';
                             }
                             else {
-                                return '14%';
+                                return '16%';
                                 // return '16%';
                             }
                         })
