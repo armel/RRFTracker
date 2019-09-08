@@ -174,6 +174,15 @@ def main(argv):
         # If no Transmitter...
         else:
             if s.transmit is True:
+
+                if s.room == 'RRF':
+                    print 'ici'
+                    print l.convert_second_to_time(s.duration), s.tot_limit
+                    sys.stdout.flush()
+                    if l.convert_second_to_time(s.duration) > s.tot_limit:
+                        tmp = datetime.datetime.now()
+                        s.tot = l.save_stat_tot(s.tot, s.call[0], tmp.strftime('%H:%M:%S'))
+
                 if s.stat_save is True:
                     if s.duration > 600:    # I need to fix this bug...
                         s.duration = 0

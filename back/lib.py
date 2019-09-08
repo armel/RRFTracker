@@ -80,6 +80,17 @@ def save_stat_porteuse(history, call, duration=0):
 
     return history
 
+# Save stats
+def save_stat_tot(history, call, duration=0):
+    if call != '':
+        try:
+            history[call][0] += 1
+            history[call].append(duration)
+        except KeyError:
+            history[call] = [1, duration]
+
+    return history
+
 # Log write for history
 def log_write():
     data = ''
@@ -94,8 +105,8 @@ def log_write():
     data += log_node('best')
     data += log_node('all')
     data += log_node_list()
-    # data += log_porteuse('porteuse')
-    data += log_porteuse('porteuseExtended')
+    data += log_porteuse()
+    data += log_tot()
 
     if s.init is False:
         data += log_elsewhere()
@@ -342,40 +353,62 @@ def log_node_list():
 
     return data
 
-# Log special
-def log_porteuse(type):
+# Log porteuse
+def log_porteuse():
     tmp = sorted(s.porteuse.items(), key=lambda x: x[1])
     tmp.reverse()
 
-    if type == 'porteuse':
-        data = '"porteuse":\n'
-    else:
-        data = '"porteuseExtended":\n'
+    data = '"porteuseExtended":\n'
 
     data += '[\n'
 
     p = 1
     for c, t in tmp:
-        if type == 'porteuse':
-            if t[0] < 10:
-                break
-
         data += '{\n'
-        if type == 'porteuse':
-            data += '\t"Pos": "' + str('{:0>3d}'.format(int(p))) + '",\n'
-            data += '\t"Indicatif": "' + c + '",\n'
-            data += '\t"TX": ' + str(t[0]) + '\n'
-        else:
-            data += '\t"Pos": "' + str('{:0>3d}'.format(int(p))) + '",\n'
-            data += '\t"Indicatif": "' + c + '",\n'
-            data += '\t"TX": ' + str(t[0]) + ',\n'
+        data += '\t"Pos": "' + str('{:0>3d}'.format(int(p))) + '",\n'
+        data += '\t"Indicatif": "' + c + '",\n'
+        data += '\t"TX": ' + str(t[0]) + ',\n'
 
-            tmp = ''
-            for e in t[1:]:
-                tmp += str(e) + ', '
-            tmp = tmp[:-2]
+        tmp = ''
+        for e in t[1:]:
+            tmp += str(e) + ', '
+        tmp = tmp[:-2]
 
-            data += '\t"Date": "' + str(tmp) + '"\n'
+        data += '\t"Date": "' + str(tmp) + '"\n'
+        data += '},\n'
+
+        p += 1
+
+    if p > 1:
+        last = data.rfind(',')
+        data = data[:last] + '' + data[last + 1:]
+
+    data += '],\n'
+
+    return data
+
+# Log tot
+def log_tot():
+    tmp = sorted(s.tot.items(), key=lambda x: x[1])
+    tmp.reverse()
+
+    data = '"tot":\n'
+
+    data += '[\n'
+
+    p = 1
+    for c, t in tmp:
+        data += '{\n'
+        data += '\t"Pos": "' + str('{:0>3d}'.format(int(p))) + '",\n'
+        data += '\t"Indicatif": "' + c + '",\n'
+        data += '\t"TX": ' + str(t[0]) + ',\n'
+
+        tmp = ''
+        for e in t[1:]:
+            tmp += str(e) + ', '
+        tmp = tmp[:-2]
+
+        data += '\t"Date": "' + str(tmp) + '"\n'
         data += '},\n'
 
         p += 1

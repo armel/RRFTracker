@@ -42,6 +42,8 @@ day_duration = 0        	# Total emission time
 
 node = dict()           	# Node dict
 porteuse = dict()       	# Porteuse dict
+tot = dict()                # TOT dict
+tot_limit = '00:20'         # TOT limit time...
 
 transmit = True         	# Detect transmit
 stat_save = False       	# If False, stat need to be save
