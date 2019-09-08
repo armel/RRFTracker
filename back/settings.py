@@ -76,10 +76,6 @@ room_list = {
         'url': 'http://rrf.f5nlg.ovh/api/svxlink/RRF',
         'dtmf': '9 6 #'
     },
-    'RRF_V1': {
-        'url': 'http://rrf.f5nlg.ovh/api/svxlink/RRF_V1',
-        'dtmf': '9 6 #'
-    },
     'TECHNIQUE': {
         'url': 'http://rrf.f5nlg.ovh/api/svxlink/technique',
         'dtmf': '9 8 #'
