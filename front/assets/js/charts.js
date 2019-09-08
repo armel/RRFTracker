@@ -293,7 +293,7 @@
                                 return '<a href="' + url + '">' + column + '</a>';
                             }
                             else {
-                                if (count < 6) { // Fix me after migration with 5
+                                if (count < 5) { // Fix me after migration with 5
                                     return ('<div class="blink"><div class="icon"><i class="icofont-headphone-alt-1"></i></div></div>');
                                 }
                                 else {
