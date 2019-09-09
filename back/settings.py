@@ -10,7 +10,7 @@ Check video about RRFTracker on https://www.youtube.com/watch?v=rVW8xczVpEo
 
 # Version
 
-version = '2.1.2'
+version = '2.1.3'
 
 # Default room and path
 
@@ -43,7 +43,7 @@ day_duration = 0        	# Total emission time
 node = dict()           	# Node dict
 porteuse = dict()       	# Porteuse dict
 tot = dict()                # TOT dict
-tot_limit = '00:20'         # TOT limit time...
+tot_limit = '02:03'         # TOT limit time...
 
 transmit = True         	# Detect transmit
 stat_save = False       	# If False, stat need to be save

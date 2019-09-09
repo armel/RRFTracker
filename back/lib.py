@@ -392,7 +392,7 @@ def log_tot():
     tmp = sorted(s.tot.items(), key=lambda x: x[1])
     tmp.reverse()
 
-    data = '"tot":\n'
+    data = '"totExtended":\n'
 
     data += '[\n'
 
@@ -696,6 +696,11 @@ def restart():
 
     for data in rrf_data['porteuseExtended']:
         s.porteuse[data[u'Indicatif'].encode('utf-8')] = [data[u'TX'], data[u'Date'].encode('utf-8')]
+
+    # Section tot
+
+    for data in rrf_data['totExtended']:
+        s.tot[data[u'Indicatif'].encode('utf-8')] = [data[u'TX'], data[u'Date'].encode('utf-8')]
 
     s.transmit = False
 

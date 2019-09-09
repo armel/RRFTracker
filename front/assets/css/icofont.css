@@ -52,11 +52,6 @@
   content: "\ef4e";
 }
 
-.icofont-listening:before
-{
-  content: "\ef73";
-}
-
 .icofont-mic-mute:before
 {
   content: "\ef94";
@@ -65,11 +60,6 @@
 .icofont-mic:before
 {
   content: "\ef95";
-}
-
-.icofont-paint:before
-{
-  content: "\efb3";
 }
 
 .icofont-spreadsheet:before
@@ -90,6 +80,31 @@
 .icofont-headphone-alt-3:before
 {
   content: "\ea35";
+}
+
+.icofont-paint:before
+{
+  content: "\efb3";
+}
+
+.icofont-bomb:before
+{
+  content: "\eebf";
+}
+
+.icofont-not-allowed:before
+{
+  content: "\efa9";
+}
+
+.icofont-halloween-pumpkin:before
+{
+  content: "\e80f";
+}
+
+.icofont-police:before
+{
+  content: "\ebd4";
 }
 
 .icofont-xs
