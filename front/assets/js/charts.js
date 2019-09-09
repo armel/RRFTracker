@@ -1087,7 +1087,6 @@
 
                 // Render the table(s)
                 if (totView == true) {
-                    console.log(data);
                     tabulate(data, ['Pos', 'Indicatif', 'TX']); // 3 columns table
                     d3.select(containerSelector).append('span').html(containerLegend);
                 }
