@@ -91,6 +91,18 @@ def save_stat_tot(history, call, duration=0):
 
     return history
 
+# Save stats
+def save_stat_all(history, call, hour='00:00', duration=0):
+    if call != '':
+        try:
+            history[call][0] += 1
+            history[call].append(hour)
+            history[call].append(duration)
+        except KeyError:
+            history[call] = [1, hour, duration]
+
+    return history
+
 # Log write for history
 def log_write():
     data = ''
@@ -104,6 +116,7 @@ def log_write():
     data += log_last()
     data += log_node('best')
     data += log_node('all')
+    data += log_all()
     data += log_node_list()
     data += log_porteuse()
     data += log_tot()
@@ -138,7 +151,7 @@ def log_abstract():
 
     data += '{\n'
     data += '\t"Salon": "' + s.room + '",\n'
-    data += '\t"Date": "' + now + '",\n'
+    data += '\t"Date": "' + now.lower() + '",\n'
     data += '\t"TX total": ' + str(sum(s.qso_hour)) + ',\n'
     data += '\t"Emission cumulée": "' + convert_second_to_time(s.day_duration + s.duration) + '",\n'
     data += '\t"Nœuds actifs": ' + str(len(s.node)) + ',\n'
@@ -409,6 +422,50 @@ def log_tot():
         tmp = tmp[:-2]
 
         data += '\t"Date": "' + str(tmp) + '"\n'
+        data += '},\n'
+
+        p += 1
+
+    if p > 1:
+        last = data.rfind(',')
+        data = data[:last] + '' + data[last + 1:]
+
+    data += '],\n'
+
+    return data
+
+# Log all
+def log_all():
+    tmp = sorted(s.all.items(), key=lambda x: x[1])
+    tmp.reverse()
+
+    data = '"allExtended":\n'
+
+    data += '[\n'
+
+    p = 1
+    for c, t in tmp:
+        data += '{\n'
+        data += '\t"Pos": "' + str('{:0>3d}'.format(int(p))) + '",\n'
+        data += '\t"Indicatif": "' + c + '",\n'
+        data += '\t"TX": ' + str(t[0]) + ',\n'
+
+        heure = ''
+        duree = ''
+        
+        limit = len(t[1:])
+        limit += 1
+
+        for e in xrange(1, limit, 2):
+            heure += str(t[e]) + ', '
+            duree += str(t[e + 1]) + ', '
+
+        heure = heure[:-2]
+        duree = duree[:-2]
+
+        data += '\t"Date": "' + str(heure) + '",\n'
+        data += '\t"Durée": "' + str(duree) + '"\n'
+
         data += '},\n'
 
         p += 1

@@ -42,6 +42,7 @@ day_duration = 0        	# Total emission time
 
 node = dict()           	# Node dict
 porteuse = dict()       	# Porteuse dict
+all = dict()                # All dict
 tot = dict()                # TOT dict
 tot_limit = '02:03'         # TOT limit time...
 

@@ -44,7 +44,9 @@
     var best, bestOld = '';
     var transmit, transmitOld = '';
     var last, lastOld = '';
-    var all, allOld = '', bubbleOld = '';
+    var all, allOld = '';
+    var allExtended, allExtendedOld = '';
+    var bubbleOld = '';
     var porteuseExtended, porteuseExtendedOld = '';
     var nodeExtended, nodeExtendedOld = '';
     var totExtended, totExtendedOld = '';
@@ -67,6 +69,7 @@
             transmitOld = '';
             lastOld = '';
             allOld = '';
+            allExtendedOld = '';
             bubbleOld = '';
             porteuseOld = '';
             porteuseExtendedOld = '';
@@ -129,6 +132,7 @@
                 transmit = data['transmit'];
                 last = data['last'];
                 all = data['all'];
+                allExtended = data['allExtended'];
                 porteuse = data['porteuse'];
                 porteuseExtended = data['porteuseExtended'];
                 nodeExtended = data['nodeExtended'];
@@ -139,6 +143,7 @@
         nodeExtendedModal = sessionStorage.getItem('nodeExtendedModal');
         porteuseExtendedModal = sessionStorage.getItem('porteuseExtendedModal');
         totExtendedModal = sessionStorage.getItem('totExtendedModal');
+        allExtendedModal = sessionStorage.getItem('allExtendedModal');
 
         // ---------------------------------
         // Abstract
@@ -147,6 +152,8 @@
         if (abstract !== undefined) {
             if (abstractOld !== JSON.stringify(abstract)) {
                 abstractOld = JSON.stringify(abstract);
+
+                //console.log(abstract[0].Date);
            
                 sessionStorage.setItem('room', abstract[0].Salon);
                 sessionStorage.setItem('user', abstract[0].User);
@@ -174,7 +181,7 @@
                 containerTitle = '<div class="icon"><i class="icofont-info-circle"></i></div> ' + containerTitle;
 
                 const containerSelector = '.abstract-table';
-                const containerLegend = 'Ce tableau présente le résumé de l\'activité du salon dans la journée: nombre de passages en émission total, durée cumulée en émission, nombre de nœuds actifs et connectés. ';
+                const containerLegend = 'Ce tableau présente le résumé de l\'activité du salon dans la journée : nombre de passages en émission total, durée cumulée en émission, nombre de nœuds actifs et connectés. ';
                 const containerLegendBis = 'En complément, vous pouvez suivre les mouvements des nœuds entrants et sortants sur ce salon, en suivant le fil d\'informations défilant ci-dessous.';
 
                 data = abstract;
@@ -260,7 +267,7 @@
 
                 const containerSelector = '.elsewhere-table';
                 const containerTitle = '<div class="icon"><i class="icofont-dashboard-web"></i></div> ' + 'Activité sur les autres salons';
-                const containerLegend = 'Ce tableau présente l\'activité éventuelle sur les autres salons: indicatif en cours d\'émission, nombre de passages en émission total, durée cumulée en émission, nombre de nœuds actifs et connectés, ainsi qu\'un rappel des codes DTMF standards. ';
+                const containerLegend = 'Ce tableau présente l\'activité éventuelle sur les autres salons : indicatif en cours d\'émission, nombre de passages en émission total, durée cumulée en émission, nombre de nœuds actifs et connectés, ainsi qu\'un rappel des codes DTMF standards. ';
 
                 data = elsewhere;
 
@@ -758,7 +765,7 @@
 
                 const containerSelector = '.last-table';
                 const containerTitle = '<div class="icon"><i class="icofont-wall-clock"></i></div> ' + 'Derniers passages en émission';
-                const containerLegend = 'Ce tableau présente la liste des 10 derniers passages en émission: horodatage, indicatif du nœud et durée en émission. Les durées en émission de moins de 3 secondes sont grisées et comptabilisées comme déclenchements intempestifs.';
+                const containerLegend = 'Ce tableau présente la liste des 10 derniers passages en émission : horodatage, indicatif du nœud et durée en émission. Les durées en émission de moins de 3 secondes sont grisées et comptabilisées comme déclenchements intempestifs.';
 
                 data = last;
 
@@ -828,7 +835,7 @@
 
                 const containerSelector = '.all-table';
                 const containerTitle = '<div class="icon"><i class="icofont-badge"></i></div> ' + 'Classement des nœuds par durée';
-                const containerLegend = 'Ce tableau présente le classement complet par durée des nœuds étant passés en émission dans la journée: position, indicatif du nœud, nombre de passages et durée cumulée en émission.';
+                const containerLegend = 'Ce tableau présente le classement complet par durée des nœuds étant passés en émission dans la journée : position, indicatif du nœud, nombre de passages et durée cumulée en émission.';
 
                 data = all;
 
@@ -864,14 +871,19 @@
                             return columns.map(function(column) {
                                 return {
                                     column: column,
-                                    value: row[column]
+                                    value: row[column],
+                                    id: row.Pos
                                 };
                             });
                         })
                         .enter()
                         .append('td')
-                        .text(function(d) {
-                            return d.value;
+                        .html(function(d, i) {
+                            if (i === 0) {
+                                return '<a onClick="sessionStorage.setItem(\'allExtendedModal\', \'' + d.id + '\');">' + d.value + '</a>';
+                            } else {
+                                return d.value;
+                            }
                         });
 
                     return table;
@@ -910,10 +922,10 @@
                 const containerTitle = '<div class="icon"><i class="icofont-bug"></i></div> ' + 'Déclenchements intempestifs';
                 
                 if (porteuseSelected == 1) {
-                    var containerLegend = 'Ce tableau présente le classement des nœuds ayant fait l\'objet d\'au moins <a onClick="porteuse(\'' + porteuseSelected + '\');">' + porteuseSelected + '</a> déclenchement intempestif ou suspects, d\'une durée de moins de 3 secondes: position, indicatif du nœud et nombre de déclenchement.';
+                    var containerLegend = 'Ce tableau présente le classement des nœuds ayant fait l\'objet d\'au moins <a onClick="porteuse(\'' + porteuseSelected + '\');">' + porteuseSelected + '</a> déclenchement intempestif ou suspects, d\'une durée de moins de 3 secondes : position, indicatif du nœud et nombre de déclenchement.';
                 }
                 else {
-                    var containerLegend = 'Ce tableau présente le classement des nœuds ayant fait l\'objet d\'au moins <a onClick="porteuse(\'' + porteuseSelected + '\');">' + porteuseSelected + '</a> déclenchements intempestifs ou suspects, d\'une durée de moins de 3 secondes: position, indicatif du nœud et nombre de déclenchement.';                    
+                    var containerLegend = 'Ce tableau présente le classement des nœuds ayant fait l\'objet d\'au moins <a onClick="porteuse(\'' + porteuseSelected + '\');">' + porteuseSelected + '</a> déclenchements intempestifs ou suspects, d\'une durée de moins de 3 secondes : position, indicatif du nœud et nombre de déclenchement.';                    
                 }
 
                 if (linkTotal == 1) {
@@ -1014,15 +1026,21 @@
                 });
 
                 const containerSelector = '.tot-table';
-                const containerTitle = '<div class="icon"><i class="icofont-not-allowed"></i></div> ' + 'Time Out Timer';
-                const containerLegend = 'Ce tableau présente le classement des nœuds ayant fait l\'objet d\'au moins 1 TOT: position, indicatif du nœud et nombre de TOT.';
+                const containerTitle = '<div class="icon"><i class="icofont-not-allowed"></i></div> ' + 'Time Out Timer (TOT)';
+                const containerLegend = 'Ce tableau présente le classement des nœuds ayant fait l\'objet d\'au moins 1 TOT : position, indicatif du nœud et nombre de TOT.';
                 
 
-                if (linkTotal == 1) {
+                if (totTotal == 1) {
                     var containerTotal = 'Aujourd\'hui, il y a eu un total de 1 TOT, en provenance de 1 nœud.';
                 }
-                else if (linkTotal > 1) {
-                    var containerTotal = 'Aujourd\'hui, il y a eu un total de ' + totTotal + ' TOT, en provenance de ' + linkTotal + ' nœuds distincts.';
+                else if (totTotal > 1) {
+                    var containerTotal = 'Aujourd\'hui, il y a eu un total de ' + totTotal + ' TOT, en provenance de ';
+                    if(linkTotal == 1) {
+                        containerTotal += '1 nœud.';
+                    }
+                    else {
+                        containerTotal += linkTotal + ' nœuds distincts.';
+                    }
                 } 
 
                 function tabulate(data, columns) {
@@ -1061,9 +1079,6 @@
                     // Create a cell in each row for each column
                     var cells = rows.selectAll('td')
                         .data(function(row) {
-                            if(row.TX < porteuseSelected) {
-                                return 0;
-                            }
                             return columns.map(function(column) {
                                 return {
                                     column: column,
@@ -1302,6 +1317,90 @@
 
                 $('#tot-extended-modal').modal();
                 sessionStorage.removeItem('totExtendedModal');
+
+            }
+        }
+
+        // ---------------------------------
+        // All extended
+        // ---------------------------------
+
+        if (allExtendedModal != null) {
+            if (allExtendedOld !== JSON.stringify(allExtended)) {
+                allExtendedOld = JSON.stringify(allExtended);
+
+                data = allExtended;
+            }
+
+            if (allExtended !== undefined) {
+
+                data = [allExtended[parseInt(allExtendedModal) - 1]];
+
+                const containerSelector = '#all-extended-modal';
+                const containerTitle = '<div class="icon"><i class="icofont-wall-cloc"></i></div> ' + 'Passage en émission sur ' + data[0].Indicatif;
+                const containerLegend = 'Ce tableau présente les heures et durées en émission sur le nœud sélectionné.';
+
+                function tabulate(data, columns) {
+                    d3.select(containerSelector).html('');
+                    d3.select(containerSelector).append('h2').html(containerTitle);
+
+                    var table = d3.select(containerSelector).append('table');
+                    var thead = table.append('thead');
+                    var tbody = table.append('tbody');
+
+                    // Append the header row
+                    thead.append('tr')
+                        .selectAll('th')
+                        .data(columns).enter()
+                        .append('th')
+                        .text(function(column) {
+                            if (column === 'Date') {
+                                return 'Heure';
+                            } 
+                            else if (column === 'TX') {
+                                return 'Nb';
+                            }
+                            else {
+                                return column;
+                            }
+                        });
+
+                    // Create a row for each object in the data
+                    var rows = tbody.selectAll('tr')
+                        .data(data)
+                        .enter()
+                        .append('tr');
+
+                    // Create a cell in each row for each column
+                    var cells = rows.selectAll('td')
+                        .data(function(row) {
+                            return columns.map(function(column) {
+                                return {
+                                    column: column,
+                                    value: row[column]
+                                };
+                            });
+                        })
+                        .enter()
+                        .append('td')
+                        .html(function(d, i) {
+                            console.log(d, i);
+                            if (i === 1 || i === 2) {
+                                return d.value.replace(/, /g, '<br/>');
+                            } else {
+                                return d.value;
+                            }
+                        });
+
+                    return table;
+                }
+
+                // Render the table(s)                    
+                tabulate(data, ['Indicatif', 'Date', 'Durée', 'TX']); // 4 columns table
+                d3.select(containerSelector).append('span').text(containerLegend);
+
+                $('#all-extended-modal').modal();
+                sessionStorage.removeItem('allExtendedModal');
 
             }
         }
