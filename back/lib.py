@@ -104,7 +104,7 @@ def save_stat_all(history, call, hour='00:00:00', duration=0):
                 history[call].append(hour)
                 history[call].append(duration)
         except KeyError:
-            history[call] = [1, convert_second_to_time(duration), hour, duration]
+            history[call] = [1, convert_second_to_time(duration)]
 
     return history
 
