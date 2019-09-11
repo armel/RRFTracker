@@ -99,7 +99,6 @@ def main(argv):
             s.day_duration = 0
             for q in xrange(0, 24):     # Clean histogram
                 s.qso_hour[q] = 0
-            s.node.clear()              # Clear node history
             s.tot.clear()               # Clear tot history
             s.all.clear()               # Clear all history
             s.porteuse.clear()          # Clear porteuse history
@@ -156,7 +155,8 @@ def main(argv):
 
             # Save stat only if real transmit
             if (s.stat_save is False and s.duration > s.intempestif):
-                s.node = l.save_stat_node(s.node, s.call[0], 0)
+                #s.node = l.save_stat_node(s.node, s.call[0], 0)
+                s.all = l.save_stat_all(s.all, s.call[0])
                 s.qso += 1
                 tmp = datetime.datetime.now()
                 s.qso_hour[s.hour] = s.qso - sum(s.qso_hour[:s.hour])
@@ -193,7 +193,7 @@ def main(argv):
                 if s.stat_save is True:
                     if s.duration > 600:    # I need to fix this bug...
                         s.duration = 0
-                    s.node = l.save_stat_node(s.node, s.call[0], s.duration)
+                    #s.node = l.save_stat_node(s.node, s.call[0], s.duration)
                     s.day_duration += s.duration
                 if s.stat_save is False:
                     tmp = datetime.datetime.now()
