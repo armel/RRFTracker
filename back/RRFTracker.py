@@ -100,6 +100,8 @@ def main(argv):
             for q in xrange(0, 24):     # Clean histogram
                 s.qso_hour[q] = 0
             s.node.clear()              # Clear node history
+            s.tot.clear()               # Clear tot history
+            s.all.clear()               # Clear all history
             s.porteuse.clear()          # Clear porteuse history
             s.init = True               # Reset init
 
