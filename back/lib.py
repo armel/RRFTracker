@@ -80,6 +80,34 @@ def save_stat_porteuse(history, call, duration=0):
 
     return history
 
+# Save stats
+def save_stat_tot(history, call, duration=0):
+    if call != '':
+        try:
+            history[call][0] += 1
+            history[call].append(duration)
+        except KeyError:
+            history[call] = [1, duration]
+
+    return history
+
+# Save stats
+def save_stat_all(history, call, hour='00:00', duration=0):
+    if call != '':
+        try:
+            if duration == 0:
+                history[call][0] += 1
+            else:
+                a = convert_time_to_second(history[call][1])
+                b = convert_time_to_second(duration)
+                history[call][1] = convert_second_to_time(a + b)
+                history[call].append(hour)
+                history[call].append(duration)
+        except KeyError:
+            history[call] = [1, duration, hour, duration]
+
+    return history
+
 # Log write for history
 def log_write():
     data = ''
@@ -91,11 +119,11 @@ def log_write():
     data += log_news()
     data += log_transmit()
     data += log_last()
-    data += log_node('best')
-    data += log_node('all')
-    data += log_node_list()
-    # data += log_porteuse('porteuse')
-    data += log_porteuse('porteuseExtended')
+    data += log_best()
+    data += log_all()
+    data += log_node()
+    data += log_porteuse()
+    data += log_tot()
 
     if s.init is False:
         data += log_elsewhere()
@@ -127,10 +155,10 @@ def log_abstract():
 
     data += '{\n'
     data += '\t"Salon": "' + s.room + '",\n'
-    data += '\t"Date": "' + now + '",\n'
+    data += '\t"Date": "' + now.lower() + '",\n'
     data += '\t"TX total": ' + str(sum(s.qso_hour)) + ',\n'
     data += '\t"Emission cumulée": "' + convert_second_to_time(s.day_duration + s.duration) + '",\n'
-    data += '\t"Nœuds actifs": ' + str(len(s.node)) + ',\n'
+    data += '\t"Nœuds actifs": ' + str(len(s.all)) + ',\n'
     data += '\t"Nœuds connectés": ' + str(s.node_count) + ',\n'
     data += '\t"Indicatif": "' + s.call_current + '",\n'
     data += '\t"TOT": ' + str(s.duration) + ',\n'
@@ -256,34 +284,20 @@ def log_last():
 
     return data
 
-# Log node
-def log_node(type):
-    if type == 'best':
-        tmp = sorted(s.node.items(), key=lambda x: x[1][0])
-        tmp.reverse()
+# Log best
+def log_best():
+    tmp = sorted(s.all.items(), key=lambda x: x[1][0])
+    tmp.reverse()
 
-        limit = 20
-        data = '"best":\n'
-    else:
-        tmp = sorted(s.node.items(), key=lambda x: x[1][1])
-        tmp.reverse()
-
-        limit = 10**4
-        data = '"all":\n'
+    limit = 20
+    data = '"best":\n'
 
     data += '[\n'
 
     p = 1
     for c, t in tmp:
         data += '{\n'
-        if type in ['all']:
-            data += '\t"Pos": "' + str('{:0>3d}'.format(int(p))) + '",\n'
         data += '\t"Indicatif": "' + c + '",\n'
-        if type in ['all']:
-            if c == s.call_current:
-                data += '\t"Durée": "' + convert_second_to_time(t[1] + s.duration) + '",\n'
-            else:
-                data += '\t"Durée": "' + convert_second_to_time(t[1]) + '",\n'
         data += '\t"TX": ' + str(t[0]) + '\n'
         data += '},\n'
 
@@ -300,7 +314,7 @@ def log_node(type):
     return data
 
 # Log node list
-def log_node_list():
+def log_node():
 
     data = '"nodeExtended":\n'
     data += '[\n'
@@ -342,40 +356,107 @@ def log_node_list():
 
     return data
 
-# Log special
-def log_porteuse(type):
+# Log porteuse
+def log_porteuse():
     tmp = sorted(s.porteuse.items(), key=lambda x: x[1])
     tmp.reverse()
 
-    if type == 'porteuse':
-        data = '"porteuse":\n'
-    else:
-        data = '"porteuseExtended":\n'
+    data = '"porteuseExtended":\n'
 
     data += '[\n'
 
     p = 1
     for c, t in tmp:
-        if type == 'porteuse':
-            if t[0] < 10:
-                break
-
         data += '{\n'
-        if type == 'porteuse':
-            data += '\t"Pos": "' + str('{:0>3d}'.format(int(p))) + '",\n'
-            data += '\t"Indicatif": "' + c + '",\n'
-            data += '\t"TX": ' + str(t[0]) + '\n'
-        else:
-            data += '\t"Pos": "' + str('{:0>3d}'.format(int(p))) + '",\n'
-            data += '\t"Indicatif": "' + c + '",\n'
-            data += '\t"TX": ' + str(t[0]) + ',\n'
+        data += '\t"Pos": "' + str('{:0>3d}'.format(int(p))) + '",\n'
+        data += '\t"Indicatif": "' + c + '",\n'
+        data += '\t"TX": ' + str(t[0]) + ',\n'
 
-            tmp = ''
-            for e in t[1:]:
-                tmp += str(e) + ', '
-            tmp = tmp[:-2]
+        tmp = ''
+        for e in t[1:]:
+            tmp += str(e) + ', '
+        tmp = tmp[:-2]
 
-            data += '\t"Date": "' + str(tmp) + '"\n'
+        data += '\t"Date": "' + str(tmp) + '"\n'
+        data += '},\n'
+
+        p += 1
+
+    if p > 1:
+        last = data.rfind(',')
+        data = data[:last] + '' + data[last + 1:]
+
+    data += '],\n'
+
+    return data
+
+# Log tot
+def log_tot():
+    tmp = sorted(s.tot.items(), key=lambda x: x[1])
+    tmp.reverse()
+
+    data = '"totExtended":\n'
+
+    data += '[\n'
+
+    p = 1
+    for c, t in tmp:
+        data += '{\n'
+        data += '\t"Pos": "' + str('{:0>3d}'.format(int(p))) + '",\n'
+        data += '\t"Indicatif": "' + c + '",\n'
+        data += '\t"TX": ' + str(t[0]) + ',\n'
+
+        tmp = ''
+        for e in t[1:]:
+            tmp += str(e) + ', '
+        tmp = tmp[:-2]
+
+        data += '\t"Date": "' + str(tmp) + '"\n'
+        data += '},\n'
+
+        p += 1
+
+    if p > 1:
+        last = data.rfind(',')
+        data = data[:last] + '' + data[last + 1:]
+
+    data += '],\n'
+
+    return data
+
+# Log all
+def log_all():
+    tmp = sorted(s.all.items(), key=lambda x: x[1][1])
+    tmp.reverse()
+
+    data = '"allExtended":\n'
+
+    data += '[\n'
+
+    p = 1
+    for c, t in tmp:
+        data += '{\n'
+        data += '\t"Pos": "' + str('{:0>3d}'.format(int(p))) + '",\n'
+        data += '\t"Indicatif": "' + c + '",\n'
+        data += '\t"TX": ' + str(t[0]) + ',\n'
+        data += '\t"Durée": "' + str(t[1]) + '",\n'
+
+        heure = ''
+        chrono = ''
+        
+        limit = len(t[2:])
+        limit += 1
+
+        for e in xrange(2, limit, 2):
+            heure += str(t[e]) + ', '
+            chrono += str(t[e + 1]) + ', '
+
+        heure = heure[:-2]
+        chrono = chrono[:-2]
+
+        data += '\t"Heure": "' + str(heure) + '",\n'
+        data += '\t"Chrono": "' + str(chrono) + '"\n'
+
         data += '},\n'
 
         p += 1
@@ -654,15 +735,29 @@ def restart():
         s.call_time[i] = convert_time_to_second(data[u'Durée'])
         i += 1
 
-    # Section all
-
-    for data in rrf_data['all']:
-        s.node[data[u'Indicatif'].encode('utf-8')] = [data[u'TX'], convert_time_to_second(data[u'Durée'])]
-
     # Section porteuse
 
     for data in rrf_data['porteuseExtended']:
         s.porteuse[data[u'Indicatif'].encode('utf-8')] = [data[u'TX'], data[u'Date'].encode('utf-8')]
+
+    # Section tot
+
+    for data in rrf_data['totExtended']:
+        s.tot[data[u'Indicatif'].encode('utf-8')] = [data[u'TX'], data[u'Date'].encode('utf-8')]
+
+    # Section all
+
+    for data in rrf_data['allExtended']:
+        s.all[data[u'Indicatif'].encode('utf-8')] = [data[u'TX'], data[u'Durée']]
+
+        chrono = data['Chrono'].split(', ')
+        heure = data['Heure'].split(', ')
+
+        limit = len(chrono)
+
+        for e in xrange(limit):
+            s.all[data[u'Indicatif'].encode('utf-8')].append(heure[e])
+            s.all[data[u'Indicatif'].encode('utf-8')].append(chrono[e])
 
     s.transmit = False
 

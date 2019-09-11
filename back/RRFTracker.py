@@ -99,7 +99,8 @@ def main(argv):
             s.day_duration = 0
             for q in xrange(0, 24):     # Clean histogram
                 s.qso_hour[q] = 0
-            s.node.clear()              # Clear node history
+            s.tot.clear()               # Clear tot history
+            s.all.clear()               # Clear all history
             s.porteuse.clear()          # Clear porteuse history
             s.init = True               # Reset init
 
@@ -154,7 +155,8 @@ def main(argv):
 
             # Save stat only if real transmit
             if (s.stat_save is False and s.duration > s.intempestif):
-                s.node = l.save_stat_node(s.node, s.call[0], 0)
+                #s.node = l.save_stat_node(s.node, s.call[0], 0)
+                s.all = l.save_stat_all(s.all, s.call[0])
                 s.qso += 1
                 tmp = datetime.datetime.now()
                 s.qso_hour[s.hour] = s.qso - sum(s.qso_hour[:s.hour])
@@ -174,10 +176,24 @@ def main(argv):
         # If no Transmitter...
         else:
             if s.transmit is True:
+
+                if s.duration > s.intempestif:
+                    s.all = l.save_stat_all(s.all, s.call[0], tmp.strftime('%H:%M:%S'), l.convert_second_to_time(s.duration))
+
+                #print s.all
+                #sys.stdout.flush()
+
+                if s.room == 'RRF':
+                    #print l.convert_second_to_time(s.duration), s.tot_limit
+                    #sys.stdout.flush()
+                    if l.convert_second_to_time(s.duration) > s.tot_limit:
+                        tmp = datetime.datetime.now()
+                        s.tot = l.save_stat_tot(s.tot, s.call[0], tmp.strftime('%H:%M:%S'))
+
                 if s.stat_save is True:
                     if s.duration > 600:    # I need to fix this bug...
                         s.duration = 0
-                    s.node = l.save_stat_node(s.node, s.call[0], s.duration)
+                    #s.node = l.save_stat_node(s.node, s.call[0], s.duration)
                     s.day_duration += s.duration
                 if s.stat_save is False:
                     tmp = datetime.datetime.now()
