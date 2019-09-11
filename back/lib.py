@@ -95,12 +95,14 @@ def save_stat_tot(history, call, duration=0):
 def save_stat_all(history, call, hour='00:00', duration=0):
     if call != '':
         try:
-            history[call][0] += 1
-            a = convert_time_to_second(history[call][1])
-            b = convert_time_to_second(duration)
-            history[call][1] = convert_second_to_time(a + b)
-            history[call].append(hour)
-            history[call].append(duration)
+            if duration == 0:
+                history[call][0] += 1
+            else:
+                a = convert_time_to_second(history[call][1])
+                b = convert_time_to_second(duration)
+                history[call][1] = convert_second_to_time(a + b)
+                history[call].append(hour)
+                history[call].append(duration)
         except KeyError:
             history[call] = [1, duration, hour, duration]
 
