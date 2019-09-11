@@ -1329,7 +1329,7 @@
                 data = [allExtended[parseInt(allExtendedModal) - 1]];
 
                 const containerSelector = '#all-extended-modal';
-                const containerTitle = '<div class="icon"><i class="icofont-wall-cloc"></i></div> ' + 'Passage en émission sur ' + data[0].Indicatif;
+                const containerTitle = '<div class="icon"><i class="icofont-wall-cloc"></i></div> ' + 'Détail des passages en émission sur ' + data[0].Indicatif;
                 const containerLegend = 'Ce tableau présente les heures et durées en émission sur le nœud sélectionné, ainsi que le nombre de passages en émission.';
 
                 function tabulate(data, columns) {

@@ -156,7 +156,7 @@ def log_abstract():
     data += '\t"Date": "' + now.lower() + '",\n'
     data += '\t"TX total": ' + str(sum(s.qso_hour)) + ',\n'
     data += '\t"Emission cumulée": "' + convert_second_to_time(s.day_duration + s.duration) + '",\n'
-    data += '\t"Nœuds actifs": ' + str(len(s.node)) + ',\n'
+    data += '\t"Nœuds actifs": ' + str(len(s.all)) + ',\n'
     data += '\t"Nœuds connectés": ' + str(s.node_count) + ',\n'
     data += '\t"Indicatif": "' + s.call_current + '",\n'
     data += '\t"TOT": ' + str(s.duration) + ',\n'
@@ -284,7 +284,7 @@ def log_last():
 
 # Log best
 def log_best():
-    tmp = sorted(s.node.items(), key=lambda x: x[1][0])
+    tmp = sorted(s.all.items(), key=lambda x: x[1][0])
     tmp.reverse()
 
     limit = 20
