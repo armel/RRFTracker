@@ -742,8 +742,9 @@ def restart():
 
     # Section tot
 
-    for data in rrf_data['totExtended']:
-        s.tot[data[u'Indicatif'].encode('utf-8')] = [data[u'TX'], data[u'Date'].encode('utf-8')]
+    if rrf_data['totExtended']:
+        for data in rrf_data['totExtended']:
+            s.tot[data[u'Indicatif'].encode('utf-8')] = [data[u'TX'], data[u'Date'].encode('utf-8')]
 
     # Section all
 
