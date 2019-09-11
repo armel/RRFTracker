@@ -747,7 +747,7 @@ def restart():
         for data in rrf_data['totExtended']:
             s.tot[data[u'Indicatif'].encode('utf-8')] = [data[u'TX'], data[u'Date'].encode('utf-8')]
     except NameError:
-        print 'Houston...'
+        print 'Houston, we\'ve had a problem.'
 
     # Section all
 
