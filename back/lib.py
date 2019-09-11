@@ -92,7 +92,7 @@ def save_stat_tot(history, call, duration=0):
     return history
 
 # Save stats
-def save_stat_all(history, call, hour='00:00', duration=0):
+def save_stat_all(history, call, hour='00:00:00', duration=0):
     if call != '':
         try:
             if duration == 0:
