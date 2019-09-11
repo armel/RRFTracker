@@ -742,26 +742,24 @@ def restart():
 
     # Section tot
 
-    try:
-        rrf_data['totExtended']
+    if 'totExtended' in rrf_data:
         for data in rrf_data['totExtended']:
             s.tot[data[u'Indicatif'].encode('utf-8')] = [data[u'TX'], data[u'Date'].encode('utf-8')]
-    except NameError:
-        print 'Houston, we\'ve had a problem.'
 
     # Section all
 
-    for data in rrf_data['allExtended']:
-        s.all[data[u'Indicatif'].encode('utf-8')] = [data[u'TX'], data[u'Durée']]
+    if 'allExtended' in rrf_data:
+        for data in rrf_data['allExtended']:
+            s.all[data[u'Indicatif'].encode('utf-8')] = [data[u'TX'], data[u'Durée']]
 
-        chrono = data['Chrono'].split(', ')
-        heure = data['Heure'].split(', ')
+            chrono = data['Chrono'].split(', ')
+            heure = data['Heure'].split(', ')
 
-        limit = len(chrono)
+            limit = len(chrono)
 
-        for e in xrange(limit):
-            s.all[data[u'Indicatif'].encode('utf-8')].append(heure[e])
-            s.all[data[u'Indicatif'].encode('utf-8')].append(chrono[e])
+            for e in xrange(limit):
+                s.all[data[u'Indicatif'].encode('utf-8')].append(heure[e])
+                s.all[data[u'Indicatif'].encode('utf-8')].append(chrono[e])
 
     s.transmit = False
 
