@@ -44,7 +44,6 @@
     var best, bestOld = '';
     var transmit, transmitOld = '';
     var last, lastOld = '';
-    var all, allOld = '';
     var allExtended, allExtendedOld = '';
     var bubbleOld = '';
     var porteuseExtended, porteuseExtendedOld = '';
@@ -131,7 +130,6 @@
                 best = data['best'];
                 transmit = data['transmit'];
                 last = data['last'];
-                all = data['all'];
                 allExtended = data['allExtended'];
                 porteuse = data['porteuse'];
                 porteuseExtended = data['porteuseExtended'];
@@ -579,9 +577,9 @@
         // Bubble
         // ---------------------------------
 
-        if (all !== undefined && all.length != 0) {
-            if (bubbleOld !== JSON.stringify(all)) {
-                bubbleOld = JSON.stringify(all);
+        if (allExtended !== undefined && allExtended.length != 0) {
+            if (bubbleOld !== JSON.stringify(allExtended)) {
+                bubbleOld = JSON.stringify(allExtended);
 
                 indicatif = sessionStorage.getItem('indicatif');
 
@@ -601,7 +599,7 @@
                 d3.select(containerSelector).html('');
                 d3.select(containerSelector).append('h2').html(containerTitle);
 
-                data = all;
+                data = allExtended;
 
                 const svg = d3.select(containerSelector)
                     .append('svg')
@@ -829,15 +827,15 @@
         // All
         // ---------------------------------
 
-        if (all !== undefined && all.length != 0) {
-            if (allOld !== JSON.stringify(all)) {
-                allOld = JSON.stringify(all);
+        if (allExtended !== undefined && allExtended.length != 0) {
+            if (allExtendedOld !== JSON.stringify(allExtended)) {
+                allExtendedOld = JSON.stringify(allExtended);
 
                 const containerSelector = '.all-table';
                 const containerTitle = '<div class="icon"><i class="icofont-badge"></i></div> ' + 'Classement des nœuds par durée';
                 const containerLegend = 'Ce tableau présente le classement complet par durée des nœuds étant passés en émission dans la journée : position, indicatif du nœud, nombre de passages et durée cumulée en émission.';
 
-                data = all;
+                data = allExtended;
 
                 function tabulate(data, columns) {
                     d3.select(containerSelector).html('');
@@ -1326,19 +1324,13 @@
         // ---------------------------------
 
         if (allExtendedModal != null) {
-            if (allExtendedOld !== JSON.stringify(allExtended)) {
-                allExtendedOld = JSON.stringify(allExtended);
-
-                data = allExtended;
-            }
-
             if (allExtended !== undefined) {
 
                 data = [allExtended[parseInt(allExtendedModal) - 1]];
 
                 const containerSelector = '#all-extended-modal';
                 const containerTitle = '<div class="icon"><i class="icofont-wall-cloc"></i></div> ' + 'Passage en émission sur ' + data[0].Indicatif;
-                const containerLegend = 'Ce tableau présente les heures et durées en émission sur le nœud sélectionné.';
+                const containerLegend = 'Ce tableau présente les heures et durées en émission sur le nœud sélectionné, ainsi que le nombre de passages en émission.';
 
                 function tabulate(data, columns) {
                     d3.select(containerSelector).html('');
@@ -1354,11 +1346,11 @@
                         .data(columns).enter()
                         .append('th')
                         .text(function(column) {
-                            if (column === 'Date') {
-                                return 'Heure';
-                            } 
-                            else if (column === 'TX') {
+                            if (column === 'TX') {
                                 return 'Nb';
+                            }
+                            else if (column === 'Chrono') {
+                                return 'Durée';
                             }
                             else {
                                 return column;
@@ -1384,7 +1376,6 @@
                         .enter()
                         .append('td')
                         .html(function(d, i) {
-                            console.log(d, i);
                             if (i === 1 || i === 2) {
                                 return d.value.replace(/, /g, '<br/>');
                             } else {
@@ -1396,7 +1387,7 @@
                 }
 
                 // Render the table(s)                    
-                tabulate(data, ['Indicatif', 'Date', 'Durée', 'TX']); // 4 columns table
+                tabulate(data, ['Indicatif', 'Heure', 'Chrono', 'TX']); // 4 columns table
                 d3.select(containerSelector).append('span').text(containerLegend);
 
                 $('#all-extended-modal').modal();

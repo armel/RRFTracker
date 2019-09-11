@@ -96,10 +96,13 @@ def save_stat_all(history, call, hour='00:00', duration=0):
     if call != '':
         try:
             history[call][0] += 1
+            a = convert_time_to_second(history[call][1])
+            b = convert_time_to_second(duration)
+            history[call][1] = convert_second_to_time(a + b)
             history[call].append(hour)
             history[call].append(duration)
         except KeyError:
-            history[call] = [1, hour, duration]
+            history[call] = [1, duration, hour, duration]
 
     return history
 
@@ -114,10 +117,9 @@ def log_write():
     data += log_news()
     data += log_transmit()
     data += log_last()
-    data += log_node('best')
-    data += log_node('all')
+    data += log_best()
     data += log_all()
-    data += log_node_list()
+    data += log_node()
     data += log_porteuse()
     data += log_tot()
 
@@ -280,34 +282,20 @@ def log_last():
 
     return data
 
-# Log node
-def log_node(type):
-    if type == 'best':
-        tmp = sorted(s.node.items(), key=lambda x: x[1][0])
-        tmp.reverse()
+# Log best
+def log_best():
+    tmp = sorted(s.node.items(), key=lambda x: x[1][0])
+    tmp.reverse()
 
-        limit = 20
-        data = '"best":\n'
-    else:
-        tmp = sorted(s.node.items(), key=lambda x: x[1][1])
-        tmp.reverse()
-
-        limit = 10**4
-        data = '"all":\n'
+    limit = 20
+    data = '"best":\n'
 
     data += '[\n'
 
     p = 1
     for c, t in tmp:
         data += '{\n'
-        if type in ['all']:
-            data += '\t"Pos": "' + str('{:0>3d}'.format(int(p))) + '",\n'
         data += '\t"Indicatif": "' + c + '",\n'
-        if type in ['all']:
-            if c == s.call_current:
-                data += '\t"Durée": "' + convert_second_to_time(t[1] + s.duration) + '",\n'
-            else:
-                data += '\t"Durée": "' + convert_second_to_time(t[1]) + '",\n'
         data += '\t"TX": ' + str(t[0]) + '\n'
         data += '},\n'
 
@@ -324,7 +312,7 @@ def log_node(type):
     return data
 
 # Log node list
-def log_node_list():
+def log_node():
 
     data = '"nodeExtended":\n'
     data += '[\n'
@@ -436,7 +424,7 @@ def log_tot():
 
 # Log all
 def log_all():
-    tmp = sorted(s.all.items(), key=lambda x: x[1])
+    tmp = sorted(s.all.items(), key=lambda x: x[1][1])
     tmp.reverse()
 
     data = '"allExtended":\n'
@@ -449,22 +437,23 @@ def log_all():
         data += '\t"Pos": "' + str('{:0>3d}'.format(int(p))) + '",\n'
         data += '\t"Indicatif": "' + c + '",\n'
         data += '\t"TX": ' + str(t[0]) + ',\n'
+        data += '\t"Durée": "' + str(t[1]) + '",\n'
 
         heure = ''
-        duree = ''
+        chrono = ''
         
-        limit = len(t[1:])
+        limit = len(t[2:])
         limit += 1
 
-        for e in xrange(1, limit, 2):
+        for e in xrange(2, limit, 2):
             heure += str(t[e]) + ', '
-            duree += str(t[e + 1]) + ', '
+            chrono += str(t[e + 1]) + ', '
 
         heure = heure[:-2]
-        duree = duree[:-2]
+        chrono = chrono[:-2]
 
-        data += '\t"Date": "' + str(heure) + '",\n'
-        data += '\t"Durée": "' + str(duree) + '"\n'
+        data += '\t"Heure": "' + str(heure) + '",\n'
+        data += '\t"Chrono": "' + str(chrono) + '"\n'
 
         data += '},\n'
 
@@ -744,11 +733,6 @@ def restart():
         s.call_time[i] = convert_time_to_second(data[u'Durée'])
         i += 1
 
-    # Section all
-
-    for data in rrf_data['all']:
-        s.node[data[u'Indicatif'].encode('utf-8')] = [data[u'TX'], convert_time_to_second(data[u'Durée'])]
-
     # Section porteuse
 
     for data in rrf_data['porteuseExtended']:
@@ -758,6 +742,20 @@ def restart():
 
     for data in rrf_data['totExtended']:
         s.tot[data[u'Indicatif'].encode('utf-8')] = [data[u'TX'], data[u'Date'].encode('utf-8')]
+
+    # Section all
+
+    for data in rrf_data['allExtended']:
+        s.all[data[u'Indicatif'].encode('utf-8')] = [data[u'TX'], data[u'Durée']]
+
+        chrono = data['Chrono'].split(', ')
+        heure = data['Heure'].split(', ')
+
+        limit = len(chrono)
+
+        for e in xrange(limit):
+            s.all[data[u'Indicatif'].encode('utf-8')].append(heure[e])
+            s.all[data[u'Indicatif'].encode('utf-8')].append(chrono[e])
 
     s.transmit = False
 
