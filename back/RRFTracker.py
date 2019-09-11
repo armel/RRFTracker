@@ -178,10 +178,9 @@ def main(argv):
             if s.transmit is True:
 
                 if s.duration > s.intempestif:
+                    print tmp.strftime('%H:%M:%S')
+                    sys.stdout.flush()
                     s.all = l.save_stat_all(s.all, s.call[0], tmp.strftime('%H:%M:%S'), l.convert_second_to_time(s.duration))
-
-                #print s.all
-                #sys.stdout.flush()
 
                 if s.room == 'RRF':
                     #print l.convert_second_to_time(s.duration), s.tot_limit
