@@ -131,7 +131,6 @@
                 transmit = data['transmit'];
                 last = data['last'];
                 allExtended = data['allExtended'];
-                porteuse = data['porteuse'];
                 porteuseExtended = data['porteuseExtended'];
                 nodeExtended = data['nodeExtended'];
                 totExtended = data['totExtended'];
@@ -1414,7 +1413,7 @@
             if(porteuseSelectedOld != localStorage.getItem('porteuse')) {
                 porteuseSelectedOld = localStorage.getItem('porteuse');
 
-                porteuseOld = '';
+                porteuseExtendedOld = '';
             }
 
             const containerSelector = '.author-legend';
