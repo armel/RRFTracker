@@ -177,7 +177,7 @@ def main(argv):
                 s.all = l.save_stat_all(s.all, s.call[0], tmp.strftime('%H:%M:%S'), l.convert_second_to_time(s.duration), False)
 
             print s.all
-            print s.tot_start
+            print s.tot_start.strftime('%H:%M:%S')
             sys.stdout.flush()
 
 
