@@ -105,11 +105,13 @@ def save_stat_all(history, call, hour, duration, new=False):
 
             limit = len(history[call])
             limit += 1
-            
+
             total = 0
 
             for e in xrange(2, limit, 2):
-                total += convert_time_to_second(history[call][e])
+                print history[call], history[call][e]
+
+                #total += convert_time_to_second(history[call][e])
 
             history[call][1] = convert_second_to_time(total)
 
