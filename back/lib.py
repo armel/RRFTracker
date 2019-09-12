@@ -105,6 +105,7 @@ def save_stat_all(history, call, hour, duration, new=False):
 
             limit = len(history[call])
             limit += 1
+            
             total = 0
 
             for e in xrange(2, limit, 2):
