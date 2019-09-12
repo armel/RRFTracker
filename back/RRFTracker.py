@@ -99,9 +99,9 @@ def main(argv):
             s.day_duration = 0
             for q in xrange(0, 24):     # Clean histogram
                 s.qso_hour[q] = 0
-            s.tot.clear()               # Clear tot history
             s.all.clear()               # Clear all history
             s.porteuse.clear()          # Clear porteuse history
+            s.tot.clear()               # Clear tot history
             s.init = True               # Reset init
 
         # Request HTTP datas
