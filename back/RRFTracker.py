@@ -157,7 +157,7 @@ def main(argv):
             if (s.stat_save is False and s.duration > s.intempestif):
                 #s.node = l.save_stat_node(s.node, s.call[0], 0)
                 s.qso += 1
-                tmp = datetime.datetime.now()
+                tmp = datetime.datetime.now() - datetime.timedelta(seconds=3)
                 s.qso_hour[s.hour] = s.qso - sum(s.qso_hour[:s.hour])
                 s.all = l.save_stat_all(s.all, s.call[0], tmp.strftime('%H:%M:%S'), l.convert_second_to_time(s.duration), True)
                 
@@ -176,9 +176,7 @@ def main(argv):
             if s.duration > s.intempestif:
                 s.all = l.save_stat_all(s.all, s.call[0], tmp.strftime('%H:%M:%S'), l.convert_second_to_time(s.duration), False)
 
-            print s.all
-            print s.tot_start.strftime('%H:%M:%S')
-            sys.stdout.flush()
+            #sys.stdout.flush()
 
 
         # If no Transmitter...
