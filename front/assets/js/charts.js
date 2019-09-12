@@ -163,7 +163,7 @@
                     date = new Date(Date.now()).toLocaleString();
                     date = date.substring(0, date.lastIndexOf(':'));
 
-                    var containerTitle = 'Résumé de la journée du ' + date + ' (<a href="' + url + '">archive d\'hier</a>)';
+                    var containerTitle = 'Résumé de la journée du ' + date + ' sur le salon ' + sessionStorage.getItem('room') + ' (<a href="' + url + '">archive d\'hier</a>)';
                 }
                 else {
                     url = url.substring(0, url.lastIndexOf(sessionStorage.getItem('room') + '-'));
@@ -172,8 +172,7 @@
                     date = new Date(Date.now() - (1 * 24 * 3600 * 1000)).toLocaleString();
                     date = date.substring(0, date.indexOf(' '));
 
-                    var containerTitle = 'Résumé de la journée du ' + date + ' (<a href="' + url + '">aujourd\'hui</a>)';
-                }
+                    var containerTitle = 'Résumé de la journée du ' + date + ' sur le salon ' + sessionStorage.getItem('room') + ' (retour à <a href="' + url + '">aujourd\'hui</a>)';                }
 
                 containerTitle = '<div class="icon"><i class="icofont-info-circle"></i></div> ' + containerTitle;
 
@@ -224,6 +223,16 @@
                         .append('td')
                         .attr('width', '20%')
                         .html(function(d, i) {
+                            if (i ===2 ) {
+                                tmp = d.value.split(':');
+                                if (d.value.length > 5) {
+                                    d.value = tmp[0] + 'h ' + tmp[1] + '′ ' + tmp[2] + '″';
+                                }
+                                else {
+                                    d.value = tmp[0] + '′ ' + tmp[1] + '″';
+                                }
+                            }
+
                             if (i === 4) {
                                 return '<a onClick="sessionStorage.setItem(\'nodeExtendedModal\', \'' + 'Node' + '\');">' + d.value + '</a>';
                             } else {
@@ -317,6 +326,8 @@
 
                     // Create a cell in each row for each column
 
+                    j = 0;
+
                     var cells = rows.selectAll('td')
                         .data(function(row) {
                             return columns.map(function(column) {
@@ -337,7 +348,19 @@
                                 // return '16%';
                             }
                         })
-                        .html(function(d) {
+                        .html(function(d, i) {
+                            if (i == 0) {
+                                j += 1;
+                            }
+                            if (i > 0 && j == 4) {
+                                tmp = d.value.split(':');
+                                if (d.value.length > 5) {
+                                    d.value = tmp[0] + 'h ' + tmp[1] + '′ ' + tmp[2] + '″';
+                                }
+                                else {
+                                    d.value = tmp[0] + '′ ' + tmp[1] + '″';
+                                }
+                            }
                             if (d.column == 'Scanner RRF') {
                                 return '<b>' + d.value + '</b>';
                             }
@@ -806,7 +829,9 @@
                         .append('td')
                         .html(function(d) {
                             if (d.column == 'Durée') {
-                                if (d.value == '00:00' || d.value == '00:01' || d.value == '00:02') {
+                                tmp = d.value.split(':');
+                                d.value = tmp[0] + '′ ' + tmp[1] + '″';
+                                if (d.value == '00′ 00″' || d.value == '00′ 01″' || d.value == '00′ 02″') {
                                     return '<h3>' + d.value + '</h3>';
                                 }
                             }
@@ -876,6 +901,15 @@
                         .enter()
                         .append('td')
                         .html(function(d, i) {
+                            if (d.column == 'Durée') {
+                                tmp = d.value.split(':');
+                                if (d.value.length > 5) {
+                                    d.value = tmp[0] + 'h ' + tmp[1] + '′ ' + tmp[2] + '″';
+                                }
+                                else {
+                                    d.value = tmp[0] + '′ ' + tmp[1] + '″';
+                                }
+                            }
                             if (i === 0) {
                                 return '<a onClick="sessionStorage.setItem(\'allExtendedModal\', \'' + d.id + '\');">' + d.value + '</a>';
                             } else {
@@ -1375,6 +1409,21 @@
                         .enter()
                         .append('td')
                         .html(function(d, i) {
+                            if (i === 2) {
+                                list = d.value.split(', ')
+                                value_new = '';
+
+                                list.forEach(function(element) {
+                                    tmp = element.split(':');
+                                    if (element.length > 5) {
+                                        value_new += tmp[0] + 'h ' + tmp[1] + '′ ' + tmp[2] + '″, ';
+                                    }
+                                    else {
+                                        value_new += tmp[0] + '′ ' + tmp[1] + '″, ';
+                                    }
+                                });
+                                d.value = value_new;
+                            }
                             if (i === 1 || i === 2) {
                                 return d.value.replace(/, /g, '<br/>');
                             } else {
