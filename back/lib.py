@@ -102,9 +102,10 @@ def save_stat_all(history, call, hour, duration, new=False):
             if new is True:
                 history[call][0] += 1
                 history[call].append(hour)
-
-            history[call].pop()
-            history[call].append(duration)
+                history[call].append(duration)
+            else:
+                history[call].pop()
+                history[call].append(duration)
 
         except KeyError:
             history[call] = [1, '00:00', hour, '00:00']
