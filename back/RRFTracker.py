@@ -156,7 +156,7 @@ def main(argv):
             # Save stat only if real transmit
             if (s.stat_save is False and s.duration > s.intempestif):
                 #s.node = l.save_stat_node(s.node, s.call[0], 0)
-                s.all = l.save_stat_all(s.all, s.call[0])
+                #s.all = l.save_stat_all(s.all, s.call[0])
                 s.qso += 1
                 tmp = datetime.datetime.now()
                 s.qso_hour[s.hour] = s.qso - sum(s.qso_hour[:s.hour])
