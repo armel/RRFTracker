@@ -159,7 +159,7 @@ def main(argv):
                 s.qso += 1
                 tmp = datetime.datetime.now()
                 s.qso_hour[s.hour] = s.qso - sum(s.qso_hour[:s.hour])
-                s.all = l.save_stat_all(s.all, s.call[0], tmp.strftime('%H:%M:%S'), s.duration, True)
+                s.all = l.save_stat_all(s.all, s.call[0], tmp.strftime('%H:%M:%S'), l.convert_second_to_time(s.duration), True)
                 
                 s.stat_save = True
 
@@ -173,16 +173,18 @@ def main(argv):
             s.call_date[0] = s.now
             s.call_time[0] = s.duration
 
-            s.all = l.save_stat_all(s.all, s.call[0], tmp.strftime('%H:%M:%S'), s.duration, False)
+            s.all = l.save_stat_all(s.all, s.call[0], tmp.strftime('%H:%M:%S'), l.convert_second_to_time(s.duration), False)
 
         # If no Transmitter...
         else:
             if s.transmit is True:
 
+                '''
                 if s.duration > s.intempestif:
                     #print tmp.strftime('%H:%M:%S')
                     #sys.stdout.flush()
                     s.all = l.save_stat_all(s.all, s.call[0], '00:00:00', l.convert_second_to_time(s.duration))
+                '''
 
                 if s.room == 'RRF':
                     #print l.convert_second_to_time(s.duration), s.tot_limit
