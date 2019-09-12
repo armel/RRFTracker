@@ -173,7 +173,8 @@ def main(argv):
             s.call_date[0] = s.now
             s.call_time[0] = s.duration
 
-            s.all = l.save_stat_all(s.all, s.call[0], tmp.strftime('%H:%M:%S'), l.convert_second_to_time(s.duration), False)
+            if s.duration > s.intempestif:
+                s.all = l.save_stat_all(s.all, s.call[0], tmp.strftime('%H:%M:%S'), l.convert_second_to_time(s.duration), False)
 
             print s.all
             sys.stdout.flush()
