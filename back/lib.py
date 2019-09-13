@@ -436,7 +436,7 @@ def log_tot():
 
 # Log all
 def log_all():
-    tmp = sorted(s.all.items(), key=lambda x: x[1][1])
+    tmp = sorted(s.all.items(), key=lambda x: convert_time_to_second(x[1][1]))
     tmp.reverse()
 
     data = '"allExtended":\n'
