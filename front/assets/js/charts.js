@@ -226,10 +226,10 @@
                             if (i ===2 ) {
                                 tmp = d.value.split(':');
                                 if (d.value.length > 5) {
-                                    d.value = tmp[0] + 'h ' + tmp[1] + '′ ' + tmp[2] + '″';
+                                    d.value = tmp[0] + 'h ' + tmp[1] + 'm ' + tmp[2] + 's';
                                 }
                                 else {
-                                    d.value = tmp[0] + '′ ' + tmp[1] + '″';
+                                    d.value = tmp[0] + 'm ' + tmp[1] + 's';
                                 }
                             }
 
@@ -355,10 +355,10 @@
                             if (i > 0 && j == 4) {
                                 tmp = d.value.split(':');
                                 if (d.value.length > 5) {
-                                    d.value = tmp[0] + 'h ' + tmp[1] + '′ ' + tmp[2] + '″';
+                                    d.value = tmp[0] + 'h ' + tmp[1] + 'm ' + tmp[2] + 's';
                                 }
                                 else {
-                                    d.value = tmp[0] + '′ ' + tmp[1] + '″';
+                                    d.value = tmp[0] + 'm ' + tmp[1] + 's';
                                 }
                             }
                             if (d.column == 'Scanner RRF') {
@@ -830,8 +830,8 @@
                         .html(function(d) {
                             if (d.column == 'Durée') {
                                 tmp = d.value.split(':');
-                                d.value = tmp[0] + '′ ' + tmp[1] + '″';
-                                if (d.value == '00′ 00″' || d.value == '00′ 01″' || d.value == '00′ 02″') {
+                                d.value = tmp[0] + 'm ' + tmp[1] + 's';
+                                if (d.value == '00m 00s' || d.value == '00m 01s' || d.value == '00m 02s') {
                                     return '<h3>' + d.value + '</h3>';
                                 }
                             }
@@ -904,10 +904,10 @@
                             if (d.column == 'Durée') {
                                 tmp = d.value.split(':');
                                 if (d.value.length > 5) {
-                                    d.value = tmp[0] + 'h ' + tmp[1] + '′ ' + tmp[2] + '″';
+                                    d.value = tmp[0] + 'h ' + tmp[1] + 'm ' + tmp[2] + 's';
                                 }
                                 else {
-                                    d.value = tmp[0] + '′ ' + tmp[1] + '″';
+                                    d.value = tmp[0] + 'm ' + tmp[1] + 's';
                                 }
                             }
                             if (i === 0) {
@@ -1416,10 +1416,10 @@
                                 list.forEach(function(element) {
                                     tmp = element.split(':');
                                     if (element.length > 5) {
-                                        value_new += tmp[0] + 'h ' + tmp[1] + '′ ' + tmp[2] + '″, ';
+                                        value_new += tmp[0] + 'h ' + tmp[1] + 'm ' + tmp[2] + 's, ';
                                     }
                                     else {
-                                        value_new += tmp[0] + '′ ' + tmp[1] + '″, ';
+                                        value_new += tmp[0] + 'm ' + tmp[1] + 's, ';
                                     }
                                 });
                                 d.value = value_new;
