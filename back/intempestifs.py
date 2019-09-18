@@ -95,11 +95,19 @@ def main(argv):
                     except:
                         porteuse[data[u'Indicatif'].encode('utf-8')] = data[u'TX']
 
+    del porteuse['RRF']
+
     tmp = sorted(porteuse.items(), key=lambda x: x[1])
     tmp.reverse()
 
+    i = 1
     for e in tmp:
-        print e
+        print '%03d' % i, 
+        print '\t', e[0], '\t',
+        if len(e[0]) < 15:
+            print '\t',
+        print '%03d' % e[1]
+        i += 1
 
 if __name__ == '__main__':
     try:
