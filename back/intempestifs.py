@@ -95,7 +95,10 @@ def main(argv):
                     except:
                         porteuse[data[u'Indicatif'].encode('utf-8')] = data[u'TX']
 
-    del porteuse['RRF']
+    if 'RRF' in porteuse:
+        del porteuse['RRF']
+    if 'F5ZIN-L' in porteuse:
+        del porteuse['F5ZIN-L']
 
     tmp = sorted(porteuse.items(), key=lambda x: x[1])
     tmp.reverse()
