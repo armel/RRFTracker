@@ -108,6 +108,8 @@ def main(argv):
             print '\t',
         print '%03d' % e[1]
         i += 1
+        if i == 51:
+            break
 
 if __name__ == '__main__':
     try:
