@@ -207,6 +207,7 @@ def main(argv):
             print '\tRatio -> %06.2f' % e[1][2] + ' s/d'
 
         somme_intempestif += e[1][0]
+        i += 1
 
     print '-----'
 
