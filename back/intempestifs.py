@@ -119,11 +119,18 @@ def main(argv):
                     except:
                         porteuse[data[u'Indicatif'].encode('utf-8')] = data[u'TX']
 
-                for data in rrf_data['allExtended']:
+                if 'all' in rrf_data:
                     try:
                         all[data[u'Indicatif'].encode('utf-8')] += convert_time_to_second(data[u'Durée'])
                     except:
                         all[data[u'Indicatif'].encode('utf-8')] = convert_time_to_second(data[u'Durée'])
+
+                else:
+                    for data in rrf_data['allExtended']:
+                        try:
+                            all[data[u'Indicatif'].encode('utf-8')] += convert_time_to_second(data[u'Durée'])
+                        except:
+                            all[data[u'Indicatif'].encode('utf-8')] = convert_time_to_second(data[u'Durée'])
 
 
     if 'RRF' in porteuse:
