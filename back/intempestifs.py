@@ -42,6 +42,29 @@ def usage():
     print
     print '88 & 73 from F4HWN Armel'
 
+# Convert second to time
+def convert_second_to_time(time):
+    hours = time // 3600
+    time = time - (hours * 3600)
+
+    minutes = time // 60
+    seconds = time - (minutes * 60)
+
+    if hours == 0:
+        return str('{:0>2d}'.format(int(minutes))) + ':' + str('{:0>2d}'.format(int(seconds)))
+    else:
+        return str('{:0>2d}'.format(int(hours))) + ':' + str('{:0>2d}'.format(int(minutes))) + ':' + str('{:0>2d}'.format(int(seconds)))
+
+
+# Convert time to second
+def convert_time_to_second(time):
+    if len(time) > 5:
+        format = [3600, 60, 1]
+    else:
+        format = [60, 1]
+
+    return sum([a * b for a, b in zip(format, map(int, time.split(':')))])
+
 def main(argv):
 
     room_list = {
@@ -49,6 +72,7 @@ def main(argv):
     }
 
     porteuse = dict()
+    all = dict()
 
     tmp = datetime.datetime.now()
 
@@ -95,6 +119,13 @@ def main(argv):
                     except:
                         porteuse[data[u'Indicatif'].encode('utf-8')] = data[u'TX']
 
+                for data in rrf_data['allExtended']:
+                    try:
+                        all[data[u'Indicatif'].encode('utf-8')] += convert_time_to_second(data[u'Durée'])
+                    except:
+                        all[data[u'Indicatif'].encode('utf-8')] = convert_time_to_second(data[u'Durée'])
+
+
     if 'RRF' in porteuse:
         del porteuse['RRF']
     if 'F5ZIN-L' in porteuse:
@@ -109,7 +140,11 @@ def main(argv):
         print '\t', e[0], '\t',
         if len(e[0]) < 15:
             print '\t',
-        print '%03d' % e[1]
+        print '%03d' % e[1],
+        if e[0] in all:
+            print '\t', convert_second_to_time(all[e[0]])
+        else:
+            print '\t', 'Jamais en émission'
         i += 1
         if i == 51:
             break
