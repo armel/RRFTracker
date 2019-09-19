@@ -151,7 +151,15 @@ def main(argv):
         print '%03d' % e[1],
         if e[0] in all:
             print '\t', convert_second_to_time(all[e[0]]),
-            print '\tRatio -> %06.2f' % (int(all[e[0]]) / float(e[1])) + ' s/d'
+            ratio = (int(all[e[0]]) / float(e[1]))
+            if ratio < 10:
+                print color.RED,
+            print '\tRatio -> %06.2f' % ratio + ' s/d',
+            if ratio < 10:
+                print color.END
+            else:
+                print
+
         else:
             print '\t', 'Jamais en émission'
         i += 1
