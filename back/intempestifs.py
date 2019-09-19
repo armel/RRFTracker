@@ -209,6 +209,38 @@ def main(argv):
         somme_intempestif += e[1][0]
         i += 1
 
+    tmp = sorted(total.items(), key=lambda x: x[1][1])
+    tmp.reverse()
+
+    print '-----'
+    print color.BLUE + 'Classement par durée' + color.END
+    print '-----'
+
+    i = 1
+
+    somme = []
+    link = []
+    somme_intempestif = 0
+
+    for e in tmp:
+        if e[1][1] < 600:
+            somme.append(e[1][0]) 
+            link.append(e[0])
+        print '%03d' % i, 
+        print '\t', e[0], '\t',
+        if len(e[0]) < 15:
+            print '\t',
+        print '%03d' % e[1][0],
+        print '\t',
+        if e[1][1] == 0:
+            print 'Jamais en émission'
+        else: 
+            print convert_second_to_time(e[1][1]),
+            print '\tRatio -> %06.2f' % e[1][2] + ' s/d'
+
+        somme_intempestif += e[1][0]
+        i += 1
+
     print '-----'
 
     print 'Remarque: ', len(somme), 'links ont généré'
