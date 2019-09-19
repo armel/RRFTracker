@@ -174,7 +174,7 @@ def main(argv):
         else:
             total[e[0]] = [e[1], 0, 0]
 
-        if i == 51:
+        if i == 101:
             break
 
     tmp = sorted(total.items(), key=lambda x: x[1][2])
