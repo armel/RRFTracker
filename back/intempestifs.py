@@ -187,11 +187,13 @@ def main(argv):
     i = 1
 
     somme = []
+    link = []
     somme_intempestif = 0
 
     for e in tmp:
         if e[1][1] < 600:
             somme.append(e[1][0]) 
+            link.append(e[0])
         print '%03d' % i, 
         print '\t', e[0], '\t',
         if len(e[0]) < 15:
@@ -206,9 +208,15 @@ def main(argv):
 
         somme_intempestif += e[1][0]
 
+    print '-----'
+
     print 'Remarque: ', len(somme), 'links ont généré'
     print '- moins de 10 minutes de BF dans le mois'
     print '-', sum(somme), 'déclenchements'
+    print link
+
+    print '-----'
+
     print 'Total des déclenchements: ', somme_intempestif
 
 if __name__ == '__main__':
