@@ -73,6 +73,7 @@ def main(argv):
 
     porteuse = dict()
     all = dict()
+    total = dict()
 
     tmp = datetime.datetime.now()
 
@@ -142,6 +143,10 @@ def main(argv):
     tmp = sorted(porteuse.items(), key=lambda x: x[1])
     tmp.reverse()
 
+    print '-----'
+    print color.BLUE + 'Classement par déclenchements' + color.END
+    print '-----'
+
     i = 1
     for e in tmp:
         print '%03d' % i, 
@@ -163,8 +168,48 @@ def main(argv):
         else:
             print '\t', 'Jamais en émission'
         i += 1
+
+        if e[0] in all:
+            total[e[0]] = [e[1], all[e[0]], ratio]
+        else:
+            total[e[0]] = [e[1], 0, 0]
+
         if i == 51:
             break
+
+    tmp = sorted(total.items(), key=lambda x: x[1][2])
+    tmp.reverse()
+
+    print '-----'
+    print color.BLUE + 'Classement par ratio' + color.END
+    print '-----'
+
+    i = 1
+
+    somme = []
+    somme_intempestif = 0
+
+    for e in tmp:
+        if e[1][1] < 600:
+            somme.append(e[1][0]) 
+        print '%03d' % i, 
+        print '\t', e[0], '\t',
+        if len(e[0]) < 15:
+            print '\t',
+        print '%03d' % e[1][0],
+        print '\t',
+        if e[1][1] == 0:
+            print 'Jamais en émission'
+        else: 
+            print convert_second_to_time(e[1][1]),
+            print '\tRatio -> %06.2f' % e[1][2] + ' s/d'
+
+        somme_intempestif += e[1][0]
+
+    print 'Remarque: ', len(somme), 'links ont généré'
+    print '- moins de 10 minutes de BF dans le mois'
+    print '-', sum(somme), 'déclenchements'
+    print 'Total des déclenchements: ', somme_intempestif
 
 if __name__ == '__main__':
     try:
