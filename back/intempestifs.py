@@ -150,7 +150,8 @@ def main(argv):
             print '\t',
         print '%03d' % e[1],
         if e[0] in all:
-            print '\t', convert_second_to_time(all[e[0]])
+            print '\t', convert_second_to_time(all[e[0]]),
+            print '\tRatio -> %06.2f' % (int(all[e[0]]) / float(e[1])) + ' s/d'
         else:
             print '\t', 'Jamais en émission'
         i += 1
