@@ -38,7 +38,8 @@ def usage():
     print
     print 'Search settings:'
     print '  --path         set path to RRF files (default=/var/www/RRFTracker/)'
-    print '  --pattern      set search pattern (default=current month)'
+    print '  --month        analyse on month (default=current month)'
+    print '  --week         analyse on week'
     print
     print '88 & 73 from F4HWN Armel'
 
@@ -79,10 +80,11 @@ def main(argv):
 
     search_path = '/var/www/RRFTracker/'
     search_pattern = tmp.strftime('%Y-%m')
+    search_type = 'month'
 
     # Check and get arguments
     try:
-        options, remainder = getopt.getopt(argv, '', ['help', 'path=', 'pattern='])
+        options, remainder = getopt.getopt(argv, '', ['help', 'path=', 'month=', 'week='])
     except getopt.GetoptError:
         usage()
         sys.exit(2)
@@ -92,8 +94,12 @@ def main(argv):
             sys.exit()
         elif opt in ('--path'):
             search_path = arg
-        elif opt in ('--pattern'):
+        elif opt in ('--month'):
             search_pattern = arg
+            search_type = 'month'
+        elif opt in ('--week'):
+            search_pattern = arg
+            search_type = 'week'
 
     print color.BLUE + 'Path ' + color.END + search_path,
     print ' with ',
@@ -103,9 +109,21 @@ def main(argv):
     time_super_total = 0
 
     for r in room_list:
-        path = search_path + r + '-' + search_pattern + '-*/rrf.json'
-        file = glob.glob(path)
-        file.sort()
+        if search_type == 'month':
+            path = search_path + r + '-' + search_pattern + '-*/rrf.json'
+            print path
+            file = glob.glob(path)
+            file.sort()
+        else:
+            file = []
+            start_date = time.asctime(time.strptime('2019 %d 1' % int(search_pattern), '%Y %W %w'))
+            start_date = datetime.datetime.strptime(start_date, '%a %b %d %H:%M:%S %Y')
+            file = [search_path + 'RRF-' + start_date.strftime('%Y-%m-%d') + '/rrf.json']
+            for i in range(1, 7):
+                file.append(search_path + 'RRF-' + (start_date + datetime.timedelta(days=i)).strftime('%Y-%m-%d') + '/rrf.json')
+
+        for f in file:
+            print f
 
         time_total = 0
 
