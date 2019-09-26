@@ -142,7 +142,7 @@ def main(argv):
                     search_start += 21                                  # Shift...
                     search_stop = content.find('"', search_start)       # And close it...
 
-                    print f, '-->', content[search_start:search_stop]
+                    print f, '-->', convert_second_to_time(convert_time_to_second(content[search_start:search_stop]))
 
                     try:
                         time_total[d][r] += convert_time_to_second(content[search_start:search_stop])
