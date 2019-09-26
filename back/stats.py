@@ -159,16 +159,6 @@ def main(argv):
 
         print 'Total:', convert_second_to_time(tmp)
 
-    
-    for d in time_total:
-        for r in room_list:
-            tmp += time_total[d][r]
-
-    print '----------'
-
-    print 'Total cumulée:', convert_second_to_time(tmp - tmp_fon), 
-    print '(', convert_second_to_time(tmp), 'avec le FON )'
-
     print '----------'
 
     print 'Classement SANS le FON'
@@ -203,6 +193,17 @@ def main(argv):
 
     for k, v in day:
         print k, ':', convert_second_to_time(v)
+
+
+    print '----------'
+
+    for d in time_total:
+        for r in room_list:
+            tmp += time_total[d][r]
+
+    print 'Total cumulée:', convert_second_to_time(tmp - tmp_fon), 
+    print '(', convert_second_to_time(tmp), 'avec le FON )'
+
 
 if __name__ == '__main__':
     try:
