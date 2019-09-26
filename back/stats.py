@@ -79,10 +79,11 @@ def main(argv):
 
     search_path = '/var/www/RRFTracker/'
     search_pattern = tmp.strftime('%Y-%m')
+    search_type = 'month'
 
     # Check and get arguments
     try:
-        options, remainder = getopt.getopt(argv, '', ['help', 'path=', 'pattern='])
+        options, remainder = getopt.getopt(argv, '', ['help', 'path=', 'month=', 'week='])
     except getopt.GetoptError:
         usage()
         sys.exit(2)
@@ -92,26 +93,47 @@ def main(argv):
             sys.exit()
         elif opt in ('--path'):
             search_path = arg
-        elif opt in ('--pattern'):
+        elif opt in ('--month'):
             search_pattern = arg
+            search_type = 'month'
+        elif opt in ('--week'):
+            search_pattern = arg
+            search_type = 'week'
 
     print color.BLUE + 'Path ' + color.END + search_path,
     print ' with ',
     print color.BLUE + 'Pattern ' + color.END + search_pattern,
     print '...'
 
-    time_super_total = 0
+    time_total = {}
 
     for r in room_list:
-
         print color.BLUE + r + color.END
-        path = search_path + r + '-' + search_pattern + '-*/rrf.json'
-        file = glob.glob(path)
-        file.sort()
-
-        time_total = 0
+        if search_type == 'month':
+            path = search_path + r + '-' + search_pattern + '-*/rrf.json'
+            file = glob.glob(path)
+            file.sort()
+        else:
+            file = []
+            start_date = time.asctime(time.strptime('2019 %d 1' % int(search_pattern), '%Y %W %w'))
+            start_date = datetime.datetime.strptime(start_date, '%a %b %d %H:%M:%S %Y')
+            file = [search_path + r + '-' + start_date.strftime('%Y-%m-%d') + '/rrf.json']
+            for i in range(1, 7):
+                file.append(search_path + r + '-' + (start_date + datetime.timedelta(days=i)).strftime('%Y-%m-%d') + '/rrf.json')
 
         for f in file:
+            tmp = f.split('/')
+            tmp = tmp[-2]
+            tmp = tmp.split('-')
+            d = tmp[1] + '-' + tmp[2] + '-' + tmp[3]
+
+            print d
+            
+            try:
+                time_total[d][r] = {}
+            except:
+                time_total[d] = {}
+
             if os.path.isfile(f):
                 with open(f, 'r') as content_file:
                     content = content_file.read()
@@ -124,10 +146,65 @@ def main(argv):
 
                     print f, '-->', content[search_start:search_stop]
 
-                    time_total += convert_time_to_second(content[search_start:search_stop])
-        time_super_total += time_total
-        print 'Total:', convert_second_to_time(time_total)
-    print 'Total cumulée:', convert_second_to_time(time_super_total)
+                    try:
+                        time_total[d][r] += convert_time_to_second(content[search_start:search_stop])
+                    except:
+                        time_total[d][r] = convert_time_to_second(content[search_start:search_stop])
+
+
+        tmp = 0
+        for d in time_total:
+            tmp += time_total[d][r]
+
+        if r == 'FON':
+            tmp_fon = tmp
+
+        print 'Total:', convert_second_to_time(tmp)
+
+    
+    for d in time_total:
+        for r in room_list:
+            tmp += time_total[d][r]
+
+    print '----------'
+
+    print 'Total cumulée:', convert_second_to_time(tmp - tmp_fon), 
+    print '(', convert_second_to_time(tmp), 'avec le FON )'
+
+    print '----------'
+
+    print 'Classement SANS le FON'
+
+    day = dict()
+
+    for d in time_total:
+        tmp = 0
+        for r in room_list:
+            if r != 'FON':
+                tmp += time_total[d][r]
+        day[d] = tmp
+ 
+    day = sorted(day.items(), key=lambda x: x[1], reverse=True)
+
+    for k, v in day:
+        print k, convert_second_to_time(v)
+
+    print '----------'
+
+    print 'Classement AVEC le FON'
+
+    day = dict()
+
+    for d in time_total:
+        tmp = 0
+        for r in room_list:
+                tmp += time_total[d][r]
+        day[d] = tmp
+ 
+    day = sorted(day.items(), key=lambda x: x[1], reverse=True)
+
+    for k, v in day:
+        print k, convert_second_to_time(v)
 
 if __name__ == '__main__':
     try:
