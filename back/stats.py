@@ -50,9 +50,9 @@ def convert_second_to_time(time):
     seconds = time - (minutes * 60)
 
     if hours == 0:
-        return str('{:0>2d}'.format(int(minutes))) + ':' + str('{:0>2d}'.format(int(seconds)))
+        return str('{:0>2d}'.format(int(minutes))) + 'm ' + str('{:0>2d}'.format(int(seconds))) + 's'
     else:
-        return str('{:0>2d}'.format(int(hours))) + ':' + str('{:0>2d}'.format(int(minutes))) + ':' + str('{:0>2d}'.format(int(seconds)))
+        return str('{:0>2d}'.format(int(hours))) + 'h ' + str('{:0>2d}'.format(int(minutes))) + 'm ' + str('{:0>2d}'.format(int(seconds))) + 's'
 
 
 # Convert time to second
@@ -127,8 +127,6 @@ def main(argv):
             tmp = tmp.split('-')
             d = tmp[1] + '-' + tmp[2] + '-' + tmp[3]
 
-            print d
-            
             try:
                 time_total[d][r] = {}
             except:
@@ -187,7 +185,7 @@ def main(argv):
     day = sorted(day.items(), key=lambda x: x[1], reverse=True)
 
     for k, v in day:
-        print k, convert_second_to_time(v)
+        print k, ':', convert_second_to_time(v)
 
     print '----------'
 
@@ -204,7 +202,7 @@ def main(argv):
     day = sorted(day.items(), key=lambda x: x[1], reverse=True)
 
     for k, v in day:
-        print k, convert_second_to_time(v)
+        print k, ':', convert_second_to_time(v)
 
 if __name__ == '__main__':
     try:
