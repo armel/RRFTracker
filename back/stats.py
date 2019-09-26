@@ -197,6 +197,7 @@ def main(argv):
 
     print '----------'
 
+    tmp = 0
     for d in time_total:
         for r in room_list:
             tmp += time_total[d][r]
