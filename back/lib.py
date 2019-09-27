@@ -281,6 +281,7 @@ def log_last():
         data += '{\n'
         data += '\t"Heure": "' + s.call_date[i] + '",\n'
         data += '\t"Indicatif": "' + s.call[i] + '",\n'
+        data += '\t"Blanc": "' + s.call_blanc[i] + '",\n'
         data += '\t"Durée": "' + convert_second_to_time(s.call_time[i]) + '"\n'
         data += '},\n'
 
@@ -742,6 +743,8 @@ def restart():
     for data in rrf_data['last']:
         s.call[i] = data[u'Indicatif'].encode('utf-8')
         s.call_date[i] = data[u'Heure'].encode('utf-8')
+        if 'Blanc' in data:
+            s.call_blanc[i] = data[u'Blanc'].encode('utf-8')
         s.call_time[i] = convert_time_to_second(data[u'Durée'])
         i += 1
 

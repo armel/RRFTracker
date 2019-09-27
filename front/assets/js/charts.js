@@ -789,6 +789,19 @@
 
                 data = last;
 
+                /*
+                data.forEach(function(d) {
+                    tmp = d.Blanc.split(':');
+                    if (d.Blanc.length > 5) {
+                        d.Blanc = tmp[0] + 'h ' + tmp[1] + 'm ' + tmp[2] + 's';
+                    }
+                    else {
+                        d.Blanc = tmp[0] + 'm ' + tmp[1] + 's';
+                    }
+                    d.Heure = d.Heure + '<div class=\'blanc\'>' + d.Blanc + '</div>'
+                });
+                */
+
                 function tabulate(data, columns) {
                     d3.select(containerSelector).html('');
                     d3.select(containerSelector).append('h2').html(containerTitle);
@@ -842,7 +855,7 @@
                 }
 
                 // Render the table(s)
-                tabulate(data, ['Heure', 'Indicatif', 'Durée']); // 3 columns table
+                tabulate(data, ['Heure', 'Blanc', 'Indicatif', 'Durée']); // 4 columns table
                 d3.select(containerSelector).append('span').text(containerLegend);
             }
         }

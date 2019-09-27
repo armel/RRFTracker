@@ -74,6 +74,14 @@ body {
     color: #000;
 }
 
+.blanc {
+    font: 10px Arial, Helvetica, sans-serif;
+    color: #999;
+    text-align: center;
+    margin: none;
+    padding: none;
+}
+
 svg {
     box-sizing: content-box;
     display: block;
