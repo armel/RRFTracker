@@ -130,11 +130,10 @@ def main(argv):
                 s.tot_current = s.tot_start
                 s.call_previous = s.call_current
 
-                if s.call_date[0] < s.now:
-                    blanc = l.convert_time_to_second(s.now) - l.convert_time_to_second(s.call_date[0])
+                if s.call_date[0] == '' or s.call_date[0] > s.now:
+                    blanc = 0
                 else:
-                    blanc = l.convert_time_to_second('23:59:59') - l.convert_time_to_second(s.call_date[0])
-                    blanc += l.convert_time_to_second(s.now) - l.convert_time_to_second('00:00:00')
+                    blanc = l.convert_time_to_second(s.now) - l.convert_time_to_second(s.call_date[0])
 
                 for i in xrange(9, 0, -1):
                     s.call[i] = s.call[i - 1]
@@ -150,11 +149,10 @@ def main(argv):
                     s.tot_start = time.time()
                     s.tot_current = s.tot_start
 
-                    if s.call_date[0] < s.now:
-                        blanc = l.convert_time_to_second(s.now) - l.convert_time_to_second(s.call_date[0])
+                    if s.call_date[0] == '' or s.call_date[0] > s.now:
+                        blanc = 0
                     else:
-                        blanc = l.convert_time_to_second('23:59:59') - l.convert_time_to_second(s.call_date[0])
-                        blanc += l.convert_time_to_second(s.now) - l.convert_time_to_second('00:00:00')
+                        blanc = l.convert_time_to_second(s.now) - l.convert_time_to_second(s.call_date[0])
 
                     for i in xrange(9, 0, -1):
                         s.call[i] = s.call[i - 1]
@@ -285,6 +283,7 @@ def main(argv):
         else:
             sleep = 0
         #print "Temps d'execution : %.2f %.2f secondes" % (chrono_time, sleep)
+        #sys.stdout.flush()
         time.sleep(sleep)
 
 if __name__ == '__main__':
