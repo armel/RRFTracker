@@ -66,14 +66,14 @@ def convert_time_to_second(time):
 
 def main(argv):
 
-    room_list = {
+    room_list = [
         'RRF',
         'TECHNIQUE',
         'INTERNATIONAL',
         'BAVARDAGE',
         'LOCAL',
         'FON'
-    }
+    ]
 
     tmp = datetime.datetime.now()
 
@@ -109,6 +109,7 @@ def main(argv):
 
     for r in room_list:
         print color.BLUE + r + color.END
+        print
         if search_type == 'month':
             path = search_path + r + '-' + search_pattern + '-*/rrf.json'
             file = glob.glob(path)
@@ -142,7 +143,7 @@ def main(argv):
                     search_start += 21                                  # Shift...
                     search_stop = content.find('"', search_start)       # And close it...
 
-                    print f, '-->', convert_second_to_time(convert_time_to_second(content[search_start:search_stop]))
+                    print d, ':', convert_second_to_time(convert_time_to_second(content[search_start:search_stop]))
 
                     try:
                         time_total[d][r] += convert_time_to_second(content[search_start:search_stop])
@@ -157,12 +158,12 @@ def main(argv):
         if r == 'FON':
             tmp_fon = tmp
 
-        print 'Total:', convert_second_to_time(tmp)
+        print 'Total :', convert_second_to_time(tmp)
 
-    print '----------'
+        print '----------'
 
     print 'Classement SANS le FON'
-
+    print
     day = dict()
 
     for d in time_total:
@@ -180,7 +181,7 @@ def main(argv):
     print '----------'
 
     print 'Classement AVEC le FON'
-
+    print
     day = dict()
 
     for d in time_total:
@@ -202,7 +203,7 @@ def main(argv):
         for r in room_list:
             tmp += time_total[d][r]
 
-    print 'Total cumulée:', convert_second_to_time(tmp - tmp_fon), 
+    print 'Total cumulée :', convert_second_to_time(tmp - tmp_fon), 
     print '(', convert_second_to_time(tmp), 'avec le FON )'
 
 

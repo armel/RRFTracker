@@ -74,12 +74,19 @@ body {
     color: #000;
 }
 
-.blanc {
+.blanc_good {
     font: 10px Arial, Helvetica, sans-serif;
-    color: #999;
+    color: #000;
     text-align: center;
-    margin: none;
-    padding: none;
+    border-top: 1px dotted dimgray;
+}
+
+.blanc_bad {
+    font: 10px Arial, Helvetica, sans-serif;
+    color: #000;
+    text-align: center;
+    font-style: italic;
+    border-top: 1px dotted dimgray;
 }
 
 .date {
@@ -159,6 +166,7 @@ table thead th {
 table tbody td {
     border: solid 1px dimgray;
     color: #000;
+    margin: 0px;
     padding: 0px;
     height: 28px;
     text-align: center;

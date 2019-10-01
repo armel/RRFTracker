@@ -723,7 +723,10 @@ def restart():
     filename = s.log_path + '/' + s.room + '-today/rrf.json'
     if os.path.isfile(filename):
         rrf_json = open (filename)
-        rrf_data = json.load(rrf_json)
+        try:
+            rrf_data = json.load(rrf_json)
+        except:
+            return 0
 
     # Section activity and abstract
 

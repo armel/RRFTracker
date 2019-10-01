@@ -787,7 +787,7 @@
 
                 const containerSelector = '.last-table';
                 const containerTitle = '<div class="icon"><i class="icofont-wall-clock"></i></div> ' + 'Derniers passages en émission';
-                const containerLegend = 'Ce tableau présente la liste des 10 derniers passages en émission : horodatage, indicatif du link et durée en émission. Les durées en émission de moins de 3 secondes sont grisées et comptabilisées comme déclenchements intempestifs.';
+                const containerLegend = 'Ce tableau présente la liste des 10 derniers passages en émission : horodatage, indicatif du link, durée en émission et durée des blancs. Les durées en émission de moins de 3 secondes sont grisées et comptabilisées comme déclenchements intempestifs. Les blancs de moins de 5 secondes sont grisés.';
 
                 data = last;
 
@@ -798,8 +798,22 @@
                     }
                     else {
                         d.Blanc = tmp[0] + 'm ' + tmp[1] + 's';
+                        if (d.Blanc < '00m 05s') {
+                            d.Blanc = '<div class=\'blanc_bad\'>' + d.Blanc + '</div';
+                        }
                     }
-                    d.Heure = d.Heure + '<div class=\'blanc\'>' + d.Blanc + '</div>'
+
+                    if (d.Blanc.indexOf('<div') == -1) {
+                        d.Blanc = '<div class=\'blanc_good\'>' + d.Blanc + '</div';
+                    }
+
+                    tmp = d.Durée.split(':');
+                    d.Durée = tmp[0] + 'm ' + tmp[1] + 's';
+                    if (d.Durée < '00m 03s') {
+                        d.Durée = '<h3>' + d.Durée + '</h3>';
+                    }
+
+                    d.Durée += d.Blanc
                 });
 
                 function tabulate(data, columns) {
@@ -841,13 +855,6 @@
                         .enter()
                         .append('td')
                         .html(function(d) {
-                            if (d.column == 'Durée') {
-                                tmp = d.value.split(':');
-                                d.value = tmp[0] + 'm ' + tmp[1] + 's';
-                                if (d.value == '00m 00s' || d.value == '00m 01s' || d.value == '00m 02s') {
-                                    return '<h3>' + d.value + '</h3>';
-                                }
-                            }
                             return d.value;
                         });
                         

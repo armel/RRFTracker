@@ -66,6 +66,34 @@ def convert_time_to_second(time):
 
     return sum([a * b for a, b in zip(format, map(int, time.split(':')))])
 
+
+# Print console
+def print_console(tmp):
+
+    i = 1
+    print 'Pos\tIndicatif\t\tDeclenchements\t\tDurée\t\tRatio'
+    print '---\t---------\t\t--------------\t\t-----\t\t-----'
+    for e in tmp:
+        print '%03d' % i, 
+        print '\t', e[0], '\t',
+        if len(e[0]) < 15:
+            print '\t',
+        print '%03d' % e[1][0],
+
+        print '\t\t\t',
+        print convert_second_to_time(e[1][1]),
+        print '\t',
+
+        if e[1][2] != 0:
+            print '%06.2f' % e[1][2] + ' s/d'
+        else:
+            print 'Jamais en émission'
+
+        i += 1
+
+    return 0
+
+
 def main(argv):
 
     room_list = {
@@ -111,7 +139,6 @@ def main(argv):
     for r in room_list:
         if search_type == 'month':
             path = search_path + r + '-' + search_pattern + '-*/rrf.json'
-            print path
             file = glob.glob(path)
             file.sort()
         else:
@@ -122,8 +149,8 @@ def main(argv):
             for i in range(1, 7):
                 file.append(search_path + 'RRF-' + (start_date + datetime.timedelta(days=i)).strftime('%Y-%m-%d') + '/rrf.json')
 
-        for f in file:
-            print f
+        #for f in file:
+        #    print f
 
         time_total = 0
 
@@ -161,80 +188,46 @@ def main(argv):
     tmp = sorted(porteuse.items(), key=lambda x: x[1])
     tmp.reverse()
 
-    print '-----'
-    print color.BLUE + 'Classement par déclenchements' + color.END
-    print '-----'
-
     i = 1
     for e in tmp:
-        print '%03d' % i, 
-        print '\t', e[0], '\t',
-        if len(e[0]) < 15:
-            print '\t',
-        print '%03d' % e[1],
         if e[0] in all:
-            print '\t', convert_second_to_time(all[e[0]]),
             ratio = (int(all[e[0]]) / float(e[1]))
-            if ratio < 10:
-                print color.RED,
-            print '\tRatio -> %06.2f' % ratio + ' s/d',
-            if ratio < 10:
-                print color.END
-            else:
-                print
-
         else:
-            print '\t', 'Jamais en émission'
-        i += 1
+            ratio = 0
 
         if e[0] in all:
             total[e[0]] = [e[1], all[e[0]], ratio]
         else:
             total[e[0]] = [e[1], 0, 0]
 
-        if i == 101:
+        i += 1
+        if i > 100:
             break
 
+    # Affichage
+
+    print color.BLUE + 'Classement par déclenchements' + color.END
+    print
+    tmp = sorted(total.items(), key=lambda x: x[1][0])
+    tmp.reverse()
+    print_console(tmp)
+    print '----------'
+
+    print color.BLUE + 'Classement par ratio' + color.END
+    print
     tmp = sorted(total.items(), key=lambda x: x[1][2])
     tmp.reverse()
+    print_console(tmp)
+    print '----------'
 
-    print '-----'
-    print color.BLUE + 'Classement par ratio' + color.END
-    print '-----'
-
-    i = 1
-
-    somme = []
-    link = []
-    somme_intempestif = 0
-
-    for e in tmp:
-        if e[1][1] < 600:
-            somme.append(e[1][0]) 
-            link.append(e[0])
-        print '%03d' % i, 
-        print '\t', e[0], '\t',
-        if len(e[0]) < 15:
-            print '\t',
-        print '%03d' % e[1][0],
-        print '\t',
-        if e[1][1] == 0:
-            print 'Jamais en émission'
-        else: 
-            print convert_second_to_time(e[1][1]),
-            print '\tRatio -> %06.2f' % e[1][2] + ' s/d'
-
-        somme_intempestif += e[1][0]
-        i += 1
-
+    print color.BLUE + 'Classement par durée' + color.END
+    print
     tmp = sorted(total.items(), key=lambda x: x[1][1])
     tmp.reverse()
+    print_console(tmp)
+    print '----------'
 
-    print '-----'
-    print color.BLUE + 'Classement par durée' + color.END
-    print '-----'
-
-    i = 1
+    # Synthese
 
     somme = []
     link = []
@@ -244,31 +237,18 @@ def main(argv):
         if e[1][1] < 600:
             somme.append(e[1][0]) 
             link.append(e[0])
-        print '%03d' % i, 
-        print '\t', e[0], '\t',
-        if len(e[0]) < 15:
-            print '\t',
-        print '%03d' % e[1][0],
-        print '\t',
-        if e[1][1] == 0:
-            print 'Jamais en émission'
-        else: 
-            print convert_second_to_time(e[1][1]),
-            print '\tRatio -> %06.2f' % e[1][2] + ' s/d'
 
         somme_intempestif += e[1][0]
-        i += 1
 
-    print '-----'
+    print 'Remarque :'
+    print len(somme), 'links ont généré moins de 10 minutes de BF dans le mois pour', sum(somme), 'déclenchements !'
+    for l in link:
+        print l,
+    print
 
-    print 'Remarque: ', len(somme), 'links ont généré'
-    print '- moins de 10 minutes de BF dans le mois'
-    print '-', sum(somme), 'déclenchements'
-    print link
+    print '----------'
 
-    print '-----'
-
-    print 'Total des déclenchements: ', somme_intempestif
+    print 'Total des déclenchements :', somme_intempestif
 
 if __name__ == '__main__':
     try:
