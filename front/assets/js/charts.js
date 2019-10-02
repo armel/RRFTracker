@@ -792,23 +792,25 @@
                 data = last;
 
                 data.forEach(function(d) {
-                    if (d.Blanc.length == 5) {
-                        tmp = d.Blanc.split(':');
-                        d.Blanc = ''
-                        if (tmp[0] == 0 && tmp[1] < 5) {
-                            d.Blanc = tmp[1] + 's';
-                        }
-                    }
-
                     tmp = d.Durée.split(':');
                     d.Durée = tmp[0] + 'm ' + tmp[1] + 's';
                     if (d.Durée < '00m 03s') {
                         d.Durée = '<h3>' + d.Durée + '</h3>';
                     }
 
-                    if (d.Blanc != '') {
-                        d.Blanc = '<div class="blanc"><div class="icon_blanc"><i class="icofont-not-allowed"></i></div> ' + d.Blanc + '</div';
-                        d.Durée += d.Blanc
+                    if (typeof(d.Blanc) != "undefined") {
+                        if (d.Blanc.length == 5) {
+                            tmp = d.Blanc.split(':');
+                            d.Blanc = ''
+                            if (tmp[0] == 0 && tmp[1] < 5) {
+                                d.Blanc = tmp[1] + 's';
+                            }
+                        }
+
+                        if (d.Blanc != '') {
+                            d.Blanc = '<div class="blanc"><div class="icon_blanc"><i class="icofont-not-allowed"></i></div> ' + d.Blanc + '</div>';
+                            d.Durée += d.Blanc
+                        }
                     }
                 });
 
