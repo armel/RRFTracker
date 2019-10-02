@@ -787,24 +787,17 @@
 
                 const containerSelector = '.last-table';
                 const containerTitle = '<div class="icon"><i class="icofont-wall-clock"></i></div> ' + 'Derniers passages en émission';
-                const containerLegend = 'Ce tableau présente la liste des 10 derniers passages en émission : horodatage, indicatif du link, durée en émission et durée des blancs. Les durées en émission de moins de 3 secondes sont grisées et comptabilisées comme déclenchements intempestifs. Les blancs de moins de 5 secondes sont grisés.';
+                const containerLegend = 'Ce tableau présente la liste des 10 derniers passages en émission : horodatage, indicatif du link, durée en émission et éventuellement durée des blancs si infèrieure à 5 secondes. Les durées en émission de moins de 3 secondes sont grisées et comptabilisées comme déclenchements intempestifs.';
 
                 data = last;
 
                 data.forEach(function(d) {
-                    tmp = d.Blanc.split(':');
-                    if (d.Blanc.length > 5) {
-                        d.Blanc = tmp[0] + 'h ' + tmp[1] + 'm ' + tmp[2] + 's';
-                    }
-                    else {
-                        d.Blanc = tmp[0] + 'm ' + tmp[1] + 's';
-                        if (d.Blanc < '00m 05s') {
-                            d.Blanc = '<div class=\'blanc_bad\'>' + d.Blanc + '</div';
+                    if (d.Blanc.length == 5) {
+                        tmp = d.Blanc.split(':');
+                        d.Blanc = ''
+                        if (tmp[0] == 0 && tmp[1] < 5) {
+                            d.Blanc = tmp[1] + 's';
                         }
-                    }
-
-                    if (d.Blanc.indexOf('<div') == -1) {
-                        d.Blanc = '<div class=\'blanc_good\'>' + d.Blanc + '</div';
                     }
 
                     tmp = d.Durée.split(':');
@@ -813,7 +806,10 @@
                         d.Durée = '<h3>' + d.Durée + '</h3>';
                     }
 
-                    d.Durée += d.Blanc
+                    if (d.Blanc != '') {
+                        d.Blanc = '<div class="blanc"><div class="icon_blanc"><i class="icofont-not-allowed"></i></div> ' + d.Blanc + '</div';
+                        d.Durée += d.Blanc
+                    }
                 });
 
                 function tabulate(data, columns) {
