@@ -76,7 +76,7 @@ body {
 }
 
 .blanc {
-    font: 12px Arial, Helvetica, sans-serif;
+    font: 10px Arial, Helvetica, sans-serif;
     background-color: whitesmoke;
     color: dimgray;
     text-align: center;
@@ -144,7 +144,7 @@ svg {
 
 .icon_blanc {
     display: inline;
-    font-size: 12px;
+    font-size: 10px;
     color: dimgray;
 }
 

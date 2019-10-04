@@ -704,6 +704,8 @@ def log_elsewhere():
 # Log user
 def log_user():
 
+    page = ''
+    
     try:
         r = requests.get('http://rrf.f5nlg.ovh:8080/server-status', verify=False, timeout=10)
         page = r.content
