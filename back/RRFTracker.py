@@ -130,24 +130,39 @@ def main(argv):
                 s.tot_current = s.tot_start
                 s.call_previous = s.call_current
 
+                if s.call_date[0] == '' or s.call_date[0] > s.now:
+                    blanc = 0
+                else:
+                    blanc = l.convert_time_to_second(s.now) - l.convert_time_to_second(s.call_date[0])
+
                 for i in xrange(9, 0, -1):
                     s.call[i] = s.call[i - 1]
                     s.call_date[i] = s.call_date[i - 1]
+                    s.call_blanc[i] = s.call_blanc[i - 1]
                     s.call_time[i] = s.call_time[i - 1]
 
                 s.call[0] = s.call_current
+                s.call_blanc[0] = l.convert_second_to_time(blanc)
 
             else:
                 if s.tot_start is '':
                     s.tot_start = time.time()
                     s.tot_current = s.tot_start
 
+                    if s.call_date[0] == '' or s.call_date[0] > s.now:
+                        blanc = 0
+                    else:
+                        blanc = l.convert_time_to_second(s.now) - l.convert_time_to_second(s.call_date[0])
+
                     for i in xrange(9, 0, -1):
                         s.call[i] = s.call[i - 1]
                         s.call_date[i] = s.call_date[i - 1]
+                        s.call_blanc[i] = s.call_blanc[i - 1]
                         s.call_time[i] = s.call_time[i - 1]
 
                     s.call[0] = s.call_current
+                    s.call_blanc[0] = l.convert_second_to_time(blanc)
+
                 else:
                     s.tot_current = time.time()
 
@@ -268,6 +283,7 @@ def main(argv):
         else:
             sleep = 0
         #print "Temps d'execution : %.2f %.2f secondes" % (chrono_time, sleep)
+        #sys.stdout.flush()
         time.sleep(sleep)
 
 if __name__ == '__main__':

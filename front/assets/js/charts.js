@@ -123,6 +123,8 @@
                 return console.warn('Erreur', error);
             }
             else {
+                old = JSON.stringify(data).replace(/nœud/gi, 'link');
+                data = JSON.parse(old);
                 abstract = data['abstract'];
                 news = data['news'];
                 elsewhere = data['elsewhere'];
@@ -163,7 +165,7 @@
                     date = new Date(Date.now()).toLocaleString();
                     date = date.substring(0, date.lastIndexOf(':'));
 
-                    var containerTitle = 'Résumé de la journée du ' + date + ' sur le salon ' + sessionStorage.getItem('room') + ' (<a href="' + url + '">archive d\'hier</a>)';
+                    var containerTitle = 'Résumé du ' + date + ' sur le salon ' + sessionStorage.getItem('room') + ' (<a href="' + url + '">archive d\'hier</a>)';
                 }
                 else {
                     url = url.substring(0, url.lastIndexOf(sessionStorage.getItem('room') + '-'));
@@ -177,8 +179,8 @@
                 containerTitle = '<div class="icon"><i class="icofont-info-circle"></i></div> ' + containerTitle;
 
                 const containerSelector = '.abstract-table';
-                const containerLegend = 'Ce tableau présente le résumé de l\'activité du salon dans la journée : nombre de passages en émission total, durée cumulée en émission, nombre de nœuds actifs et connectés. ';
-                const containerLegendBis = 'En complément, vous pouvez suivre les mouvements des nœuds entrants et sortants sur ce salon, en suivant le fil d\'informations défilant ci-dessous.';
+                const containerLegend = 'Ce tableau présente le résumé de l\'activité du salon dans la journée : nombre de passages en émission total, durée cumulée en émission, nombre de links actifs et connectés. ';
+                const containerLegendBis = 'En complément, vous pouvez suivre les mouvements des links entrants et sortants sur ce salon, en suivant le fil d\'informations défilant ci-dessous.';
 
                 data = abstract;
 
@@ -243,7 +245,7 @@
                 }
 
                 // Render the table(s)
-                tabulate(data, ['Salon', 'TX total', 'Emission cumulée', 'Nœuds actifs', 'Nœuds connectés']); // 5 columns table
+                tabulate(data, ['Salon', 'TX total', 'Emission cumulée', 'links actifs', 'links connectés']); // 5 columns table
                 d3.select(containerSelector)
                     .append('span')
                     .attr('width', width + margin.left + margin.right + 'px')
@@ -273,7 +275,7 @@
 
                 const containerSelector = '.elsewhere-table';
                 const containerTitle = '<div class="icon"><i class="icofont-dashboard-web"></i></div> ' + 'Activité sur les autres salons';
-                const containerLegend = 'Ce tableau présente l\'activité éventuelle sur les autres salons : indicatif en cours d\'émission, nombre de passages en émission total, durée cumulée en émission, nombre de nœuds actifs et connectés, ainsi qu\'un rappel des codes DTMF standards. ';
+                const containerLegend = 'Ce tableau présente l\'activité éventuelle sur les autres salons : indicatif en cours d\'émission, nombre de passages en émission total, durée cumulée en émission, nombre de links actifs et connectés, ainsi qu\'un rappel des codes DTMF standards. ';
 
                 data = elsewhere;
 
@@ -495,8 +497,8 @@
                 bestOld = JSON.stringify(best);
 
                 const containerSelector = '.best-graph';
-                const containerTitle = '<div class="icon"><i class="icofont-spreadsheet"></i></div> ' + 'Top 20 des nœuds les plus actifs par TX';
-                const containerLegend = 'Cet histogramme représente le classement des 20 nœuds les plus actifs de la journée, en terme de passages en émission.';
+                const containerTitle = '<div class="icon"><i class="icofont-spreadsheet"></i></div> ' + 'Top 20 des links les plus actifs par TX';
+                const containerLegend = 'Cet histogramme représente le classement des 20 links les plus actifs de la journée, en terme de passages en émission.';
 
                 d3.select(containerSelector).html('');
                 d3.select(containerSelector).append('h2').html(containerTitle);
@@ -615,8 +617,8 @@
                     .padding(1);
 
                 const containerSelector = '.all-bubble';
-                const containerTitle = '<div class="icon"><i class="icofont-badge"></i></div> ' + 'Classement des nœuds par durée cumulée en émission';
-                const containerLegend = 'Ce graphe présente le classement par durée cumulée en émission, des nœuds actifs dans la journée.';
+                const containerTitle = '<div class="icon"><i class="icofont-badge"></i></div> ' + 'Classement des links par durée cumulée en émission';
+                const containerLegend = 'Ce graphe présente le classement par durée cumulée en émission, des links actifs dans la journée.';
 
                 d3.select(containerSelector).html('');
                 d3.select(containerSelector).append('h2').html(containerTitle);
@@ -750,7 +752,7 @@
 
                 const containerSelector = '.tot-graph';
                 const containerTitle = title;
-                const containerLegend = 'Affiche l\'indicatif du nœud en cours d\'émission, la distance approximative de ce nœud, ainsi que la durée de passage en émission.';
+                const containerLegend = 'Affiche l\'indicatif du link en cours d\'émission, la distance approximative de ce link, ainsi que la durée de passage en émission.';
 
                 d3.select(containerSelector).html('');
                 d3.select(containerSelector).append('h2').html(containerTitle);
@@ -785,9 +787,32 @@
 
                 const containerSelector = '.last-table';
                 const containerTitle = '<div class="icon"><i class="icofont-wall-clock"></i></div> ' + 'Derniers passages en émission';
-                const containerLegend = 'Ce tableau présente la liste des 10 derniers passages en émission : horodatage, indicatif du nœud et durée en émission. Les durées en émission de moins de 3 secondes sont grisées et comptabilisées comme déclenchements intempestifs.';
+                const containerLegend = 'Ce tableau présente la liste des 10 derniers passages en émission : horodatage, indicatif du link, durée en émission et éventuellement durée des blancs si infèrieure à 5 secondes. Les durées en émission de moins de 3 secondes sont grisées et comptabilisées comme déclenchements intempestifs.';
 
                 data = last;
+
+                data.forEach(function(d) {
+                    tmp = d.Durée.split(':');
+                    d.Durée = tmp[0] + 'm ' + tmp[1] + 's';
+                    if (d.Durée < '00m 03s') {
+                        d.Durée = '<h3>' + d.Durée + '</h3>';
+                    }
+
+                    if (typeof(d.Blanc) != "undefined") {
+                        if (d.Blanc.length == 5) {
+                            tmp = d.Blanc.split(':');
+                            d.Blanc = ''
+                            if (tmp[0] == 0 && tmp[1] < 5) {
+                                d.Blanc = tmp[1] + 's';
+                            }
+                        }
+
+                        if (d.Blanc != '') {
+                            d.Blanc = '<div class="blanc"><div class="icon_blanc"><i class="icofont-not-allowed"></i></div> ' + d.Blanc + '</div>';
+                            d.Durée += d.Blanc
+                        }
+                    }
+                });
 
                 function tabulate(data, columns) {
                     d3.select(containerSelector).html('');
@@ -828,13 +853,6 @@
                         .enter()
                         .append('td')
                         .html(function(d) {
-                            if (d.column == 'Durée') {
-                                tmp = d.value.split(':');
-                                d.value = tmp[0] + 'm ' + tmp[1] + 's';
-                                if (d.value == '00m 00s' || d.value == '00m 01s' || d.value == '00m 02s') {
-                                    return '<h3>' + d.value + '</h3>';
-                                }
-                            }
                             return d.value;
                         });
                         
@@ -842,7 +860,7 @@
                 }
 
                 // Render the table(s)
-                tabulate(data, ['Heure', 'Indicatif', 'Durée']); // 3 columns table
+                tabulate(data, ['Heure', 'Indicatif', 'Durée']); // 4 columns table
                 d3.select(containerSelector).append('span').text(containerLegend);
             }
         }
@@ -856,8 +874,8 @@
                 allExtendedOld = JSON.stringify(allExtended);
 
                 const containerSelector = '.all-table';
-                const containerTitle = '<div class="icon"><i class="icofont-badge"></i></div> ' + 'Classement des nœuds par durée';
-                const containerLegend = 'Ce tableau présente le classement complet par durée des nœuds étant passés en émission dans la journée : position, indicatif du nœud, nombre de passages et durée cumulée en émission.';
+                const containerTitle = '<div class="icon"><i class="icofont-badge"></i></div> ' + 'Classement des links par durée';
+                const containerLegend = 'Ce tableau présente le classement complet par durée des links étant passés en émission dans la journée : position, indicatif du link, nombre de passages et durée cumulée en émission.';
 
                 data = allExtended;
 
@@ -953,17 +971,17 @@
                 const containerTitle = '<div class="icon"><i class="icofont-bug"></i></div> ' + 'Déclenchements intempestifs';
                 
                 if (porteuseSelected == 1) {
-                    var containerLegend = 'Ce tableau présente le classement des nœuds ayant fait l\'objet d\'au moins <a onClick="porteuse(\'' + porteuseSelected + '\');">' + porteuseSelected + '</a> déclenchement intempestif ou suspects, d\'une durée de moins de 3 secondes : position, indicatif du nœud et nombre de déclenchement.';
+                    var containerLegend = 'Ce tableau présente le classement des links ayant fait l\'objet d\'au moins <a onClick="porteuse(\'' + porteuseSelected + '\');">' + porteuseSelected + '</a> déclenchement intempestif ou suspects, d\'une durée de moins de 3 secondes : position, indicatif du link et nombre de déclenchement.';
                 }
                 else {
-                    var containerLegend = 'Ce tableau présente le classement des nœuds ayant fait l\'objet d\'au moins <a onClick="porteuse(\'' + porteuseSelected + '\');">' + porteuseSelected + '</a> déclenchements intempestifs ou suspects, d\'une durée de moins de 3 secondes : position, indicatif du nœud et nombre de déclenchement.';                    
+                    var containerLegend = 'Ce tableau présente le classement des links ayant fait l\'objet d\'au moins <a onClick="porteuse(\'' + porteuseSelected + '\');">' + porteuseSelected + '</a> déclenchements intempestifs ou suspects, d\'une durée de moins de 3 secondes : position, indicatif du link et nombre de déclenchement.';                    
                 }
 
                 if (linkTotal == 1) {
-                    var containerTotal = 'Aujourd\'hui, il y a eu un total de 1 déclenchement, en provenance de 1 nœud.';
+                    var containerTotal = 'Aujourd\'hui, il y a eu un total de 1 déclenchement, en provenance de 1 link.';
                 }
                 else if (linkTotal > 1) {
-                    var containerTotal = 'Aujourd\'hui, il y a eu un total de ' + porteuseTotal + ' déclenchements, en provenance de ' + linkTotal + ' nœuds distincts.';
+                    var containerTotal = 'Aujourd\'hui, il y a eu un total de ' + porteuseTotal + ' déclenchements, en provenance de ' + linkTotal + ' links distincts.';
                 } 
 
                 function tabulate(data, columns) {
@@ -1058,19 +1076,19 @@
 
                 const containerSelector = '.tot-table';
                 const containerTitle = '<div class="icon"><i class="icofont-not-allowed"></i></div> ' + 'Time Out Timer (TOT)';
-                const containerLegend = 'Ce tableau présente le classement des nœuds ayant fait l\'objet d\'au moins 1 TOT : position, indicatif du nœud et nombre de TOT.';
+                const containerLegend = 'Ce tableau présente le classement des links ayant fait l\'objet d\'au moins 1 TOT : position, indicatif du link et nombre de TOT.';
                 
 
                 if (totTotal == 1) {
-                    var containerTotal = 'Aujourd\'hui, il y a eu un total de 1 TOT, en provenance de 1 nœud.';
+                    var containerTotal = 'Aujourd\'hui, il y a eu un total de 1 TOT, en provenance de 1 link.';
                 }
                 else if (totTotal > 1) {
                     var containerTotal = 'Aujourd\'hui, il y a eu un total de ' + totTotal + ' TOT, en provenance de ';
                     if(linkTotal == 1) {
-                        containerTotal += '1 nœud.';
+                        containerTotal += '1 link.';
                     }
                     else {
-                        containerTotal += linkTotal + ' nœuds distincts.';
+                        containerTotal += linkTotal + ' links distincts.';
                     }
                 } 
 
@@ -1150,8 +1168,8 @@
             if (nodeExtended !== undefined) {
 
                 const containerSelector = '#node-extended-modal';
-                const containerTitle = '<div class="icon"><i class="icofont-info-circle"></i></div> ' + 'Liste des nœuds connectés';
-                const containerLegend = 'Ce tableau présente la liste des nœuds actuellement connectés.';
+                const containerTitle = '<div class="icon"><i class="icofont-info-circle"></i></div> ' + 'Liste des links connectés';
+                const containerLegend = 'Ce tableau présente la liste des links actuellement connectés.';
 
                 data = nodeExtended;
 
@@ -1209,7 +1227,7 @@
 
                 const containerSelector = '#porteuse-extended-modal';
                 const containerTitle = '<div class="icon"><i class="icofont-info-circle"></i></div> ' + 'Déclenchements intempestifs sur ' + data[0].Indicatif;
-                const containerLegend = 'Ce tableau présente les heures de passages en émission intempestifs ou suspects, d\'une durée de moins de 3 secondes sur le nœud sélectionné.';
+                const containerLegend = 'Ce tableau présente les heures de passages en émission intempestifs ou suspects, d\'une durée de moins de 3 secondes sur le link sélectionné.';
 
                 function tabulate(data, columns) {
                     d3.select(containerSelector).html('');
@@ -1286,7 +1304,7 @@
 
                 const containerSelector = '#tot-extended-modal';
                 const containerTitle = '<div class="icon"><i class="icofont-info-circle"></i></div> ' + 'Time Out Timer sur ' + data[0].Indicatif;
-                const containerLegend = 'Ce tableau présente les heures de TOT sur le nœud sélectionné.';
+                const containerLegend = 'Ce tableau présente les heures de TOT sur le link sélectionné.';
 
                 function tabulate(data, columns) {
                     d3.select(containerSelector).html('');
@@ -1363,7 +1381,7 @@
 
                 const containerSelector = '#all-extended-modal';
                 const containerTitle = '<div class="icon"><i class="icofont-wall-cloc"></i></div> ' + 'Détail des passages en émission sur ' + data[0].Indicatif;
-                const containerLegend = 'Ce tableau présente les heures et durées en émission sur le nœud sélectionné, ainsi que le nombre de passages en émission.';
+                const containerLegend = 'Ce tableau présente les heures et durées en émission sur le link sélectionné, ainsi que le nombre de passages en émission.';
 
                 function tabulate(data, columns) {
                     d3.select(containerSelector).html('');
