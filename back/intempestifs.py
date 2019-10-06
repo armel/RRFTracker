@@ -71,7 +71,7 @@ def convert_time_to_second(time):
 def print_console(tmp):
 
     i = 1
-    print 'Pos\tIndicatif\t\tDeclenchements\t\tDurée\t\tRatio'
+    print 'Pos\tIndicatif\t\tDéclenchements\t\tDurée\t\tRatio'
     print '---\t---------\t\t--------------\t\t-----\t\t-----'
     for e in tmp:
         print '%03d' % i, 
