@@ -801,7 +801,7 @@
 
                     if (d.Blanc.length == 5) {
                         tmp = d.Blanc;
-                        if (tmp.slice(0, 2) == '00' && tmp.slice(-2) <= '05') {
+                        if (tmp.slice(0, 2) == '00' && tmp.slice(-2) < '05') {
                             d.Blanc = '<h3>' +  tmp.slice(-2) + 's</h3>';
                         }
                         else {
