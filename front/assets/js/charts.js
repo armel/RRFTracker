@@ -117,7 +117,7 @@
         var roomOther = [];
 
         // Load the data
-        // d3.json('rrf.json' + '?_=' + noCache, function(error, data) {
+        //d3.json('rrf.json' + '?_=' + noCache, function(error, data) {
         d3.json('rrf.json', function(error, data) {
             if (error) {
                 return console.warn('Erreur', error);
@@ -800,11 +800,16 @@
                     }
 
                     if (d.Blanc.length == 5) {
-                        tmp = d.Blanc.split(':');
-                        if (tmp[0] == 0 && tmp[1] < 5) {
-                            d.Blanc = '<div class="blanc"><div class="icon_blanc"><i class="icofont-not-allowed"></i></div> ' + tmp[1] + 's</div>';
-                            d.Durée += d.Blanc
+                        tmp = d.Blanc;
+                        if (tmp.slice(0, 2) == '00' && tmp.slice(-2) <= '05') {
+                            d.Blanc = '<h3>' +  tmp.slice(-2) + 's</h3>';
                         }
+                        else {
+                            d.Blanc = ' ✓ ';
+                        }
+                    }
+                    else {
+                        d.Blanc = ' ✓ '; 
                     }
                 });
 
@@ -854,7 +859,7 @@
                 }
 
                 // Render the table(s)
-                tabulate(data, ['Heure', 'Indicatif', 'Durée']); // 4 columns table
+                tabulate(data, ['Heure', 'Indicatif', 'Blanc', 'Durée']); // 4 columns table
                 d3.select(containerSelector).append('span').text(containerLegend);
             }
         }

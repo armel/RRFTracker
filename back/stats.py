@@ -37,7 +37,9 @@ def usage():
     print
     print 'Search settings:'
     print '  --path         set path to RRF files (default=/var/www/RRFTracker/)'
-    print '  --pattern      set search pattern (default=current month)'
+    print '  --month        set search month (default=current month)'
+    print '  --week         set search week (default=current week)'
+    print '  --format       set output format (default=text, json)'
     print
     print '88 & 73 from F4HWN Armel'
 
@@ -80,6 +82,7 @@ def main(argv):
     search_path = '/var/www/RRFTracker/'
     search_pattern = tmp.strftime('%Y-%m')
     search_type = 'month'
+    search_format = 'text'
 
     # Check and get arguments
     try:
