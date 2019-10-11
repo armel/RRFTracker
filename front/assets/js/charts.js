@@ -445,7 +445,7 @@
                     .call(yAxis)
                     .append('text')
                     .attr('transform', 'rotate(0)')
-                    .attr('y', -10)
+                    .attr('y', -20)
                     .attr('dy', '.71em')
                     .style('text-anchor', 'end')
                     .text('TX');
@@ -553,7 +553,7 @@
                     .call(yAxis)
                     .append('text')
                     .attr('transform', 'rotate(0)')
-                    .attr('y', -10)
+                    .attr('y', -20)
                     .attr('dy', '.71em')
                     .style('text-anchor', 'end')
                     .text('TX');
