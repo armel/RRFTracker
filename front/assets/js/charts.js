@@ -792,13 +792,6 @@
                 data = last;
 
                 data.forEach(function(d) {
-                    d.Durée = d.Durée.replace(':', 'm ');
-                    d.Durée += 's';
-
-                    if (d.Durée < '00m 03s') {
-                        d.Durée = '<h3>' + d.Durée + '</h3>';
-                    }
-
                     if (d.Blanc.length == 5) {
                         tmp = d.Blanc;
                         if (tmp.slice(0, 2) == '00' && tmp.slice(-2) < '05') {
@@ -852,6 +845,13 @@
                         .enter()
                         .append('td')
                         .html(function(d) {
+                            if (d.column == 'Durée') {
+                                tmp = d.value.split(':');
+                                d.value = tmp[0] + 'm ' + tmp[1] + 's';
+                                if (d.value == '00m 00s' || d.value == '00m 01s' || d.value == '00m 02s') {
+                                    return '<h3>' + d.value + '</h3>';
+                                }
+                            }
                             return d.value;
                         });
                         
