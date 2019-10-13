@@ -9,7 +9,7 @@ html, body {
 
 body {
     padding: 0 10px;
-    background-image: url("../images/white_wall_hash.png");
+    background-image: url("../images/concrete_wall_2.png");
 }
 
 * {
@@ -21,7 +21,7 @@ body {
 }
 
 .modal {
-    background-image: url("../images/white_wall_hash.png") !important;
+    background-image: url("../images/concrete_wall_2.png") !important;
 }
 
 .modal h2 {
@@ -173,6 +173,9 @@ table tbody td {
     padding: 0px;
     height: 28px;
     text-align: center;
+}
+
+table tr {
     background-color: white;
 }
 
@@ -239,7 +242,7 @@ a:hover {
         width: 30%;
         overflow: hidden;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-        background-image: url("../images/subtle_white_feathers.png");
+        background-image: url("../images/ep_naturalwhite.png");
     }
 
     .columns > *:last-child table {

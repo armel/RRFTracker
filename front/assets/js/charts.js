@@ -144,6 +144,10 @@
         totExtendedModal = sessionStorage.getItem('totExtendedModal');
         allExtendedModal = sessionStorage.getItem('allExtendedModal');
 
+        d3.select('.title').html('');
+        d3.select('.title').append('h1').html('RRFTracker version 2.2.4');
+
+
         // ---------------------------------
         // Abstract
         // ---------------------------------
