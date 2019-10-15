@@ -34,6 +34,10 @@ def usage():
     print
     print '88 & 73 from F4HWN Armel'
 
+# Sanitize call
+def sanitize_call(call):
+    return call.translate(None, '\\\'!@#$"')
+
 # Convert second to time
 def convert_second_to_time(time):
     hours = time // 3600
