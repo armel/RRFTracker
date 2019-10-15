@@ -144,6 +144,10 @@
         totExtendedModal = sessionStorage.getItem('totExtendedModal');
         allExtendedModal = sessionStorage.getItem('allExtendedModal');
 
+        d3.select('.title').html('');
+        d3.select('.title').append('h1').html('RRFTracker version 2.2.4');
+
+
         // ---------------------------------
         // Abstract
         // ---------------------------------
@@ -445,7 +449,7 @@
                     .call(yAxis)
                     .append('text')
                     .attr('transform', 'rotate(0)')
-                    .attr('y', -10)
+                    .attr('y', -20)
                     .attr('dy', '.71em')
                     .style('text-anchor', 'end')
                     .text('TX');
@@ -553,7 +557,7 @@
                     .call(yAxis)
                     .append('text')
                     .attr('transform', 'rotate(0)')
-                    .attr('y', -10)
+                    .attr('y', -20)
                     .attr('dy', '.71em')
                     .style('text-anchor', 'end')
                     .text('TX');

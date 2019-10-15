@@ -9,6 +9,7 @@ html, body {
 
 body {
     padding: 0 10px;
+    background-image: url("../images/concrete_wall_2.png");
 }
 
 * {
@@ -17,6 +18,10 @@ body {
 
 .body {
     font: 12px Arial, Helvetica, sans-serif;
+}
+
+.modal {
+    background-image: url("../images/concrete_wall_2.png") !important;
 }
 
 .modal h2 {
@@ -118,7 +123,6 @@ svg {
     font: 12px Arial, Helvetica, sans-serif;
     color: #000;
     overflow: hidden;
-    background: #fff;
     width:500px;
     margin: 0 auto;
     margin-bottom: 20px;
@@ -169,6 +173,10 @@ table tbody td {
     padding: 0px;
     height: 28px;
     text-align: center;
+}
+
+table tr {
+    background-color: white;
 }
 
 table tr:hover {
@@ -234,6 +242,7 @@ a:hover {
         width: 30%;
         overflow: hidden;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        background-image: url("../images/ep_naturalwhite.png");
     }
 
     .columns > *:last-child table {

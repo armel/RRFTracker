@@ -10,7 +10,7 @@ Check video about RRFTracker on https://www.youtube.com/watch?v=rVW8xczVpEo
 
 # Version
 
-version = '2.2.4'
+version = '2.2.5'
 
 # Default room and path
 
@@ -77,26 +77,26 @@ init = True				# Check if init...
 room_list = {
     'RRF': {
         'url': 'http://rrf.f5nlg.ovh/api/svxlink/RRF',
-        'dtmf': '9 6 #'
+        'dtmf': '9 6'
     },
     'TECHNIQUE': {
         'url': 'http://rrf.f5nlg.ovh/api/svxlink/technique',
-        'dtmf': '9 8 #'
+        'dtmf': '9 8'
     },
     'INTERNATIONAL': {
         'url': 'http://rrf.f5nlg.ovh/api/svxlink/international',
-        'dtmf': '9 9 #'
+        'dtmf': '9 9'
     },
     'BAVARDAGE': {
         'url': 'http://rrf.f5nlg.ovh/api/svxlink/bavardage',
-        'dtmf': '1 0 0 #'
+        'dtmf': '1 0 0'
     },
     'LOCAL': {
         'url': 'http://rrf.f5nlg.ovh/api/svxlink/local',
-        'dtmf': '1 0 1 #'
+        'dtmf': '1 0 1'
     },
     'FON': {
         'url': 'http://rrf.f5nlg.ovh/api/svxlink/FON',
-        'dtmf': '9 7 #'
+        'dtmf': '9 7'
     }
 }
