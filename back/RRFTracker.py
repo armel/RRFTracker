@@ -123,7 +123,7 @@ def main(argv):
             if s.transmit is False:
                 s.transmit = True
 
-            s.call_current = page[search_start:search_stop]
+            s.call_current = l.sanitize_call(page[search_start:search_stop])
 
             if (s.call_previous != s.call_current):
                 s.tot_start = time.time()
@@ -234,6 +234,9 @@ def main(argv):
         tmp = page[search_start:search_stop]
         tmp = tmp.replace('"', '')
         s.node_list = tmp.split(',')
+
+        for k, n in enumerate(s.node_list):
+            s.node_list[k] = l.sanitize_call(n)
 
         for n in ['RRF', 'RRF2', 'RRF3', 'R.R.F', 'R.R.F_V2', 'TECHNIQUE', 'BAVARDAGE', 'INTERNATIONAL', 'LOCAL', 'MsgNodeJoined(']:
             if n in s.node_list:
