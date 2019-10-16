@@ -188,6 +188,7 @@
 
                 data = abstract;
 
+                var version = data[0].Version;
                 var roomCurrent = '';
 
                 function tabulate(data, columns) {
@@ -282,6 +283,8 @@
                 const containerLegend = 'Ce tableau présente l\'activité éventuelle sur les autres salons : indicatif en cours d\'émission, nombre de passages en émission total, durée cumulée en émission, nombre de links actifs et connectés, ainsi qu\'un rappel des codes DTMF standards. ';
 
                 data = elsewhere;
+
+                data.pop(); // On enleve la section TOT, inutile
 
                 room.forEach(function(d) {
                     if (d !== sessionStorage.getItem('room')) {
@@ -741,7 +744,7 @@
                 sessionStorage.setItem('indicatif', indicatif);
 
                 if (tot == 0) {
-                    pageTitle = 'RRFTracker V2.2.7 par F4HWN Armel';
+                    pageTitle = 'RRFTracker ' + version + ' par F4HWN Armel';
                     title = '<div class="icon"><i class="icofont-mic-mute"></i></div> ' + 'Aucune émission';
                     
                 } else {

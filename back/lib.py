@@ -165,9 +165,10 @@ def log_abstract():
     locale.setlocale(locale.LC_TIME, '')
 
     tmp = datetime.datetime.now()
-    now = tmp.strftime(' du %A %d/%m/%Y à %H:%M')
+    now = tmp.strftime(' du %d/%m/%Y à %H:%M')
 
     data += '{\n'
+    data += '\t"Version": "' + s.version + '",\n'
     data += '\t"Salon": "' + s.room + '",\n'
     data += '\t"Date": "' + now.lower() + '",\n'
     data += '\t"TX total": ' + str(sum(s.qso_hour)) + ',\n'
@@ -579,6 +580,7 @@ def log_elsewhere():
     data += '}, \n'
     data += '{\n'
 
+    tot = []
     tx = []
     time = []
     call = []
@@ -604,6 +606,15 @@ def log_elsewhere():
                     call.append("Aucune émission")
                 else:
                     call.append(tmp)
+
+                # TOT
+                search_start = content.find('TOT": ')               # Search this pattern
+                search_start += 6                                   # Shift...
+                search_stop = content.find(',', search_start)       # And close it...
+
+                tmp = content[search_start:search_stop]
+
+                tot.append(tmp)
 
                 # Emission cumulée
 
@@ -695,6 +706,19 @@ def log_elsewhere():
     tmp = 0
     for room in room_other:
         data += '\t"' + room + '": "' + connected[tmp] + '",\n'
+        tmp += 1
+
+    last = data.rfind(',')
+    data = data[:last] + '' + data[last + 1:]
+
+    data += '}, \n'
+    data += '{\n'
+
+    data += '\t"Scanner RRF": "TOT",\n'
+    tmp = 0
+
+    for room in room_other:
+        data += '\t"' + room + '": ' + tot[tmp] + ',\n'
         tmp += 1
 
     last = data.rfind(',')
