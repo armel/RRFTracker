@@ -741,10 +741,11 @@
                 sessionStorage.setItem('indicatif', indicatif);
 
                 if (tot == 0) {
+                    pageTitle = 'RRFTracker V2.2.7 par F4HWN Armel';
                     title = '<div class="icon"><i class="icofont-mic-mute"></i></div> ' + 'Aucune émission';
                     
                 } else {
-                    //title = Indicatif + ' en émission';
+                    pageTitle = indicatif + ' en émission';
                     title = '<div class="icon"><i class="icofont-mic"></i></div> ' + indicatif;
                     if (distance !== 0) {
                         title += ' (~ ' + distance + ' Km)';
@@ -753,6 +754,8 @@
                         title += ' en émission';
                     }
                 }
+
+                document.title = pageTitle;
 
                 const containerSelector = '.tot-graph';
                 const containerTitle = title;
