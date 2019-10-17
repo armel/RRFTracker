@@ -284,7 +284,9 @@
 
                 data = elsewhere;
 
-                data.pop(); // On enleve la section TOT, inutile
+                if (data.length == 7) {
+                    data.pop(); // On enleve la section TOT, inutile
+                }
 
                 room.forEach(function(d) {
                     if (d !== sessionStorage.getItem('room')) {
