@@ -173,8 +173,8 @@ def log_abstract():
     data += '\t"Date": "' + now.lower() + '",\n'
     data += '\t"TX total": ' + str(sum(s.qso_hour)) + ',\n'
     data += '\t"Emission cumulée": "' + convert_second_to_time(s.day_duration + s.duration) + '",\n'
-    data += '\t"Nœuds actifs": ' + str(len(s.all)) + ',\n'
-    data += '\t"Nœuds connectés": ' + str(s.node_count) + ',\n'
+    data += '\t"Links actifs": ' + str(len(s.all)) + ',\n'
+    data += '\t"Links connectés": ' + str(s.node_count) + ',\n'
     data += '\t"Indicatif": "' + s.call_current + '",\n'
     data += '\t"TOT": ' + str(s.duration) + ',\n'
     data += '\t"User": ' + str(s.user_count) + ',\n'
@@ -184,16 +184,16 @@ def log_abstract():
         tmp += str(n) + ', '
     tmp = tmp[:-2]
 
-    data += '\t"Nœuds entrants": "' + tmp + '",\n'
+    data += '\t"Links entrants": "' + tmp + '",\n'
 
     tmp = ''
     for n in s.node_list_out:
         tmp += str(n) + ', '
     tmp = tmp[:-2]
 
-    data += '\t"Nœuds sortants": "' + tmp + '",\n'
-    data += '\t"Nœuds max": ' + str(s.node_count_max) + ',\n'
-    data += '\t"Nœuds min": ' + str(s.node_count_min) + '\n'
+    data += '\t"Links sortants": "' + tmp + '",\n'
+    data += '\t"Links max": ' + str(s.node_count_max) + ',\n'
+    data += '\t"Links min": ' + str(s.node_count_min) + '\n'
     data += '},\n'
 
     last = data.rfind(',')
@@ -499,9 +499,9 @@ def log_news():
 
     if tmp != '':
         if len(s.node_list_in) == 1:
-            message_node += 'Nœud entrant : ' + tmp + '. '
+            message_node += 'Link entrant : ' + tmp + '. '
         else:
-            message_node += 'Nœuds entrants : ' + tmp + '. '
+            message_node += 'Links entrants : ' + tmp + '. '
 
     # Nœuds sortants
 
@@ -512,9 +512,9 @@ def log_news():
 
     if tmp != '':
         if len(s.node_list_out) == 1:
-            message_node += 'Nœud sortant : ' + tmp + '. '
+            message_node += 'Link sortant : ' + tmp + '. '
         else:
-            message_node += 'Nœuds sortants : ' + tmp + '. '
+            message_node += 'Links sortants : ' + tmp + '. '
 
     if s.message_node_old != message_node:
         s.message_current = message_node
@@ -636,7 +636,7 @@ def log_elsewhere():
                 tx.append(tmp)
 
                 # Noeuds actifs
-                search_start = content.find('Nœuds actifs": ')      # Search this pattern
+                search_start = content.find('Links actifs": ')      # Search this pattern
                 search_start += 15                                  # Shift...
                 search_stop = content.find(',', search_start)       # And close it...
 
@@ -645,7 +645,7 @@ def log_elsewhere():
                 actif.append(tmp)
 
                 # Noeuds connectés
-                search_start = content.find('Nœuds connectés": ')   # Search this pattern
+                search_start = content.find('Links connectés": ')   # Search this pattern
                 search_start += 19                                  # Shift...
                 search_stop = content.find(',', search_start)       # And close it...
 
@@ -690,7 +690,7 @@ def log_elsewhere():
     data += '}, \n'
     data += '{\n'
 
-    data += '\t"Scanner RRF": "Nœuds actifs",\n'
+    data += '\t"Scanner RRF": "Links actifs",\n'
     tmp = 0
     for room in room_other:
         data += '\t"' + room + '": "' + actif[tmp] + '",\n'
@@ -702,7 +702,7 @@ def log_elsewhere():
     data += '}, \n'
     data += '{\n'
 
-    data += '\t"Scanner RRF": "Nœuds connectés",\n'
+    data += '\t"Scanner RRF": "Links connectés",\n'
     tmp = 0
     for room in room_other:
         data += '\t"' + room + '": "' + connected[tmp] + '",\n'

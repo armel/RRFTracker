@@ -14,7 +14,7 @@
     // Initialise color
 
     if (localStorage.getItem('color') === null) {
-        localStorage.setItem('color', 'ForestGreen');
+        localStorage.setItem('color', 'DarkOrange');
     }
     
     var colorSelected = localStorage.getItem('color');
@@ -123,8 +123,8 @@
                 return console.warn('Erreur', error);
             }
             else {
-                old = JSON.stringify(data).replace(/nœud/gi, 'link');
-                data = JSON.parse(old);
+                //old = JSON.stringify(data).replace(/nœud/gi, 'link');
+                //data = JSON.parse(old);
                 abstract = data['abstract'];
                 news = data['news'];
                 elsewhere = data['elsewhere'];
@@ -250,7 +250,7 @@
                 }
 
                 // Render the table(s)
-                tabulate(data, ['Salon', 'TX total', 'Emission cumulée', 'links actifs', 'links connectés']); // 5 columns table
+                tabulate(data, ['Salon', 'TX total', 'Emission cumulée', 'Links actifs', 'Links connectés']); // 5 columns table
                 d3.select(containerSelector)
                     .append('span')
                     .attr('width', width + margin.left + margin.right + 'px')
@@ -266,7 +266,7 @@
             if (newsOld !== JSON.stringify(news)) {
                 newsOld = JSON.stringify(news);
 
-                sessionStorage.setItem('news', news[0].Message);
+                sessionStorage.setItem('news', '🎃 👻 🎃 ' + news[0].Message + ' 🎃 👻 🎃');
             }
         }
 
