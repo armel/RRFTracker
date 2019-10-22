@@ -1289,19 +1289,39 @@
                                 date_length = date_intempestif.length;
 
                                 indice = 0;
+                                step = 3
                                 if (date_length > 4) {
-                                    for (let step = 3; step < date_length; step++) {
+                                    while(step < date_length) {
+                                        end = 0;
+
                                         a = date_intempestif[indice].split(':'); 
                                         a_second = (+a[0]) * 60 * 60 + (+a[1]) * 60 + (+a[2]); 
 
                                         b = date_intempestif[step].split(':'); 
-                                        b_second = (+b[0]) * 60 * 60 + (+b[1]) * 60 + (+b[2]); 
+                                        b_second = (+b[0]) * 60 * 60 + (+b[1]) * 60 + (+b[2]);
 
-                                        if ((b_second - a_second) < 300) {
-                                            date_intempestif[indice] = '<div class="bad">' + date_intempestif[indice];
-                                            date_intempestif[step] = date_intempestif[step] + '</div>';
+                                        if ((step + 1) < (date_length)) {
+                                            c = date_intempestif[step + 1].split(':'); 
+                                            c_second = (+c[0]) * 60 * 60 + (+c[1]) * 60 + (+c[2]); 
+
+                                            if ((c_second - a_second) < 300) {
+                                                end = step + 1;
+                                            } 
                                         }
-                                        indice += 1
+
+                                        if ((end == 0) && ((b_second - a_second) < 300)) {
+                                            end = step;
+                                        }
+
+                                        if (end != 0) {
+                                            date_intempestif[indice] = '<div class="bad">' + date_intempestif[indice];
+                                            date_intempestif[end] = date_intempestif[end] + '</div>';
+                                            indice = end;
+                                            step = end + 3;
+                                        } else {
+                                            indice += 1
+                                            step += 1
+                                        }
                                     }
                                 }
 
@@ -1314,6 +1334,7 @@
                                     }
                                 }
                                 result += date_intempestif[date_length - 1];
+                                console.log(result);
                                 return result;
                             } else {
                                 return d.value;
