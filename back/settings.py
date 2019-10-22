@@ -10,7 +10,7 @@ Check video about RRFTracker on https://www.youtube.com/watch?v=rVW8xczVpEo
 
 # Version
 
-version = '2.2.9'
+version = '2.2.10'
 
 # Default room and path
 
@@ -22,7 +22,7 @@ log_path_day = ''		# Log path day: Default value !
 
 call = ['', '', '', '', '', '', '', '', '', '']         # Call list
 call_date = ['', '', '', '', '', '', '', '', '', '']    # Call date list
-call_blanc = ['', '', '', '', '', '', '', '', '', '']    # Call blanc list
+call_blanc = ['', '', '', '', '', '', '', '', '', '']   # Call blanc list
 call_time = ['', '', '', '', '', '', '', '', '', '']    # Call time list
 call_current = call[0]                                  # Call current
 call_previous = call[1]                                 # Call previous
