@@ -1334,7 +1334,6 @@
                                     }
                                 }
                                 result += date_intempestif[date_length - 1];
-                                console.log(result);
                                 return result;
                             } else {
                                 return d.value;
