@@ -1290,7 +1290,7 @@
 
                                 indice = 0;
                                 step = 3
-                                if (date_length > 4) {
+                                if (date_length >= 4) {
                                     while(step < date_length) {
                                         end = 0;
 
