@@ -266,7 +266,8 @@
             if (newsOld !== JSON.stringify(news)) {
                 newsOld = JSON.stringify(news);
 
-                sessionStorage.setItem('news', '🎃 👻 🎃 ' + news[0].Message + ' 🎃 👻 🎃');
+                // sessionStorage.setItem('news', '🎃 👻 🎃 ' + news[0].Message + ' 🎃 👻 🎃');
+                sessionStorage.setItem('news', news[0].Message);
             }
         }
 
