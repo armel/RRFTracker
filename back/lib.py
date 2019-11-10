@@ -157,11 +157,11 @@ def log_write():
     file.write(data)
     file.close()
 
+    os.rename(s.log_path_day + '/' + 'rrf_new.json', s.log_path_day + '/' + 'rrf.json')
+
     file = open(s.log_path_day + '/' + 'rrf_spotnik.json', 'w')
     file.write(data_spotnik)
     file.close()
-
-    os.rename(s.log_path_day + '/' + 'rrf_new.json', s.log_path_day + '/' + 'rrf.json')
 
     if s.init is True:
         time.sleep(1)
