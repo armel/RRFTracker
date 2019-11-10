@@ -125,27 +125,40 @@ def save_stat_all(history, call, hour, duration, new=False):
 # Log write for history
 def log_write():
     data = ''
+    data_spotnik = ''
+
     data += '{\n'
 
     # Refresh always
     data += log_abstract()
     data += log_activity()
-    data += log_news()
     data += log_transmit()
     data += log_last()
-    data += log_best()
-    data += log_all()
-    data += log_node()
-    data += log_porteuse()
-    data += log_tot()
-
     if s.init is False:
         data += log_elsewhere()
 
+    data_spotnik = data
+    data_spotnik += log_all_spotnik()
+
+    data += log_all()
+    data += log_best()
+    data += log_node()
+    data += log_porteuse()
+    data += log_tot()
+    data += log_news()
+
     data += '}\n'
+
+    last = data_spotnik.rfind(',')
+    data_spotnik = data_spotnik[:last] + '' + data_spotnik[last + 1:]
+    data_spotnik += '}\n'
 
     file = open(s.log_path_day + '/' + 'rrf_new.json', 'w')
     file.write(data)
+    file.close()
+
+    file = open(s.log_path_day + '/' + 'rrf_spotnik.json', 'w')
+    file.write(data_spotnik)
     file.close()
 
     os.rename(s.log_path_day + '/' + 'rrf_new.json', s.log_path_day + '/' + 'rrf.json')
@@ -485,76 +498,31 @@ def log_all():
 
     return data
 
-# Log news
-def log_news():
-    message_node = ''
-    message = ''
+# Log all
+def log_all_spotnik():
+    tmp = sorted(s.all.items(), key=lambda x: convert_time_to_second(x[1][1]))
+    tmp.reverse()
 
-    # Nœuds entrants
-
-    tmp = ''
-    for n in s.node_list_in:
-        tmp += str(n) + ', '
-    tmp = tmp[:-2]
-
-    if tmp != '':
-        if len(s.node_list_in) == 1:
-            message_node += 'Link entrant : ' + tmp + '. '
-        else:
-            message_node += 'Links entrants : ' + tmp + '. '
-
-    # Nœuds sortants
-
-    tmp = ''
-    for n in s.node_list_out:
-        tmp += str(n) + ', '
-    tmp = tmp[:-2]
-
-    if tmp != '':
-        if len(s.node_list_out) == 1:
-            message_node += 'Link sortant : ' + tmp + '. '
-        else:
-            message_node += 'Links sortants : ' + tmp + '. '
-
-    if s.message_node_old != message_node:
-        s.message_current = message_node
-        s.message_node_old = message_node
-        s.message_timer = 0
-        s.message_timer_limit = 100
-
-    else:
-        if s.message_timer > s.message_timer_limit:
-            s.message_timer = 0
-            tmp = randrange(5)
-
-            if tmp == 0:
-                s.message_current = 'Si vous testez un système, si vous faites des réglages, basculez sur un salon non occupé. '
-            elif tmp == 1:
-                s.message_current = 'Si vous constatez un problème (panne, perturbation, etc.), envoyez un mail à admin@f5nlg.ovh afin que nous puissions intervenir. '
-            elif tmp == 2:
-                s.message_current = 'Ne monopolisez pas le réseau. Soyez polis et courtois. Respectez les autres utilisateurs. '
-            elif tmp == 3:
-                s.message_current = 'Le salon RRF doit être considéré comme une « fréquence d\'appel », pensez à faire QSY sur un des salons annexes. '
-            elif tmp == 4:
-                s.message_current = 'Merci de faire des blancs de l\'ordre de 5 secondes. '
-
-            s.message_timer_limit = len(s.message_current)
-    
-    s.message_timer += 1
-
-    # Format JSON
-
-    data = '"news":\n'
+    data = '"allExtended":\n'
 
     data += '[\n'
 
-    data += '{\n'
+    p = 1
+    for c, t in tmp:
+        data += '{\n'
+        data += '\t"Pos": "' + str('{:0>3d}'.format(int(p))) + '",\n'
+        data += '\t"Indicatif": "' + c + '",\n'
+        data += '\t"TX": ' + str(t[0]) + ',\n'
+        data += '\t"Durée": "' + str(t[1]) + '"\n'
+        data += '},\n'
 
-    data += '\t"Message": "' + s.message_current + '"\n'
-    data += '},\n'
+        p += 1
+        if p > 10:
+            break
 
-    last = data.rfind(',')
-    data = data[:last] + '' + data[last + 1:]
+    if p > 1:
+        last = data.rfind(',')
+        data = data[:last] + '' + data[last + 1:]
 
     data += '],\n'
 
@@ -725,6 +693,81 @@ def log_elsewhere():
     data = data[:last] + '' + data[last + 1:]
 
     data += '}\n'
+    data += '],\n'
+
+    return data
+
+# Log news
+def log_news():
+    message_node = ''
+    message = ''
+
+    # Nœuds entrants
+
+    tmp = ''
+    for n in s.node_list_in:
+        tmp += str(n) + ', '
+    tmp = tmp[:-2]
+
+    if tmp != '':
+        if len(s.node_list_in) == 1:
+            message_node += 'Link entrant : ' + tmp + '. '
+        else:
+            message_node += 'Links entrants : ' + tmp + '. '
+
+    # Nœuds sortants
+
+    tmp = ''
+    for n in s.node_list_out:
+        tmp += str(n) + ', '
+    tmp = tmp[:-2]
+
+    if tmp != '':
+        if len(s.node_list_out) == 1:
+            message_node += 'Link sortant : ' + tmp + '. '
+        else:
+            message_node += 'Links sortants : ' + tmp + '. '
+
+    if s.message_node_old != message_node:
+        s.message_current = message_node
+        s.message_node_old = message_node
+        s.message_timer = 0
+        s.message_timer_limit = 100
+
+    else:
+        if s.message_timer > s.message_timer_limit:
+            s.message_timer = 0
+            tmp = randrange(5)
+
+            if tmp == 0:
+                s.message_current = 'Si vous testez un système, si vous faites des réglages, basculez sur un salon non occupé. '
+            elif tmp == 1:
+                s.message_current = 'Si vous constatez un problème (panne, perturbation, etc.), envoyez un mail à admin@f5nlg.ovh afin que nous puissions intervenir. '
+            elif tmp == 2:
+                s.message_current = 'Ne monopolisez pas le réseau. Soyez polis et courtois. Respectez les autres utilisateurs. '
+            elif tmp == 3:
+                s.message_current = 'Le salon RRF doit être considéré comme une « fréquence d\'appel », pensez à faire QSY sur un des salons annexes. '
+            elif tmp == 4:
+                s.message_current = 'Merci de faire des blancs de l\'ordre de 5 secondes. '
+
+            s.message_timer_limit = len(s.message_current)
+    
+    s.message_timer += 1
+
+    # Format JSON
+
+    data = '"news":\n'
+
+    data += '[\n'
+
+    data += '{\n'
+
+    data += '\t"Message": "' + s.message_current + '"\n'
+    data += '},\n'
+
+    last = data.rfind(',')
+    data = data[:last] + '' + data[last + 1:]
+
     data += ']\n'
 
     return data
