@@ -9,7 +9,7 @@ html, body {
 
 body {
     padding: 0 10px;
-    background-image: url("../images/concrete_wall_2.png");
+    background-image: url("../images/bright_squares.png");
 }
 
 * {
@@ -21,7 +21,7 @@ body {
 }
 
 .modal {
-    background-image: url("../images/concrete_wall_2.png") !important;
+    background-image: url("../images/bright_squares.png") !important;
 }
 
 .modal h2 {
@@ -253,7 +253,7 @@ a:hover {
         width: 30%;
         overflow: hidden;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-        background-image: url("../images/ep_naturalwhite.png");
+        background-image: url("../images/hexellence.png");
     }
 
     .columns > *:last-child table {

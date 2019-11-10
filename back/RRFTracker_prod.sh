@@ -43,4 +43,4 @@ case "$1" in
         echo "Stopping RRFTracker: FON"
         kill `cat $PATH_PID/RRFTracker_FON.pid`
         ;;
-    esac
+esac

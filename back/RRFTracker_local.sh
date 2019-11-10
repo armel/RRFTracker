@@ -9,7 +9,7 @@ PATH_PID='/tmp'
 
 case "$1" in
     start)
-		cp -a $PATH_MEDIA $PATH_LOG
+        cp -a $PATH_MEDIA $PATH_LOG
         echo "Starting RRFTracker: RRF"
         cp $PATH_HTML $PATH_LOG/RRF-today
         nohup python $PATH_SCRIPT --room RRF --log-path $PATH_LOG > $PATH_PID/RRFTracker_RRF.log 2>&1 & echo $! > $PATH_PID/RRFTracker_RRF.pid
@@ -43,4 +43,4 @@ case "$1" in
         echo "Stopping RRFTracker: FON"
         kill `cat $PATH_PID/RRFTracker_FON.pid`
         ;;
-    esac
+esac

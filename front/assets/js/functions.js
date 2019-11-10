@@ -117,10 +117,13 @@ function porteuse(porteuseSelected) {
     var newPorteuse;
 
     if (porteuseSelected == 1) {
-        newPorteuse = 5;
+        newPorteuse = 4;
     }
-    else if (porteuseSelected == 5) {
-        newPorteuse = 10;
+    else if (porteuseSelected == 4) {
+        newPorteuse = 8;
+    }
+    else if (porteuseSelected == 8) {
+        newPorteuse = 12;
     }
     else {
         newPorteuse = 1;
