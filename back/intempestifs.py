@@ -156,10 +156,12 @@ def main(argv):
 
         for f in file:
             if os.path.isfile(f):
-                rrf_json = open (f)
+                rrf_json = open(f)
+                rrf_data = rrf_json.read()
+                rrf_data = rrf_data.replace('Extended', '') # Fix old format !
                 rrf_data = json.load(rrf_json)
 
-                for data in rrf_data['porteuseExtended']:
+                for data in rrf_data['porteuse']:
                     try:
                         porteuse[data[u'Indicatif'].encode('utf-8')] += data[u'TX']
                     except:
@@ -173,7 +175,7 @@ def main(argv):
                             all[data[u'Indicatif'].encode('utf-8')] = convert_time_to_second(data[u'Durée'])
 
                 else:
-                    for data in rrf_data['allExtended']:
+                    for data in rrf_data['all']:
                         try:
                             all[data[u'Indicatif'].encode('utf-8')] += convert_time_to_second(data[u'Durée'])
                         except:

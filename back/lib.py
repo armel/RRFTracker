@@ -125,7 +125,7 @@ def save_stat_all(history, call, hour, duration, new=False):
 # Log write for history
 def log_write():
     data = ''
-    data_spotnik = ''
+    data_tiny = ''
 
     data += '{\n'
 
@@ -137,8 +137,8 @@ def log_write():
     if s.init is False:
         data += log_elsewhere()
 
-    data_spotnik = data
-    data_spotnik += log_all_spotnik()
+    data_tiny = data
+    data_tiny += log_all_tiny()
 
     data += log_all()
     data += log_best()
@@ -149,9 +149,9 @@ def log_write():
 
     data += '}\n'
 
-    last = data_spotnik.rfind(',')
-    data_spotnik = data_spotnik[:last] + '' + data_spotnik[last + 1:]
-    data_spotnik += '}\n'
+    last = data_tiny.rfind(',')
+    data_tiny = data_tiny[:last] + '' + data_tiny[last + 1:]
+    data_tiny += '}\n'
 
     file = open(s.log_path_day + '/' + 'rrf_new.json', 'w')
     file.write(data)
@@ -159,8 +159,8 @@ def log_write():
 
     os.rename(s.log_path_day + '/' + 'rrf_new.json', s.log_path_day + '/' + 'rrf.json')
 
-    file = open(s.log_path_day + '/' + 'rrf_spotnik.json', 'w')
-    file.write(data_spotnik)
+    file = open(s.log_path_day + '/' + 'rrf_tiny.json', 'w')
+    file.write(data_tiny)
     file.close()
 
     if s.init is True:
@@ -345,7 +345,7 @@ def log_best():
 # Log node list
 def log_node():
 
-    data = '"nodeExtended":\n'
+    data = '"node":\n'
     data += '[\n'
 
     width = 4
@@ -390,7 +390,7 @@ def log_porteuse():
     tmp = sorted(s.porteuse.items(), key=lambda x: x[1])
     tmp.reverse()
 
-    data = '"porteuseExtended":\n'
+    data = '"porteuse":\n'
 
     data += '[\n'
 
@@ -424,7 +424,7 @@ def log_tot():
     tmp = sorted(s.tot.items(), key=lambda x: x[1])
     tmp.reverse()
 
-    data = '"totExtended":\n'
+    data = '"tot":\n'
 
     data += '[\n'
 
@@ -458,7 +458,7 @@ def log_all():
     tmp = sorted(s.all.items(), key=lambda x: convert_time_to_second(x[1][1]))
     tmp.reverse()
 
-    data = '"allExtended":\n'
+    data = '"all":\n'
 
     data += '[\n'
 
@@ -499,11 +499,11 @@ def log_all():
     return data
 
 # Log all
-def log_all_spotnik():
+def log_all_tiny():
     tmp = sorted(s.all.items(), key=lambda x: convert_time_to_second(x[1][1]))
     tmp.reverse()
 
-    data = '"allExtended":\n'
+    data = '"all":\n'
 
     data += '[\n'
 
@@ -785,7 +785,7 @@ def log_user():
     except requests.exceptions.Timeout as errt:
         print ('Timeout Error:', errt)
 
-    ip = re.findall( r'[0-9]+(?:\.[0-9]+){3}', page)
+    ip = re.findall(r'[0-9]+(?:\.[0-9]+){3}', page)
     ip = list(set(ip))
 
     return str(len(ip) - 1)
@@ -795,9 +795,11 @@ def restart():
 
     filename = s.log_path + '/' + s.room + '-today/rrf.json'
     if os.path.isfile(filename):
-        rrf_json = open (filename)
+        rrf_json = open(filename)
+        rrf_data = rrf_json.read()
+        rrf_data = rrf_data.replace('Extended', '') # Fix old format !
         try:
-            rrf_data = json.load(rrf_json)
+            rrf_data = json.loads(rrf_data)
         except:
             return 0
 
@@ -826,19 +828,19 @@ def restart():
 
     # Section porteuse
 
-    for data in rrf_data['porteuseExtended']:
+    for data in rrf_data['porteuse']:
         s.porteuse[data[u'Indicatif'].encode('utf-8')] = [data[u'TX'], data[u'Date'].encode('utf-8')]
 
     # Section tot
 
-    if 'totExtended' in rrf_data:
-        for data in rrf_data['totExtended']:
+    if 'tot' in rrf_data:
+        for data in rrf_data['tot']:
             s.tot[data[u'Indicatif'].encode('utf-8')] = [data[u'TX'], data[u'Date'].encode('utf-8')]
 
     # Section all
 
-    if 'allExtended' in rrf_data:
-        for data in rrf_data['allExtended']:
+    if 'all' in rrf_data:
+        for data in rrf_data['all']:
             s.all[data[u'Indicatif'].encode('utf-8')] = [data[u'TX'], data[u'Durée']]
 
             chrono = data['Chrono'].split(', ')

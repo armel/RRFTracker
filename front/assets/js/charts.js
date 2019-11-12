@@ -44,11 +44,11 @@
     var best, bestOld = '';
     var transmit, transmitOld = '';
     var last, lastOld = '';
-    var allExtended, allExtendedOld = '';
+    var all, allOld = '';
     var bubbleOld = '';
-    var porteuseExtended, porteuseExtendedOld = '';
-    var nodeExtended, nodeExtendedOld = '';
-    var totExtended, totExtendedOld = '';
+    var porteuse, porteuseOld = '';
+    var node, nodeOld = '';
+    var tot, totOld = '';
     var colorSelectedOld = '';
     var porteuseSelectedOld = 10;
     var userCountOld = 0
@@ -68,12 +68,10 @@
             transmitOld = '';
             lastOld = '';
             allOld = '';
-            allExtendedOld = '';
             bubbleOld = '';
             porteuseOld = '';
-            porteuseExtendedOld = '';
-            nodeExtendedOld = '';
-            totExtendedOld = '';
+            nodeOld = '';
+            totOld = '';
             colorSelectedOld = '';
             porteuseSelectedOld = 10;
             userCountOld = 0
@@ -132,17 +130,17 @@
                 best = data['best'];
                 transmit = data['transmit'];
                 last = data['last'];
-                allExtended = data['allExtended'];
-                porteuseExtended = data['porteuseExtended'];
-                nodeExtended = data['nodeExtended'];
-                totExtended = data['totExtended'];
+                all= data['all'];
+                porteuse = data['porteuse'];
+                node = data['node'];
+                tot = data['tot'];
             }
         });
 
-        nodeExtendedModal = sessionStorage.getItem('nodeExtendedModal');
-        porteuseExtendedModal = sessionStorage.getItem('porteuseExtendedModal');
-        totExtendedModal = sessionStorage.getItem('totExtendedModal');
-        allExtendedModal = sessionStorage.getItem('allExtendedModal');
+        nodeModal = sessionStorage.getItem('nodeModal');
+        porteuseModal = sessionStorage.getItem('porteuseModal');
+        totModal = sessionStorage.getItem('totModal');
+        allModal = sessionStorage.getItem('allModal');
 
         d3.select('.title').html('');
         d3.select('.title').append('h1').html('RRFTracker version 2.2.4');
@@ -241,7 +239,7 @@
                             }
 
                             if (i === 4) {
-                                return '<a onClick="sessionStorage.setItem(\'nodeExtendedModal\', \'' + 'Node' + '\');">' + d.value + '</a>';
+                                return '<a onClick="sessionStorage.setItem(\'nodeModal\', \'' + 'Node' + '\');">' + d.value + '</a>';
                             } else {
                                 return d.value;
                             }
@@ -611,9 +609,9 @@
         // Bubble
         // ---------------------------------
 
-        if (allExtended !== undefined && allExtended.length != 0) {
-            if (bubbleOld !== JSON.stringify(allExtended)) {
-                bubbleOld = JSON.stringify(allExtended);
+        if (all !== undefined && all.length != 0) {
+            if (bubbleOld !== JSON.stringify(all)) {
+                bubbleOld = JSON.stringify(all);
 
                 indicatif = sessionStorage.getItem('indicatif');
 
@@ -633,7 +631,7 @@
                 d3.select(containerSelector).html('');
                 d3.select(containerSelector).append('h2').html(containerTitle);
 
-                data = allExtended;
+                data = all;
 
                 const svg = d3.select(containerSelector)
                     .append('svg')
@@ -677,7 +675,7 @@
                     .domain([yMin, yMax])
                     .range([d3.rgb(color).brighter(), d3.rgb(color).darker()]);
 
-                var node = svg.selectAll('.node')
+                var bubble = svg.selectAll('.node')
                     .data(bubble.nodes(classes(data))
                         .filter(function(d) {
                             return !d.children;
@@ -688,7 +686,7 @@
                         return 'translate(' + d.x + ',' + d.y + ')';
                     });
 
-                node.append('circle')
+                bubble.append('circle')
                     .attr('r', function(d) {
                         return (d.r);
                     })
@@ -700,7 +698,7 @@
                         return colorScale(d.value);
                     });
 
-                node.append('text')
+                bubble.append('text')
                     .attr('class', 'value')
                     .attr('dy', '.3em')
                     .style('fill', function(d) {
@@ -734,7 +732,7 @@
 
                 data = transmit;
 
-                var tot = data[0].TOT;
+                var tot_current = data[0].TOT;
                 var indicatif = data[0].Indicatif;
                 var latitude = parseFloat(data[0].Latitude);
                 var longitude = parseFloat(data[0].Longitude);
@@ -746,7 +744,7 @@
 
                 sessionStorage.setItem('indicatif', indicatif);
 
-                if (tot == 0) {
+                if (tot_current == 0) {
                     pageTitle = 'RRFTracker ' + version + ' par F4HWN Armel';
                     title = '<div class="icon"><i class="icofont-mic-mute"></i></div> ' + 'Aucune émission';
                     
@@ -774,7 +772,7 @@
                     .append('div')
                     .attr('class', 'clock')
 
-                clock = new FlipClock($('.clock'), tot, {
+                clock = new FlipClock($('.clock'), tot_current, {
                     clockFace: 'MinuteCounter',
                     language: 'french',
                     clockFaceOptions: {
@@ -881,15 +879,15 @@
         // All
         // ---------------------------------
 
-        if (allExtended !== undefined && allExtended.length != 0) {
-            if (allExtendedOld !== JSON.stringify(allExtended)) {
-                allExtendedOld = JSON.stringify(allExtended);
+        if (all !== undefined && all.length != 0) {
+            if (allOld !== JSON.stringify(all)) {
+                allOld = JSON.stringify(all);
 
                 const containerSelector = '.all-table';
                 const containerTitle = '<div class="icon"><i class="icofont-badge"></i></div> ' + 'Classement des links par durée';
                 const containerLegend = 'Ce tableau présente le classement complet par durée des links étant passés en émission dans la journée : position, indicatif du link, nombre de passages et durée cumulée en émission.';
 
-                data = allExtended;
+                data = all;
 
                 function tabulate(data, columns) {
                     d3.select(containerSelector).html('');
@@ -941,7 +939,7 @@
                                 }
                             }
                             if (i === 0) {
-                                return '<a onClick="sessionStorage.setItem(\'allExtendedModal\', \'' + d.id + '\');">' + d.value + '</a>';
+                                return '<a onClick="sessionStorage.setItem(\'allModal\', \'' + d.id + '\');">' + d.value + '</a>';
                             } else {
                                 return d.value;
                             }
@@ -960,11 +958,11 @@
         // Porteuse
         // ---------------------------------
 
-        if (porteuseExtended !== undefined && porteuseExtended.length != 0) {
-            if (porteuseExtendedOld !== JSON.stringify(porteuseExtended)) {
-                porteuseExtendedOld = JSON.stringify(porteuseExtended);
+        if (porteuse !== undefined && porteuse.length != 0) {
+            if (porteuseOld !== JSON.stringify(porteuse)) {
+                porteuseOld = JSON.stringify(porteuse);
 
-                data = porteuseExtended;
+                data = porteuse;
 
                 var porteuseTotal = 0;
                 var porteuseView = false;
@@ -1047,7 +1045,7 @@
                         .append('td')
                         .html(function(d, i) {
                             if (i === 0) {
-                                return '<a onClick="sessionStorage.setItem(\'porteuseExtendedModal\', \'' + d.id + '\');">' + d.value + '</a>';
+                                return '<a onClick="sessionStorage.setItem(\'porteuseModal\', \'' + d.id + '\');">' + d.value + '</a>';
                             } else {
                                 return d.value;
                             }
@@ -1071,11 +1069,11 @@
         // Tot
         // ---------------------------------
 
-        if (totExtended !== undefined && totExtended.length != 0) {
-            if (totExtendedOld !== JSON.stringify(totExtended)) {
-                totExtendedOld = JSON.stringify(totExtended);
+        if (tot !== undefined && tot.length != 0) {
+            if (totOld !== JSON.stringify(tot)) {
+                totOld = JSON.stringify(tot);
 
-                data = totExtended;
+                data = tot;
 
                 var totTotal = 0;
                 var totView = true;
@@ -1152,7 +1150,7 @@
                         .append('td')
                         .html(function(d, i) {
                             if (i === 0) {
-                                return '<a onClick="sessionStorage.setItem(\'totExtendedModal\', \'' + d.id + '\');">' + d.value + '</a>';
+                                return '<a onClick="sessionStorage.setItem(\'totModal\', \'' + d.id + '\');">' + d.value + '</a>';
                             } else {
                                 return d.value;
                             }
@@ -1173,17 +1171,17 @@
         }
 
         // ---------------------------------
-        // Node extended
+        // Node
         // ---------------------------------
 
-        if (nodeExtendedModal != null) {
-            if (nodeExtended !== undefined) {
+        if (nodeModal != null) {
+            if (node !== undefined) {
 
-                const containerSelector = '#node-extended-modal';
+                const containerSelector = '#node-modal';
                 const containerTitle = '<div class="icon"><i class="icofont-info-circle"></i></div> ' + 'Liste des links connectés';
                 const containerLegend = 'Ce tableau présente la liste des links actuellement connectés.';
 
-                data = nodeExtended;
+                data = node;
 
                 function tabulate(data, columns) {
                     d3.select(containerSelector).html('');
@@ -1223,21 +1221,21 @@
                 tabulate(data, ['Node 0', 'Node 1', 'Node 2', 'Node 3']); // 8 columns table
                 d3.select(containerSelector).append('span').text(containerLegend);
 
-                $('#node-extended-modal').modal();
-                sessionStorage.removeItem('nodeExtendedModal');
+                $('#node-modal').modal();
+                sessionStorage.removeItem('nodeModal');
             }
         }
 
         // ---------------------------------
-        // Porteuse extended
+        // Porteuse
         // ---------------------------------
 
-        if (porteuseExtendedModal != null) {
-            if (porteuseExtended !== undefined) {
+        if (porteuseModal != null) {
+            if (porteuse !== undefined) {
 
-                data = [porteuseExtended[parseInt(porteuseExtendedModal) - 1]];
+                data = [porteuse[parseInt(porteuseModal) - 1]];
 
-                const containerSelector = '#porteuse-extended-modal';
+                const containerSelector = '#porteuse-modal';
                 const containerTitle = '<div class="icon"><i class="icofont-info-circle"></i></div> ' + 'Déclenchements intempestifs sur ' + data[0].Indicatif;
                 const containerLegend = 'Ce tableau présente les heures de passages en émission intempestifs ou suspects, d\'une durée de moins de 3 secondes sur le link sélectionné.';
 
@@ -1348,22 +1346,22 @@
                 tabulate(data, ['Indicatif', 'Date', 'TX']); // 3 columns table
                 d3.select(containerSelector).append('span').text(containerLegend);
 
-                $('#porteuse-extended-modal').modal();
-                sessionStorage.removeItem('porteuseExtendedModal');
+                $('#porteuse-modal').modal();
+                sessionStorage.removeItem('porteuseModal');
 
             }
         }
 
         // ---------------------------------
-        // Tot extended
+        // Tot
         // ---------------------------------
 
-        if (totExtendedModal != null) {
-            if (totExtended !== undefined) {
+        if (totModal != null) {
+            if (tot !== undefined) {
 
-                data = [totExtended[parseInt(totExtendedModal) - 1]];
+                data = [tot[parseInt(totModal) - 1]];
 
-                const containerSelector = '#tot-extended-modal';
+                const containerSelector = '#tot-modal';
                 const containerTitle = '<div class="icon"><i class="icofont-info-circle"></i></div> ' + 'Time Out Timer sur ' + data[0].Indicatif;
                 const containerLegend = 'Ce tableau présente les heures de TOT sur le link sélectionné.';
 
@@ -1425,22 +1423,22 @@
                 tabulate(data, ['Indicatif', 'Date', 'TX']); // 3 columns table
                 d3.select(containerSelector).append('span').text(containerLegend);
 
-                $('#tot-extended-modal').modal();
-                sessionStorage.removeItem('totExtendedModal');
+                $('#tot-modal').modal();
+                sessionStorage.removeItem('totModal');
 
             }
         }
 
         // ---------------------------------
-        // All extended
+        // All
         // ---------------------------------
 
-        if (allExtendedModal != null) {
-            if (allExtended !== undefined) {
+        if (allModal != null) {
+            if (all !== undefined) {
 
-                data = [allExtended[parseInt(allExtendedModal) - 1]];
+                data = [all[parseInt(allModal) - 1]];
 
-                const containerSelector = '#all-extended-modal';
+                const containerSelector = '#all-modal';
                 const containerTitle = '<div class="icon"><i class="icofont-wall-cloc"></i></div> ' + 'Détail des passages en émission sur ' + data[0].Indicatif;
                 const containerLegend = 'Ce tableau présente les heures et durées en émission sur le link sélectionné, ainsi que le nombre de passages en émission.';
 
@@ -1517,8 +1515,8 @@
                 tabulate(data, ['Indicatif', 'Heure', 'Chrono', 'TX']); // 4 columns table
                 d3.select(containerSelector).append('span').text(containerLegend);
 
-                $('#all-extended-modal').modal();
-                sessionStorage.removeItem('allExtendedModal');
+                $('#all-modal').modal();
+                sessionStorage.removeItem('allModal');
 
             }
         }
@@ -1541,7 +1539,7 @@
             if(porteuseSelectedOld != localStorage.getItem('porteuse')) {
                 porteuseSelectedOld = localStorage.getItem('porteuse');
 
-                porteuseExtendedOld = '';
+                porteuseOld = '';
             }
 
             const containerSelector = '.author-legend';
