@@ -637,7 +637,7 @@ def log_elsewhere():
     data += '\t"Scanner RRF": "TX total",\n'
     tmp = 0
     for room in room_other:
-        data += '\t"' + room + '": "' + tx[tmp] + '",\n'
+        data += '\t"' + room + '": ' + tx[tmp] + ',\n'
         tmp += 1
 
     last = data.rfind(',')
@@ -661,7 +661,7 @@ def log_elsewhere():
     data += '\t"Scanner RRF": "Links actifs",\n'
     tmp = 0
     for room in room_other:
-        data += '\t"' + room + '": "' + actif[tmp] + '",\n'
+        data += '\t"' + room + '": ' + actif[tmp] + ',\n'
         tmp += 1
 
     last = data.rfind(',')
@@ -673,7 +673,7 @@ def log_elsewhere():
     data += '\t"Scanner RRF": "Links connectés",\n'
     tmp = 0
     for room in room_other:
-        data += '\t"' + room + '": "' + connected[tmp] + '",\n'
+        data += '\t"' + room + '": ' + connected[tmp] + ',\n'
         tmp += 1
 
     last = data.rfind(',')
