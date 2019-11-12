@@ -129,7 +129,7 @@ def log_write():
 
     data += '{\n'
 
-    # Refresh always
+    # Flux commun rrf.json et rrf_tiny.json
     data += log_abstract()
     data += log_activity()
     data += log_transmit()
@@ -138,30 +138,33 @@ def log_write():
         data += log_elsewhere()
 
     data_tiny = data
-    data_tiny += log_all_tiny()
 
+    # Flux rrf.json
     data += log_all()
     data += log_best()
     data += log_node()
     data += log_porteuse()
     data += log_tot()
     data += log_news()
-
     data += '}\n'
 
-    last = data_tiny.rfind(',')
-    data_tiny = data_tiny[:last] + '' + data_tiny[last + 1:]
-    data_tiny += '}\n'
-
+    # Ecriture de flux rrf.json
     file = open(s.log_path_day + '/' + 'rrf_new.json', 'w')
     file.write(data)
     file.close()
 
     os.rename(s.log_path_day + '/' + 'rrf_new.json', s.log_path_day + '/' + 'rrf.json')
 
+    # Flux rrf_tiny.json
+    data_tiny += log_all_tiny()
+    data_tiny += '}\n'
+
+    # Ecriture du flux rrf_tiny_json
     file = open(s.log_path_day + '/' + 'rrf_tiny.json', 'w')
     file.write(data_tiny)
     file.close()
+
+    # Si init, on fait une pose
 
     if s.init is True:
         time.sleep(1)
@@ -524,7 +527,7 @@ def log_all_tiny():
         last = data.rfind(',')
         data = data[:last] + '' + data[last + 1:]
 
-    data += '],\n'
+    data += ']\n'
 
     return data
 
