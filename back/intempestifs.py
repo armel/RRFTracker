@@ -159,7 +159,7 @@ def main(argv):
                 rrf_json = open(f)
                 rrf_data = rrf_json.read()
                 rrf_data = rrf_data.replace('Extended', '') # Fix old format !
-                rrf_data = json.loads(rrf_json)
+                rrf_data = json.loads(rrf_data)
 
                 for data in rrf_data['porteuse']:
                     try:
