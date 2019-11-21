@@ -177,6 +177,14 @@ table thead th {
     height: 30px;
 }
 
+table tbody th {
+    background-color: lightgray;
+    color: #000;
+    border: solid 1px dimgray;
+    text-align: center;
+    height: 30px;
+    width: 25%;
+}
 table tbody td {
     border: solid 1px dimgray;
     color: #000;
@@ -204,6 +212,14 @@ a:hover {
     color: var(--color-theme);
     cursor: pointer;
 }
+
+.transmit tbody tr:first-child th {
+    padding-top: 10px;
+} 
+
+.transmit td {
+    width:70%;
+} 
 
 .elsewhere-table td:nth-child(1) {
     background-color: lightgray;
@@ -275,7 +291,25 @@ a:hover {
     }
 }
 
-.clock {
-    zoom: 0.65;
-    -moz-transform: scale(0.65)
+.center-clock {
+    margin: 0 auto;
+    width:240px;
 }
+
+.clock {
+    margin: 0;
+    padding-top: 10px;
+}
+
+.flip-clock-wrapper {
+    height: 60px;
+}
+
+.flip-clock-wrapper ul {width: 40px;height: 60px;margin: 0 2px;}
+.flip-clock-wrapper ul li {line-height: 60px;}
+.flip-clock-wrapper ul li a div div.inn {border-radius: 3px;font-size: 50px;}
+.flip-clock-wrapper ul li a div.down {border-bottom-left-radius: 3px; border-bottom-right-radius: 3px;}
+.flip-clock-wrapper ul li a div.up:after {top: 29px;height: 2px;}
+.flip-clock-dot {width: 8px; height: 8px; border-radius: 50%;}
+.flip-clock-dot.top {top: 15px;}
+.flip-clock-dot.bottom {bottom: 45px;}
