@@ -68,12 +68,15 @@ def convert_time_to_second(time):
 
 
 # Print console
-def print_console(tmp):
+def print_console(tmp, r):
 
     i = 1
-    print 'Pos\tIndicatif\t\tDéclenchements\t\tDurée\t\tRatio'
-    print '---\t---------\t\t--------------\t\t-----\t\t-----'
+    print 'Salon\tPos\tIndicatif\t\tDéclenchements\t\tDurée\t\tRatio'
+    print '-----\t\t---\t---------\t\t--------------\t\t-----\t\t-----'
     for e in tmp:
+        print r, '\t',
+        if len(r) < 8:
+            print '\t',
         print '%03d' % i, 
         print '\t', e[0], '\t',
         if len(e[0]) < 15:
@@ -222,25 +225,25 @@ def main(argv):
         print color.BLUE + r + color.END
         print '===================='
 
-        print color.BLUE + 'Classement par déclenchements' + color.END
+        print color.BLUE + r + ' - Classement par déclenchements' + color.END
         print
         tmp = sorted(total.items(), key=lambda x: x[1][0])
         tmp.reverse()
-        print_console(tmp)
+        print_console(tmp, r)
         print '----------'
 
-        print color.BLUE + 'Classement par ratio' + color.END
+        print color.BLUE + r + ' - Classement par ratio' + color.END
         print
         tmp = sorted(total.items(), key=lambda x: x[1][2])
         tmp.reverse()
-        print_console(tmp)
+        print_console(tmp, r)
         print '----------'
 
-        print color.BLUE + 'Classement par durée' + color.END
+        print color.BLUE + r + ' - Classement par durée' + color.END
         print
         tmp = sorted(total.items(), key=lambda x: x[1][1])
         tmp.reverse()
-        print_console(tmp)
+        print_console(tmp, r)
         print '----------'
 
         # Synthese
