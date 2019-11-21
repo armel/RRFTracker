@@ -68,12 +68,15 @@ def convert_time_to_second(time):
 
 
 # Print console
-def print_console(tmp):
+def print_console(tmp, r):
 
     i = 1
-    print 'Pos\tIndicatif\t\tDéclenchements\t\tDurée\t\tRatio'
-    print '---\t---------\t\t--------------\t\t-----\t\t-----'
+    print 'Salon\tPos\tIndicatif\t\tDéclenchements\t\tDurée\t\tRatio'
+    print '-----\t\t---\t---------\t\t--------------\t\t-----\t\t-----'
     for e in tmp:
+        print r, '\t',
+        if len(r) < 8:
+            print '\t',
         print '%03d' % i, 
         print '\t', e[0], '\t',
         if len(e[0]) < 15:
@@ -98,6 +101,11 @@ def main(argv):
 
     room_list = {
         'RRF',
+        'TECHNIQUE',
+        'BAVARDAGE',
+        'INTERNATIONALE',
+        'LOCAL',
+        'FON'
     }
 
     porteuse = dict()
@@ -137,6 +145,11 @@ def main(argv):
     time_super_total = 0
 
     for r in room_list:
+
+        porteuse.clear()
+        all.clear()
+        total.clear()
+
         if search_type == 'month':
             path = search_path + r + '-' + search_pattern + '-*/rrf.json'
             file = glob.glob(path)
@@ -182,75 +195,79 @@ def main(argv):
                             all[data[u'Indicatif'].encode('utf-8')] = convert_time_to_second(data[u'Durée'])
 
 
-    if 'RRF' in porteuse:
-        del porteuse['RRF']
-    if 'F5ZIN-L' in porteuse:
-        del porteuse['F5ZIN-L']
+        if 'RRF' in porteuse:
+            del porteuse['RRF']
+        if 'F5ZIN-L' in porteuse:
+            del porteuse['F5ZIN-L']
 
-    tmp = sorted(porteuse.items(), key=lambda x: x[1])
-    tmp.reverse()
+        tmp = sorted(porteuse.items(), key=lambda x: x[1])
+        tmp.reverse()
 
-    i = 1
-    for e in tmp:
-        if e[0] in all:
-            ratio = (int(all[e[0]]) / float(e[1]))
-        else:
-            ratio = 0
+        i = 1
+        for e in tmp:
+            if e[0] in all:
+                ratio = (int(all[e[0]]) / float(e[1]))
+            else:
+                ratio = 0
 
-        if e[0] in all:
-            total[e[0]] = [e[1], all[e[0]], ratio]
-        else:
-            total[e[0]] = [e[1], 0, 0]
+            if e[0] in all:
+                total[e[0]] = [e[1], all[e[0]], ratio]
+            else:
+                total[e[0]] = [e[1], 0, 0]
 
-        i += 1
-        if i > 100:
-            break
+            i += 1
+            if i > 100:
+                break
 
-    # Affichage
+        # Affichage
 
-    print color.BLUE + 'Classement par déclenchements' + color.END
-    print
-    tmp = sorted(total.items(), key=lambda x: x[1][0])
-    tmp.reverse()
-    print_console(tmp)
-    print '----------'
+        print '===================='
+        print color.BLUE + r + color.END
+        print '===================='
 
-    print color.BLUE + 'Classement par ratio' + color.END
-    print
-    tmp = sorted(total.items(), key=lambda x: x[1][2])
-    tmp.reverse()
-    print_console(tmp)
-    print '----------'
+        print color.BLUE + r + ' - Classement par déclenchements' + color.END
+        print
+        tmp = sorted(total.items(), key=lambda x: x[1][0])
+        tmp.reverse()
+        print_console(tmp, r)
+        print '----------'
 
-    print color.BLUE + 'Classement par durée' + color.END
-    print
-    tmp = sorted(total.items(), key=lambda x: x[1][1])
-    tmp.reverse()
-    print_console(tmp)
-    print '----------'
+        print color.BLUE + r + ' - Classement par ratio' + color.END
+        print
+        tmp = sorted(total.items(), key=lambda x: x[1][2])
+        tmp.reverse()
+        print_console(tmp, r)
+        print '----------'
 
-    # Synthese
+        print color.BLUE + r + ' - Classement par durée' + color.END
+        print
+        tmp = sorted(total.items(), key=lambda x: x[1][1])
+        tmp.reverse()
+        print_console(tmp, r)
+        print '----------'
 
-    somme = []
-    link = []
-    somme_intempestif = 0
+        # Synthese
 
-    for e in tmp:
-        if e[1][1] < 600:
-            somme.append(e[1][0]) 
-            link.append(e[0])
+        somme = []
+        link = []
+        somme_intempestif = 0
 
-        somme_intempestif += e[1][0]
+        for e in tmp:
+            if e[1][1] < 600:
+                somme.append(e[1][0]) 
+                link.append(e[0])
 
-    print 'Remarque :'
-    print len(somme), 'links ont généré moins de 10 minutes de BF dans le mois pour', sum(somme), 'déclenchements !'
-    for l in link:
-        print l,
-    print
+            somme_intempestif += e[1][0]
 
-    print '----------'
+        print 'Remarque :'
+        print len(somme), 'links ont généré moins de 10 minutes de BF dans le mois pour', sum(somme), 'déclenchements !'
+        for l in link:
+            print l,
+        print
 
-    print 'Total des déclenchements :', somme_intempestif
+        print '----------'
+
+        print 'Total des déclenchements :', somme_intempestif
 
 if __name__ == '__main__':
     try:

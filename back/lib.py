@@ -38,6 +38,16 @@ def usage():
 def sanitize_call(call):
     return call.translate(None, '\\\'!@#$"')
 
+# Whois call
+def whois_call(call):
+    with open('../data/whois.dat') as f:
+        for line in f:
+            tmp = line.split(';')
+            if tmp[0] == call:
+                return line
+
+    return False;
+
 # Convert second to time
 def convert_second_to_time(time):
     hours = time // 3600
@@ -244,6 +254,20 @@ def log_transmit():
 
     data += '{\n'
     data += '\t"Indicatif": "' + s.call_current + '",\n'
+    if s.call_current != '':
+        tmp = whois_call(s.call_current)
+        if tmp is False:
+            tmp = '-;-;Link Inconnu;Contacter admin@f5nlg.ovh;-;-;-'
+
+        tmp = tmp.split(';')
+
+        data += '\t"Prenom": "' + tmp[1] + '",\n'
+        data += '\t"Type": "' + tmp[2] + '",\n'
+        data += '\t"Description": "' + tmp[3] + '",\n'
+        data += '\t"Tone": "' + tmp[4] + '",\n'
+        data += '\t"Sysop": "' + tmp[5] + '",\n'
+        data += '\t"Locator": "' + tmp[6].strip() + '",\n'
+
     data += '\t"Latitude": ' + str(latitude) + ',\n'
     data += '\t"Longitude": ' + str(longitude) + ',\n'
     data += '\t"TOT": ' + str(s.duration) + '\n'

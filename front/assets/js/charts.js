@@ -751,23 +751,18 @@
                 } else {
                     pageTitle = indicatif + ' en émission';
                     title = '<div class="icon"><i class="icofont-mic"></i></div> ' + indicatif;
-                    if (distance !== 0) {
-                        title += ' (~ ' + distance + ' Km)';
-                    }
-                    else {
-                        title += ' en émission';
-                    }
                 }
 
                 document.title = pageTitle;
 
                 const containerSelector = '.tot-graph';
                 const containerTitle = title;
-                const containerLegend = 'Affiche l\'indicatif du link en cours d\'émission, la distance approximative de ce link, ainsi que la durée de passage en émission.';
+                const containerLegend = 'Affiche l\'indicatif du link en cours d\'émission, la durée de passage en émission ainsi que des informations techniques.';
 
                 d3.select(containerSelector).html('');
                 d3.select(containerSelector).append('h2').html(containerTitle);
 
+                /*
                 var svgTot = d3.select(containerSelector)
                     .append('div')
                     .attr('class', 'clock')
@@ -780,8 +775,73 @@
                         autoStart: false
                     }
                 });
+                */
+
+                var template  = "<tr><th>Type</th><td>{Type}</td></tr>";
+                    template += "<tr><th>Description</th><td>{Description}</td></tr>";
+                    template += "<tr><th>Tone</th><td>{Tone}</td></tr>";
+                    template += "<tr><th>Locator</th><td>{Locator}</td></tr>";
+                    template += "<tr><th>Distance</th><td>{Distance}</td></tr>";
+                    template += "<tr><th>Sysop</th><td>{Sysop}</td></tr>";
+
+                var template_clock = "<div class='center-clock'><div class='clock'></div></div";
+
+                if (tot_current == 0) {
+                    template = template.replace(/{Type}/g, '-');
+                    template = template.replace(/{Description}/g, '-');
+                    template = template.replace(/{Tone}/g, '-');
+                    template = template.replace(/{Locator}/g, '-');
+                    template = template.replace(/{Distance}/g, '-');
+                    template = template.replace(/{Sysop}/g, '-');
+                }
+                else {
+
+                    if (distance !== 0) {
+                        template = template.replace(/{Distance}/g, 'Environ ' + distance + ' Km');
+                    }
+                    else {
+                        template = template.replace(/{Distance}/g, '-');
+                    }
+
+                    template = template.replace(/{Type}/g, data[0]['Type']);
+                    template = template.replace(/{Description}/g, data[0]['Description']);
+                    template = template.replace(/{Tone}/g, data[0]['Tone']);
+                    template = template.replace(/{Locator}/g, data[0]['Locator']);
+
+                    if (data[0]['Type'] == 'Hotspot') {
+                        template = template.replace(/{Sysop}/g, data[0]['Prenom']);
+                        template = template.replace(/Sysop/g, 'Prénom');
+                    }
+                    else {
+                        template = template.replace(/{Sysop}/g, data[0]['Sysop']);
+                    }
+                }
+
+                d3.select(containerSelector)
+                    .append('div')
+                    .attr('class', 'container')
+                    .append('div')
+                    .attr('class', 'center-clock')
+                    .append('div')
+                    .attr('class', 'clock')
+
+                d3.select(containerSelector)
+                    .append('table')
+                    .attr('width', width + margin.left + margin.right + 'px')
+                    .attr('class', 'transmit')
+                    .html(template);
+                         
+                clock = new FlipClock($('.clock'), tot_current, {
+                    clockFace: 'MinuteCounter',
+                    language: 'french',
+                    clockFaceOptions: {
+                        autoPlay: false,
+                        autoStart: false
+                    }
+                });
 
                 d3.select(containerSelector).append('span').text(containerLegend);
+
             }
             else {
                 clock.stop(function() {});
