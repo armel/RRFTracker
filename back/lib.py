@@ -257,7 +257,7 @@ def log_transmit():
     if s.call_current != '':
         tmp = whois_call(s.call_current)
         if tmp is False:
-            tmp = '-;-;Link Inconnu;Contacter admin@f5nlg.ovh;-;-;-'
+            tmp = '-;-;-;Link Inconnu;-;-;-'
 
         tmp = tmp.split(';')
 
