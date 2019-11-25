@@ -111,6 +111,7 @@ def main(argv):
     porteuse = dict()
     all = dict()
     total = dict()
+    full = dict()
 
     tmp = datetime.datetime.now()
 
@@ -168,32 +169,36 @@ def main(argv):
         time_total = 0
 
         for f in file:
+            print f
             if os.path.isfile(f):
                 rrf_json = open(f)
                 rrf_data = rrf_json.read()
                 rrf_data = rrf_data.replace('Extended', '') # Fix old format !
-                rrf_data = json.loads(rrf_data)
+                try:
+                    rrf_data = json.loads(rrf_data)
 
-                for data in rrf_data['porteuse']:
-                    try:
-                        porteuse[data[u'Indicatif'].encode('utf-8')] += data[u'TX']
-                    except:
-                        porteuse[data[u'Indicatif'].encode('utf-8')] = data[u'TX']
-
-                if 'all' in rrf_data:
-                    for data in rrf_data['all']:
+                    print f
+                    for data in rrf_data['porteuse']:
                         try:
-                            all[data[u'Indicatif'].encode('utf-8')] += convert_time_to_second(data[u'Durée'])
+                            porteuse[data[u'Indicatif'].encode('utf-8')] += data[u'TX']
                         except:
-                            all[data[u'Indicatif'].encode('utf-8')] = convert_time_to_second(data[u'Durée'])
+                            porteuse[data[u'Indicatif'].encode('utf-8')] = data[u'TX']
 
-                else:
-                    for data in rrf_data['all']:
-                        try:
-                            all[data[u'Indicatif'].encode('utf-8')] += convert_time_to_second(data[u'Durée'])
-                        except:
-                            all[data[u'Indicatif'].encode('utf-8')] = convert_time_to_second(data[u'Durée'])
+                    if 'all' in rrf_data:
+                        for data in rrf_data['all']:
+                            try:
+                                all[data[u'Indicatif'].encode('utf-8')] += convert_time_to_second(data[u'Durée'])
+                            except:
+                                all[data[u'Indicatif'].encode('utf-8')] = convert_time_to_second(data[u'Durée'])
 
+                    else:
+                        for data in rrf_data['all']:
+                            try:
+                                all[data[u'Indicatif'].encode('utf-8')] += convert_time_to_second(data[u'Durée'])
+                            except:
+                                all[data[u'Indicatif'].encode('utf-8')] = convert_time_to_second(data[u'Durée'])
+                except:
+                    pass
 
         if 'RRF' in porteuse:
             del porteuse['RRF']
@@ -218,6 +223,15 @@ def main(argv):
             i += 1
             if i > 100:
                 break
+
+        # Calcul du total
+
+        if r != 'FON':
+            for a in total:
+                if a in full:
+                    full[a] += total[a][1]
+                else:
+                    full[a] = total[a][1]
 
         # Affichage
 
@@ -268,6 +282,23 @@ def main(argv):
         print '----------'
 
         print 'Total des déclenchements :', somme_intempestif
+
+    print '----------'
+    print 'Classement des links les plus actifs tous salons confondus (hors FON)'
+    print '----------'
+
+    tmp = sorted(full.items(), key=lambda x: x[1], reverse=True)
+    i = 1
+
+    for e in tmp:
+        print '%03d' % i, '\t',
+        print e[0], '\t\t',
+        if len(e[0]) < 7:
+            print '\t',
+        if len(e[0]) < 15:
+            print '\t',
+        print convert_second_to_time(e[1])
+        i += 1
 
 if __name__ == '__main__':
     try:
