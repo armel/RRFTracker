@@ -221,8 +221,8 @@ def main(argv):
                 total[e[0]] = [e[1], 0, 0]
 
             i += 1
-            if i > 100:
-                break
+            #if i > 100:
+            #    break
 
         # Calcul du total
 
