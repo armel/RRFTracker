@@ -112,6 +112,7 @@ def main(argv):
     all = dict()
     total = dict()
     full = dict()
+    limit = 0
 
     tmp = datetime.datetime.now()
 
@@ -121,7 +122,7 @@ def main(argv):
 
     # Check and get arguments
     try:
-        options, remainder = getopt.getopt(argv, '', ['help', 'path=', 'month=', 'week='])
+        options, remainder = getopt.getopt(argv, '', ['help', 'path=', 'month=', 'week=', 'limit='])
     except getopt.GetoptError:
         usage()
         sys.exit(2)
@@ -137,6 +138,8 @@ def main(argv):
         elif opt in ('--week'):
             search_pattern = arg
             search_type = 'week'
+        elif opt in ('--limit'):
+            limit = int(arg)
 
     print color.BLUE + 'Path ' + color.END + search_path,
     print ' with ',
@@ -221,8 +224,9 @@ def main(argv):
                 total[e[0]] = [e[1], 0, 0]
 
             i += 1
-            #if i > 100:
-            #    break
+            if limit != 0:
+                if i > limit:
+                    break
 
         # Calcul du total
 
