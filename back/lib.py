@@ -46,14 +46,15 @@ def whois_call(call):
             if tmp[0] == call:
                 return line
 
-    if os.path.isfile('../data/inconnu.dat'):
-        with open('../data/inconnu.dat') as f:
-            for line in f:
-                if line.strip() == call.strip():
-                    return False
+    if s.room != 'FON':
+        if os.path.isfile('../data/inconnu.dat'):
+            with open('../data/inconnu.dat') as f:
+                for line in f:
+                    if line.strip() == call.strip():
+                        return False
 
-    with open('../data/inconnu.dat', 'a') as f:
-        f.write(call + '\n')
+        with open('../data/inconnu.dat', 'a') as f:
+            f.write(call + '\n')
 
     return False;
 
