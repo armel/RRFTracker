@@ -156,7 +156,10 @@ def main(argv):
 
         tmp = 0
         for d in time_total:
-            tmp += time_total[d][r]
+            try:
+                tmp += time_total[d][r]
+            except:
+                pass
 
         if r == 'FON':
             tmp_fon = tmp
@@ -173,7 +176,10 @@ def main(argv):
         tmp = 0
         for r in room_list:
             if r != 'FON':
-                tmp += time_total[d][r]
+                try:
+                    tmp += time_total[d][r]
+                except:
+                    pass
         day[d] = tmp
  
     day = sorted(day.items(), key=lambda x: x[1], reverse=True)
@@ -190,7 +196,10 @@ def main(argv):
     for d in time_total:
         tmp = 0
         for r in room_list:
+            try:
                 tmp += time_total[d][r]
+            except:
+                pass
         day[d] = tmp
  
     day = sorted(day.items(), key=lambda x: x[1], reverse=True)
@@ -204,7 +213,10 @@ def main(argv):
     tmp = 0
     for d in time_total:
         for r in room_list:
-            tmp += time_total[d][r]
+            try:
+                tmp += time_total[d][r]
+            except:
+                pass
 
     print 'Total cumulée :', convert_second_to_time(tmp - tmp_fon), 
     print '(', convert_second_to_time(tmp), 'avec le FON )'
