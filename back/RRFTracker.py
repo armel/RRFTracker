@@ -33,8 +33,8 @@ def main(argv):
         elif opt in ('--log-path'):
             s.log_path = arg
         elif opt in ('--room'):
-            if arg not in ['RRF', 'RRF_V1', 'TECHNIQUE', 'INTERNATIONAL', 'BAVARDAGE', 'LOCAL', 'FON']:
-                print 'Unknown room name (choose between \'RRF\', \'RRF_V1\', \'TECHNIQUE\', \'INTERNATIONAL\', \'BAVARDAGE\', \'LOCAL\' and \'FON\')'
+            if arg not in ['RRF', 'RRF_V1', 'TECHNIQUE', 'INTERNATIONAL', 'BAVARDAGE', 'LOCAL', 'EXPERIMENTAL', 'FON']:
+                print 'Unknown room name (choose between \'RRF\', \'TECHNIQUE\', \'INTERNATIONAL\', \'BAVARDAGE\', \'LOCAL\', \'EXPERIMENTAL\' and \'FON\')'
                 sys.exit()
             s.room = arg
 
@@ -238,7 +238,7 @@ def main(argv):
         for k, n in enumerate(s.node_list):
             s.node_list[k] = l.sanitize_call(n)
 
-        for n in ['RRF', 'RRF2', 'RRF3', 'R.R.F', 'R.R.F_V2', 'TECHNIQUE', 'BAVARDAGE', 'INTERNATIONAL', 'LOCAL', 'MsgNodeJoined(']:
+        for n in ['RRF', 'RRF2', 'RRF3', 'R.R.F', 'R.R.F_V2', 'TECHNIQUE', 'BAVARDAGE', 'INTERNATIONAL', 'LOCAL', 'EXPERIMENTAL', 'MsgNodeJoined(']:
             if n in s.node_list:
                 s.node_list.remove(n)
 

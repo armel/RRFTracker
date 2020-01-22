@@ -10,7 +10,7 @@ Check video about RRFTracker on https://www.youtube.com/watch?v=rVW8xczVpEo
 
 # Version
 
-version = '2.3.1'
+version = '2.3.2'
 
 # Default room and path
 
@@ -94,6 +94,10 @@ room_list = {
     'LOCAL': {
         'url': 'http://rrf.f5nlg.ovh/api/svxlink/local',
         'dtmf': '1 0 1'
+    },
+    'EXPERIMENTAL': {
+        'url': 'http://rrf.f5nlg.ovh/api/svxlink/experimental',
+        'dtmf': '102'
     },
     'FON': {
         'url': 'http://rrf.f5nlg.ovh/api/svxlink/FON',

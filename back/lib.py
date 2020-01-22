@@ -27,7 +27,7 @@ def usage():
     print '--help               this help'
     print
     print 'Room settings:'
-    print '  --room ROOM        set room (default=RRF, choose between [RRF, RRF_V1, TECHNIQUE, INTERNATIONAL, BAVARDAGE, LOCAL])'
+    print '  --room ROOM        set room (default=RRF, choose between [RRF, TECHNIQUE, INTERNATIONAL, BAVARDAGE, LOCAL, EXPERIMENTAL, FON])'
     print
     print 'Log settings:'
     print '  --log-path         set the location of log files'
@@ -165,6 +165,7 @@ def log_write():
     data += log_node()
     data += log_porteuse()
     data += log_tot()
+    data += log_type()
     data += log_news()
     data += '}\n'
 
@@ -229,12 +230,12 @@ def log_abstract():
 
     data += '\t"Links sortants": "' + tmp + '",\n'
     data += '\t"Links max": ' + str(s.node_count_max) + ',\n'
-    data += '\t"Links min": ' + str(s.node_count_min) + '\n'
-    data += '},\n'
+    data += '\t"Links min": ' + str(s.node_count_min) + ',\n'
 
     last = data.rfind(',')
     data = data[:last] + '' + data[last + 1:]
 
+    data += '}\n'
     data += '],\n'
 
     return data
@@ -391,6 +392,8 @@ def log_node():
     for n in s.node_list:
         tmp.append(n)
     node_list = sorted(tmp)
+
+    #node_list = sorted(node_list, key=lambda x: x[-1])
 
     total = len(node_list)
     line = (total / width)
@@ -725,6 +728,29 @@ def log_elsewhere():
     for room in room_other:
         data += '\t"' + room + '": ' + tot[tmp] + ',\n'
         tmp += 1
+
+    last = data.rfind(',')
+    data = data[:last] + '' + data[last + 1:]
+
+    data += '}\n'
+    data += '],\n'
+
+    return data
+
+# Log abstract
+def log_type():
+
+    data = '"type":\n'
+    data += '[\n'
+    data += '{\n'
+
+    for t in [' H', ' V', ' U', ' R', ' T', ' T10M', ' 10M', ' 6M']:
+        size = len(t)
+        tmp = 0
+        for n in s.node_list:
+            if n[-size:] == t:
+                tmp += 1
+        data += '\t"' + t.strip() +'": ' + str(tmp) + ',\n'
 
     last = data.rfind(',')
     data = data[:last] + '' + data[last + 1:]

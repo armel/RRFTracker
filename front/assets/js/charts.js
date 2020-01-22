@@ -38,6 +38,7 @@
     });
 
     var abstract, abstractOld = '';
+    var type, typeOld = '';
     var news, newsOld = '';
     var elsewhere, elsewhereOld = '';
     var activity, activityOld = '';
@@ -61,6 +62,7 @@
         if (redraw === true) {
             console.log("rezise");
             abstractOld = '';
+            typeOld = '';
             newsOld = '';
             elsewhereOld = '';
             activityOld = '';
@@ -111,7 +113,7 @@
             .ticks(10);
 
         // Other QSO
-        var room = ['RRF', 'TECHNIQUE', 'INTERNATIONAL', 'BAVARDAGE', 'LOCAL', 'FON'];
+        var room = ['RRF', 'TECHNIQUE', 'INTERNATIONAL', 'BAVARDAGE', 'LOCAL', 'EXPERIMENTAL', 'FON'];
         var roomOther = [];
 
         // Load the data
@@ -124,6 +126,7 @@
                 //old = JSON.stringify(data).replace(/nœud/gi, 'link');
                 //data = JSON.parse(old);
                 abstract = data['abstract'];
+                type = data['type'];
                 news = data['news'];
                 elsewhere = data['elsewhere'];
                 activity = data['activity'];
@@ -136,6 +139,8 @@
                 tot = data['tot'];
             }
         });
+
+        //console.log(type);
 
         nodeModal = sessionStorage.getItem('nodeModal');
         porteuseModal = sessionStorage.getItem('porteuseModal');
@@ -248,11 +253,9 @@
                 }
 
                 // Render the table(s)
+
                 tabulate(data, ['Salon', 'TX total', 'Emission cumulée', 'Links actifs', 'Links connectés']); // 5 columns table
-                d3.select(containerSelector)
-                    .append('span')
-                    .attr('width', width + margin.left + margin.right + 'px')
-                    .text(containerLegend + containerLegendBis);
+                d3.select(containerSelector).append('span').text(containerLegend + containerLegendBis);
             }
         }
 
@@ -319,7 +322,7 @@
                                 return '<a href="' + url + '">' + column + '</a>';
                             }
                             else {
-                                if (count < 5) { // Fix me after migration with 5
+                                if (count < 6) { // Fix me after migration with 5
                                     return ('<div class="blink"><div class="icon"><i class="icofont-headphone-alt-1"></i></div></div>');
                                 }
                                 else {
@@ -351,10 +354,10 @@
                         .append('td')
                         .attr('width', function(d, i) {
                             if (i === 0) {
-                                return '20%';
+                                return '16%';
                             }
                             else {
-                                return '16%';
+                                return '14%';
                                 // return '16%';
                             }
                         })
@@ -1238,15 +1241,54 @@
             if (node !== undefined) {
 
                 const containerSelector = '#node-modal';
-                const containerTitle = '<div class="icon"><i class="icofont-info-circle"></i></div> ' + 'Liste des links connectés';
-                const containerLegend = 'Ce tableau présente la liste des links actuellement connectés.';
+                const containerTitleA = '<div class="icon"><i class="icofont-spreadsheet"></i></div> ' + 'Nombre de links connectés par type';
+                const containerTitleB = '<div class="icon"><i class="icofont-info-circle"></i></div> ' + 'Liste des links connectés';
+                const containerLegendA = 'Ce tableau présente le nombre de links connectés par type.'
+                const containerLegendB = 'Ce tableau présente la liste des links actuellement connectés.';
 
-                data = node;
+                data_a = type;
+                data_b = node;
 
-                function tabulate(data, columns) {
-                    d3.select(containerSelector).html('');
-                    d3.select(containerSelector).append('h2').html(containerTitle);
+                function tabulate_a(data, columns) {
+                    var table = d3.select(containerSelector).append('table');
+                    var thead = table.append('thead');
+                    var tbody = table.append('tbody');
 
+                    // Append the header row
+                    thead.append('tr')
+                        .selectAll('th')
+                        .data(columns).enter()
+                        .append('th')
+                        .text(function(column) {
+                            return column;
+                        });
+
+                    // Create a row for each object in the data
+                    const rows = tbody.selectAll('tr')
+                        .data(data)
+                        .enter()
+                        .append('tr');
+
+                    // Create a cell in each row for each column
+                    const cells = rows.selectAll('td')
+                        .data(function(row) {
+                            return columns.map(function(column) {
+                                return {
+                                    column: column,
+                                    value: row[column]
+                                };
+                            });
+                        })
+                        .enter()
+                        .append('td')
+                        .attr('width', '12%')
+                        .html(function(d, i) {
+                                return d.value;
+                        });
+                    return table;
+                }
+
+                function tabulate_b(data, columns) {
                     var table = d3.select(containerSelector).append('table');
                     var thead = table.append('thead');
                     var tbody = table.append('tbody');
@@ -1277,9 +1319,18 @@
                     return table;
                 }
 
+                d3.select(containerSelector).html('');
+                d3.select(containerSelector).append('h2').html(containerTitleA);
+
                 // Render the table(s)
-                tabulate(data, ['Node 0', 'Node 1', 'Node 2', 'Node 3']); // 8 columns table
-                d3.select(containerSelector).append('span').text(containerLegend);
+                tabulate_a(data_a, ['H', 'V', 'U', 'R', 'T', 'T10M', '10M', '6M']); // 5 columns table
+                d3.select(containerSelector).append('span').text(containerLegendA);
+
+
+                d3.select(containerSelector).append('h2').html(containerTitleB);
+                // Render the table(s)
+                tabulate_b(data_b, ['Node 0', 'Node 1', 'Node 2', 'Node 3']); // 8 columns table
+                d3.select(containerSelector).append('span').text(containerLegendB);
 
                 $('#node-modal').modal();
                 sessionStorage.removeItem('nodeModal');

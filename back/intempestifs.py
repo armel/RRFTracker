@@ -105,6 +105,7 @@ def main(argv):
         'BAVARDAGE',
         'INTERNATIONALE',
         'LOCAL',
+        'EXPERIMENTAL',
         'FON'
     }
 
