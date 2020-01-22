@@ -58,7 +58,7 @@ case "$1" in
         cp $PATH_HTML $PATH_LOG/EXPERIMENTAL-today
         cd $PATH_LOG/EXPERIMENTAL-today/
         rm rrf.json
-        #curl -O $PATH_RRF/EXPERIMENTAL-today/rrf.json
+        curl -O $PATH_RRF/EXPERIMENTAL-today/rrf.json
         cd $CURRENT
         nohup python $PATH_SCRIPT --room EXPERIMENTAL --log-path $PATH_LOG > $PATH_PID/RRFTracker_EXPERIMENTAL.log 2>&1 & echo $! > $PATH_PID/RRFTracker_EXPERIMENTAL.pid
 
