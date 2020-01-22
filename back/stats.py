@@ -74,7 +74,7 @@ def main(argv):
         'INTERNATIONAL',
         'BAVARDAGE',
         'LOCAL',
-        'EXPERIMENTAL',
+        #'EXPERIMENTAL',
         'FON'
     ]
 
