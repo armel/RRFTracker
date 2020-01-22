@@ -161,7 +161,6 @@ def main(argv):
                 tmp += time_total[d][r]
             except:
                 pass
-
         if r == 'FON':
             tmp_fon = tmp
 
