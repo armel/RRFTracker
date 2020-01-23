@@ -740,9 +740,14 @@ def log_elsewhere():
 # Log abstract
 def log_type():
 
+    total = len(s.node_list)
+    data_a = ''
+    data_b = ''
+
     data = '"type":\n'
     data += '[\n'
     data += '{\n'
+
 
     for t in [' H', ' V', ' U', ' R', ' T', ' T10M', ' 10M', ' 6M']:
         size = len(t)
@@ -750,10 +755,24 @@ def log_type():
         for n in s.node_list:
             if n[-size:] == t:
                 tmp += 1
-        data += '\t"' + t.strip() +'": ' + str(tmp) + ',\n'
+        data_a += '\t"' + t.strip() +'": ' + str(tmp) + ',\n'
+        if total != 0:
+            percent = (float(tmp) / total) * 100
+            percent = "{0:.2f}".format(percent)
+            data_b += '\t"' + t.strip() +'": "' + str(percent) + ' %",\n'
+       
+    data += data_a
 
     last = data.rfind(',')
     data = data[:last] + '' + data[last + 1:]
+
+    if total != 0:
+        data += '},\n'
+        data += '{\n'
+        data += data_b
+
+        last = data.rfind(',')
+        data = data[:last] + '' + data[last + 1:]
 
     data += '}\n'
     data += '],\n'
