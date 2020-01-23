@@ -54,13 +54,13 @@ case "$1" in
         cd $CURRENT
         nohup python $PATH_SCRIPT --room LOCAL --log-path $PATH_LOG > $PATH_PID/RRFTracker_LOCAL.log 2>&1 & echo $! > $PATH_PID/RRFTracker_LOCAL.pid
         
-        echo "Starting RRFTracker: EXPERIMENTAL"
-        cp $PATH_HTML $PATH_LOG/EXPERIMENTAL-today
-        cd $PATH_LOG/EXPERIMENTAL-today/
-        rm rrf.json
-        curl -O $PATH_RRF/EXPERIMENTAL-today/rrf.json
-        cd $CURRENT
-        nohup python $PATH_SCRIPT --room EXPERIMENTAL --log-path $PATH_LOG > $PATH_PID/RRFTracker_EXPERIMENTAL.log 2>&1 & echo $! > $PATH_PID/RRFTracker_EXPERIMENTAL.pid
+        #echo "Starting RRFTracker: EXPERIMENTAL"
+        #cp $PATH_HTML $PATH_LOG/EXPERIMENTAL-today
+        #cd $PATH_LOG/EXPERIMENTAL-today/
+        #rm rrf.json
+        #curl -O $PATH_RRF/EXPERIMENTAL-today/rrf.json
+        #cd $CURRENT
+        #nohup python $PATH_SCRIPT --room EXPERIMENTAL --log-path $PATH_LOG > $PATH_PID/RRFTracker_EXPERIMENTAL.log 2>&1 & echo $! > $PATH_PID/RRFTracker_EXPERIMENTAL.pid
 
         echo "Starting RRFTracker: FON"
         cp $PATH_HTML $PATH_LOG/FON-today
@@ -81,8 +81,8 @@ case "$1" in
         kill `cat $PATH_PID/RRFTracker_INTERNATIONAL.pid`
         echo "Stopping RRFTracker: LOCAL"
         kill `cat $PATH_PID/RRFTracker_LOCAL.pid`
-        echo "Stopping RRFTracker: EXPERIMENTAL"
-        kill `cat $PATH_PID/RRFTracker_EXPERIMENTAL.pid`
+        #echo "Stopping RRFTracker: EXPERIMENTAL"
+        #kill `cat $PATH_PID/RRFTracker_EXPERIMENTAL.pid`
         echo "Stopping RRFTracker: FON"
         kill `cat $PATH_PID/RRFTracker_FON.pid`
         ;;
