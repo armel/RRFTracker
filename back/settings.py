@@ -95,10 +95,10 @@ room_list = {
         'url': 'http://rrf.f5nlg.ovh/api/svxlink/local',
         'dtmf': '1 0 1'
     },
-    'EXPERIMENTAL': {
-        'url': 'http://rrf.f5nlg.ovh/api/svxlink/experimental',
-        'dtmf': '102'
-    },
+    #'EXPERIMENTAL': {
+    #    'url': 'http://rrf.f5nlg.ovh/api/svxlink/experimental',
+    #    'dtmf': '102'
+    #},
     'FON': {
         'url': 'http://rrf.f5nlg.ovh/api/svxlink/FON',
         'dtmf': '9 7'
