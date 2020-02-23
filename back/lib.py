@@ -252,14 +252,6 @@ def log_transmit():
     latitude = 0
     longitude = 0
 
-    if s.call_current != '':
-        tmp = s.call_current.split(' ')
-        if (len(tmp) > 1):
-            if(tmp[1] in s.geolocalisation):
-                tmp = s.geolocalisation[tmp[1]].split(' ')
-                latitude = tmp[0]
-                longitude = tmp[1]
-
     data = '"transmit":\n'
     data += '[\n'
 
@@ -276,11 +268,11 @@ def log_transmit():
         data += '\t"Type": "' + tmp[2] + '",\n'
         data += '\t"Description": "' + tmp[3] + '",\n'
         data += '\t"Tone": "' + tmp[4] + '",\n'
-        data += '\t"Sysop": "' + tmp[5] + '",\n'
-        data += '\t"Locator": "' + tmp[6].strip() + '",\n'
-
-    data += '\t"Latitude": ' + str(latitude) + ',\n'
-    data += '\t"Longitude": ' + str(longitude) + ',\n'
+        data += '\t"Locator": "' + tmp[5] + '",\n'
+        data += '\t"Sysop": "' + tmp[6].strip() + '",\n'
+        data += '\t"Longitude": ' + str(tmp[7].strip()) + ',\n'
+        data += '\t"Latitude": ' + str(tmp[8].strip()) + ',\n'
+        
     data += '\t"TOT": ' + str(s.duration) + '\n'
     data += '},\n'
 

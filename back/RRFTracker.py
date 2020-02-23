@@ -61,14 +61,6 @@ def main(argv):
     if os.path.isfile(filename):
         l.restart()
 
-    # Create geolocalisation list
-
-    data = [line.strip() for line in open('../data/wgs84.dat')]
-
-    for line in data:
-        tmp = line.split(' ')
-        s.geolocalisation[tmp[0]] = tmp[1] + ' ' + tmp[2]
-
     # Get user online
     s.user_count = l.log_user()
 

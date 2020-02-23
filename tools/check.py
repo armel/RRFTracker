@@ -2,19 +2,28 @@
 # -*- coding: utf-8 -*-
 
 import time
+import re
 
 def main():
 
     # Lecture du fichier de test
-    data = [line.strip() for line in open('../data/whois.dat')]
+    data = [line.strip() for line in open('whois.dat')]
 
     # Boucle principale
     for line in data:
         tmp = line.split(';')
-        if len(tmp) == 7:
-            print tmp
+        if len(tmp) == 9:
+            tone = tmp[4].split(' ')
+            value = re.findall(r"[-+]?\d*\.\d+|\d+", tone[0])
+            reverse = ''
+            if len(value) == 1:
+                reverse = str(value[0]) + ' Hz'
+
+            if reverse != tmp[4]:
+                print '-----> Error 1 : ', line, reverse, tmp[4]
+
         else:
-            print 'Error'
+            print '-----> Error 2 : ', line
             
 if __name__ == '__main__':
     main()

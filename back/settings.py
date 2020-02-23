@@ -10,7 +10,7 @@ Check video about RRFTracker on https://www.youtube.com/watch?v=rVW8xczVpEo
 
 # Version
 
-version = '2.3.3'
+version = '2.3.4'
 
 # Default room and path
 
@@ -48,7 +48,6 @@ tot_limit = '02:03'         # TOT limit time...
 
 transmit = True         	# Detect transmit
 stat_save = False       	# If False, stat need to be save
-geolocalisation = {}    	# Geolocalisation
 
 message_node_old = ''       # Old message node
 message_current = ''        # Current message
