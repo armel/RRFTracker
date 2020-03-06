@@ -117,6 +117,8 @@ def main():
                     prenom = prenoms[tmp[1]]
                 except:
                     prenom = ''
+            else:
+                prenom = ''
 
         result = indicatif + ';' + type + ';' + description + ';' + tone + ';' + locator + ';' + longitude + ';' + latitude + ';' + sysop + ';' + prenom
 
