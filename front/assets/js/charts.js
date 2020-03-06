@@ -818,7 +818,7 @@
                         template = template.replace(/Sysop/g, 'Prénom');
                     }
                     else {
-                        template = template.replace(/{Sysop}/g, data[0]['Sysop']);
+                        template = template.replace(/{Sysop}/g, data[0]['Sysop'] + ' ' + data[0]['Prenom']);
                     }
                 }
 

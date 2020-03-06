@@ -13,14 +13,14 @@ def main():
     for line in data:
         tmp = line.split(';')
         if len(tmp) == 9:
-            tone = tmp[4].split(' ')
+            tone = tmp[3].split(' ')
             value = re.findall(r"[-+]?\d*\.\d+|\d+", tone[0])
             reverse = ''
             if len(value) == 1:
                 reverse = str(value[0]) + ' Hz'
 
-            if reverse != tmp[4]:
-                print '-----> Error 1 : ', line, reverse, tmp[4]
+            if reverse != tmp[3]:
+                print '-----> Error 1 : ', line, reverse, tmp[3]
 
         else:
             print '-----> Error 2 : ', line
