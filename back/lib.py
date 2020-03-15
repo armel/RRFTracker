@@ -260,7 +260,7 @@ def log_transmit():
     if s.call_current != '':
         tmp = whois_call(s.call_current)
         if tmp is False:
-            tmp = '-;-;-;Link Inconnu;-;-;-;0;0'
+            tmp = '-;-;Link Inconnu;-;-;0;0;-;-' # Indicatif;Type;Description;Tone;Locator;Longitude;Latitude;Sysop;Prenom
 
         tmp = tmp.split(';')
 
