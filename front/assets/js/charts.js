@@ -818,7 +818,12 @@
                         template = template.replace(/Sysop/g, 'Prénom');
                     }
                     else {
-                        template = template.replace(/{Sysop}/g, data[0]['Sysop'] + ' ' + data[0]['Prenom']);
+                        if (data[0]['Prenom'] == '-') {
+                            template = template.replace(/{Sysop}/g, data[0]['Sysop']);
+                        }
+                        else {
+                            template = template.replace(/{Sysop}/g, data[0]['Sysop'] + ' ' + data[0]['Prenom']);
+                        }
                     }
                 }
 
