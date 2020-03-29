@@ -1,8 +1,8 @@
 #!/bin/sh
 
-PATH_SCRIPT='/opt/RRFTracker_Web/back/RRFTracker.py'
-PATH_MEDIA='/opt/RRFTracker_Web/front/assets'
-PATH_HTML='/opt/RRFTracker_Web/front/index.html'
+PATH_SCRIPT='/opt/RRFTracker/back/RRFTracker.py'
+PATH_MEDIA='/opt/RRFTracker/front/assets'
+PATH_HTML='/opt/RRFTracker/front/index.html'
 
 PATH_LOG='/var/www/RRFTracker'
 PATH_PID='/tmp'

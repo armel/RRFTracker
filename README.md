@@ -1,5 +1,5 @@
-# RRFTracker_Web
-Suivi temps réel de l'activité du réseau [RRF](https://f5nlg.wordpress.com/2015/12/28/nouveau-reseau-french-repeater-network/) (Réseau des Répéteurs Francophones) pour le Web. Ce projet est une déclinaison Web de la version développée pour [Spotnik](https://github.com/armel/RRFTracker_Spotnik).
+# RRFTracker
+Suivi temps réel de l'activité du réseau [RRF](https://f5nlg.wordpress.com/2015/12/28/nouveau-reseau-french-repeater-network/) (Réseau des Répéteurs Francophones).
 
 ## Présentation
 
@@ -59,4 +59,4 @@ Ce tableau présente le classement général des nœuds ayant fait l'objet de d�
 * L'indicatif du nœud,
 * Le nombre de déclenchements « intempestifs » en émission.
 
-![alt text](https://github.com/armel/RRFTracker_Web/blob/master/doc/screenshot.png)
+![alt text](https://github.com/armel/RRFTracker/blob/master/doc/screenshot.png)

@@ -1,8 +1,8 @@
 #!/bin/sh
 
-PATH_SCRIPT='/Users/armel/Dropbox/RRFTracker_Web/back/RRFTracker.py'
-PATH_MEDIA='/Users/armel/Dropbox/RRFTracker_Web/front/assets'
-PATH_HTML='/Users/armel/Dropbox/RRFTracker_Web/front/index.html'
+PATH_SCRIPT='/Users/armel/Dropbox/RRFTracker/back/RRFTracker.py'
+PATH_MEDIA='/Users/armel/Dropbox/RRFTracker/front/assets'
+PATH_HTML='/Users/armel/Dropbox/RRFTracker/front/index.html'
 PATH_RRF='http://rrf.f5nlg.ovh:8080/RRFTracker/'
 
 PATH_LOG='/Users/armel/Sites/RRF'
