@@ -40,23 +40,48 @@ def sanitize_call(call):
 
 # Whois call
 def whois_call(call):
-    with open('../data/whois.dat') as f:
+    with open(os.path.join(os.path.dirname(__file__), '../data/whois.dat')) as f:
         for line in f:
             tmp = line.split(';')
             if tmp[0] == call:
                 return line
 
     if s.room != 'FON':
-        if os.path.isfile('../data/inconnu.dat'):
-            with open('../data/inconnu.dat') as f:
+        if os.path.isfile(os.path.join(os.path.dirname(__file__), '../data/inconnu.dat')):
+            with open(os.path.join(os.path.dirname(__file__), '../data/inconnu.dat')) as f:
                 for line in f:
                     if line.strip() == call.strip():
                         return False
 
-        with open('../data/inconnu.dat', 'a') as f:
+        with open(os.path.join(os.path.dirname(__file__), '../data/inconnu.dat'), 'a') as f:
             f.write(call + '\n')
 
-    return False;
+    return False
+
+# Whereis call
+def whereis_call(call):
+    # Requete HTTP vers l'api de F1EVM
+    try:
+        r = requests.get(s.whereis_api, verify=False, timeout=0.50)
+    except requests.exceptions.ConnectionError as errc:
+        #print ('Error Connecting:', errc)
+        pass
+    except requests.exceptions.Timeout as errt:
+        #print ('Timeout Error:', errt)
+        pass
+
+    # Controle de la validité du flux json
+    try:
+        whereis_data = r.json()
+    except:
+        pass
+
+    if whereis_data != '':
+        for item in whereis_data['nodes']:
+            if item[2] == call:
+                return item[0]
+
+    return False
 
 # Convert second to time
 def convert_second_to_time(time):
@@ -272,7 +297,13 @@ def log_transmit():
         data += '\t"Latitude": ' + str(tmp[6].strip()) + ',\n'
         data += '\t"Sysop": "' + tmp[7].strip() + '",\n'
         data += '\t"Prenom": "' + tmp[8].strip() + '",\n'
-        
+
+        tmp = whereis_call(s.call_current)
+        if tmp is False:
+            data += '\t"Serveur": "-",\n'
+        else:
+            data += '\t"Serveur": "' + str(tmp) + '",\n'
+
     data += '\t"TOT": ' + str(s.duration) + '\n'
     data += '},\n'
 

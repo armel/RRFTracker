@@ -10,7 +10,7 @@ Check video about RRFTracker on https://www.youtube.com/watch?v=rVW8xczVpEo
 
 # Version
 
-version = '2.3.7'
+version = '2.3.8'
 
 # Default room and path
 
@@ -71,8 +71,6 @@ init = True				# Check if init...
 
 # Set url
 
-# http://rrf2.f5nlg.ovh:8000/status-json.xsl
-
 room_list = {
     'RRF': {
         'url': 'http://rrf.f5nlg.ovh/api/svxlink/RRF',
@@ -103,3 +101,5 @@ room_list = {
         'dtmf': '9 7'
     }
 }
+
+whereis_api = 'http://rrf.f5nlg.ovh:4440/nodes'
