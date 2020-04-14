@@ -788,6 +788,7 @@
                     template += "<tr><th>Locator</th><td>{Locator}</td></tr>";
                     template += "<tr><th>Distance</th><td>{Distance}</td></tr>";
                     template += "<tr><th>Sysop</th><td>{Sysop}</td></tr>";
+                    template += "<tr><th>Serveur</th><td>{Serveur}</td></tr>";
 
                 var template_clock = "<div class='center-clock'><div class='clock'></div></div";
 
@@ -798,6 +799,7 @@
                     template = template.replace(/{Locator}/g, '-');
                     template = template.replace(/{Distance}/g, '-');
                     template = template.replace(/{Sysop}/g, '-');
+                    template = template.replace(/{Serveur}/g, '-');
                 }
                 else {
 
@@ -825,6 +827,7 @@
                             template = template.replace(/{Sysop}/g, data[0]['Sysop'] + ' ' + data[0]['Prenom']);
                         }
                     }
+                    template = template.replace(/{Serveur}/g, data[0]['Serveur']);
                 }
 
                 d3.select(containerSelector)
