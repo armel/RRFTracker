@@ -60,6 +60,8 @@ def whois_call(call):
 
 # Whereis call
 def whereis_call(call):
+    whereis_data = ''
+    
     # Requete HTTP vers l'api de F1EVM
     try:
         r = requests.get(s.whereis_api, verify=False, timeout=0.50)
