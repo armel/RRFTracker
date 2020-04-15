@@ -64,6 +64,12 @@ def main(argv):
     # Get user online
     s.user_count = l.log_user()
 
+    # Load whereis dict
+    l.whereis_load()
+    
+    # Load whois dict
+    l.whois_load()
+
     # Boucle principale
     while(True):
         chrono_start = time.time()
@@ -78,6 +84,10 @@ def main(argv):
 
         if(s.minute % 5 == 0):
             s.user_count = l.log_user()
+            l.whereis_load()
+
+        if(s.minute % 30 == 0):
+            l.whois_load()
 
         if(s.now[:5] == '00:00'):
             s.log_path_day = s.log_path + '/' + s.room + '-' + s.day

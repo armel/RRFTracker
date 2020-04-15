@@ -103,3 +103,5 @@ room_list = {
 }
 
 whereis_api = 'http://rrf.f5nlg.ovh:4440/nodes'
+whereis_list = {}
+whois_list = {}

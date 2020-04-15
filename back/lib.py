@@ -38,13 +38,18 @@ def usage():
 def sanitize_call(call):
     return call.translate(None, '\\\'!@#$"')
 
-# Whois call
-def whois_call(call):
+# Whois load
+def whois_load():
     with open(os.path.join(os.path.dirname(__file__), '../data/whois.dat')) as f:
         for line in f:
             tmp = line.split(';')
-            if tmp[0] == call:
-                return line
+            s.whois_list[tmp[0]] = line
+    return True
+
+# Whois call
+def whois_call(call):
+    if call in s.whois_list:
+        return s.whois_list[call]
 
     if s.room != 'FON':
         if os.path.isfile(os.path.join(os.path.dirname(__file__), '../data/inconnu.dat')):
@@ -58,10 +63,9 @@ def whois_call(call):
 
     return False
 
-# Whereis call
-def whereis_call(call):
+# Whereis load
+def whereis_load():
     whereis_data = ''
-    
     # Requete HTTP vers l'api de F1EVM
     try:
         r = requests.get(s.whereis_api, verify=False, timeout=0.50)
@@ -80,9 +84,13 @@ def whereis_call(call):
 
     if whereis_data != '':
         for item in whereis_data['nodes']:
-            if item[2] == call:
-                return item[0]
+            s.whereis_list[item[2]] = item[0]
+    return True
 
+# Whereis call
+def whereis_call(call):
+    if call in s.whereis_list:
+        return s.whereis_list[call]
     return False
 
 # Convert second to time
