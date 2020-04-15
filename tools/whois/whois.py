@@ -111,6 +111,12 @@ def main():
             except:
                 prenom = ''
         else:
+            tmp = indicatif.split(' ')
+            try:
+                prenom = prenoms[tmp[1]]
+            except:
+                prenom = ''
+            '''
             if type == 'Hotspot':
                 tmp = indicatif.split(' ')
                 try:
@@ -119,6 +125,7 @@ def main():
                     prenom = ''
             else:
                 prenom = ''
+            '''
 
         result = indicatif + ';' + type + ';' + description + ';' + tone + ';' + locator + ';' + longitude + ';' + latitude + ';' + sysop + ';' + prenom
 
