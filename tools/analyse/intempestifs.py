@@ -180,7 +180,6 @@ def main(argv):
                 try:
                     rrf_data = json.loads(rrf_data)
 
-                    print f
                     for data in rrf_data['porteuse']:
                         try:
                             porteuse[data[u'Indicatif'].encode('utf-8')] += data[u'TX']
