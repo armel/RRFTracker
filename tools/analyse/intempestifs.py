@@ -161,7 +161,7 @@ def main(argv):
             file.sort()
         else:
             file = []
-            start_date = time.asctime(time.strptime('2019 %d 1' % int(search_pattern), '%Y %W %w'))
+            start_date = time.asctime(time.strptime(str(datetime.datetime.today().year) + ' %d 1' % int(search_pattern), '%Y %W %w'))
             start_date = datetime.datetime.strptime(start_date, '%a %b %d %H:%M:%S %Y')
             file = [search_path + 'RRF-' + start_date.strftime('%Y-%m-%d') + '/rrf.json']
             for i in range(1, 7):
@@ -173,7 +173,6 @@ def main(argv):
         time_total = 0
 
         for f in file:
-            print f
             if os.path.isfile(f):
                 rrf_json = open(f)
                 rrf_data = rrf_json.read()
