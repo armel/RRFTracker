@@ -102,7 +102,7 @@ def main(argv):
         'RRF',
         'TECHNIQUE',
         'BAVARDAGE',
-        'INTERNATIONALE',
+        'INTERNATIONAL',
         'LOCAL',
         'EXPERIMENTAL',
         'FON'
