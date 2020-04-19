@@ -16,7 +16,6 @@ import sys
 import getopt
 import json
 
-
 # Ansi color
 class color:
     PURPLE = '\033[95m'
@@ -38,7 +37,7 @@ def usage():
     print
     print 'Search settings:'
     print '  --path        set path to RRF files (default=/var/www/RRFTracker/)'
-    print '  --days        number of last days to analyse  (default=1)'
+    print '  --days        number of last days to analyse  (default=0 for today only)'
     print
     print '88 & 73 from F4HWN Armel'
 
@@ -66,36 +65,6 @@ def convert_time_to_second(time):
     return sum([a * b for a, b in zip(format, map(int, time.split(':')))])
 
 
-# Print console
-def print_console(tmp, r):
-
-    i = 1
-    print 'Salon\t\tPos\tIndicatif\t\tDéclenchements\t\tDurée\t\tRatio'
-    print '-----\t\t---\t---------\t\t--------------\t\t-----\t\t-----'
-    for e in tmp:
-        print r, '\t',
-        if len(r) < 8:
-            print '\t',
-        print '%03d' % i, 
-        print '\t', e[0], '\t',
-        if len(e[0]) < 15:
-            print '\t',
-        print '%03d' % e[1][0],
-
-        print '\t\t\t',
-        print convert_second_to_time(e[1][1]),
-        print '\t',
-
-        if e[1][2] != 0:
-            print '%06.2f' % e[1][2] + ' s/d'
-        else:
-            print 'Jamais en émission'
-
-        i += 1
-
-    return 0
-
-
 def main(argv):
 
     room_list = {
@@ -108,7 +77,7 @@ def main(argv):
         'FON'
     }
 
-    porteuse = dict()
+    tx = dict()
     all = dict()
     total = dict()
     full = dict()
@@ -117,7 +86,7 @@ def main(argv):
     tmp = datetime.datetime.now()
 
     search_path = '/var/www/RRFTracker/'
-    search_pattern = tmp.strftime('%Y-%m')
+    search_pattern = 1
     search_type = 'month'
 
     # Check and get arguments
@@ -141,28 +110,21 @@ def main(argv):
     print color.BLUE + 'Pattern ' + color.END + str(search_pattern),
     print '...'
 
+    search_pattern -= 1
     time_super_total = 0
 
     for r in room_list:
 
-        porteuse.clear()
+        tx.clear()
         all.clear()
         total.clear()
 
-        
         file = []
         start_date = datetime.datetime.now() - datetime.timedelta(search_pattern)
         file = [search_path + r + '-' + start_date.strftime('%Y-%m-%d') + '/rrf.json']
-        for i in range(1, search_pattern):
+        for i in range(1, search_pattern + 1):
             file.append(search_path + r + '-' + (start_date + datetime.timedelta(days=i)).strftime('%Y-%m-%d') + '/rrf.json')
-
-        '''
-        for f in file:
-            print f
-
-        exit()
-        '''
-
+ 
         time_total = 0
 
         for f in file:
@@ -175,11 +137,11 @@ def main(argv):
                     rrf_data = json.loads(rrf_data)
 
                     #print f
-                    for data in rrf_data['porteuse']:
+                    for data in rrf_data['all']:
                         try:
-                            porteuse[data[u'Indicatif'].encode('utf-8')] += data[u'TX']
+                            tx[data[u'Indicatif'].encode('utf-8')] += data[u'TX']
                         except:
-                            porteuse[data[u'Indicatif'].encode('utf-8')] = data[u'TX']
+                            tx[data[u'Indicatif'].encode('utf-8')] = data[u'TX']
 
                     if 'all' in rrf_data:
                         for data in rrf_data['all']:
@@ -197,12 +159,12 @@ def main(argv):
                 except:
                     pass
 
-        if 'RRF' in porteuse:
-            del porteuse['RRF']
-        if 'F5ZIN-L' in porteuse:
-            del porteuse['F5ZIN-L']
+        if 'RRF' in tx:
+            del tx['RRF']
+        if 'F5ZIN-L' in tx:
+            del tx['F5ZIN-L']
 
-        tmp = sorted(porteuse.items(), key=lambda x: x[1])
+        tmp = sorted(tx.items(), key=lambda x: x[1])
         tmp.reverse()
 
         i = 1
@@ -230,58 +192,6 @@ def main(argv):
                     full[a] += total[a][1]
                 else:
                     full[a] = total[a][1]
-
-        # Affichage
-
-        '''
-        print '===================='
-        print color.BLUE + r + color.END
-        print '===================='
-
-        print color.BLUE + r + ' - Classement par déclenchements' + color.END
-        print
-        tmp = sorted(total.items(), key=lambda x: x[1][0])
-        tmp.reverse()
-        print_console(tmp, r)
-        print '----------'
-
-        print color.BLUE + r + ' - Classement par ratio' + color.END
-        print
-        tmp = sorted(total.items(), key=lambda x: x[1][2])
-        tmp.reverse()
-        print_console(tmp, r)
-        print '----------'
-
-        print color.BLUE + r + ' - Classement par durée' + color.END
-        print
-        tmp = sorted(total.items(), key=lambda x: x[1][1])
-        tmp.reverse()
-        print_console(tmp, r)
-        print '----------'
-
-        # Synthese
-
-        somme = []
-        link = []
-        somme_intempestif = 0
-
-        for e in tmp:
-            if e[1][1] < 600:
-                somme.append(e[1][0]) 
-                link.append(e[0])
-
-            somme_intempestif += e[1][0]
-
-        print 'Remarque :'
-        print len(somme), 'links ont généré moins de 10 minutes de BF dans le mois pour', sum(somme), 'déclenchements !'
-        for l in link:
-            print l,
-        print
-
-        print '----------'
-
-        print 'Total des déclenchements :', somme_intempestif
-        '''
 
     print '----------'
     print 'Classement des links les plus actifs tous salons confondus (hors FON)'
