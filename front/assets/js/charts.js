@@ -282,7 +282,7 @@
                 elsewhereOld = JSON.stringify(elsewhere);
 
                 const containerSelector = '.elsewhere-table';
-                const containerTitle = '<div class="icon"><i class="icofont-dashboard-web"></i></div> ' + 'Activité sur les autres salons';
+                const containerTitle = '<div class="icon"><i class="icofont-dashboard-web"></i></div> ' + 'Activité sur les autres salons (<a href="http://rrf.f5nlg.ovh:8080/RRFAnalyzer/?stat=d">synthèse du RRFAnalyzer</a>)';
                 const containerLegend = 'Ce tableau présente l\'activité éventuelle sur les autres salons : indicatif en cours d\'émission, nombre de passages en émission total, durée cumulée en émission, nombre de links actifs et connectés, ainsi qu\'un rappel des codes DTMF standards. ';
 
                 data = elsewhere;
