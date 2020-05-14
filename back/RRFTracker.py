@@ -34,7 +34,7 @@ def main(argv):
             s.log_path = arg
         elif opt in ('--room'):
             if arg not in ['RRF', 'RRF_V1', 'TECHNIQUE', 'INTERNATIONAL', 'BAVARDAGE', 'LOCAL', 'EXPERIMENTAL', 'FON']:
-                print 'Unknown room name (choose between \'RRF\', \'TECHNIQUE\', \'INTERNATIONAL\', \'BAVARDAGE\', \'LOCAL\', \'EXPERIMENTAL\' and \'FON\')'
+                print('Unknown room name (choose between \'RRF\', \'TECHNIQUE\', \'INTERNATIONAL\', \'BAVARDAGE\', \'LOCAL\', \'EXPERIMENTAL\' and \'FON\')')
                 sys.exit()
             s.room = arg
 
@@ -99,7 +99,7 @@ def main(argv):
 
             s.qso = 0
             s.day_duration = 0
-            for q in xrange(0, 24):     # Clean histogram
+            for q in range(0, 24):     # Clean histogram
                 s.qso_hour[q] = 0
             s.all.clear()               # Clear all history
             s.porteuse.clear()          # Clear porteuse history
@@ -109,11 +109,11 @@ def main(argv):
         # Request HTTP datas
         try:
             r = requests.get(s.room_list[s.room]['url'], verify=False, timeout=10)
-            page = r.content
+            page = r.content.decode('utf-8')
         except requests.exceptions.ConnectionError as errc:
-            print ('Error Connecting:', errc)
+            print('Error Connecting:', errc)
         except requests.exceptions.Timeout as errt:
-            print ('Timeout Error:', errt)
+            print('Timeout Error:', errt)
 
         search_start = page.find('TXmit":"')            # Search this pattern
         search_start += 8                               # Shift...
@@ -137,7 +137,7 @@ def main(argv):
                 else:
                     blanc = l.convert_time_to_second(s.now) - l.convert_time_to_second(s.call_date[0])
 
-                for i in xrange(9, 0, -1):
+                for i in range(9, 0, -1):
                     s.call[i] = s.call[i - 1]
                     s.call_date[i] = s.call_date[i - 1]
                     s.call_blanc[i] = s.call_blanc[i - 1]
@@ -156,7 +156,7 @@ def main(argv):
                     else:
                         blanc = l.convert_time_to_second(s.now) - l.convert_time_to_second(s.call_date[0])
 
-                    for i in xrange(9, 0, -1):
+                    for i in range(9, 0, -1):
                         s.call[i] = s.call[i - 1]
                         s.call_date[i] = s.call_date[i - 1]
                         s.call_blanc[i] = s.call_blanc[i - 1]

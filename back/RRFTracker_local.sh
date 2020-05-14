@@ -22,7 +22,7 @@ case "$1" in
         rm rrf.json
         curl -O $PATH_RRF/RRF-today/rrf.json
         cd $CURRENT
-        nohup python $PATH_SCRIPT --room RRF --log-path $PATH_LOG > $PATH_PID/RRFTracker_RRF.log 2>&1 & echo $! > $PATH_PID/RRFTracker_RRF.pid
+        nohup python3 $PATH_SCRIPT --room RRF --log-path $PATH_LOG > $PATH_PID/RRFTracker_RRF.log 2>&1 & echo $! > $PATH_PID/RRFTracker_RRF.pid
         
         echo "Starting RRFTracker: TECHNIQUE"
         cp $PATH_HTML $PATH_LOG/TECHNIQUE-today
@@ -31,7 +31,7 @@ case "$1" in
         rm rrf.json
         curl -O $PATH_RRF/TECHNIQUE-today/rrf.json
         cd $CURRENT
-        nohup python $PATH_SCRIPT --room TECHNIQUE --log-path $PATH_LOG > $PATH_PID/RRFTracker_TECHNIQUE.log 2>&1 & echo $! > $PATH_PID/RRFTracker_TECHNIQUE.pid
+        nohup python3 $PATH_SCRIPT --room TECHNIQUE --log-path $PATH_LOG > $PATH_PID/RRFTracker_TECHNIQUE.log 2>&1 & echo $! > $PATH_PID/RRFTracker_TECHNIQUE.pid
         
         echo "Starting RRFTracker: BAVARDAGE"
         cp $PATH_HTML $PATH_LOG/BAVARDAGE-today
@@ -40,7 +40,7 @@ case "$1" in
         rm rrf.json
         curl -O $PATH_RRF/BAVARDAGE-today/rrf.json
         cd $CURRENT
-        nohup python $PATH_SCRIPT --room BAVARDAGE --log-path $PATH_LOG > $PATH_PID/RRFTracker_BAVARDAGE.log 2>&1 & echo $! > $PATH_PID/RRFTracker_BAVARDAGE.pid
+        nohup python3 $PATH_SCRIPT --room BAVARDAGE --log-path $PATH_LOG > $PATH_PID/RRFTracker_BAVARDAGE.log 2>&1 & echo $! > $PATH_PID/RRFTracker_BAVARDAGE.pid
         
         echo "Starting RRFTracker: INTERNATIONAL"
         cp $PATH_HTML $PATH_LOG/INTERNATIONAL-today
@@ -49,7 +49,7 @@ case "$1" in
         rm rrf.json
         curl -O $PATH_RRF/INTERNATIONAL-today/rrf.json
         cd $CURRENT
-        nohup python $PATH_SCRIPT --room INTERNATIONAL --log-path $PATH_LOG > $PATH_PID/RRFTracker_INTERNATIONAL.log 2>&1 & echo $! > $PATH_PID/RRFTracker_INTERNATIONAL.pid
+        nohup python3 $PATH_SCRIPT --room INTERNATIONAL --log-path $PATH_LOG > $PATH_PID/RRFTracker_INTERNATIONAL.log 2>&1 & echo $! > $PATH_PID/RRFTracker_INTERNATIONAL.pid
         
         echo "Starting RRFTracker: LOCAL"
         cp $PATH_HTML $PATH_LOG/LOCAL-today
@@ -58,7 +58,7 @@ case "$1" in
         rm rrf.json
         curl -O $PATH_RRF/LOCAL-today/rrf.json
         cd $CURRENT
-        nohup python $PATH_SCRIPT --room LOCAL --log-path $PATH_LOG > $PATH_PID/RRFTracker_LOCAL.log 2>&1 & echo $! > $PATH_PID/RRFTracker_LOCAL.pid
+        nohup python3 $PATH_SCRIPT --room LOCAL --log-path $PATH_LOG > $PATH_PID/RRFTracker_LOCAL.log 2>&1 & echo $! > $PATH_PID/RRFTracker_LOCAL.pid
         
         #echo "Starting RRFTracker: EXPERIMENTAL"
         #cp $PATH_HTML $PATH_LOG/EXPERIMENTAL-today
@@ -66,7 +66,7 @@ case "$1" in
         #rm rrf.json
         #curl -O $PATH_RRF/EXPERIMENTAL-today/rrf.json
         #cd $CURRENT
-        #nohup python $PATH_SCRIPT --room EXPERIMENTAL --log-path $PATH_LOG > $PATH_PID/RRFTracker_EXPERIMENTAL.log 2>&1 & echo $! > $PATH_PID/RRFTracker_EXPERIMENTAL.pid
+        #nohup python3 $PATH_SCRIPT --room EXPERIMENTAL --log-path $PATH_LOG > $PATH_PID/RRFTracker_EXPERIMENTAL.log 2>&1 & echo $! > $PATH_PID/RRFTracker_EXPERIMENTAL.pid
 
         echo "Starting RRFTracker: FON"
         cp $PATH_HTML $PATH_LOG/FON-today
@@ -75,7 +75,7 @@ case "$1" in
         rm rrf.json
         curl -O $PATH_RRF/FON-today/rrf.json
         cd $CURRENT
-        nohup python $PATH_SCRIPT --room FON --log-path $PATH_LOG > $PATH_PID/RRFTracker_FON.log 2>&1 & echo $! > $PATH_PID/RRFTracker_FON.pid
+        nohup python3 $PATH_SCRIPT --room FON --log-path $PATH_LOG > $PATH_PID/RRFTracker_FON.log 2>&1 & echo $! > $PATH_PID/RRFTracker_FON.pid
         ;;
     stop) 
         echo "Stopping RRFTracker: RRF"
