@@ -18,16 +18,16 @@ chrono_start = time.time()
 # Request HTTP datas
 try:
     r = requests.get('http://rrf.f5nlg.ovh:8080/server-status', verify=False, timeout=10)
-    page = r.content
+    page = r.content.decode('utf-8')
 except requests.exceptions.ConnectionError as errc:
-    print ('Error Connecting:', errc)
+    print('Error Connecting:', errc)
 except requests.exceptions.Timeout as errt:
-    print ('Timeout Error:', errt)
+    print('Timeout Error:', errt)
 
 ip = re.findall( r'[0-9]+(?:\.[0-9]+){3}', page)
 ip = list(set(ip))
 
-print ip
+print(ip)
 
 total = str(len(ip))
 
@@ -37,9 +37,9 @@ data += '\t"IP": "' + total + '"\n'
 data += '}\n'
 data += ']\n'
 
-print data
+print(data)
 
 chrono_stop = time.time()
 chrono_time = chrono_stop - chrono_start
 
-print chrono_time
+print(chrono_time)

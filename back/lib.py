@@ -22,21 +22,21 @@ from random import randrange
 
 # Usage
 def usage():
-    print 'Usage: RRFTracker.py [options ...]'
-    print
-    print '--help               this help'
-    print
-    print 'Room settings:'
-    print '  --room ROOM        set room (default=RRF, choose between [RRF, TECHNIQUE, INTERNATIONAL, BAVARDAGE, LOCAL, EXPERIMENTAL, FON])'
-    print
-    print 'Log settings:'
-    print '  --log-path         set the location of log files'
-    print
-    print '88 & 73 from F4HWN Armel'
+    print('Usage: RRFTracker.py [options ...]')
+    print()
+    print('--help               this help')
+    print()
+    print('Room settings:')
+    print('  --room ROOM        set room (default=RRF, choose between [RRF, TECHNIQUE, INTERNATIONAL, BAVARDAGE, LOCAL, EXPERIMENTAL, FON])')
+    print()
+    print('Log settings:')
+    print('  --log-path         set the location of log files')
+    print()
+    print('88 & 73 from F4HWN Armel')
 
 # Sanitize call
 def sanitize_call(call):
-    return call.translate(None, '\\\'!@#$"')
+    return call.translate(str.maketrans('', '', '\\\'!@#$"'))
 
 # Whois load
 def whois_load():
@@ -113,7 +113,7 @@ def convert_time_to_second(time):
     else:
         format = [60, 1]        
     
-    return sum([a * b for a, b in zip(format, map(int, time.split(':')))])
+    return sum([a * b for a, b in zip(format, list(map(int, time.split(':'))))])
 
 # Save stats
 def save_stat_node(history, call, duration=0):
@@ -165,7 +165,7 @@ def save_stat_all(history, call, hour, duration, new=False):
             limit = len(history[call])
             total = 0
 
-            for e in xrange(3, limit, 2):
+            for e in range(3, limit, 2):
                 #print limit, history[call], history[call][e]
                 total += convert_time_to_second(history[call][e])
 
@@ -331,7 +331,7 @@ def log_activity():
     data += '[\n'
 
     l = 1
-    for i in xrange(0, 24):
+    for i in range(0, 24):
 
         x = str('{:0>2d}'.format(int(i)))
         y = str('{:0>2d}'.format(int(l)))
@@ -364,7 +364,7 @@ def log_last():
 
     p = 0
 
-    for i in xrange(0, 10):
+    for i in range(0, 10):
         if s.call_date[i] == '':
             break
         data += '{\n'
@@ -386,7 +386,7 @@ def log_last():
 
 # Log best
 def log_best():
-    tmp = sorted(s.all.items(), key=lambda x: x[1][0])
+    tmp = sorted(list(s.all.items()), key=lambda x: x[1][0])
     tmp.reverse()
 
     limit = 20
@@ -429,14 +429,14 @@ def log_node():
     #node_list = sorted(node_list, key=lambda x: x[-1])
 
     total = len(node_list)
-    line = (total / width)
+    line = int(total / width)
 
     complete = total - (line * width)
 
     if complete != 0:
         line += 1
         complete = (line * width) - total
-        for n in xrange(0, complete):
+        for n in range(0, complete):
             node_list.append('')
 
     limit = len(node_list)
@@ -444,7 +444,7 @@ def log_node():
 
     while(indice < limit):
         data += '{\n'
-        for e in xrange(0, width - 1):
+        for e in range(0, width - 1):
             data += '\t"Node '+ str(e) +'": "' + node_list[indice + e] + '",\n'
         data += '\t"Node '+ str(e + 1) +'": "' + node_list[indice + e + 1] + '"\n'
         data += '},\n'
@@ -460,7 +460,7 @@ def log_node():
 
 # Log porteuse
 def log_porteuse():
-    tmp = sorted(s.porteuse.items(), key=lambda x: x[1])
+    tmp = sorted(list(s.porteuse.items()), key=lambda x: x[1])
     tmp.reverse()
 
     data = '"porteuse":\n'
@@ -494,7 +494,7 @@ def log_porteuse():
 
 # Log tot
 def log_tot():
-    tmp = sorted(s.tot.items(), key=lambda x: x[1])
+    tmp = sorted(list(s.tot.items()), key=lambda x: x[1])
     tmp.reverse()
 
     data = '"tot":\n'
@@ -528,7 +528,7 @@ def log_tot():
 
 # Log all
 def log_all():
-    tmp = sorted(s.all.items(), key=lambda x: convert_time_to_second(x[1][1]))
+    tmp = sorted(list(s.all.items()), key=lambda x: convert_time_to_second(x[1][1]))
     tmp.reverse()
 
     data = '"all":\n'
@@ -549,7 +549,7 @@ def log_all():
         limit = len(t[2:])
         limit += 1
 
-        for e in xrange(2, limit, 2):
+        for e in range(2, limit, 2):
             heure += str(t[e]) + ', '
             chrono += str(t[e + 1]) + ', '
 
@@ -573,7 +573,7 @@ def log_all():
 
 # Log all
 def log_all_tiny():
-    tmp = sorted(s.all.items(), key=lambda x: convert_time_to_second(x[1][1]))
+    tmp = sorted(list(s.all.items()), key=lambda x: convert_time_to_second(x[1][1]))
     tmp.reverse()
 
     data = '"all":\n'
@@ -687,12 +687,13 @@ def log_elsewhere():
 
                 # Noeuds connectés
                 search_start = content.find('Links connectés": ')   # Search this pattern
-                search_start += 19                                  # Shift...
+                search_start += 18                                  # Shift...
                 search_stop = content.find(',', search_start)       # And close it...
 
                 tmp = content[search_start:search_stop]
 
                 connected.append(tmp)
+
 
     data += '\t"Scanner RRF": "Emission en cours",\n'
     tmp = 0
@@ -894,11 +895,11 @@ def log_user():
     
     try:
         r = requests.get('http://rrf.f5nlg.ovh:8080/server-status', verify=False, timeout=10)
-        page = r.content
+        page = r.content.decode('utf-8')
     except requests.exceptions.ConnectionError as errc:
-        print ('Error Connecting:', errc)
+        print('Error Connecting:', errc)
     except requests.exceptions.Timeout as errt:
-        print ('Timeout Error:', errt)
+        print('Timeout Error:', errt)
 
     ip = re.findall(r'[0-9]+(?:\.[0-9]+){3}', page)
     ip = list(set(ip))
@@ -928,44 +929,44 @@ def restart():
     s.qso = sum(s.qso_hour)
 
     for data in rrf_data['abstract']:
-        s.day_duration = convert_time_to_second(data[u'Emission cumulée'])
+        s.day_duration = convert_time_to_second(data['Emission cumulée'])
 
     # Section last
 
     i = 0
     for data in rrf_data['last']:
-        s.call[i] = data[u'Indicatif'].encode('utf-8')
-        s.call_date[i] = data[u'Heure'].encode('utf-8')
+        s.call[i] = data['Indicatif']
+        s.call_date[i] = data['Heure']
         if 'Blanc' in data:
-            s.call_blanc[i] = data[u'Blanc'].encode('utf-8')
-        s.call_time[i] = convert_time_to_second(data[u'Durée'])
+            s.call_blanc[i] = data['Blanc']
+        s.call_time[i] = convert_time_to_second(data['Durée'])
         i += 1
 
     # Section porteuse
 
     for data in rrf_data['porteuse']:
-        s.porteuse[data[u'Indicatif'].encode('utf-8')] = [data[u'TX'], data[u'Date'].encode('utf-8')]
+        s.porteuse[data['Indicatif']] = [data['TX'], data['Date']]
 
     # Section tot
 
     if 'tot' in rrf_data:
         for data in rrf_data['tot']:
-            s.tot[data[u'Indicatif'].encode('utf-8')] = [data[u'TX'], data[u'Date'].encode('utf-8')]
+            s.tot[data['Indicatif']] = [data['TX'], data['Date']]
 
     # Section all
 
     if 'all' in rrf_data:
         for data in rrf_data['all']:
-            s.all[data[u'Indicatif'].encode('utf-8')] = [data[u'TX'], data[u'Durée']]
+            s.all[data['Indicatif']] = [data['TX'], data['Durée']]
 
             chrono = data['Chrono'].split(', ')
             heure = data['Heure'].split(', ')
 
             limit = len(chrono)
 
-            for e in xrange(limit):
-                s.all[data[u'Indicatif'].encode('utf-8')].append(heure[e])
-                s.all[data[u'Indicatif'].encode('utf-8')].append(chrono[e])
+            for e in range(limit):
+                s.all[data['Indicatif']].append(heure[e])
+                s.all[data['Indicatif']].append(chrono[e])
 
     s.transmit = False
 
