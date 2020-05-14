@@ -1,4 +1,4 @@
 *.pyc
 .DS_Store
 __pycache__
-inconnu.dat
+data/inconnu.dat
