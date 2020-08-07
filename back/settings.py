@@ -10,7 +10,7 @@ Check video about RRFTracker on https://www.youtube.com/watch?v=rVW8xczVpEo
 
 # Version
 
-version = '2.4.0'
+version = '2.5.0'
 
 # Default room and path
 
@@ -101,6 +101,15 @@ room_list = {
         'dtmf': '9 7'
     }
 }
+
+iptable_list = {
+    'RRF': 'http://rrf.f5nlg.ovh:8080/cgi-bin/RRFBlockIP.py',
+    'RRF2': 'http://rrf2.f5nlg.ovh:8080/cgi-bin/RRFBlockIP.py',
+    'RRF3': 'http://rrf3.f5nlg.ovh:8080/cgi-bin/RRFBlockIP.py',
+    'RRF4': 'http://serveur.f1tzo.com:8081/cgi-bin/RRFBlockIP.py'
+}
+
+iptable_json = []
 
 whereis_api = 'http://rrf.f5nlg.ovh:4440/nodes'
 whereis_list = {}
