@@ -50,6 +50,7 @@
     var porteuse, porteuseOld = '';
     var node, nodeOld = '';
     var tot, totOld = '';
+    var iptable, iptableOld = '';
     var colorSelectedOld = '';
     var porteuseSelectedOld = 10;
     var userCountOld = 0
@@ -74,6 +75,7 @@
             porteuseOld = '';
             nodeOld = '';
             totOld = '';
+            iptableOld = '';
             colorSelectedOld = '';
             porteuseSelectedOld = 10;
             userCountOld = 0
@@ -138,6 +140,7 @@
                 porteuse = data['porteuse'];
                 node = data['node'];
                 tot = data['tot'];
+                iptable = data['iptable'];
             }
         });
 
@@ -1136,6 +1139,76 @@
                     d3.select(containerSelector).html('');
                 }
             }
+        }
+
+        // ---------------------------------
+        // Iptable
+        // ---------------------------------
+
+        if (iptable !== undefined && iptable.length != 0) {
+            if (iptableOld !== JSON.stringify(iptable)) {
+                iptableOld = JSON.stringify(iptable);
+
+                const containerSelector = '.iptable-table';
+                const containerTitle = '<div class="icon"><i class="icofont-police"></i></div> ' + 'Blocages en cours';
+                const containerLegend = 'Ce tableau présente la liste des blocages en cours, soit par la RRFSentinel (automatique), soit par un Admin (manuel).';
+
+                data = iptable;
+
+                function tabulate(data, columns) {
+                    d3.select(containerSelector).html('');
+                    d3.select(containerSelector).append('h2').html(containerTitle);
+
+                    var table = d3.select(containerSelector)
+                        .append('table')
+                        .attr('width', width + margin.left + margin.right + 'px');
+
+                    var thead = table.append('thead');
+                    var tbody = table.append('tbody');
+
+                    // Append the header row
+                    thead.append('tr')
+                        .selectAll('th')
+                        .data(columns).enter()
+                        .append('th')
+                        .text(function(column) {
+                            return column;
+                        });
+
+                    // Create a row for each object in the data
+                    var rows = tbody.selectAll('tr')
+                        .data(data)
+                        .enter()
+                        .append('tr');
+
+                    // Create a cell in each row for each column
+                    var cells = rows.selectAll('td')
+                        .data(function(row) {
+                            return columns.map(function(column) {
+                                return {
+                                    column: column,
+                                    value: row[column],
+                                    id: row.Pos
+                                };
+                            });
+                        })
+                        .enter()
+                        .append('td')
+                        .html(function(d, i) {
+                            return d.value;
+                        });
+
+                    return table;
+                }
+
+                // Render the table(s)
+                tabulate(data, ['Indicatif', 'Type', 'Fin']); // 5 columns table
+                d3.select(containerSelector).append('span').text(containerLegend);
+            }
+        }
+        else {
+            const containerSelector = '.iptable-table';
+            $(containerSelector).empty();
         }
 
         // ---------------------------------
