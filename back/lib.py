@@ -1004,7 +1004,7 @@ def log_iptable():
                         'Fin': '-'
                     })
             for data in log['sentinel']:
-                if s.room.lower() == 'RRF':
+                if s.room.lower() == 'rrf':
                     new_json.append({
                         'Indicatif': data['Indicatif'],
                         'Type': 'RRFSentinel',
