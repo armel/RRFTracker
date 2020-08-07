@@ -1004,13 +1004,14 @@ def log_iptable():
                         'Fin': '-'
                     })
             for data in log['sentinel']:
-                new_json.append({
-                    'Indicatif': data['Indicatif'],
-                    'Type': 'RRFSentinel',
-                    'Début': data['Début'],
-                    'Durée': data['Durée'],
-                    'Fin': data['Fin']
-                })
+                if s.room.lower() == 'RRF':
+                    new_json.append({
+                        'Indicatif': data['Indicatif'],
+                        'Type': 'RRFSentinel',
+                        'Début': data['Début'],
+                        'Durée': data['Durée'],
+                        'Fin': data['Fin']
+                    })
 
     # Si le nouveau flux n'est pas vide et que les 4 serveurs ont répondu
     if(log_count == 4):
