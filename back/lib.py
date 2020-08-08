@@ -201,7 +201,7 @@ def log_write():
     data += log_porteuse()
     data += log_tot()
     data += log_type()
-    data += log_iptable()
+    #data += log_iptable()
     data += log_news()
     data += '}\n'
 
