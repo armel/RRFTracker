@@ -201,7 +201,7 @@ def log_write():
     data += log_porteuse()
     data += log_tot()
     data += log_type()
-    #data += log_iptable()
+    data += log_iptable()
     data += log_news()
     data += '}\n'
 
@@ -974,29 +974,19 @@ def restart():
     return 0
 
 def log_iptable():
+    data_patrol = []
     new_json = []
     log_count = 0
 
-    h = requests.Session()
+    try:
+        with open(s.patrol_filename) as json_file:
+            data_patrol = json.load(json_file)
+    except:
+        pass
 
-    for serveur in s.iptable_list:
-        log = ''
-        # Requete HTTP vers le flux json de l'API fournie par F1EVM
-        try:
-            r = h.get(s.iptable_list[serveur], verify=False, timeout=1)
-        except:
-            pass
-
-        # Controle de la validité du flux json
-        try:
-            log = r.json()
-        except:
-            pass
-
-        # Si le flux json est valide
-        if log != '':
-            log_count += 1
-            for data in log['block']:
+    if len(data_patrol) == 4:
+        for serveur in data_patrol:
+            for data in data_patrol[serveur]['block']:
                 if data['Salon'].lower() == s.room.lower():
                     new_json.append({
                         'Indicatif': data['Indicatif'],
@@ -1005,7 +995,8 @@ def log_iptable():
                         'Durée': '-',
                         'Fin': '-'
                     })
-            for data in log['sentinel']:
+
+            for data in data_patrol[serveur]['sentinel']:
                 if s.room.lower() == 'rrf':
                     new_json.append({
                         'Indicatif': data['Indicatif'],
@@ -1015,8 +1006,7 @@ def log_iptable():
                         'Fin': data['Fin']
                     })
 
-    # Si le nouveau flux n'est pas vide et que les 4 serveurs ont répondu
-    if(log_count == 4):
+        # Si le nouveau flux n'est pas vide et que les 4 serveurs ont répondu
         if (new_json != s.iptable_json):
             s.iptable_json = new_json.copy()
 
@@ -1025,5 +1015,4 @@ def log_iptable():
     data += ',\n'
 
     return data
-
-            
+     

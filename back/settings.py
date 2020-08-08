@@ -102,12 +102,7 @@ room_list = {
     }
 }
 
-iptable_list = {
-    'RRF': 'http://rrf.f5nlg.ovh:8080/cgi-bin/RRFBlockIP.py',
-    'RRF2': 'http://rrf2.f5nlg.ovh:8080/cgi-bin/RRFBlockIP.py',
-    'RRF3': 'http://rrf3.f5nlg.ovh:8080/cgi-bin/RRFBlockIP.py',
-    'RRF4': 'http://serveur.f1tzo.com:8081/cgi-bin/RRFBlockIP.py'
-}
+patrol_filename = '/var/www/RRFTracker/rrf_patrol.json'
 
 iptable_json = []
 
