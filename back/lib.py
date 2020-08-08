@@ -977,11 +977,13 @@ def log_iptable():
     new_json = []
     log_count = 0
 
+    s = requests.Session()
+
     for serveur in s.iptable_list:
         log = ''
         # Requete HTTP vers le flux json de l'API fournie par F1EVM
         try:
-            r = requests.get(s.iptable_list[serveur], verify=False, timeout=2)
+            r = s.get(s.iptable_list[serveur], verify=False, timeout=1)
         except:
             pass
 
