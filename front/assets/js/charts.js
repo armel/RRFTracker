@@ -1208,7 +1208,12 @@
         }
         else {
             const containerSelector = '.iptable-table';
-            $(containerSelector).empty();
+            const containerTitle = '<div class="icon"><i class="icofont-police"></i></div> Aucun blocage en cours';
+            const containerLegend = 'Fonctionnement nominal. Il n\'y a actuellement aucun blocage en cours.';
+
+            d3.select(containerSelector).html('');
+            d3.select(containerSelector).append('h2').html(containerTitle);
+            d3.select(containerSelector).append('span').html(containerLegend);
         }
 
         // ---------------------------------
