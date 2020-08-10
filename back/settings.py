@@ -10,7 +10,7 @@ Check video about RRFTracker on https://www.youtube.com/watch?v=rVW8xczVpEo
 
 # Version
 
-version = '2.5.2'
+version = '2.5.3'
 
 # Default room and path
 
@@ -106,6 +106,6 @@ patrol_filename = '/var/www/RRFTracker/rrf_patrol.json'
 
 iptable_json = []
 
-whereis_api = 'http://rrf.f5nlg.ovh:4440/nodes'
+whereis_api = 'http://rrf2.f5nlg.ovh:4440/nodes'
 whereis_list = {}
 whois_list = {}
