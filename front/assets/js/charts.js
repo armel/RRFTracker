@@ -1151,7 +1151,7 @@
 
                 const containerSelector = '.iptable-table';
                 const containerTitle = '<div class="icon"><i class="icofont-police"></i></div> ' + 'Blocages en cours';
-                const containerLegend = 'Ce tableau présente la liste des blocages en cours, soit par la RRFSentinel (automatique), soit par un Admin (manuel).';
+                const containerLegend = 'Ce tableau présente la liste des blocages en cours, soit automatiques par la RRFSentinel (INTEMPESTIF ou TOT), soit manuels par un ADMIN.';
 
                 data = iptable;
 

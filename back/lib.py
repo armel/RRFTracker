@@ -990,7 +990,7 @@ def log_iptable():
                 if data['Salon'].lower() == s.room.lower():
                     new_json.append({
                         'Indicatif': data['Indicatif'],
-                        'Type': 'Admin',
+                        'Type': 'ADMIN',
                         'Début': data['Date'],
                         'Durée': '-',
                         'Fin': '-'
@@ -1000,7 +1000,7 @@ def log_iptable():
                 if s.room.lower() == 'rrf':
                     new_json.append({
                         'Indicatif': data['Indicatif'],
-                        'Type': 'RRFSentinel',
+                        'Type': data['Raison'],
                         'Début': data['Début'],
                         'Durée': data['Durée'],
                         'Fin': data['Fin']
