@@ -54,7 +54,7 @@ case "$1" in
         kill `cat $PATH_PID/RRFTracker_LOCAL.pid`
         #echo "Stopping RRFTracker: EXPERIMENTAL"
         #kill `cat $PATH_PID/RRFTracker_EXPERIMENTAL.pid`
-        echo "Stopping RRFTracker: FON"
-        kill `cat $PATH_PID/RRFTracker_FON.pid`
+        #echo "Stopping RRFTracker: FON"
+        #kill `cat $PATH_PID/RRFTracker_FON.pid`
         ;;
 esac
