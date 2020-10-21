@@ -179,7 +179,14 @@
                     date = new Date(Date.now()).toLocaleString();
                     date = date.substring(0, date.lastIndexOf(':'));
 
-                    var containerTitle = 'Résumé du ' + date + ' sur le salon ' + sessionStorage.getItem('room') + ' (<a href="' + url + '">archive d\'hier</a>)';
+                    if(sessionStorage.getItem('room') == 'RRF') {
+                        var appel = 'd\'appel ';
+                    }
+                    else {
+                        var appel = '';
+                    }
+
+                    var containerTitle = 'Résumé du ' + date + ' sur le salon ' + appel + sessionStorage.getItem('room') + ' (<a href="' + url + '">archive d\'hier</a>)';
                 }
                 else {
                     url = url.substring(0, url.lastIndexOf(sessionStorage.getItem('room') + '-'));
