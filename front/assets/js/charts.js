@@ -329,7 +329,8 @@
                                 return '<a href="' + url + '">' + column + '</a>';
                             }
                             else {
-                                if (count < 5) { // Fix me after migration with 5
+                                if (count < 5) { // Si FON
+                                if (count < 4) { // Sinon
                                     return ('<div class="blink"><div class="icon"><i class="icofont-headphone-alt-1"></i></div></div>');
                                 }
                                 else {
@@ -361,12 +362,11 @@
                         .append('td')
                         .attr('width', function(d, i) {
                             if (i === 0) {
-                                //return '16%';
                                 return '20%';
                             }
                             else {
-                                //return '14%';
-                                return '16%';
+                                //return '16%' si FON;
+                                return '20%';
                             }
                         })
                         .html(function(d, i) {
