@@ -116,7 +116,10 @@
 
         // Other QSO
         // var room = ['RRF', 'TECHNIQUE', 'INTERNATIONAL', 'BAVARDAGE', 'LOCAL', 'EXPERIMENTAL', 'FON'];
-        var room = ['RRF', 'TECHNIQUE', 'INTERNATIONAL', 'BAVARDAGE', 'LOCAL', 'FON'];
+        // var room = ['RRF', 'TECHNIQUE', 'INTERNATIONAL', 'BAVARDAGE', 'LOCAL', 'FON'];
+        
+        var room = ['RRF', 'TECHNIQUE', 'INTERNATIONAL', 'BAVARDAGE', 'LOCAL'];
+
         var roomOther = [];
 
         // Load the data
@@ -152,7 +155,7 @@
         allModal = sessionStorage.getItem('allModal');
 
         d3.select('.title').html('');
-        d3.select('.title').append('h1').html('RRFTracker version 2.2.4');
+        d3.select('.title').append('h1').html('RRFTracker version 2.5.5');
 
 
         // ---------------------------------
