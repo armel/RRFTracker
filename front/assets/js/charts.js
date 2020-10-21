@@ -329,7 +329,7 @@
                                 return '<a href="' + url + '">' + column + '</a>';
                             }
                             else {
-                                if (count < 5) { // Si FON
+                                //if (count < 5) { // Si FON
                                 if (count < 4) { // Sinon
                                     return ('<div class="blink"><div class="icon"><i class="icofont-headphone-alt-1"></i></div></div>');
                                 }
