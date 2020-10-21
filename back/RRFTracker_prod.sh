@@ -34,11 +34,12 @@ case "$1" in
         nohup python3 $PATH_SCRIPT --room LOCAL --log-path $PATH_LOG > $PATH_PID/RRFTracker_LOCAL.log 2>&1 & echo $! > $PATH_PID/RRFTracker_LOCAL.pid
         #echo "Starting RRFTracker: EXPERIMENTAL"
         #cp $PATH_HTML $PATH_LOG/EXPERIMENTAL-today
+        #cp $PATH_LOG/EXPERIMENTAL-today/rrf.json $PATH_LOG/EXPERIMENTAL-today/rrf_$NOW.json    
         #nohup python3 $PATH_SCRIPT --room EXPERIMENTAL --log-path $PATH_LOG > $PATH_PID/RRFTracker_EXPERIMENTAL.log 2>&1 & echo $! > $PATH_PID/RRFTracker_EXPERIMENTAL.pid
-        echo "Starting RRFTracker: FON"
-        cp $PATH_HTML $PATH_LOG/FON-today
-        cp $PATH_LOG/FON-today/rrf.json $PATH_LOG/FON-today/rrf_$NOW.json    
-        nohup python3 $PATH_SCRIPT --room FON --log-path $PATH_LOG > $PATH_PID/RRFTracker_FON.log 2>&1 & echo $! > $PATH_PID/RRFTracker_FON.pid
+        #echo "Starting RRFTracker: FON"
+        #cp $PATH_HTML $PATH_LOG/FON-today
+        #cp $PATH_LOG/FON-today/rrf.json $PATH_LOG/FON-today/rrf_$NOW.json    
+        #nohup python3 $PATH_SCRIPT --room FON --log-path $PATH_LOG > $PATH_PID/RRFTracker_FON.log 2>&1 & echo $! > $PATH_PID/RRFTracker_FON.pid
         ;;
     stop) 
         echo "Stopping RRFTracker: RRF"
