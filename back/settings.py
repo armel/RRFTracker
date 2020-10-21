@@ -96,10 +96,10 @@ room_list = {
     #    'url': 'http://rrf.f5nlg.ovh/api/svxlink/experimental',
     #    'dtmf': '102'
     #},
-    'FON': {
-        'url': 'http://rrf.f5nlg.ovh/api/svxlink/FON',
-        'dtmf': '9 7'
-    }
+    #'FON': {
+    #    'url': 'http://rrf.f5nlg.ovh/api/svxlink/FON',
+    #    'dtmf': '9 7'
+    #}
 }
 
 patrol_filename = '/var/www/RRFTracker/rrf_patrol.json'
