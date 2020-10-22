@@ -63,19 +63,20 @@ case "$1" in
         #echo "Starting RRFTracker: EXPERIMENTAL"
         #cp $PATH_HTML $PATH_LOG/EXPERIMENTAL-today
         #cd $PATH_LOG/EXPERIMENTAL-today/
+        #cp $PATH_LOG/EXPERIMENTAL-today/rrf.json $PATH_LOG/EXPERIMENTAL-today/rrf_$NOW.json
         #rm rrf.json
         #curl -O $PATH_RRF/EXPERIMENTAL-today/rrf.json
         #cd $CURRENT
         #nohup python3 $PATH_SCRIPT --room EXPERIMENTAL --log-path $PATH_LOG > $PATH_PID/RRFTracker_EXPERIMENTAL.log 2>&1 & echo $! > $PATH_PID/RRFTracker_EXPERIMENTAL.pid
 
-        echo "Starting RRFTracker: FON"
-        cp $PATH_HTML $PATH_LOG/FON-today
-        cd $PATH_LOG/FON-today/
-        cp $PATH_LOG/FON-today/rrf.json $PATH_LOG/FON-today/rrf_$NOW.json
-        rm rrf.json
-        curl -O $PATH_RRF/FON-today/rrf.json
-        cd $CURRENT
-        nohup python3 $PATH_SCRIPT --room FON --log-path $PATH_LOG > $PATH_PID/RRFTracker_FON.log 2>&1 & echo $! > $PATH_PID/RRFTracker_FON.pid
+        #echo "Starting RRFTracker: FON"
+        #cp $PATH_HTML $PATH_LOG/FON-today
+        #cd $PATH_LOG/FON-today/
+        #cp $PATH_LOG/FON-today/rrf.json $PATH_LOG/FON-today/rrf_$NOW.json
+        #rm rrf.json
+        #curl -O $PATH_RRF/FON-today/rrf.json
+        #cd $CURRENT
+        #nohup python3 $PATH_SCRIPT --room FON --log-path $PATH_LOG > $PATH_PID/RRFTracker_FON.log 2>&1 & echo $! > $PATH_PID/RRFTracker_FON.pid
         ;;
     stop) 
         echo "Stopping RRFTracker: RRF"
@@ -90,7 +91,7 @@ case "$1" in
         kill `cat $PATH_PID/RRFTracker_LOCAL.pid`
         #echo "Stopping RRFTracker: EXPERIMENTAL"
         #kill `cat $PATH_PID/RRFTracker_EXPERIMENTAL.pid`
-        echo "Stopping RRFTracker: FON"
-        kill `cat $PATH_PID/RRFTracker_FON.pid`
+        #echo "Stopping RRFTracker: FON"
+        #kill `cat $PATH_PID/RRFTracker_FON.pid`
         ;;
 esac

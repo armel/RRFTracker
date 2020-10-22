@@ -336,8 +336,7 @@
                                 return '<a href="' + url + '">' + column + '</a>';
                             }
                             else {
-                                //if (count < 5) { // Si FON
-                                if (count < 4) { // Sinon
+                                if (count < (room.length - 1)) { // Sinon
                                     return ('<div class="blink"><div class="icon"><i class="icofont-headphone-alt-1"></i></div></div>');
                                 }
                                 else {
@@ -373,7 +372,7 @@
                             }
                             else {
                                 //return '16%' si FON;
-                                return '20%';
+                                return (80 / (room.length - 1)) + '%';
                             }
                         })
                         .html(function(d, i) {
