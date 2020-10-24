@@ -52,8 +52,13 @@ def main(argv):
 
     if not os.path.exists(s.log_path_day):
         os.makedirs(s.log_path_day)
-        os.popen('cp /opt/RRFTracker/front/index.html ' + s.log_path_day + '/' + 'index.html')
-        os.popen('ln -sfn ' + s.log_path_day + ' ' + s.log_path + '/' + s.room + '-today')
+        
+    os.popen('rm ' + s.log_path_day + '/index.html')
+    if s.room_list[s.room]['http'] is True:
+        os.popen('cp /opt/RRFTracker/front/index.html ' + s.log_path_day + '/index.html')
+    else:
+        os.popen('cp /opt/RRFTracker/front/oops.html ' + s.log_path_day + '/index.html')
+    os.popen('ln -sfn ' + s.log_path_day + ' ' + s.log_path + '/' + s.room + '-today')
 
     # If restart on day...
 
@@ -94,7 +99,10 @@ def main(argv):
 
             if not os.path.exists(s.log_path_day):
                 os.makedirs(s.log_path_day)
-                os.popen('cp /opt/RRFTracker/front/index.html ' + s.log_path_day + '/index.html')
+                if s.room_list[s.room]['http'] is True:
+                    os.popen('cp /opt/RRFTracker/front/index.html ' + s.log_path_day + '/index.html')
+                else:
+                    os.popen('cp /opt/RRFTracker/front/oops.html ' + s.log_path_day + '/index.html')
                 os.popen('ln -sfn ' + s.log_path_day + ' ' + s.log_path + '/' + s.room + '-today')
 
             s.qso = 0

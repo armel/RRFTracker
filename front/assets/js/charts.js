@@ -310,9 +310,19 @@
                     }
                 });
 
+                var count = 0;
+
+                room.forEach(function(d) {
+                    if (d !== sessionStorage.getItem('room')) {
+                        if(elsewhere[1][d] == 'Aucune émission') {
+                            count += 1;
+                        }
+                    }
+                });
+
                 roomOther.unshift('Scanner RRF');
 
-                var count = (elsewhereOld.match(/Aucune émission/g) || []).length;
+                //console.log('>>>', count, (room.length - 1));
 
                 function tabulate(data, columns) {
                     d3.select(containerSelector).html('');
