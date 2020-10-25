@@ -11,6 +11,11 @@
         })
         .marquee({duration: 5000, direction: 'left', pauseOnHover: 'true'});
 
+    // Initialise debug
+    if (localStorage.getItem('debug') === null) {
+        localStorage.setItem('debug', 0);
+    }
+
     // Initialise color
 
     if (localStorage.getItem('color') === null) {
@@ -118,7 +123,7 @@
         // var room = ['RRF', 'TECHNIQUE', 'INTERNATIONAL', 'BAVARDAGE', 'LOCAL', 'EXPERIMENTAL', 'FON'];
         // var room = ['RRF', 'TECHNIQUE', 'INTERNATIONAL', 'BAVARDAGE', 'LOCAL', 'FON'];
         
-        var room = ['RRF', 'TECHNIQUE', 'INTERNATIONAL', 'BAVARDAGE', 'LOCAL'];
+        var room = ['RRF', 'TECHNIQUE', 'INTERNATIONAL', 'BAVARDAGE', 'LOCAL', 'FON'];
 
         var roomOther = [];
 
