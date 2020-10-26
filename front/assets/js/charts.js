@@ -1225,7 +1225,7 @@
                 }
 
                 // Render the table(s)
-                tabulate(data, ['Indicatif', 'Type', 'Fin']); // 5 columns table
+                tabulate(data, ['Indicatif', 'Par', 'Fin']); // 3 columns table
                 d3.select(containerSelector).append('span').text(containerLegend);
             }
         }
