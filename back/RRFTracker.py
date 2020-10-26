@@ -52,10 +52,8 @@ def main(argv):
 
     if not os.path.exists(s.log_path_day):
         os.makedirs(s.log_path_day)
-        
-    os.popen('rm ' + s.log_path_day + '/index.html')
-    os.popen('cp /opt/RRFTracker/front/index.html ' + s.log_path_day + '/index.html')
-    os.popen('ln -sfn ' + s.log_path_day + ' ' + s.log_path + '/' + s.room + '-today')
+        os.popen('cp /opt/RRFTracker/front/index.html ' + s.log_path_day + '/index.html')
+        os.popen('ln -sfn ' + s.log_path_day + ' ' + s.log_path + '/' + s.room + '-today')
 
     # If restart on day...
 
