@@ -1174,7 +1174,7 @@
 
                 const containerSelector = '.iptable-table';
                 const containerTitle = '<div class="icon"><i class="icofont-police"></i></div> ' + 'Blocages en cours';
-                const containerLegend = 'Ce tableau présente la liste des blocages en cours, soit automatiques par la RRFSentinel (INTEMPESTIF ou TOT), soit manuels par un ADMIN.';
+                const containerLegend = 'Ce tableau présente la liste des blocages en cours, soit automatiques par la RRFSentinel (INTEMPESTIF ou TOT), soit manuels par un ADMIN (son indicatif peut être indiqué).';
 
                 data = iptable;
 
@@ -1225,7 +1225,7 @@
                 }
 
                 // Render the table(s)
-                tabulate(data, ['Indicatif', 'Par', 'Fin']); // 3 columns table
+                tabulate(data, ['Indicatif', 'Type', 'Fin']); // 3 columns table
                 d3.select(containerSelector).append('span').text(containerLegend);
             }
         }
