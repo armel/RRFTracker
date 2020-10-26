@@ -988,6 +988,9 @@ def log_iptable():
         for serveur in data_patrol:
             for data in data_patrol[serveur]['blockip']:
                 if data['Salon'].lower() == s.room.lower():
+                    if data['Admin'] == '':
+                        data['Admin'] = 'ADMIN'
+                         
                     if data['Admin'] != 'ADMIN':
                         data['Admin'] = 'ADMIN (' + data['Admin'] + ')'
                     new_json.append({
