@@ -1434,7 +1434,7 @@
                 d3.select(containerSelector).append('h2').html(containerTitleA);
 
                 // Render the table(s)
-                tabulate_a(data_a, ['H', 'V', 'U', 'R', 'T', 'T10M', '10M', '6M']); // 5 columns table
+                tabulate_a(data_a, ['S', 'H', 'V', 'U', 'R', 'T', 'T10M', '10M', '6M']); // 5 columns table
                 d3.select(containerSelector).append('span').text(containerLegendA);
 
 
