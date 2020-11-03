@@ -240,12 +240,16 @@ def log_abstract():
     tmp = datetime.datetime.now()
     now = tmp.strftime(' du %d/%m/%Y à %H:%M')
 
+    tmp = 0
+    for l in s.all:
+        tmp += convert_time_to_second(s.all[l][1])
+
     data += '{\n'
     data += '\t"Version": "' + s.version + '",\n'
     data += '\t"Salon": "' + s.room + '",\n'
     data += '\t"Date": "' + now.lower() + '",\n'
     data += '\t"TX total": ' + str(sum(s.qso_hour)) + ',\n'
-    data += '\t"Emission cumulée": "' + convert_second_to_time(s.day_duration + s.duration) + '",\n'
+    data += '\t"Emission cumulée": "' + convert_second_to_time(tmp) + '",\n'
     data += '\t"Links actifs": ' + str(len(s.all)) + ',\n'
     data += '\t"Links connectés": ' + str(s.node_count) + ',\n'
     data += '\t"Indicatif": "' + s.call_current + '",\n'
