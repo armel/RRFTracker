@@ -36,6 +36,8 @@ def usage():
 
 # Sanitize call
 def sanitize_call(call):
+    if 'proxy to:' in call:
+        call = 'Warning - API is Down'
     return call.translate(str.maketrans('', '', '\\\'!@#$"'))
 
 # Whois load
