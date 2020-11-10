@@ -59,6 +59,17 @@ def main():
 
     # Boucle principale
     for line in kml:
+
+        indicatif = ''
+        type = ''
+        description = ''
+        tone = '' 
+        locator = ''
+        longitude = ''
+        latitude = ''
+        sysop = ''
+        prenom = ''
+
         line = line.replace('tone', 'Tone')
         line = line.replace('MHZ', 'MHz')
         line = line.replace('HZ', 'Hz')
@@ -70,7 +81,7 @@ def main():
 
         indicatif = tmp[0].strip()
         type = indicatif[-1:]
-        if type == 'H':
+        if type in ['H', 'S']:
             type = 'Hotspot'
         elif type in ['R']:
             type = 'Relais'

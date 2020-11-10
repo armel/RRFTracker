@@ -110,108 +110,6 @@
         <styleUrl>#icon-503-F8971B-highlight</styleUrl>
       </Pair>
     </StyleMap>
-    <Style id="icon-959-DB4436-normal">
-      <IconStyle>
-        <color>ff3644db</color>
-        <scale>1.1</scale>
-        <Icon>
-          <href>https://www.gstatic.com/mapspro/images/stock/959-wht-circle-blank.png</href>
-        </Icon>
-      </IconStyle>
-      <LabelStyle>
-        <scale>0</scale>
-      </LabelStyle>
-    </Style>
-    <Style id="icon-959-DB4436-highlight">
-      <IconStyle>
-        <color>ff3644db</color>
-        <scale>1.1</scale>
-        <Icon>
-          <href>https://www.gstatic.com/mapspro/images/stock/959-wht-circle-blank.png</href>
-        </Icon>
-      </IconStyle>
-      <LabelStyle>
-        <scale>1.1</scale>
-      </LabelStyle>
-    </Style>
-    <StyleMap id="icon-959-DB4436">
-      <Pair>
-        <key>normal</key>
-        <styleUrl>#icon-959-DB4436-normal</styleUrl>
-      </Pair>
-      <Pair>
-        <key>highlight</key>
-        <styleUrl>#icon-959-DB4436-highlight</styleUrl>
-      </Pair>
-    </StyleMap>
-    <Style id="icon-959-F4B400-normal">
-      <IconStyle>
-        <color>ff00b4f4</color>
-        <scale>1.1</scale>
-        <Icon>
-          <href>https://www.gstatic.com/mapspro/images/stock/959-wht-circle-blank.png</href>
-        </Icon>
-      </IconStyle>
-      <LabelStyle>
-        <scale>0</scale>
-      </LabelStyle>
-    </Style>
-    <Style id="icon-959-F4B400-highlight">
-      <IconStyle>
-        <color>ff00b4f4</color>
-        <scale>1.1</scale>
-        <Icon>
-          <href>https://www.gstatic.com/mapspro/images/stock/959-wht-circle-blank.png</href>
-        </Icon>
-      </IconStyle>
-      <LabelStyle>
-        <scale>1.1</scale>
-      </LabelStyle>
-    </Style>
-    <StyleMap id="icon-959-F4B400">
-      <Pair>
-        <key>normal</key>
-        <styleUrl>#icon-959-F4B400-normal</styleUrl>
-      </Pair>
-      <Pair>
-        <key>highlight</key>
-        <styleUrl>#icon-959-F4B400-highlight</styleUrl>
-      </Pair>
-    </StyleMap>
-    <Style id="icon-959-F8971B-normal">
-      <IconStyle>
-        <color>ff1b97f8</color>
-        <scale>1.1</scale>
-        <Icon>
-          <href>https://www.gstatic.com/mapspro/images/stock/959-wht-circle-blank.png</href>
-        </Icon>
-      </IconStyle>
-      <LabelStyle>
-        <scale>0</scale>
-      </LabelStyle>
-    </Style>
-    <Style id="icon-959-F8971B-highlight">
-      <IconStyle>
-        <color>ff1b97f8</color>
-        <scale>1.1</scale>
-        <Icon>
-          <href>https://www.gstatic.com/mapspro/images/stock/959-wht-circle-blank.png</href>
-        </Icon>
-      </IconStyle>
-      <LabelStyle>
-        <scale>1.1</scale>
-      </LabelStyle>
-    </Style>
-    <StyleMap id="icon-959-F8971B">
-      <Pair>
-        <key>normal</key>
-        <styleUrl>#icon-959-F8971B-normal</styleUrl>
-      </Pair>
-      <Pair>
-        <key>highlight</key>
-        <styleUrl>#icon-959-F8971B-highlight</styleUrl>
-      </Pair>
-    </StyleMap>
     <Style id="icon-960-3F5BA9-normal">
       <IconStyle>
         <color>ffa95b3f</color>
@@ -282,7 +180,7 @@
     </StyleMap>
     <Placemark>
       <name>(22) F5ZIN T10M</name>
-      <description><![CDATA[29.130 MHz Tone 131.8 Hz , 430.400 MHz + 9.4 MHz Tone 71.9 Hz<br>F5NLG]]></description>
+      <description><![CDATA[29.130 MHz Tone 131.8 Hz , 145.400 MHz Tone 71.9 Hz<br>F5NLG]]></description>
       <styleUrl>#icon-503-4186F0</styleUrl>
       <Point>
         <coordinates>
@@ -296,7 +194,7 @@
       <styleUrl>#icon-960-7C3592</styleUrl>
       <Point>
         <coordinates>
-          -3.2951033,49.2744719,0
+          -3.6466781,49.2601313,0
         </coordinates>
       </Point>
     </Placemark>
@@ -312,7 +210,7 @@
     </Placemark>
     <Placemark>
       <name>(49) F6JSP V</name>
-      <description>145.2875 MHz Tone 250.3 Hz</description>
+      <description>145.2875 MHz Tone 203.5 Hz</description>
       <styleUrl>#icon-503-DB4436</styleUrl>
       <Point>
         <coordinates>
@@ -327,26 +225,6 @@
       <Point>
         <coordinates>
           5.8261871,48.9643287,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(M) F1EVM H</name>
-      <description>432.975 MHz Tone 71.9 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          -0.8905783,48.0968846,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(LX) LX2OOO 6M</name>
-      <description>50.570 MHz Tone 103.5 Hz</description>
-      <styleUrl>#icon-503-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          6.0979476,49.5181983,0
         </coordinates>
       </Point>
     </Placemark>
@@ -381,16 +259,6 @@
       </Point>
     </Placemark>
     <Placemark>
-      <name>(22) F4VSJ U</name>
-      <description>430.5375 MHz Tone 71.9 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          -3.2687599,48.1862932,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
       <name>(29) F6CIU V</name>
       <description>145.325 MHz Tone 123 Hz</description>
       <styleUrl>#icon-503-DB4436</styleUrl>
@@ -413,7 +281,7 @@
     <Placemark>
       <name>(67) F1ZDD T10M</name>
       <description><![CDATA[430.2375 MHz + 9.4 MHz / 50.520 MHz / 29.160 MHz Tone 67Hz<br>F5SWB]]></description>
-      <styleUrl>#icon-503-F8971B</styleUrl>
+      <styleUrl>#icon-503-4186F0</styleUrl>
       <Point>
         <coordinates>
           7.4572288,48.548883,0
@@ -511,16 +379,6 @@
       </Point>
     </Placemark>
     <Placemark>
-      <name>(78) F5ZEQ R</name>
-      <description>145.750 MHz - 0.6 MHz 192.8 Hz 96# pour le RRF </description>
-      <styleUrl>#icon-503-F8971B</styleUrl>
-      <Point>
-        <coordinates>
-          2.1219063,48.9254882,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
       <name>(22) F1ZNW R</name>
       <description><![CDATA[430.4375 + 9.4MHz Tone 71.9 Hz<br>F1BSR]]></description>
       <styleUrl>#icon-503-4186F0</styleUrl>
@@ -611,12 +469,12 @@
       </Point>
     </Placemark>
     <Placemark>
-      <name>(MA) CN8VY H</name>
-      <description><![CDATA[433.500 MHz Tone 77 Hz<br>PU2ZSP]]></description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
+      <name>(57) F1ZRZ U</name>
+      <description><![CDATA[430.950 MHz Tone 233.6 Hz<br>F4EVC]]></description>
+      <styleUrl>#icon-503-DB4436</styleUrl>
       <Point>
         <coordinates>
-          -6.8608408,33.9648152,0
+          6.1418513,49.062085,0
         </coordinates>
       </Point>
     </Placemark>
@@ -637,16 +495,6 @@
       <Point>
         <coordinates>
           2.4779257,49.2583544,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(50) F4BNF V</name>
-      <description>144.550 MHz Tone 88.5 Hz</description>
-      <styleUrl>#icon-503-F8971B</styleUrl>
-      <Point>
-        <coordinates>
-          -1.2844186,49.0257676,0
         </coordinates>
       </Point>
     </Placemark>
@@ -752,7 +600,7 @@
     </Placemark>
     <Placemark>
       <name>(15) F5KHC T</name>
-      <description><![CDATA[145.225 MHz & 430.175 MHz Tone 151.4 Hz<br>F6IOJ]]></description>
+      <description><![CDATA[144.5125 MHz & 430.175 MHz Tone 151.4 Hz<br>F6IOJ]]></description>
       <styleUrl>#icon-503-4186F0</styleUrl>
       <Point>
         <coordinates>
@@ -771,19 +619,9 @@
       </Point>
     </Placemark>
     <Placemark>
-      <name>(BR) PU2ZSP U</name>
-      <description>438.550 MHz Tone 77 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          -46.6083433,-23.558016,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
       <name>(49) F5ZRH V</name>
-      <description><![CDATA[145.350 MHz Tone 103.5 Hz<br>F5GBS]]></description>
-      <styleUrl>#icon-503-F8971B</styleUrl>
+      <description><![CDATA[145.350 MHz Tone 103.5 Hz<br>F4IPA]]></description>
+      <styleUrl>#icon-503-DB4436</styleUrl>
       <Point>
         <coordinates>
           -0.8883302,47.0416124,0
@@ -792,7 +630,7 @@
     </Placemark>
     <Placemark>
       <name>(38) F1GFB V</name>
-      <description>145.3375 MHz Tone 123 Hz</description>
+      <description>145.3375 MHz Tone 67 Hz</description>
       <styleUrl>#icon-503-DB4436</styleUrl>
       <Point>
         <coordinates>
@@ -812,7 +650,7 @@
     </Placemark>
     <Placemark>
       <name>(35) F5ZZC U</name>
-      <description><![CDATA[432.975 MHz Tone 71.9 Hz<br>F5NLG]]></description>
+      <description><![CDATA[432.975 MHz Tone 71.9 Hz<br>F5NLG F5JKJ F1DKN]]></description>
       <styleUrl>#icon-503-DB4436</styleUrl>
       <Point>
         <coordinates>
@@ -861,8 +699,8 @@
       </Point>
     </Placemark>
     <Placemark>
-      <name>(QC) VE2DBE U</name>
-      <description>434.600 MHz DCS 26 + passerelle ALLSTAR #40020</description>
+      <name>GW-ALLSTAR-40020</name>
+      <description>passerelle ALLSTAR #40020 - Salon International RRF</description>
       <styleUrl>#icon-960-3F5BA9</styleUrl>
       <Point>
         <coordinates>
@@ -922,21 +760,11 @@
     </Placemark>
     <Placemark>
       <name>(34) F5IDZ V</name>
-      <description>145.3625 MHz Tone 71.9 Hz</description>
+      <description>144.5125 MHz Tone 186.2 Hz</description>
       <styleUrl>#icon-503-DB4436</styleUrl>
       <Point>
         <coordinates>
           3.4346915,43.6304442,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(58) F4HLJ H</name>
-      <description>145.3125 MHz Tone 77 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          3.1367672,47.0006555,0
         </coordinates>
       </Point>
     </Placemark>
@@ -957,16 +785,6 @@
       <Point>
         <coordinates>
           0.6041972,46.9635829,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(22) F5NLG H</name>
-      <description>434.975 MHz Tone 71.9 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          -3.3977997,48.5434084,0
         </coordinates>
       </Point>
     </Placemark>
@@ -1011,7 +829,7 @@
       </Point>
     </Placemark>
     <Placemark>
-      <name>(2A) TK0NL V</name>
+      <name>(2A) TK4NL V</name>
       <description>145.300 MHz Tone 141.3 Hz</description>
       <styleUrl>#icon-503-DB4436</styleUrl>
       <Point>
@@ -1031,32 +849,12 @@
       </Point>
     </Placemark>
     <Placemark>
-      <name>(60) F5KMB V</name>
-      <description><![CDATA[145.325 MHz Tone 123 Hz<br>F4FSD]]></description>
-      <styleUrl>#icon-503-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          2.4364787,49.5069688,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
       <name>(51) F5PEG V</name>
       <description>145.325 MHz Tone 71.9 Hz</description>
       <styleUrl>#icon-503-DB4436</styleUrl>
       <Point>
         <coordinates>
           4.3729776,48.9629183,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(29) F4HQE V</name>
-      <description>145.350 MHz Tone 71.9 Hz</description>
-      <styleUrl>#icon-959-F8971B</styleUrl>
-      <Point>
-        <coordinates>
-          -4.0628053,47.9086723,0
         </coordinates>
       </Point>
     </Placemark>
@@ -1081,9 +879,9 @@
       </Point>
     </Placemark>
     <Placemark>
-      <name>(16) F1UGC V</name>
-      <description>145.3625 MHz Tone 179.9 Hz</description>
-      <styleUrl>#icon-503-F8971B</styleUrl>
+      <name>(16) F1ZSQ V</name>
+      <description><![CDATA[145.275 MHz Tone 77 Hz<br>F1UGC]]></description>
+      <styleUrl>#icon-503-DB4436</styleUrl>
       <Point>
         <coordinates>
           -0.1110273,45.5131062,0
@@ -1092,7 +890,7 @@
     </Placemark>
     <Placemark>
       <name>(02) F1ZRR V</name>
-      <description><![CDATA[145.325 MHz Tone 123 Hz<br>F1BSR]]></description>
+      <description><![CDATA[145.3375 MHz Tone 123 Hz<br>F1BSR]]></description>
       <styleUrl>#icon-503-DB4436</styleUrl>
       <Point>
         <coordinates>
@@ -1101,142 +899,12 @@
       </Point>
     </Placemark>
     <Placemark>
-      <name>(34) F1RXP H</name>
-      <description>432.975 MHz Tone 71.9 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          2.915283,43.555088,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(33) F8DWH H</name>
-      <description>432.975 MHz Tone 71.9 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          -0.3052741,44.6361265,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(92) F5NKP H</name>
-      <description>439.975 MHz Tone 71.9 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          2.2579886,48.8249425,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(29) F6DLE H</name>
-      <description>432.975 MHz Tone 71.9 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          -3.5548278,48.2787383,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(22) F1NWT H</name>
-      <description>432.975 MHz Tone 71.9 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          -3.0298268,48.8016356,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(83) F8HJV U</name>
-      <description>432.975 MHz Tone 71.9 Hz </description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          6.4362383,43.0181605,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(76) F6CYK H</name>
-      <description>439.975 MHz Tone 71.9 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          0.2056478,49.7068404,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(09) F1IZL U</name>
-      <description><![CDATA[pas d'infos]]></description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          1.6530892,43.1034413,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(56) F4HWD H</name>
-      <description>432.975 MHz Tone 71.9 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
+      <name>(56) F1ZUK U</name>
+      <description><![CDATA[430.975 MHz Tone 71.9 Hz<br>F4HWD]]></description>
+      <styleUrl>#icon-503-DB4436</styleUrl>
       <Point>
         <coordinates>
           -3.372116,47.7490128,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(56) F0EHQ H</name>
-      <description>144.975 MHz Tone 71.9 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          -3.3689318,47.7523774,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(60) F1NQP H</name>
-      <description>432.975 MHz Tone 71.9 Hz </description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          2.5487928,49.4713695,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(60) F5HCC H</name>
-      <description>432.975 MHz Tone 71.9 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          1.9759026,49.2062759,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(35) F1DKN H</name>
-      <description>432.900 MHz Tone 71.9 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          -1.7322768,48.1766785,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(78) F4AID H</name>
-      <description>432.975 MHz Tone 71.9 Hz</description>
-      <styleUrl>#icon-959-F4B400</styleUrl>
-      <Point>
-        <coordinates>
-          1.9262214,48.7650309,0
         </coordinates>
       </Point>
     </Placemark>
@@ -1247,16 +915,6 @@
       <Point>
         <coordinates>
           5.2436227,46.6334818,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(61) F0GND H</name>
-      <description>144.5375 MHz Tone 88.5 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          -0.1231075,48.7175143,0
         </coordinates>
       </Point>
     </Placemark>
@@ -1281,79 +939,9 @@
       </Point>
     </Placemark>
     <Placemark>
-      <name>(39) F6ECN H</name>
-      <description>439.500 MHz Tone 71.9 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          5.4524835,46.7466496,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(28) F1DSO H</name>
-      <description>144.925 MHz  Tone 82.5 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          1.4669524,48.439575,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(53) F0EAZ H</name>
-      <description>145.2375 MHz Tone 71.9 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          -0.9388672,48.2968738,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(28) F0GEX H</name>
-      <description>145.2375 MHz Tone 82.5 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          1.3576149,48.466226,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(26) F1NUU H</name>
-      <description>434.975 MHz Tone 123 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          4.7682973,44.348592,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(26) F6ELZ H</name>
-      <description>144.975 MHz Tone 71.9 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          4.8951651,44.8363309,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(12) F5GJG H</name>
-      <description>432.975 MHz Tone 71.9 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          3.0791797,44.0994098,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(13) F5OZK H</name>
-      <description><![CDATA[pas d'infos]]></description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
+      <name>(13) F5OZK V</name>
+      <description>145.300 MHz Tone 71.9Hz</description>
+      <styleUrl>#icon-503-DB4436</styleUrl>
       <Point>
         <coordinates>
           5.4012556,43.3424243,0
@@ -1361,72 +949,12 @@
       </Point>
     </Placemark>
     <Placemark>
-      <name>(92) F4ICM H</name>
-      <description>432.975 MHz Tone 71.9 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          2.3107766,48.8129364,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
       <name>(94) F4GOR V</name>
       <description>145.350 MHz Tone 94.8 Hz</description>
-      <styleUrl>#icon-503-F8971B</styleUrl>
+      <styleUrl>#icon-503-DB4436</styleUrl>
       <Point>
         <coordinates>
           2.3874864,48.7602504,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(27) F4GOR H</name>
-      <description>145.350 MHz Tone 192.8 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          0.5204382,49.3546828,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(19) F4IFA H</name>
-      <description>438.000 MHz Tone 71.9 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          1.8479281,45.3046034,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(38) F1PFC H</name>
-      <description>432.975 MHz Tone 67 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          5.7325992,45.1682327,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(77) F4MXX H</name>
-      <description>144.975 MHz Tone 71.9 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          2.9539103,48.3950026,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(SN) 6W1ST H</name>
-      <description>432.975 MHz Tone 71.9 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          -17.4561395,14.7341699,0
         </coordinates>
       </Point>
     </Placemark>
@@ -1441,92 +969,12 @@
       </Point>
     </Placemark>
     <Placemark>
-      <name>(16) F0EZT H</name>
-      <description>144.925 MHz Tone 71.9 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          0.1263629,45.6741019,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(06) F5BLR H</name>
-      <description>145.300 MHz Tone 79.7 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          7.0022746,43.9466043,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(94) F5BLR H</name>
-      <description>145.300 MHz Tone 79.7 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          2.5494772,48.7969878,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(22) F1ZSC V</name>
-      <description><![CDATA[145.4125 MHz Tone 71.9 Hz<br>F1RGC]]></description>
-      <styleUrl>#icon-503-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          -2.9711055,48.3791835,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(38) F6KEX T</name>
+      <name>(38) F1ZTH T</name>
       <description><![CDATA[Entrée : 145.2125 MHz Tone 123 Hz, Sortie : 431.275 MHz<br>F4GKY]]></description>
-      <styleUrl>#icon-503-F8971B</styleUrl>
+      <styleUrl>#icon-503-4186F0</styleUrl>
       <Point>
         <coordinates>
           5.2840679,45.5999373,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(22) F6FQB H</name>
-      <description>430.975 MHz Tone 71.9 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          -2.7513466,48.4841149,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(17) F4HES H</name>
-      <description>? MHz Tone ? Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          -1.0051081,45.6153434,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(50) F4RTE H</name>
-      <description>432.975 MHz Tone 71.9 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          -1.5723102,49.6090402,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(26) F6FLQ H</name>
-      <description>144.9375 MHz Tone 71.9 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          4.9411152,44.8657736,0
         </coordinates>
       </Point>
     </Placemark>
@@ -1541,62 +989,12 @@
       </Point>
     </Placemark>
     <Placemark>
-      <name>(71) F0ELA H</name>
-      <description>144.525 MHz Tone 71.9 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          5.2615613,46.8830586,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(M) FR4NP H</name>
-      <description>145.225 MHz Tone 97.4 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          55.3216504,-20.9555192,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(60) F4FSD H</name>
-      <description>? MHz Tone 123 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          2.9396811,49.4163186,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(47) F1ZRS V</name>
-      <description><![CDATA[144.975 MHz Tone 162.2 Hz<br>F4FWI]]></description>
-      <styleUrl>#icon-503-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          0.1240324,44.6906126,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
       <name>(LX) LX2OOO V</name>
       <description>145.2875 MHz Tone 103.5 Hz</description>
       <styleUrl>#icon-503-DB4436</styleUrl>
       <Point>
         <coordinates>
           6.0971022,49.5186685,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(50) F5RJM H</name>
-      <description>432.975 MHz Tone 71.9 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          -1.6279219,49.5716669,0
         </coordinates>
       </Point>
     </Placemark>
@@ -1611,32 +1009,12 @@
       </Point>
     </Placemark>
     <Placemark>
-      <name>(BE) ON4LS H</name>
-      <description>430.300 MHz Tone 74.4 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          4.8850767,50.48486,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
       <name>(18) F5NAK V</name>
       <description>145.3625 MHz Tone 94.8 Hz</description>
       <styleUrl>#icon-503-DB4436</styleUrl>
       <Point>
         <coordinates>
           2.227005,47.1651119,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>F6KBO-L</name>
-      <description>Liaison RRF - RRF3 Svxlink 17.12.1 en test </description>
-      <styleUrl>#icon-960-7C3592</styleUrl>
-      <Point>
-        <coordinates>
-          -3.6789066,49.2692492,0
         </coordinates>
       </Point>
     </Placemark>
@@ -1657,16 +1035,6 @@
       <Point>
         <coordinates>
           7.1509481,43.8957262,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(38) F1CXG H</name>
-      <description>144.975 MHz Tone 67 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          5.7067033,45.1915251,0
         </coordinates>
       </Point>
     </Placemark>
@@ -1711,112 +1079,12 @@
       </Point>
     </Placemark>
     <Placemark>
-      <name>(16) F0EQJ H</name>
-      <description>144.950 MHz Tone 77 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          0.0997943,45.606522,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(MA) CN8HF 10M</name>
-      <description>29.150 MHz Tone 131.8 Hz</description>
-      <styleUrl>#icon-503-F8971B</styleUrl>
-      <Point>
-        <coordinates>
-          -5.8089978,35.7804828,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(24) F5OVZ V</name>
-      <description>145.3375 MHz Tone 71.9 Hz</description>
-      <styleUrl>#icon-503-F8971B</styleUrl>
-      <Point>
-        <coordinates>
-          1.2146536,44.8849513,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(73) F5ANZ H</name>
-      <description>144.975 MHz Tone 71.9 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          5.7850727,45.6776348,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(16) F1ZSQ V</name>
-      <description><![CDATA[145.275 MHz Tone 77 Hz<br>F1DXP]]></description>
-      <styleUrl>#icon-503-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          0.1754,45.8521578,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
       <name>(76) F8KGK V</name>
       <description><![CDATA[144.575 MHz Tone 123 Hz<br>F4BVC]]></description>
       <styleUrl>#icon-503-DB4436</styleUrl>
       <Point>
         <coordinates>
           1.1177535,49.456915,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(17) F4AYW H</name>
-      <description>434.950 MHz Tone 71.9 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          -0.78043,45.700341,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(22) F2PI H</name>
-      <description>434.975 MHz Tone 71.9 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          -3.2392308,48.7974685,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(974) FR1GV H</name>
-      <description>432.975 MHz Tone 97.4 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          55.33329,-21.2417345,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(87) F5ZGM R</name>
-      <description><![CDATA[145.650 MHz - 600 kHz Tone 88.5 Hz en panne<br>F5VMR]]></description>
-      <styleUrl>#icon-503-F8971B</styleUrl>
-      <Point>
-        <coordinates>
-          1.8024116,45.8135552,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(75) F1RAF H</name>
-      <description>430.975 MHz Tone 71.9 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          2.3698257,48.8457323,0
         </coordinates>
       </Point>
     </Placemark>
@@ -1841,26 +1109,6 @@
       </Point>
     </Placemark>
     <Placemark>
-      <name>(BE) ON5PT H</name>
-      <description>430.950 MHz Tone 74.4 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          4.8082799,50.4226094,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(76) F2PI H</name>
-      <description>434.975 MHz Tone 71.9 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          1.1133792,49.4515945,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
       <name>(62) F4HJG V</name>
       <description>145.350 MHz Tone 123 Hz</description>
       <styleUrl>#icon-503-DB4436</styleUrl>
@@ -1871,132 +1119,12 @@
       </Point>
     </Placemark>
     <Placemark>
-      <name>(29) F5ZJX V</name>
-      <description><![CDATA[145.650 MHz - 600 kHz Tone 71.9 Hz<br>F5NLG]]></description>
-      <styleUrl>#icon-503-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          -3.8328554,48.5875093,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(92) F6INI H</name>
-      <description>431.975 MHz Tone 71.9 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          2.2420687,48.8076029,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(761) F2PI H</name>
-      <description>434.975 MHz Tone 71.9 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          0.9445749,49.910057,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(22) F5ZIN V</name>
-      <description><![CDATA[145.400 MHz Tone 71.9 Hz<br>F5NLG]]></description>
-      <styleUrl>#icon-503-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          -3.4641629,48.5561579,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(QC) VA2NRJ H</name>
-      <description>432.975 MHz Tone 71.9 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          -73.3827757,45.5728555,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(55) F0EJB H</name>
-      <description>hotspot</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          5.8261842,48.9462922,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
       <name>(44) F1ZQO T</name>
-      <description><![CDATA[144.975 MHz & 430.125 MHz Tone 103.5 Hz<br>F4HRG]]></description>
+      <description><![CDATA[144.975 MHz & 430.125 MHz Tone 71.9 Hz<br>F4HRG]]></description>
       <styleUrl>#icon-503-4186F0</styleUrl>
       <Point>
         <coordinates>
           -2.2945437,47.4872318,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(77) F1ZQY V</name>
-      <description><![CDATA[144.900 MHz Tone 192.8 Hz<br>F1JGA]]></description>
-      <styleUrl>#icon-503-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          2.913631,48.8423004,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(94) F5LGW H</name>
-      <description>430.025 MHz Tone 71.9 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          2.4425698,48.7994597,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(28) F1TUK H</name>
-      <description>432.975 MHz Tone 71.9 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          1.5950743,48.4068081,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(75) F4HWN H</name>
-      <description>434.975 MHz Tone 71.9 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          2.2708201,48.8482855,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(67) F5SWB H</name>
-      <description>432.975 MHz Tone 67 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          7.5160734,48.5439153,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(BE) ON6LF U</name>
-      <description>430.3125 MHz Tone 131.8 Hz</description>
-      <styleUrl>#icon-503-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          4.6553588,50.6369335,0
         </coordinates>
       </Point>
     </Placemark>
@@ -2012,41 +1140,11 @@
     </Placemark>
     <Placemark>
       <name>(19) F5ZRF V</name>
-      <description><![CDATA[145.350 MHz Tone 88.5 Hz<br>F6JON]]></description>
+      <description><![CDATA[144.6125 MHz Tone 88.5 Hz<br>F6JON]]></description>
       <styleUrl>#icon-503-DB4436</styleUrl>
       <Point>
         <coordinates>
           1.6978975,45.3127794,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(25) F1DLW H</name>
-      <description>144.525 MHz Tone 203.5 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          6.0258367,47.2527083,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(M) F6HRP H</name>
-      <description>434.975 MHz Tone 71.9 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          -3.1262705,48.5608692,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(45) F4IKQ H</name>
-      <description>432.975 MHz Tone 71.9 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          2.4469095,48.0908194,0
         </coordinates>
       </Point>
     </Placemark>
@@ -2071,62 +1169,12 @@
       </Point>
     </Placemark>
     <Placemark>
-      <name>(BE) ON3CPE H</name>
-      <description>145.2875 MHz Tone 74.4 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          3.7018157,51.0399385,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(38) F4GJQ H</name>
-      <description>145.375 MHz Tone 71.9 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          5.4328229,45.3262494,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(77) F0FWW V</name>
-      <description>144.975 MHz Tone 103.5 Hz</description>
+      <name>(77) F4FWW V</name>
+      <description>145.300 MHz Tone 103.5 Hz</description>
       <styleUrl>#icon-503-DB4436</styleUrl>
       <Point>
         <coordinates>
           2.5909632,48.6257817,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(56) F5GNR H</name>
-      <description>431.975 MHz Tone 71.9 Hz </description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          -3.2045672,47.365719,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(17) F9SV H</name>
-      <description>432.975 MHz Tone 71.9 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          -1.0496859,46.078652,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(28) F2VZ H</name>
-      <description>432.975 MHz Tone 71.9 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          1.6399351,48.6055718,0
         </coordinates>
       </Point>
     </Placemark>
@@ -2143,40 +1191,10 @@
     <Placemark>
       <name>(49) F5ZCD V</name>
       <description><![CDATA[145.6125 MHz - 600 kHz Tone 103.5 Hz<br>F5IZJ]]></description>
-      <styleUrl>#icon-503-4186F0</styleUrl>
-      <Point>
-        <coordinates>
-          -0.7350203,47.2841151,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(44) F5SSB V</name>
-      <description>144.950 MHz Tone 103.5 Hz</description>
       <styleUrl>#icon-503-DB4436</styleUrl>
       <Point>
         <coordinates>
-          -1.1822126,47.0510386,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(94) F6HYY H</name>
-      <description>144.5625 MHz Tone 71.9 Hz </description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          2.4308315,48.804523,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(33) F5RUE H</name>
-      <description>432.975 MHz Tone 71.9 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          -0.5855939,44.7694289,0
+          -0.7350203,47.2841151,0
         </coordinates>
       </Point>
     </Placemark>
@@ -2201,82 +1219,12 @@
       </Point>
     </Placemark>
     <Placemark>
-      <name>(91) F5NXT H</name>
-      <description>432.975 MHz Tone 71.9 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          2.4765526,48.7091256,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(37) F6GUZ R</name>
-      <description>434.975 MHz ,144.5375 MHz Tone 123 Hz</description>
-      <styleUrl>#icon-503-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          0.7376585,47.2843075,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
       <name>(68) F1ZSB V</name>
       <description><![CDATA[145.3125 MHz Tone 67 Hz<br>F4BRF]]></description>
       <styleUrl>#icon-503-DB4436</styleUrl>
       <Point>
         <coordinates>
           7.2966113,47.7903551,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(24) F6EKX V</name>
-      <description>145.2625 MHz Tone 71.9 Hz</description>
-      <styleUrl>#icon-503-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          0.7394996,44.8378401,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(24) F1OYP U</name>
-      <description>430.125 MHz Tone 71.9 Hz</description>
-      <styleUrl>#icon-503-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          0.5278176,45.1450197,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(24) F4KLI U</name>
-      <description><![CDATA[430.275 MHz Tone 71.9 Hz<br>F1OPG F1OYP]]></description>
-      <styleUrl>#icon-503-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          0.773729,45.1807962,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(25) F8FFP V</name>
-      <description>144.525 MHz Tone 88.5 Hz</description>
-      <styleUrl>#icon-503-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          6.2665914,46.9156645,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(79) F5LRQ H</name>
-      <description>432.950 MHz Tone 71.9 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          -0.6557465,46.86113,0
         </coordinates>
       </Point>
     </Placemark>
@@ -2291,16 +1239,6 @@
       </Point>
     </Placemark>
     <Placemark>
-      <name>(12) F8NHA H</name>
-      <description>144.975 MHz Tone 71.9 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          2.7909604,44.1802592,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
       <name>(85) F5BJV V</name>
       <description>145.3625 MHz Tone 103.5 Hz </description>
       <styleUrl>#icon-503-DB4436</styleUrl>
@@ -2311,72 +1249,12 @@
       </Point>
     </Placemark>
     <Placemark>
-      <name>(76) F8TPJ H</name>
-      <description>432.975 MHz Tone 71.9 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          1.0711228,49.8675992,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(18) F5BRI H</name>
-      <description>431.300 MHz Tone 71.9 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          2.5789833,47.2834081,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(BE) ON2OD U</name>
-      <description>430.025 MHz Tone 131.8 Hz</description>
-      <styleUrl>#icon-503-F8971B</styleUrl>
-      <Point>
-        <coordinates>
-          4.0416499,50.6956782,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
       <name>(28) F5VMH V</name>
       <description>145.575 MHz Tone 123 Hz</description>
       <styleUrl>#icon-503-DB4436</styleUrl>
       <Point>
         <coordinates>
           1.3524877,48.7394054,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(37) F6CVM H</name>
-      <description>432.975 MHz Tone 71.9 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          0.7114178,47.3917996,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(06) F6FDY H</name>
-      <description>432.975 MHz Tone 88.5 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          7.2334437,43.7212653,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(12) F1LRZ H</name>
-      <description>144.975 MHz Tone 71.9 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          3.0459212,44.09871,0
         </coordinates>
       </Point>
     </Placemark>
@@ -2392,21 +1270,11 @@
     </Placemark>
     <Placemark>
       <name>(79) F5PMW V</name>
-      <description>145.4875 MHz Tone 103.5 Hz</description>
+      <description>144.825 MHz Tone 103.5 Hz</description>
       <styleUrl>#icon-503-DB4436</styleUrl>
       <Point>
         <coordinates>
           -0.4764211,46.1807224,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(95) F5PLS H</name>
-      <description>432.975 MHz Tone 71.9 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          2.445361,49.0508721,0
         </coordinates>
       </Point>
     </Placemark>
@@ -2421,42 +1289,12 @@
       </Point>
     </Placemark>
     <Placemark>
-      <name>(85) F4HEX H</name>
-      <description>144.975 MHz Tone 71.9 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          -1.0612363,46.553658,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(BE) ON4LJA H</name>
-      <description>430.300 MHz Tone 74.4 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          3.3933419,50.625597,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
       <name>(BE) ON0NR U</name>
       <description><![CDATA[430.300 MHz Tone 131.8 Hz<br>ON4LS]]></description>
       <styleUrl>#icon-503-DB4436</styleUrl>
       <Point>
         <coordinates>
           4.848143,50.4080526,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(29) F4AHV H</name>
-      <description>144.975 MHz Tone 71.9 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          -3.7116119,48.6021014,0
         </coordinates>
       </Point>
     </Placemark>
@@ -2481,56 +1319,6 @@
       </Point>
     </Placemark>
     <Placemark>
-      <name>(32) F8ASG H</name>
-      <description>432.975 MHz Tone 71.9 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          -0.1009005,43.7480701,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(87) F5RNZ H</name>
-      <description>144.975 MHz Tone 88.5 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          1.2536441,45.8343618,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(13) F1SVV H</name>
-      <description>432.975 MHz Tone 71.9 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          5.1104955,43.6253391,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(68) F4BRF H</name>
-      <description>432.975 MHz Tone 67 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          7.2966113,47.7903551,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(BE) ON4WCJ H</name>
-      <description>434.250 MHz Tone 74.4 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          4.3228405,50.050256,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
       <name>(17) F5NXG V</name>
       <description>144.625 MHz Tone 136.5 Hz</description>
       <styleUrl>#icon-503-DB4436</styleUrl>
@@ -2551,32 +1339,12 @@
       </Point>
     </Placemark>
     <Placemark>
-      <name>(59) F5UGX V</name>
-      <description>432.975 MHz Tone 123 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          3.9220427,50.2999553,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
       <name>(13) F1ZLC V</name>
       <description><![CDATA[145.300 MHz Tone 71.9 Hz<br>F4HJA]]></description>
-      <styleUrl>#icon-503-DB4436</styleUrl>
+      <styleUrl>#icon-503-F8971B</styleUrl>
       <Point>
         <coordinates>
           5.0354732,43.5490339,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(76) F4DBC H</name>
-      <description>144.975 MHz Tone 71.9 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          1.0089516,49.5083748,0
         </coordinates>
       </Point>
     </Placemark>
@@ -2591,16 +1359,6 @@
       </Point>
     </Placemark>
     <Placemark>
-      <name>(80) F4VSI H</name>
-      <description>434.975 MHz Tone 74.4 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          1.6334413,50.1884133,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
       <name>(QC) VE2CVA R</name>
       <description><![CDATA[14x.xxx MHZ Tone xx Hz<br>VE2LUQ]]></description>
       <styleUrl>#icon-503-DB4436</styleUrl>
@@ -2611,42 +1369,12 @@
       </Point>
     </Placemark>
     <Placemark>
-      <name>(M) F4IJJ H</name>
-      <description>432.900 MHz Tone 71.9 Hz </description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          2.4546099,48.8053843,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(62) F5GUH H</name>
-      <description>439.900 MHz Tone 71.9 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          1.5716607,50.4107164,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
       <name>(59) F1ZKY R</name>
       <description><![CDATA[145.6125 MHz - 0.6 MHz Tone 123 Hz<br>F4VSE]]></description>
       <styleUrl>#icon-503-4186F0</styleUrl>
       <Point>
         <coordinates>
           2.3752206,50.9990718,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(33) F0FQL V</name>
-      <description>145.350 MHz Tone 82.5 Hz </description>
-      <styleUrl>#icon-503-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          -0.1320157,44.5844454,0
         </coordinates>
       </Point>
     </Placemark>
@@ -2681,26 +1409,6 @@
       </Point>
     </Placemark>
     <Placemark>
-      <name>(84) F1MHL H</name>
-      <description>431.975 MHz Tone 71.9 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          4.8076106,43.9474695,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(VMH) F1TZO H</name>
-      <description>144.xxx MHz Tone xx Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          2.2703909,48.6386768,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
       <name>(91) F1TZO 10M</name>
       <description>29.120 MHz Tone 192.8 Hz</description>
       <styleUrl>#icon-503-DB4436</styleUrl>
@@ -2711,9 +1419,9 @@
       </Point>
     </Placemark>
     <Placemark>
-      <name>(27) F1ASM H</name>
-      <description>430.975 MHz Tone 71.9 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
+      <name>(27) F1ASM V</name>
+      <description>145.4125 MHz Tone 71.9 Hz</description>
+      <styleUrl>#icon-503-F8971B</styleUrl>
       <Point>
         <coordinates>
           1.1046853,49.1975103,0
@@ -2723,30 +1431,10 @@
     <Placemark>
       <name>(67) F5ZAU R</name>
       <description><![CDATA[145.6125 MHz - 0.6 MHz Tone 67 Hz<br>F5SWB]]></description>
-      <styleUrl>#icon-503-F8971B</styleUrl>
+      <styleUrl>#icon-503-4186F0</styleUrl>
       <Point>
         <coordinates>
           7.2927582,48.651665,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(34) F6BTM H</name>
-      <description>430.975 MHz Tone 71.9 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          3.1669814,43.2750436,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(76) F4BPP H</name>
-      <description>430.975 MHz Tone 71.9 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          0.0763765,49.5195091,0
         </coordinates>
       </Point>
     </Placemark>
@@ -2761,72 +1449,32 @@
       </Point>
     </Placemark>
     <Placemark>
-      <name>(33) F0FQL H</name>
-      <description>144.950 MHz Tone 71.9 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          -0.1685767,44.593116,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
       <name>(09) F6DEV V</name>
       <description>144.950 MHz Tone 71.9 Hz</description>
       <styleUrl>#icon-503-DB4436</styleUrl>
       <Point>
         <coordinates>
-          1.28414,42.9936061,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(53) F1EVM H</name>
-      <description>432.975 MHz Tone 71.9 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          -0.8905783,48.0968846,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(75) F5HLA H</name>
-      <description>145.3625 MHz Tone 97.4 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          2.3177457,48.8471642,0
+          1.2840381,42.9935159,0
         </coordinates>
       </Point>
     </Placemark>
     <Placemark>
       <name>(83) F4HJX U</name>
-      <description>431.500 MHz Tone 123 Hz</description>
+      <description>431.400 MHz Tone 123 Hz</description>
       <styleUrl>#icon-503-DB4436</styleUrl>
       <Point>
         <coordinates>
-          5.7009325,43.3839625,0
+          5.7201599,43.318074,0
         </coordinates>
       </Point>
     </Placemark>
     <Placemark>
-      <name>(17) F5ZSK V</name>
-      <description><![CDATA[145.400 MHz Tone 162.2 Hz<br>F6FOH]]></description>
+      <name>(17) F5ZTG U</name>
+      <description><![CDATA[432.700 MHz Tone 162.2 Hz<br>F6FOH]]></description>
       <styleUrl>#icon-503-DB4436</styleUrl>
       <Point>
         <coordinates>
           -1.1918242,46.1877449,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(972) FM1LF H</name>
-      <description>439.425 MHz Tone 71.9 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          -61.0358333333334,14.6480555555556,0
         </coordinates>
       </Point>
     </Placemark>
@@ -2837,16 +1485,6 @@
       <Point>
         <coordinates>
           -3.533008,47.8739155,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(66) F5ZRK V</name>
-      <description><![CDATA[145.2625 MHz Tone 74.4 Hz<br>F4UEB]]></description>
-      <styleUrl>#icon-503-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          2.0369982,42.5154541,0
         </coordinates>
       </Point>
     </Placemark>
@@ -2891,26 +1529,6 @@
       </Point>
     </Placemark>
     <Placemark>
-      <name>(59) F4IKU H</name>
-      <description>144.975 MHz Tone 71.9 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          3.1015942,50.6731628,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(CH) HB9GXP H</name>
-      <description>144.950 MHz Tone 71.9 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          6.9853005,46.2141552,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
       <name>(32) F4DJC U</name>
       <description>432.975 MHz Tone 71.9 Hz</description>
       <styleUrl>#icon-503-DB4436</styleUrl>
@@ -2932,7 +1550,7 @@
     </Placemark>
     <Placemark>
       <name>(33) F6KPW V</name>
-      <description><![CDATA[144.725 MHz Tone 82.5 Hz<br>F5NNN]]></description>
+      <description><![CDATA[145.375 MHz Tone 82.5 Hz<br>F5NNN]]></description>
       <styleUrl>#icon-503-DB4436</styleUrl>
       <Point>
         <coordinates>
@@ -2951,62 +1569,12 @@
       </Point>
     </Placemark>
     <Placemark>
-      <name>(MA) CN8VY V</name>
-      <description><![CDATA[145.550 MHz Tone 77Hz<br>PU2ZSP]]></description>
-      <styleUrl>#icon-503-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          -6.8608408,33.9648152,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(92) F5NKP 10M</name>
-      <description>29.110 MHz Tone 131.8 Hz</description>
-      <styleUrl>#icon-503-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          2.2527181,48.8223142,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
       <name>(18) F1FHL V</name>
       <description>145.4125 MHz Tone 94.8 Hz</description>
       <styleUrl>#icon-503-DB4436</styleUrl>
       <Point>
         <coordinates>
           2.4401668,47.488941,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(68) F6HOR H</name>
-      <description>145.4625 MHz Tone 156.7 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          7.2348338,48.100524,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(54) F1DKD H</name>
-      <description>144.825 MHz Tone 250.3 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          6.1460828,48.6726223,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(27) F4GBZ U</name>
-      <description>439 MHz tone 71.9Hz</description>
-      <styleUrl>#icon-503-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          0.9319116,48.9649175,0
         </coordinates>
       </Point>
     </Placemark>
@@ -3021,58 +1589,8 @@
       </Point>
     </Placemark>
     <Placemark>
-      <name>(22) F6HRJ H</name>
-      <description>431.975 MHz Tone 71.9Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          -3.4354159,48.7951824,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(44) F5ZEM R</name>
-      <description><![CDATA[430.050 MHz + 9.4 MHz Tone 103.5 Hz non H24 utilisez la commande 96 pour activer le RRF<br>F3KT]]></description>
-      <styleUrl>#icon-503-F8971B</styleUrl>
-      <Point>
-        <coordinates>
-          -1.5430436,47.2403787,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(93) F1ZPL R</name>
-      <description><![CDATA[430.2625 MHz +9.4 MHz Tone 67Hz<br>F1SHS]]></description>
-      <styleUrl>#icon-503-F8971B</styleUrl>
-      <Point>
-        <coordinates>
-          2.5385285,48.8537535,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(50) F6KFW U</name>
-      <description><![CDATA[432.950 MHz Tone 67 Hz non H24<br>F4HGI]]></description>
-      <styleUrl>#icon-503-F8971B</styleUrl>
-      <Point>
-        <coordinates>
-          -1.6577842,49.6416665,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(57) F1ZRZ U</name>
-      <description><![CDATA[430.950 MHz Tone 233.6 Hz<br>F4EVC]]></description>
-      <styleUrl>#icon-503-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          6.1720636,49.0566898,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(32) F6GGX V</name>
-      <description>144.725 MHz Tone 71.9Hz</description>
+      <name>(32) F5ZSP V</name>
+      <description><![CDATA[144.725 MHz Tone 71.9Hz<br>F6GGX]]></description>
       <styleUrl>#icon-503-DB4436</styleUrl>
       <Point>
         <coordinates>
@@ -3081,52 +1599,282 @@
       </Point>
     </Placemark>
     <Placemark>
-      <name>(971) FG5GP H</name>
-      <description>432.975 MHz Tone 71.9 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          -61.6016877,16.2358078,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(95) F4HHL H</name>
-      <description>431.975 MHz Tone 71.9 Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
-      <Point>
-        <coordinates>
-          2.5045111,49.060659,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>(13) F1GAZ V</name>
-      <description>144.855 MHz Tone 131.8 Hz</description>
+      <name>(87) F1ZCF 10M</name>
+      <description><![CDATA[29.670 MHz Tone 88.5 Hz<br>F5VMR]]></description>
       <styleUrl>#icon-503-DB4436</styleUrl>
       <Point>
         <coordinates>
-          5.281395,43.42387,0
+          1.8024116,45.8135552,0
         </coordinates>
       </Point>
     </Placemark>
     <Placemark>
-      <name>(57) F1JMJ H</name>
-      <description>432.975 MHz Tone 71.9Hz</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
+      <name>(13) F4KKF V</name>
+      <description><![CDATA[145.300 MHz Tone 71.9 Hz<br>F4HJA]]></description>
+      <styleUrl>#icon-503-DB4436</styleUrl>
       <Point>
         <coordinates>
-          6.8759426,49.2131754,0
+          5.030577,43.5499194,0
         </coordinates>
       </Point>
     </Placemark>
     <Placemark>
-      <name>(94) F8ATD H</name>
-      <description>430.975 MHz Tone 71.9</description>
-      <styleUrl>#icon-959-DB4436</styleUrl>
+      <name>GW-C4FM-30262</name>
+      <description>Gateway Salon International - C4FM INTERNATIONAL-RRF #30262</description>
+      <styleUrl>#icon-960-7C3592</styleUrl>
       <Point>
         <coordinates>
-          2.5312478,48.7628819,0
+          -4.2822587,49.2505429,0
+        </coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>(30) F5ZSZ T</name>
+      <description><![CDATA[431.875 MHz -1.6 MHz & 145.300 MHz Tone 67Hz <br>F5ONG]]></description>
+      <styleUrl>#icon-503-4186F0</styleUrl>
+      <Point>
+        <coordinates>
+          4.1446922,44.197424,0
+        </coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>(972) FM4SA V</name>
+      <description>145.425 MHz Tone 97.4 Hz</description>
+      <styleUrl>#icon-503-F8971B</styleUrl>
+      <Point>
+        <coordinates>
+          -61.0710705,14.6247852,0
+        </coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>(31) F4HZT V</name>
+      <description>144.850 MHz Tone 71.9Hz</description>
+      <styleUrl>#icon-503-DB4436</styleUrl>
+      <Point>
+        <coordinates>
+          0.7225337,43.1892148,0
+        </coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>(47) F1ZRS V</name>
+      <description><![CDATA[144.975 MHZ Tone 82.5 Hz<br>F4FWI]]></description>
+      <styleUrl>#icon-503-DB4436</styleUrl>
+      <Point>
+        <coordinates>
+          0.1210206,44.6990941,0
+        </coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>(85) F5HPY V</name>
+      <description>144.8875 MHz Tone 103.5 Hz</description>
+      <styleUrl>#icon-503-DB4436</styleUrl>
+      <Point>
+        <coordinates>
+          -1.6881385,46.5185193,0
+        </coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>(972) FM0JZ V</name>
+      <description>144.762,5 Mhz Tone 162.2 Hz</description>
+      <styleUrl>#icon-503-DB4436</styleUrl>
+      <Point>
+        <coordinates>
+          -61.0680756,14.6208657,0
+        </coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>(34) F5MSI U</name>
+      <description>434.400 MHz Tone 71.9 Hz</description>
+      <styleUrl>#icon-503-DB4436</styleUrl>
+      <Point>
+        <coordinates>
+          3.491865,43.3028501,0
+        </coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>(30) F4HTU V</name>
+      <description>145.3375 MHz Tone 67Hz</description>
+      <styleUrl>#icon-503-DB4436</styleUrl>
+      <Point>
+        <coordinates>
+          4.3583893,43.7168279,0
+        </coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>(84) F1EST V</name>
+      <description>144.8625 MHz Tone 67 Hz</description>
+      <styleUrl>#icon-503-DB4436</styleUrl>
+      <Point>
+        <coordinates>
+          5.6616234,43.7008179,0
+        </coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>(09) F5PDQ V</name>
+      <description>144.950 MHz Tone 71.9 Hz</description>
+      <styleUrl>#icon-503-DB4436</styleUrl>
+      <Point>
+        <coordinates>
+          1.8347738,42.9352406,0
+        </coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>(32) F4GCF U</name>
+      <description>431.725 MHz Tone 71.9Hz</description>
+      <styleUrl>#icon-503-DB4436</styleUrl>
+      <Point>
+        <coordinates>
+          0.5335291,43.6377222,0
+        </coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>(77) F1ZTR V</name>
+      <description><![CDATA[145.3625 MHz Tone 77Hz<br>F4IEL]]></description>
+      <styleUrl>#icon-503-DB4436</styleUrl>
+      <Point>
+        <coordinates>
+          2.8979639,48.9624366,0
+        </coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>(33) F1RJC V</name>
+      <description>144.700 MHz Tone 82.5 Hz</description>
+      <styleUrl>#icon-503-DB4436</styleUrl>
+      <Point>
+        <coordinates>
+          -0.049674,44.872184,0
+        </coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>(32) F5ZRA R</name>
+      <description><![CDATA[145.625 MHz -600 kHz Tone 141.3 Hz<br>F4BPJ]]></description>
+      <styleUrl>#icon-503-4186F0</styleUrl>
+      <Point>
+        <coordinates>
+          0.8405167,43.9083333,0
+        </coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>(17) F5ZSK V</name>
+      <description><![CDATA[145.400 MHz Tone 162.2 Hz<br>F6FOH]]></description>
+      <styleUrl>#icon-503-DB4436</styleUrl>
+      <Point>
+        <coordinates>
+          -1.1917008,46.1879046,0
+        </coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>(11) F1ZHV V</name>
+      <description><![CDATA[145.225 MHz Tone 250.3 Hz<br>F4FOH]]></description>
+      <styleUrl>#icon-503-DB4436</styleUrl>
+      <Point>
+        <coordinates>
+          2.256454,43.363963,0
+        </coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>(91) F5ZMH R</name>
+      <description><![CDATA[145.7375 MHz -600 KHz Tone 192.8 Hz<br>F1TZO]]></description>
+      <styleUrl>#icon-503-4186F0</styleUrl>
+      <Point>
+        <coordinates>
+          2.250151,48.6255898,0
+        </coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>(QC) VE2SKG U</name>
+      <description>430.975 MHz Tone 77 Hz</description>
+      <styleUrl>#icon-503-DB4436</styleUrl>
+      <Point>
+        <coordinates>
+          -72.738102,46.6148762,0
+        </coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>(29) F5ZJX T6M</name>
+      <description><![CDATA[430.400 MHZ +9.4 MHZ & 50.540 MHZ Tone 71.9 Hz sur les 2 Fréquences <br>F5NLG]]></description>
+      <styleUrl>#icon-503-4186F0</styleUrl>
+      <Point>
+        <coordinates>
+          -3.8689089,48.4984197,0
+        </coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>(31) F5PDA V</name>
+      <description>144.825 MHz Tone 71.9Hz</description>
+      <styleUrl>#icon-503-DB4436</styleUrl>
+      <Point>
+        <coordinates>
+          0.560145,43.0812839,0
+        </coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>(75) F1ZUJ U</name>
+      <description><![CDATA[439.450 MHz Tone 192.8 Hz<br>F4ICR]]></description>
+      <styleUrl>#icon-503-DB4436</styleUrl>
+      <Point>
+        <coordinates>
+          2.32206,48.8379827,0
+        </coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>(QC) VE2CKN V</name>
+      <description>146.520 MHz Tone 100 Hz</description>
+      <styleUrl>#icon-503-DB4436</styleUrl>
+      <Point>
+        <coordinates>
+          -69.0991666666667,47.4383333,0
+        </coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>(27) F6DSB V</name>
+      <description>144.8625 MHz Tone 123 Hz</description>
+      <styleUrl>#icon-503-F8971B</styleUrl>
+      <Point>
+        <coordinates>
+          1.7272108,49.2773874,0
+        </coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>(09) F1ZTW R</name>
+      <description><![CDATA[439.825 MHhz -9.4 MHz Tone 71.9Hz<br>F1BBG]]></description>
+      <styleUrl>#icon-503-4186F0</styleUrl>
+      <Point>
+        <coordinates>
+          1.5897607,42.9200309,0
+        </coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>(31) F5BYL V</name>
+      <description>144.925 MHZ Tone 71.9Hz</description>
+      <styleUrl>#icon-503-DB4436</styleUrl>
+      <Point>
+        <coordinates>
+          1.2182817,43.2967144,0
         </coordinates>
       </Point>
     </Placemark>

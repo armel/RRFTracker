@@ -116,8 +116,11 @@ def main(argv):
             print('Timeout Error:', errt)
 
         search_start = page.find('TXmit":"')            # Search this pattern
-        search_start += 8                               # Shift...
-        search_stop = page.find('"', search_start)      # And close it...
+        if search_start != -1:
+            search_start += 8                           # Shift...
+            search_stop = page.find('"', search_start)  # And close it...
+        else:
+            search_stop = search_start        
 
         # If transmitter...
         if search_stop != search_start:
@@ -147,7 +150,7 @@ def main(argv):
                 s.call_blanc[0] = l.convert_second_to_time(blanc)
 
             else:
-                if s.tot_start is '':
+                if s.tot_start == '':
                     s.tot_start = time.time()
                     s.tot_current = s.tot_start
 
