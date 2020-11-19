@@ -188,6 +188,7 @@ def log_write():
     data += log_abstract()
     data += log_activity()
     data += log_transmit()
+    data += log_iptable()
     data += log_last()
     if s.init is False:
         data += log_elsewhere()
