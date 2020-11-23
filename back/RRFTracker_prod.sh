@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 PATH_SCRIPT='/opt/RRFTracker/back/RRFTracker.py'
 PATH_MEDIA='/opt/RRFTracker/front/assets'
