@@ -14,40 +14,117 @@ version = '2.6.1'
 
 # Default room and path
 
-room = 'RRF'            # Room: Default value !
-log_path = '/tmp/RRF'   # Log path: Default value !
-log_path_day = ''		# Log path day: Default value !
+room = 'RRF'                # Room: Default value !
+log_path = '/tmp/RRF'       # Log path: Default value !
 
-# Set call
+# Set room
 
-call = ['', '', '', '', '', '', '', '', '', '']         # Call list
-call_date = ['', '', '', '', '', '', '', '', '', '']    # Call date list
-call_blanc = ['', '', '', '', '', '', '', '', '', '']   # Call blanc list
-call_time = ['', '', '', '', '', '', '', '', '', '']    # Call time list
-call_current = call[0]                                  # Call current
-call_previous = call[1]                                 # Call previous
+room_list = {
+    'RRF': {
+        'dtmf': '9 6',
+        'realname': 'RRF', 
+    },
+    'TECHNIQUE': {
+        'dtmf': '9 8',
+        'realname': 'Technique', 
+    },
+    'INTERNATIONAL': {
+        'dtmf': '9 9',
+        'realname': 'International', 
+    },
+    'BAVARDAGE': {
+        'dtmf': '1 0 0',
+        'realname': 'Bavardage', 
+    },
+    'LOCAL': {
+        'dtmf': '1 0 1',
+        'realname': 'Local', 
+    },
+    'EXPERIMENTAL': {
+        'dtmf': '1 0 2',
+        'realname': 'Expérimental', 
+    },
+    'FON': {
+        'dtmf': '9 7',
+        'realname': 'FON', 
+    }
+}
 
-qso = 0                 	# QSO count
-qso_hour = [0] * 24     	# QSO list for histogramm
-node_count = 0          	# Node count
-node_count_max = 0      	# Node count max
-node_count_min = 10**4  	# Node count min
-user_count = 0              # User count
+log_path_day = {}           # Log path day: Default value !
 
-node_list = []          	# Node list
-node_list_old = []      	# Node list
-node_list_in = []       	# Node list in
-node_list_out = []      	# Node list out
+call = {}                   # Call list
+call_date = {}              # Call date list
+call_blanc = {}             # Call blanc list
+call_time = {}              # Call time list
+call_current = {}           # Call current
+call_previous = {}          # Call previous
 
-day_duration = 0        	# Total emission time
+node_list = {}              # Node list
+node_list_old = {}          # Node list old
+node_list_in = {}           # Node list in
+node_list_out = {}          # Node list out
+node_count = {}             # Node count
+node_count_max = {}         # Node count max
+node_count_min = {}         # Node count min
 
-porteuse = dict()       	# Porteuse dict
-all = dict()                # All dict
-tot = dict()                # TOT dict
-tot_limit = '02:33'         # TOT limit time (02:03 puis 02:33...)
+qso = {}
+qso_hour = {}
 
-transmit = True         	# Detect transmit
-stat_save = False       	# If False, stat need to be save
+tot = {}                    # TOT dict
+tot_start = {}
+tot_current = {}
+
+tot_limit = {}              # TOT limit time (02:03 puis 02:33...)
+
+transmit = {}               # Detect transmit
+porteuse = {}               # Porteuse dict
+all = {}                    # All dict
+day_duration = {}           # Total emission time
+duration = {}
+stat_save = {}              # If False, stat need to be save
+init = {}                   # Initial init
+intempestif = {}            # Tuned me !!!
+
+for r in room_list:
+    log_path_day[r] = ''
+    call[r] = [''] * 10
+    call_date[r] = [''] * 10
+    call_blanc[r] = [''] * 10
+    call_time[r] = [''] * 10
+    call_current[r] = ''
+    call_previous[r] = ''
+
+    transmit[r] = 'False'
+    all[r] = {}
+    porteuse[r] = {}
+    intempestif[r] = 2
+
+    tot[r] = {}
+    tot_start[r] = ''
+    tot_current[r] = ''
+
+    node_list[r] = []
+    node_list_old[r] = []
+    node_list_in[r] = []
+    node_list_out[r] = []
+    node_count[r] = 0
+    node_count_max[r] = 0
+    node_count_min[r] = 10**4
+
+    qso[r] = 0
+    qso_hour[r] = [0] * 24
+
+    day_duration[r] = 0
+    duration[r] = 0
+
+    tot_limit[r] = '02:33'
+
+    stat_save[r] = False
+    init[r] = True
+
+'''
+    user_count = 0              # User count
+'''
 
 message_node_old = ''       # Old message node
 message_current = ''        # Current message
@@ -56,51 +133,11 @@ message_timer_limit = 0     # Timer limit message
 
 # Set time and date
 
-tot_start = ''
-tot_current = ''
 hour = ''
 minute = ''
 seconde = ''
-duration = 0
-intempestif = 2         # Tuned me !!!
-main_loop = .200        # Main loop tempo
+main_loop = .200            # Main loop tempo
 
-# Set init
-
-init = True				# Check if init...
-
-# Set url
-
-room_list = {
-    'RRF': {
-        'url': 'http://rrf.f5nlg.ovh/api/svxlink/RRF',
-        'dtmf': '9 6',
-    },
-    'TECHNIQUE': {
-        'url': 'http://rrf.f5nlg.ovh/api/svxlink/technique',
-        'dtmf': '9 8',
-    },
-    'INTERNATIONAL': {
-        'url': 'http://rrf.f5nlg.ovh/api/svxlink/international',
-        'dtmf': '9 9',
-    },
-    'BAVARDAGE': {
-        'url': 'http://rrf.f5nlg.ovh/api/svxlink/bavardage',
-        'dtmf': '1 0 0',
-    },
-    'LOCAL': {
-        'url': 'http://rrf.f5nlg.ovh/api/svxlink/local',
-        'dtmf': '1 0 1',
-    },
-    #'EXPERIMENTAL': {
-    #    'url': 'http://rrf.f5nlg.ovh/api/svxlink/experimental',
-    #    'dtmf': '1 0 2',
-    #},
-    'FON': {
-        'url': 'http://rrf.f5nlg.ovh/api/svxlink/FON',
-        'dtmf': '9 7',
-    }
-}
 
 patrol_filename = '/var/www/RRFTracker/rrf_patrol.json'
 

@@ -39,27 +39,28 @@ def main(argv):
             s.room = arg
 
     # Create directory and copy asset if necessary
+    for r in s.room_list:
+        s.room = r
+        if not os.path.exists(s.log_path):
+            os.makedirs(s.log_path)
+        if not os.path.exists(s.log_path + '/' + 'assets'):
+            os.popen('cp -a ../front/assets ' + s.log_path)
 
-    if not os.path.exists(s.log_path):
-        os.makedirs(s.log_path)
-    if not os.path.exists(s.log_path + '/' + 'assets'):
-        os.popen('cp -a ../front/assets ' + s.log_path)
+        tmp = datetime.datetime.now()
+        s.day = tmp.strftime('%Y-%m-%d')
 
-    tmp = datetime.datetime.now()
-    s.day = tmp.strftime('%Y-%m-%d')
+        s.log_path_day[s.room] = s.log_path + '/' + s.room + '-' + s.day
 
-    s.log_path_day = s.log_path + '/' + s.room + '-' + s.day
+        if not os.path.exists(s.log_path_day[s.room]):
+            os.makedirs(s.log_path_day)
+            os.popen('cp /opt/RRFTracker/front/index.html ' + s.log_path_day + '/index.html')
+            os.popen('ln -sfn ' + s.log_path_day + ' ' + s.log_path + '/' + s.room + '-today')
 
-    if not os.path.exists(s.log_path_day):
-        os.makedirs(s.log_path_day)
-        os.popen('cp /opt/RRFTracker/front/index.html ' + s.log_path_day + '/index.html')
-        os.popen('ln -sfn ' + s.log_path_day + ' ' + s.log_path + '/' + s.room + '-today')
+        # If restart on day...
 
-    # If restart on day...
-
-    filename = s.log_path + '/' + s.room + '-today/rrf.json'
-    if os.path.isfile(filename):
-        l.restart()
+        filename = s.log_path + '/' + s.room + '-today/rrf.json'
+        if os.path.isfile(filename):
+            l.restart()
 
     # Get user online
     s.user_count = l.log_user()
@@ -82,207 +83,195 @@ def main(argv):
         s.minute = int(s.now[3:-3])
         s.seconde = int(s.now[-2:])
 
-        if(s.minute % 5 == 0):
-            s.user_count = l.log_user()
-            l.whereis_load()
-
-        if(s.minute % 30 == 0):
-            l.whois_load()
-
-        if(s.now[:5] == '00:00'):
-            s.log_path_day = s.log_path + '/' + s.room + '-' + s.day
-
-            if not os.path.exists(s.log_path_day):
-                os.makedirs(s.log_path_day)
-                os.popen('cp /opt/RRFTracker/front/index.html ' + s.log_path_day + '/index.html')
-                os.popen('ln -sfn ' + s.log_path_day + ' ' + s.log_path + '/' + s.room + '-today')
-
-            s.qso = 0
-            s.day_duration = 0
-            for q in range(0, 24):     # Clean histogram
-                s.qso_hour[q] = 0
-            s.all.clear()               # Clear all history
-            s.porteuse.clear()          # Clear porteuse history
-            s.tot.clear()               # Clear tot history
-            s.init = True               # Reset init
-
         # Request HTTP datas
         try:
-            r = requests.get(s.room_list[s.room]['url'], verify=False, timeout=10)
-            page = r.content.decode('utf-8')
+            r = requests.get(s.whereis_api, verify=False, timeout=10)
         except requests.exceptions.ConnectionError as errc:
             print('Error Connecting:', errc)
         except requests.exceptions.Timeout as errt:
             print('Timeout Error:', errt)
 
-        search_start = page.find('TXmit":"')            # Search this pattern
-        if search_start != -1:
-            search_start += 8                           # Shift...
-            search_stop = page.find('"', search_start)  # And close it...
-        else:
-            search_stop = search_start        
+        # Controle de la validité du flux json
+        try:
+            data = r.json()
+        except:
+            pass
 
-        # If transmitter...
-        if search_stop != search_start:
+        # Surf in room list
 
-            if s.transmit is False:
-                s.transmit = True
+        for r in s.room_list:
 
-            s.call_current = l.sanitize_call(page[search_start:search_stop])
+            s.room = r
 
-            if (s.call_previous != s.call_current):
-                s.tot_start = time.time()
-                s.tot_current = s.tot_start
-                s.call_previous = s.call_current
+            if(s.minute % 5 == 0):
+                s.user_count = l.log_user()
+                l.whereis_load()
 
-                if s.call_date[0] == '' or s.call_date[0] > s.now:
-                    blanc = 0
-                else:
-                    blanc = l.convert_time_to_second(s.now) - l.convert_time_to_second(s.call_date[0])
+            if(s.minute % 30 == 0):
+                l.whois_load()
 
-                for i in range(9, 0, -1):
-                    s.call[i] = s.call[i - 1]
-                    s.call_date[i] = s.call_date[i - 1]
-                    s.call_blanc[i] = s.call_blanc[i - 1]
-                    s.call_time[i] = s.call_time[i - 1]
+            if(s.now[:5] == '00:00'):
+                s.log_path_day = s.log_path + '/' + s.room + '-' + s.day
 
-                s.call[0] = s.call_current
-                s.call_blanc[0] = l.convert_second_to_time(blanc)
+                if not os.path.exists(s.log_path_day):
+                    os.makedirs(s.log_path_day)
+                    os.popen('cp /opt/RRFTracker/front/index.html ' + s.log_path_day + '/index.html')
+                    os.popen('ln -sfn ' + s.log_path_day + ' ' + s.log_path + '/' + s.room + '-today')
 
-            else:
-                if s.tot_start == '':
-                    s.tot_start = time.time()
-                    s.tot_current = s.tot_start
+                s.qso[s.room] = 0
+                s.day_duration[s.room] = 0
+                for q in range(0, 24):      # Clean histogram
+                    s.qso_hour[s.room][q] = 0
+                s.all[s.room] = []          # Clear all history
+                s.porteuse[s.room] = []     # Clear porteuse history
+                s.tot[s.room] = []          # Clear tot history
+                s.init[s.room] = True       # Reset init
 
-                    if s.call_date[0] == '' or s.call_date[0] > s.now:
+            # If transmitter...
+            if data['transmitters'][s.room_list[s.room]['realname']] != None:
+
+                if s.transmit[s.room] is False:
+                    s.transmit[s.room] = True
+
+                s.call_current[s.room] = l.sanitize_call(data['transmitters'][s.room_list[s.room]['realname']][2])
+
+                if (s.call_previous[s.room] != s.call_current[s.room]):
+                    s.tot_start[s.room] = time.time()
+                    s.tot_current[s.room] = s.tot_start[s.room]
+                    s.call_previous[s.room] = s.call_current[s.room]
+
+                    if s.call_date[s.room][0] == '' or s.call_date[s.room][0] > s.now:
                         blanc = 0
                     else:
-                        blanc = l.convert_time_to_second(s.now) - l.convert_time_to_second(s.call_date[0])
+                        blanc = l.convert_time_to_second(s.now) - l.convert_time_to_second(s.call_date[s.room][0])
 
                     for i in range(9, 0, -1):
-                        s.call[i] = s.call[i - 1]
-                        s.call_date[i] = s.call_date[i - 1]
-                        s.call_blanc[i] = s.call_blanc[i - 1]
-                        s.call_time[i] = s.call_time[i - 1]
+                        s.call[s.room][i] = s.call[s.room][i - 1]
+                        s.call_date[s.room][i] = s.call_date[s.room][i - 1]
+                        s.call_blanc[s.room][i] = s.call_blanc[s.room][i - 1]
+                        s.call_time[s.room][i] = s.call_time[s.room][i - 1]
 
-                    s.call[0] = s.call_current
-                    s.call_blanc[0] = l.convert_second_to_time(blanc)
+                    s.call[s.room][0] = s.call_current[s.room]
+                    s.call_blanc[s.room][0] = l.convert_second_to_time(blanc)
 
                 else:
-                    s.tot_current = time.time()
+                    if s.tot_start[s.room] == '':
+                        s.tot_start[s.room] = time.time()
+                        s.tot_current[s.room] = s.tot_start[s.room]
 
-            s.duration = int(s.tot_current) - int(s.tot_start)
+                        if s.call_date[s.room][0] == '' or s.call_date[s.room][0] > s.now:
+                            blanc = 0
+                        else:
+                            blanc = l.convert_time_to_second(s.now) - l.convert_time_to_second(s.call_date[s.room][0])
 
-            # Save stat only if real transmit
-            if (s.stat_save is False and s.duration > s.intempestif):
-                #s.node = l.save_stat_node(s.node, s.call[0], 0)
-                s.qso += 1
-                tmp = datetime.datetime.now() - datetime.timedelta(seconds=3)
-                s.qso_hour[s.hour] = s.qso - sum(s.qso_hour[:s.hour])
-                s.all = l.save_stat_all(s.all, s.call[0], tmp.strftime('%H:%M:%S'), l.convert_second_to_time(s.duration), True)
-                
-                s.stat_save = True
+                        for i in range(9, 0, -1):
+                            s.call[s.room][i] = s.call[s.room][i - 1]
+                            s.call_date[s.room][i] = s.call_date[s.room][i - 1]
+                            s.call_blanc[s.room][i] = s.call_blanc[s.room][i - 1]
+                            s.call_time[s.room][i] = s.call_time[s.room][i - 1]
 
-            # Format call time
-            tmp = datetime.datetime.now()
-            s.now = tmp.strftime('%H:%M:%S')
-            s.hour = int(tmp.strftime('%H'))
+                        s.call[s.room][0] = s.call_current[s.room]
+                        s.call_blanc[s.room][0] = l.convert_second_to_time(blanc)
 
-            s.qso_hour[s.hour] = s.qso - sum(s.qso_hour[:s.hour])
+                    else:
+                        s.tot_current[s.room] = time.time()
 
-            s.call_date[0] = s.now
-            s.call_time[0] = s.duration
+                s.duration[s.room] = int(s.tot_current[s.room]) - int(s.tot_start[s.room])
 
-            if s.duration > s.intempestif:
-                s.all = l.save_stat_all(s.all, s.call[0], tmp.strftime('%H:%M:%S'), l.convert_second_to_time(s.duration), False)
+                # Save stat only if real transmit
+                if (s.stat_save[s.room] is False and s.duration[s.room] > s.intempestif[s.room]):
+                    s.qso[s.room] += 1
+                    tmp = datetime.datetime.now() - datetime.timedelta(seconds=3)
+                    s.qso_hour[s.room][s.hour] = s.qso[s.room] - sum(s.qso_hour[s.room][:s.hour])
+                    s.all[s.room] = l.save_stat_all(s.all[s.room], s.call[s.room][0], tmp.strftime('%H:%M:%S'), l.convert_second_to_time(s.duration[s.room]), True)
+                    
+                    s.stat_save[s.room] = True
 
-            #sys.stdout.flush()
+                # Format call time
+                tmp = datetime.datetime.now()
+                s.now = tmp.strftime('%H:%M:%S')
+                s.hour = int(tmp.strftime('%H'))
+
+                s.qso_hour[s.room][s.hour] = s.qso[s.room] - sum(s.qso_hour[s.room][:s.hour])
+
+                s.call_date[s.room][0] = s.now
+                s.call_time[s.room][0] = s.duration[s.room]
+
+                if s.duration[s.room] > s.intempestif[s.room]:
+                    s.all[s.room] = l.save_stat_all(s.all[s.room], s.call[s.room][0], tmp.strftime('%H:%M:%S'), l.convert_second_to_time(s.duration[s.room]), False)
+
+                #sys.stdout.flush()
 
 
-        # If no Transmitter...
-        else:
-            if s.transmit is True:
+            # If no Transmitter...
+            else:
+                if s.transmit[s.room] is True:
 
-                '''
-                if s.duration > s.intempestif:
-                    #print tmp.strftime('%H:%M:%S')
-                    #sys.stdout.flush()
-                    s.all = l.save_stat_all(s.all, s.call[0], '00:00:00', l.convert_second_to_time(s.duration))
-                '''
+                    if s.room == 'RRF':
+                        #print l.convert_second_to_time(s.duration), s.tot_limit
+                        #sys.stdout.flush()
+                        if l.convert_second_to_time(s.duration[s.room]) > s.tot_limit[s.room]:
+                            tmp = datetime.datetime.now()
+                            s.tot[s.room] = l.save_stat_tot(s.tot[s.room], s.call[s.room][0], tmp.strftime('%H:%M:%S'))
 
-                if s.room == 'RRF':
-                    #print l.convert_second_to_time(s.duration), s.tot_limit
-                    #sys.stdout.flush()
-                    if l.convert_second_to_time(s.duration) > s.tot_limit:
+                    if s.stat_save[s.room] is True:
+                        if s.duration[s.room] > 600:    # I need to fix this bug...
+                            s.duration[s.room] = 0
+                        #s.node = l.save_stat_node(s.node, s.call[0], s.duration)
+                        s.day_duration[s.room] += s.duration[s.room]
+                    if s.stat_save[s.room] is False:
                         tmp = datetime.datetime.now()
-                        s.tot = l.save_stat_tot(s.tot, s.call[0], tmp.strftime('%H:%M:%S'))
+                        s.porteuse[s.room] = l.save_stat_porteuse(s.porteuse[s.room], s.call[s.room][0], tmp.strftime('%H:%M:%S'))
 
-                if s.stat_save is True:
-                    if s.duration > 600:    # I need to fix this bug...
-                        s.duration = 0
-                    #s.node = l.save_stat_node(s.node, s.call[0], s.duration)
-                    s.day_duration += s.duration
-                if s.stat_save is False:
-                    tmp = datetime.datetime.now()
-                    s.porteuse = l.save_stat_porteuse(s.porteuse, s.call[0], tmp.strftime('%H:%M:%S'))
+                    s.transmit[s.room] = False
+                    s.stat_save[s.room] = False
+                    s.tot_current[s.room] = ''
+                    s.tot_start[s.room] = ''
 
-                s.transmit = False
-                s.stat_save = False
-                s.tot_current = ''
-                s.tot_start = ''
+            # Count node
+            s.node_list[s.room] = []
 
-        # Count node
-        search_start = page.find('nodes":[')                    # Search this pattern
-        search_start += 9                                       # Shift...
-        search_stop = page.find('],"TXmit"', search_start)      # And close it...
+            for d in data['nodes']:
+                if d[1] == s.room_list[s.room]['realname']:
+                     s.node_list[s.room].append(l.sanitize_call(d[2]))
 
-        tmp = page[search_start:search_stop]
-        tmp = tmp.replace('"', '')
-        s.node_list = tmp.split(',')
+            if s.node_list_old[s.room] == []:
+                s.node_list_old[s.room] = s.node_list[s.room]
+            else:
+                if s.node_list_old[s.room] != s.node_list[s.room]:
+                    if (list(set(s.node_list_old[s.room]) - set(s.node_list[s.room]))):
+                        s.node_list_out[s.room] = list(set(s.node_list_old[s.room]) - set(s.node_list[s.room]))
+                        for n in s.node_list_out[s.room]:
+                            if n in s.node_list_in[s.room]:
+                                s.node_list_in[s.room].remove(n)
+                        s.node_list_out[s.room] = sorted(s.node_list_out[s.room])
 
-        for k, n in enumerate(s.node_list):
-            s.node_list[k] = l.sanitize_call(n)
+                    if (list(set(s.node_list[s.room]) - set(s.node_list_old[s.room]))):
+                        s.node_list_in[s.room] = list(set(s.node_list[s.room]) - set(s.node_list_old[s.room]))
+                        for n in s.node_list_in[s.room]:
+                            if n in s.node_list_out[s.room]:
+                                s.node_list_out[s.room].remove(n)
+                        s.node_list_in[s.room] = sorted(s.node_list_in[s.room])
 
-        for n in ['RRF', 'RRF2', 'RRF3', 'R.R.F', 'R.R.F_V2', 'TECHNIQUE', 'BAVARDAGE', 'INTERNATIONAL', 'LOCAL', 'EXPERIMENTAL', 'MsgNodeJoined(']:
-            if n in s.node_list:
-                s.node_list.remove(n)
+                    s.node_list_old[s.room] = s.node_list[s.room]
 
-        if s.node_list_old == []:
-            s.node_list_old = s.node_list
-        else:
-            if s.node_list_old != s.node_list:
-                if (list(set(s.node_list_old) - set(s.node_list))):
-                    s.node_list_out = list(set(s.node_list_old) - set(s.node_list))
-                    for n in s.node_list_out:
-                        if n in s.node_list_in:
-                            s.node_list_in.remove(n)
-                    s.node_list_out = sorted(s.node_list_out)
+            s.node_count[s.room] = len(s.node_list[s.room])
 
-                if (list(set(s.node_list) - set(s.node_list_old))):
-                    s.node_list_in = list(set(s.node_list) - set(s.node_list_old))
-                    for n in s.node_list_in:
-                        if n in s.node_list_out:
-                            s.node_list_out.remove(n)
-                    s.node_list_in = sorted(s.node_list_in)
+            if s.node_count[s.room] > s.node_count_max[s.room]:
+                s.node_count_max[s.room] = s.node_count[s.room]
 
-                s.node_list_old = s.node_list
+            if s.node_count[s.room] < s.node_count_min[s.room]:
+                s.node_count_min[s.room] = s.node_count[s.room]
 
-        s.node_count = len(s.node_list)
+            # Compute duration
+            if s.transmit[s.room] is True and s.tot_current[s.room] > s.tot_start[s.room]:
+                s.duration[s.room] = int(s.tot_current[s.room]) - int(s.tot_start[s.room])
+            if s.transmit[s.room] is False:
+                s.duration[s.room] = 0
 
-        if s.node_count > s.node_count_max:
-            s.node_count_max = s.node_count
-
-        if s.node_count < s.node_count_min:
-            s.node_count_min = s.node_count
-
-        # Compute duration
-        if s.transmit is True and s.tot_current > s.tot_start:
-            s.duration = int(s.tot_current) - int(s.tot_start)
-        if s.transmit is False:
-            s.duration = 0
-
-        # Save log
-        l.log_write()
+            # Save log
+            print(r, 'ecriture')
+            l.log_write()
 
         chrono_stop = time.time()
         chrono_time = chrono_stop - chrono_start
@@ -290,8 +279,8 @@ def main(argv):
             sleep = s.main_loop - chrono_time
         else:
             sleep = 0
-        #print "Temps d'execution : %.2f %.2f secondes" % (chrono_time, sleep)
-        #sys.stdout.flush()
+        print("Temps d'execution : %.2f %.2f secondes" % (chrono_time, sleep))
+        sys.stdout.flush()
         time.sleep(sleep)
 
 if __name__ == '__main__':

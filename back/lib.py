@@ -207,18 +207,18 @@ def log_write():
     data += '}\n'
 
     # Ecriture de flux rrf.json
-    file = open(s.log_path_day + '/' + 'rrf_new.json', 'w')
+    file = open(s.log_path_day[s.room] + '/' + 'rrf_new.json', 'w')
     file.write(data)
     file.close()
 
-    os.rename(s.log_path_day + '/' + 'rrf_new.json', s.log_path_day + '/' + 'rrf.json')
+    os.rename(s.log_path_day[s.room] + '/' + 'rrf_new.json', s.log_path_day[s.room] + '/' + 'rrf.json')
 
     # Flux rrf_tiny.json
     data_tiny += log_all_tiny()
     data_tiny += '}\n'
 
     # Ecriture du flux rrf_tiny_json
-    file = open(s.log_path_day + '/' + 'rrf_tiny.json', 'w')
+    file = open(s.log_path_day[s.room] + '/' + 'rrf_tiny.json', 'w')
     file.write(data_tiny)
     file.close()
 
@@ -242,36 +242,36 @@ def log_abstract():
     now = tmp.strftime(' du %d/%m/%Y à %H:%M')
 
     tmp = 0
-    for l in s.all:
-        tmp += convert_time_to_second(s.all[l][1])
+    for l in s.all[s.room]:
+        tmp += convert_time_to_second(s.all[s.room][l][1])
 
     data += '{\n'
     data += '\t"Version": "' + s.version + '",\n'
     data += '\t"Salon": "' + s.room + '",\n'
     data += '\t"Date": "' + now.lower() + '",\n'
-    data += '\t"TX total": ' + str(sum(s.qso_hour)) + ',\n'
+    data += '\t"TX total": ' + str(sum(s.qso_hour[s.room])) + ',\n'
     data += '\t"Emission cumulée": "' + convert_second_to_time(tmp) + '",\n'
-    data += '\t"Links actifs": ' + str(len(s.all)) + ',\n'
-    data += '\t"Links connectés": ' + str(s.node_count) + ',\n'
-    data += '\t"Indicatif": "' + s.call_current + '",\n'
-    data += '\t"TOT": ' + str(s.duration) + ',\n'
+    data += '\t"Links actifs": ' + str(len(s.all[s.room])) + ',\n'
+    data += '\t"Links connectés": ' + str(s.node_count[s.room]) + ',\n'
+    data += '\t"Indicatif": "' + s.call_current[s.room] + '",\n'
+    data += '\t"TOT": ' + str(s.duration[s.room]) + ',\n'
     data += '\t"User": ' + str(s.user_count) + ',\n'
 
     tmp = ''
-    for n in s.node_list_in:
+    for n in s.node_list_in[s.room]:
         tmp += str(n) + ', '
     tmp = tmp[:-2]
 
     data += '\t"Links entrants": "' + tmp + '",\n'
 
     tmp = ''
-    for n in s.node_list_out:
+    for n in s.node_list_out[s.room]:
         tmp += str(n) + ', '
     tmp = tmp[:-2]
 
     data += '\t"Links sortants": "' + tmp + '",\n'
-    data += '\t"Links max": ' + str(s.node_count_max) + ',\n'
-    data += '\t"Links min": ' + str(s.node_count_min) + ',\n'
+    data += '\t"Links max": ' + str(s.node_count_max[s.room]) + ',\n'
+    data += '\t"Links min": ' + str(s.node_count_min[s.room]) + ',\n'
 
     last = data.rfind(',')
     data = data[:last] + '' + data[last + 1:]
@@ -284,11 +284,11 @@ def log_abstract():
 # Log transmit
 def log_transmit():
 
-    if s.duration == 0:
-        s.call_current = ''
+    if s.duration[s.room] == 0:
+        s.call_current[s.room] = ''
 
-    if s.call_current == '':
-        s.duration = 0
+    if s.call_current[s.room] == '':
+        s.duration[s.room] = 0
 
     latitude = 0
     longitude = 0
@@ -297,9 +297,9 @@ def log_transmit():
     data += '[\n'
 
     data += '{\n'
-    data += '\t"Indicatif": "' + s.call_current + '",\n'
-    if s.call_current != '':
-        tmp = whois_call(s.call_current)
+    data += '\t"Indicatif": "' + s.call_current[s.room] + '",\n'
+    if s.call_current[s.room] != '':
+        tmp = whois_call(s.call_current[s.room])
         if tmp is False:
             tmp = '-;-;Link Inconnu;-;-;0;0;-;-' # Indicatif;Type;Description;Tone;Locator;Longitude;Latitude;Sysop;Prenom
 
@@ -314,13 +314,13 @@ def log_transmit():
         data += '\t"Sysop": "' + tmp[7].strip() + '",\n'
         data += '\t"Prenom": "' + tmp[8].strip() + '",\n'
 
-        tmp = whereis_call(s.call_current)
+        tmp = whereis_call(s.call_current[s.room])
         if tmp is False:
             data += '\t"Serveur": "-",\n'
         else:
             data += '\t"Serveur": "' + str(tmp) + '",\n'
 
-    data += '\t"TOT": ' + str(s.duration) + '\n'
+    data += '\t"TOT": ' + str(s.duration[s.room]) + '\n'
     data += '},\n'
 
     last = data.rfind(',')
@@ -341,7 +341,7 @@ def log_activity():
 
         x = str('{:0>2d}'.format(int(i)))
         y = str('{:0>2d}'.format(int(l)))
-        z = str(s.qso_hour[i])
+        z = str(s.qso_hour[s.room][i])
 
         x += 'h - ' + y + 'h'
 
@@ -371,13 +371,13 @@ def log_last():
     p = 0
 
     for i in range(0, 10):
-        if s.call_date[i] == '':
+        if s.call_date[s.room][i] == '':
             break
         data += '{\n'
-        data += '\t"Heure": "' + s.call_date[i] + '",\n'
-        data += '\t"Indicatif": "' + s.call[i] + '",\n'
-        data += '\t"Blanc": "' + s.call_blanc[i] + '",\n'
-        data += '\t"Durée": "' + convert_second_to_time(s.call_time[i]) + '"\n'
+        data += '\t"Heure": "' + s.call_date[s.room][i] + '",\n'
+        data += '\t"Indicatif": "' + s.call[s.room][i] + '",\n'
+        data += '\t"Blanc": "' + s.call_blanc[s.room][i] + '",\n'
+        data += '\t"Durée": "' + convert_second_to_time(s.call_time[s.room][i]) + '"\n'
         data += '},\n'
 
         p += 1
@@ -392,7 +392,7 @@ def log_last():
 
 # Log best
 def log_best():
-    tmp = sorted(list(s.all.items()), key=lambda x: x[1][0])
+    tmp = sorted(list(s.all[s.room].items()), key=lambda x: x[1][0])
     tmp.reverse()
 
     limit = 20
@@ -428,7 +428,7 @@ def log_node():
     width = 4
 
     tmp = []
-    for n in s.node_list:
+    for n in s.node_list[s.room]:
         tmp.append(n)
     node_list = sorted(tmp)
 
@@ -466,7 +466,7 @@ def log_node():
 
 # Log porteuse
 def log_porteuse():
-    tmp = sorted(list(s.porteuse.items()), key=lambda x: x[1])
+    tmp = sorted(list(s.porteuse[s.room].items()), key=lambda x: x[1])
     tmp.reverse()
 
     data = '"porteuse":\n'
@@ -500,7 +500,7 @@ def log_porteuse():
 
 # Log tot
 def log_tot():
-    tmp = sorted(list(s.tot.items()), key=lambda x: x[1])
+    tmp = sorted(list(s.tot[s.room].items()), key=lambda x: x[1])
     tmp.reverse()
 
     data = '"tot":\n'
@@ -534,7 +534,7 @@ def log_tot():
 
 # Log all
 def log_all():
-    tmp = sorted(list(s.all.items()), key=lambda x: convert_time_to_second(x[1][1]))
+    tmp = sorted(list(s.all[s.room].items()), key=lambda x: convert_time_to_second(x[1][1]))
     tmp.reverse()
 
     data = '"all":\n'
@@ -579,7 +579,7 @@ def log_all():
 
 # Log all
 def log_all_tiny():
-    tmp = sorted(list(s.all.items()), key=lambda x: convert_time_to_second(x[1][1]))
+    tmp = sorted(list(s.all[s.room].items()), key=lambda x: convert_time_to_second(x[1][1]))
     tmp.reverse()
 
     data = '"all":\n'
@@ -609,7 +609,7 @@ def log_all_tiny():
 
 # Log everywhere
 def log_elsewhere():
-    room_other = s.room_list.copy()
+    room_other = s.room_list[s.room].copy()
     room_other.pop(s.room, None)
 
     data = '"elsewhere":\n'
@@ -780,7 +780,7 @@ def log_elsewhere():
 # Log abstract
 def log_type():
 
-    total = len(s.node_list)
+    total = len(s.node_list[s.room])
     data_a = ''
     data_b = ''
 
@@ -792,7 +792,7 @@ def log_type():
     for t in [' S', ' H', ' V', ' U', ' R', ' T', ' T10M', ' 10M', ' 6M']:
         size = len(t)
         tmp = 0
-        for n in s.node_list:
+        for n in s.node_list[s.room]:
             if n[-size:] == t:
                 tmp += 1
         data_a += '\t"' + t.strip() +'": ' + str(tmp) + ',\n'
@@ -827,12 +827,12 @@ def log_news():
     # Nœuds entrants
 
     tmp = ''
-    for n in s.node_list_in:
+    for n in s.node_list_in[s.room]:
         tmp += str(n) + ', '
     tmp = tmp[:-2]
 
     if tmp != '':
-        if len(s.node_list_in) == 1:
+        if len(s.node_list_in[s.room]) == 1:
             message_node += 'Link entrant : ' + tmp + '. '
         else:
             message_node += 'Links entrants : ' + tmp + '. '
@@ -840,12 +840,12 @@ def log_news():
     # Nœuds sortants
 
     tmp = ''
-    for n in s.node_list_out:
+    for n in s.node_list_out[s.room]:
         tmp += str(n) + ', '
     tmp = tmp[:-2]
 
     if tmp != '':
-        if len(s.node_list_out) == 1:
+        if len(s.node_list_out[s.room]) == 1:
             message_node += 'Link sortant : ' + tmp + '. '
         else:
             message_node += 'Links sortants : ' + tmp + '. '
@@ -929,41 +929,41 @@ def restart():
 
     i = 0
     for data in rrf_data['activity']:
-        s.qso_hour[i] = data['TX']
+        s.qso_hour[s.room][i] = data['TX']
         i += 1
 
-    s.qso = sum(s.qso_hour)
+    s.qso[s.room] = sum(s.qso_hour[s.room])
 
     for data in rrf_data['abstract']:
-        s.day_duration = convert_time_to_second(data['Emission cumulée'])
+        s.day_duration[s.room] = convert_time_to_second(data['Emission cumulée'])
 
     # Section last
 
     i = 0
     for data in rrf_data['last']:
-        s.call[i] = data['Indicatif']
-        s.call_date[i] = data['Heure']
+        s.call[s.room][i] = data['Indicatif']
+        s.call_date[s.room][i] = data['Heure']
         if 'Blanc' in data:
-            s.call_blanc[i] = data['Blanc']
-        s.call_time[i] = convert_time_to_second(data['Durée'])
+            s.call_blanc[s.room][i] = data['Blanc']
+        s.call_time[s.room][i] = convert_time_to_second(data['Durée'])
         i += 1
 
     # Section porteuse
 
     for data in rrf_data['porteuse']:
-        s.porteuse[data['Indicatif']] = [data['TX'], data['Date']]
+        s.porteuse[s.room][data['Indicatif']] = [data['TX'], data['Date']]
 
     # Section tot
 
     if 'tot' in rrf_data:
         for data in rrf_data['tot']:
-            s.tot[data['Indicatif']] = [data['TX'], data['Date']]
+            s.tot[s.room][data['Indicatif']] = [data['TX'], data['Date']]
 
     # Section all
 
     if 'all' in rrf_data:
         for data in rrf_data['all']:
-            s.all[data['Indicatif']] = [data['TX'], data['Durée']]
+            s.all[s.room][data['Indicatif']] = [data['TX'], data['Durée']]
 
             chrono = data['Chrono'].split(', ')
             heure = data['Heure'].split(', ')
@@ -971,11 +971,10 @@ def restart():
             limit = len(chrono)
 
             for e in range(limit):
-                s.all[data['Indicatif']].append(heure[e])
-                s.all[data['Indicatif']].append(chrono[e])
+                s.all[s.room][data['Indicatif']].append(heure[e])
+                s.all[s.room][data['Indicatif']].append(chrono[e])
 
-    s.transmit = False
-
+    s.transmit[s.room] = False
     return 0
 
 def log_iptable():
