@@ -190,7 +190,7 @@ def log_write():
     data += log_transmit()
     data += log_iptable()
     data += log_last()
-    if s.init is False:
+    if s.init[s.room] is False:
         data += log_elsewhere()
 
     data_tiny = data
@@ -224,9 +224,9 @@ def log_write():
 
     # Si init, on fait une pose
 
-    if s.init is True:
+    if s.init[s.room] is True:
         time.sleep(1)
-        s.init = False
+        s.init[s.room] = False
 
     return 0
 
@@ -609,7 +609,7 @@ def log_all_tiny():
 
 # Log everywhere
 def log_elsewhere():
-    room_other = s.room_list[s.room].copy()
+    room_other = s.room_list.copy()
     room_other.pop(s.room, None)
 
     data = '"elsewhere":\n'
@@ -636,6 +636,7 @@ def log_elsewhere():
 
     for room in room_other:
         filename = s.log_path + '/' + room + '-today/rrf.json'
+        print(filename)
 
         if os.path.isfile(filename):
             with open(filename, 'r') as content_file:
