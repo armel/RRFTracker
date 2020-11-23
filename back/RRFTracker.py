@@ -270,7 +270,7 @@ def main(argv):
                 s.duration[s.room] = 0
 
             # Save log
-            print(s.now, r)
+            # print(s.now, r)
             l.log_write()
 
         chrono_stop = time.time()
