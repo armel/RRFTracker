@@ -30,7 +30,7 @@ def usage():
     print('  --room ROOM        set room (default=RRF, choose between [RRF, TECHNIQUE, INTERNATIONAL, BAVARDAGE, LOCAL, EXPERIMENTAL, FON])')
     print()
     print('Log settings:')
-    print('  --log-path         set the location of log files')
+    print('  --path-log         set the location of log files')
     print()
     print('88 & 73 from F4HWN Armel')
 
@@ -68,7 +68,7 @@ def whereis_load():
     whereis_data = ''
     # Requete HTTP vers l'api de F1EVM
     try:
-        r = requests.get(s.whereis_api, verify=False, timeout=0.50)
+        r = requests.get(s.api_url, verify=False, timeout=0.50)
     except requests.exceptions.ConnectionError as errc:
         #print ('Error Connecting:', errc)
         pass
@@ -212,6 +212,8 @@ def log_write():
     file.close()
 
     os.rename(s.log_path_day[s.room] + '/' + 'rrf_new.json', s.log_path_day[s.room] + '/' + 'rrf.json')
+
+    print(s.now, s.log_path_day[s.room] + '/' + 'rrf.json')
 
     # Flux rrf_tiny.json
     data_tiny += log_all_tiny()
@@ -636,7 +638,6 @@ def log_elsewhere():
 
     for room in room_other:
         filename = s.log_path + '/' + room + '-today/rrf.json'
-        print(filename)
 
         if os.path.isfile(filename):
             with open(filename, 'r') as content_file:

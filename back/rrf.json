@@ -1,0 +1,467 @@
+{
+"abstract":
+[
+{
+	"Version": "2.6.1",
+	"Salon": "FON",
+	"Date": " du 23/11/2020 à 19:26",
+	"TX total": 23,
+	"Emission cumulée": "22:13",
+	"Links actifs": 7,
+	"Links connectés": 16,
+	"Indicatif": "",
+	"TOT": 0,
+	"User": 12,
+	"Links entrants": "(92) F1ZLK H",
+	"Links sortants": "",
+	"Links max": 27,
+	"Links min": 2
+}
+],
+"activity":
+[
+{
+	"Hour": "00h - 01h",
+	"TX": 0
+},
+{
+	"Hour": "01h - 02h",
+	"TX": 0
+},
+{
+	"Hour": "02h - 03h",
+	"TX": 0
+},
+{
+	"Hour": "03h - 04h",
+	"TX": 0
+},
+{
+	"Hour": "04h - 05h",
+	"TX": 0
+},
+{
+	"Hour": "05h - 06h",
+	"TX": 0
+},
+{
+	"Hour": "06h - 07h",
+	"TX": 0
+},
+{
+	"Hour": "07h - 08h",
+	"TX": 0
+},
+{
+	"Hour": "08h - 09h",
+	"TX": 0
+},
+{
+	"Hour": "09h - 10h",
+	"TX": 0
+},
+{
+	"Hour": "10h - 11h",
+	"TX": 2
+},
+{
+	"Hour": "11h - 12h",
+	"TX": 1
+},
+{
+	"Hour": "12h - 13h",
+	"TX": 0
+},
+{
+	"Hour": "13h - 14h",
+	"TX": 0
+},
+{
+	"Hour": "14h - 15h",
+	"TX": 1
+},
+{
+	"Hour": "15h - 16h",
+	"TX": 4
+},
+{
+	"Hour": "16h - 17h",
+	"TX": 0
+},
+{
+	"Hour": "17h - 18h",
+	"TX": 0
+},
+{
+	"Hour": "18h - 19h",
+	"TX": 15
+},
+{
+	"Hour": "19h - 20h",
+	"TX": 0
+},
+{
+	"Hour": "20h - 21h",
+	"TX": 0
+},
+{
+	"Hour": "21h - 22h",
+	"TX": 0
+},
+{
+	"Hour": "22h - 23h",
+	"TX": 0
+},
+{
+	"Hour": "23h - 00h",
+	"TX": 0
+}
+],
+"transmit":
+[
+{
+	"Indicatif": "",
+	"TOT": 0
+}
+],
+"iptable":
+[],
+"last":
+[
+{
+	"Heure": "18:55:35",
+	"Indicatif": "F4IAA-L",
+	"Blanc": "00:02",
+	"Durée": "00:02"
+},
+{
+	"Heure": "18:55:31",
+	"Indicatif": "F4IAA-L",
+	"Blanc": "00:25",
+	"Durée": "00:07"
+},
+{
+	"Heure": "18:54:59",
+	"Indicatif": "F4IAA-L",
+	"Blanc": "00:07",
+	"Durée": "00:02"
+},
+{
+	"Heure": "18:54:50",
+	"Indicatif": "F4IAA-L",
+	"Blanc": "00:01",
+	"Durée": "00:07"
+},
+{
+	"Heure": "18:54:42",
+	"Indicatif": "F4IAA-L",
+	"Blanc": "00:03",
+	"Durée": "00:02"
+},
+{
+	"Heure": "18:54:37",
+	"Indicatif": "F4IAA-L",
+	"Blanc": "00:00",
+	"Durée": "00:00"
+},
+{
+	"Heure": "18:54:37",
+	"Indicatif": "F4IAA-L",
+	"Blanc": "00:03",
+	"Durée": "00:01"
+},
+{
+	"Heure": "18:54:33",
+	"Indicatif": "F4IAA-L",
+	"Blanc": "00:04",
+	"Durée": "00:02"
+},
+{
+	"Heure": "18:54:27",
+	"Indicatif": "F4IAA-L",
+	"Blanc": "03:49",
+	"Durée": "00:01"
+},
+{
+	"Heure": "18:50:37",
+	"Indicatif": "F4AOM",
+	"Blanc": "00:08",
+	"Durée": "00:02"
+}
+],
+"elsewhere":
+[
+{
+	"Scanner RRF": "Code DTMF",
+	"RRF": "9 6",
+	"INTERNATIONAL": "9 9",
+	"TECHNIQUE": "9 8",
+	"LOCAL": "1 0 1",
+	"BAVARDAGE": "1 0 0"
+}, 
+{
+	"Scanner RRF": "Emission en cours",
+	"RRF": "Aucune émission",
+	"INTERNATIONAL": "Aucune émission",
+	"TECHNIQUE": "Aucune émission",
+	"LOCAL": "Aucune émission",
+	"BAVARDAGE": "Aucune émission"
+}, 
+{
+	"Scanner RRF": "TX total",
+	"RRF": 276,
+	"INTERNATIONAL": 3,
+	"TECHNIQUE": 30,
+	"LOCAL": 40,
+	"BAVARDAGE": 29
+}, 
+{
+	"Scanner RRF": "Emission cumulée",
+	"RRF": "02:07:50",
+	"INTERNATIONAL": "00:10",
+	"TECHNIQUE": "22:49",
+	"LOCAL": "37:02",
+	"BAVARDAGE": "26:50"
+}, 
+{
+	"Scanner RRF": "Links actifs",
+	"RRF": 43,
+	"INTERNATIONAL": 2,
+	"TECHNIQUE": 6,
+	"LOCAL": 4,
+	"BAVARDAGE": 4
+}, 
+{
+	"Scanner RRF": "Links connectés",
+	"RRF": 144,
+	"INTERNATIONAL": 38,
+	"TECHNIQUE": 8,
+	"LOCAL": 1,
+	"BAVARDAGE": 1
+}, 
+{
+	"Scanner RRF": "TOT",
+	"RRF": 0,
+	"INTERNATIONAL": 0,
+	"TECHNIQUE": 0,
+	"LOCAL": 0,
+	"BAVARDAGE": 0
+}
+],
+"all":
+[
+{
+	"Pos": "001",
+	"Indicatif": "F4AOM",
+	"TX": 8,
+	"Durée": "13:22",
+	"Heure": "18:28:29, 18:30:32, 18:36:15, 18:39:03, 18:39:26, 18:42:44, 18:46:37, 18:49:29",
+	"Chrono": "00:58, 03:07, 02:51, 00:14, 03:09, 00:05, 02:51, 00:07"
+},
+{
+	"Pos": "002",
+	"Indicatif": "TK5GF",
+	"TX": 5,
+	"Durée": "07:34",
+	"Heure": "18:27:46, 18:29:29, 18:33:49, 18:42:53, 18:49:38",
+	"Chrono": "00:07, 00:51, 02:15, 03:32, 00:49"
+},
+{
+	"Pos": "003",
+	"Indicatif": "(76) F1ZIB T",
+	"TX": 4,
+	"Durée": "00:36",
+	"Heure": "10:32:16, 10:32:41, 15:12:58, 15:13:25",
+	"Chrono": "00:06, 00:12, 00:03, 00:15"
+},
+{
+	"Pos": "004",
+	"Indicatif": "FM4TI",
+	"TX": 2,
+	"Durée": "00:17",
+	"Heure": "15:08:30, 15:09:12",
+	"Chrono": "00:10, 00:07"
+},
+{
+	"Pos": "005",
+	"Indicatif": "F4IAA-L",
+	"TX": 2,
+	"Durée": "00:14",
+	"Heure": "18:54:43, 18:55:28",
+	"Chrono": "00:07, 00:07"
+},
+{
+	"Pos": "006",
+	"Indicatif": "F5OKB",
+	"TX": 1,
+	"Durée": "00:07",
+	"Heure": "14:55:10",
+	"Chrono": "00:07"
+},
+{
+	"Pos": "007",
+	"Indicatif": "F0GNT",
+	"TX": 1,
+	"Durée": "00:03",
+	"Heure": "11:06:01",
+	"Chrono": "00:03"
+}
+],
+"best":
+[
+{
+	"Indicatif": "F4AOM",
+	"TX": 8
+},
+{
+	"Indicatif": "TK5GF",
+	"TX": 5
+},
+{
+	"Indicatif": "(76) F1ZIB T",
+	"TX": 4
+},
+{
+	"Indicatif": "FM4TI",
+	"TX": 2
+},
+{
+	"Indicatif": "F4IAA-L",
+	"TX": 2
+},
+{
+	"Indicatif": "F5OKB",
+	"TX": 1
+},
+{
+	"Indicatif": "F0GNT",
+	"TX": 1
+}
+],
+"node":
+[
+{
+	"Node 0": "(33) F0FQL H",
+	"Node 1": "(33) F0FQL V",
+	"Node 2": "(35) F1ZHH U R",
+	"Node 3": "(57) F1ZRZ U"
+},
+{
+	"Node 0": "(92) F1ZLK H",
+	"Node 1": "(92) F5NKP V",
+	"Node 2": "(F) F5FPI-H",
+	"Node 3": "(VMH) F1TZO H"
+},
+{
+	"Node 0": "F0EOC-L",
+	"Node 1": "F4IAA-L",
+	"Node 2": "F4VTG-L",
+	"Node 3": "F5UFI-L"
+},
+{
+	"Node 0": "F6GUZ-L",
+	"Node 1": "GW-C4FM",
+	"Node 2": "GW-Echolink",
+	"Node 3": "TK5GF"
+}
+],
+"porteuse":
+[
+{
+	"Pos": "001",
+	"Indicatif": "F4IAA-L",
+	"TX": 8,
+	"Date": "18:09:21, 18:54:27, 18:54:33, 18:54:37, 18:54:37, 18:54:42, 18:54:59, 18:55:41"
+},
+{
+	"Pos": "002",
+	"Indicatif": "F6GUZ-L",
+	"TX": 7,
+	"Date": "00:07:10, 04:07:17, 06:07:09, 08:07:09, 10:07:09, 16:54:51, 18:07:09"
+},
+{
+	"Pos": "003",
+	"Indicatif": "F4ERG-L",
+	"TX": 3,
+	"Date": "07:12:31, 11:56:31, 17:13:43"
+},
+{
+	"Pos": "004",
+	"Indicatif": "(92) F5NKP V",
+	"TX": 2,
+	"Date": "12:53:57, 14:56:52"
+},
+{
+	"Pos": "005",
+	"Indicatif": "F4AOM",
+	"TX": 1,
+	"Date": "18:50:42"
+},
+{
+	"Pos": "006",
+	"Indicatif": "(49) F5ZRH V",
+	"TX": 1,
+	"Date": "18:33:42"
+},
+{
+	"Pos": "007",
+	"Indicatif": "F5OKB",
+	"TX": 1,
+	"Date": "14:54:52"
+},
+{
+	"Pos": "008",
+	"Indicatif": "(67) F5ZAU R",
+	"TX": 1,
+	"Date": "12:37:27"
+},
+{
+	"Pos": "009",
+	"Indicatif": "(F) F5FPI-H",
+	"TX": 1,
+	"Date": "10:50:41"
+},
+{
+	"Pos": "010",
+	"Indicatif": "F5UFI-L",
+	"TX": 1,
+	"Date": "01:41:09"
+}
+],
+"tot":
+[
+],
+"type":
+[
+{
+	"S": 0,
+	"H": 3,
+	"V": 2,
+	"U": 1,
+	"R": 1,
+	"T": 0,
+	"T10M": 0,
+	"10M": 0,
+	"6M": 0
+},
+{
+	"S": "0.00 %",
+	"H": "18.75 %",
+	"V": "12.50 %",
+	"U": "6.25 %",
+	"R": "6.25 %",
+	"T": "0.00 %",
+	"T10M": "0.00 %",
+	"10M": "0.00 %",
+	"6M": "0.00 %"
+}
+],
+"iptable":
+[],
+"news":
+[
+{
+	"Message": "Le salon RRF doit être considéré comme une « fréquence d'appel », pensez à faire QSY sur un des salons annexes. "
+}
+]
+}

@@ -12,10 +12,11 @@ Check video about RRFTracker on https://www.youtube.com/watch?v=rVW8xczVpEo
 
 version = '2.6.1'
 
-# Default room and path
+# Default path
 
-room = 'RRF'                # Room: Default value !
 log_path = '/tmp/RRF'       # Log path: Default value !
+patrol_filename = '/var/www/RRFTracker/rrf_patrol.json'
+api_url = 'http://rrf2.f5nlg.ovh:4440/nodes'
 
 # Set room
 
@@ -67,23 +68,26 @@ node_count = {}             # Node count
 node_count_max = {}         # Node count max
 node_count_min = {}         # Node count min
 
-qso = {}
-qso_hour = {}
-
 tot = {}                    # TOT dict
-tot_start = {}
-tot_current = {}
-
+tot_start = {}              # TOT start
+tot_current = {}            # TOT current
 tot_limit = {}              # TOT limit time (02:03 puis 02:33...)
+
+qso = {}                    # QSO
+qso_hour = {}               # QSO by hour
 
 transmit = {}               # Detect transmit
 porteuse = {}               # Porteuse dict
 all = {}                    # All dict
 day_duration = {}           # Total emission time
-duration = {}
+duration = {}               # Duration
 stat_save = {}              # If False, stat need to be save
 init = {}                   # Initial init
 intempestif = {}            # Tuned me !!!
+
+iptable_json = []
+whereis_list = {}
+whois_list = {}
 
 for r in room_list:
     log_path_day[r] = ''
@@ -122,10 +126,6 @@ for r in room_list:
     stat_save[r] = False
     init[r] = True
 
-'''
-    user_count = 0              # User count
-'''
-
 message_node_old = ''       # Old message node
 message_current = ''        # Current message
 message_timer = 0           # Timer message
@@ -137,12 +137,3 @@ hour = ''
 minute = ''
 seconde = ''
 main_loop = .200            # Main loop tempo
-
-
-patrol_filename = '/var/www/RRFTracker/rrf_patrol.json'
-
-iptable_json = []
-
-whereis_api = 'http://rrf2.f5nlg.ovh:4440/nodes'
-whereis_list = {}
-whois_list = {}

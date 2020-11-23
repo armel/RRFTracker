@@ -52,9 +52,9 @@ def main(argv):
         s.log_path_day[s.room] = s.log_path + '/' + s.room + '-' + s.day
 
         if not os.path.exists(s.log_path_day[s.room]):
-            os.makedirs(s.log_path_day)
-            os.popen('cp /opt/RRFTracker/front/index.html ' + s.log_path_day + '/index.html')
-            os.popen('ln -sfn ' + s.log_path_day + ' ' + s.log_path + '/' + s.room + '-today')
+            os.makedirs(s.log_path_day[s.room])
+            os.popen('cp /opt/RRFTracker/front/index.html ' + s.log_path_day[s.room] + '/index.html')
+            os.popen('ln -sfn ' + s.log_path_day[s.room] + ' ' + s.log_path + '/' + s.room + '-today')
 
         # If restart on day...
 
@@ -85,7 +85,7 @@ def main(argv):
 
         # Request HTTP datas
         try:
-            r = requests.get(s.whereis_api, verify=False, timeout=10)
+            r = requests.get(s.api_url, verify=False, timeout=10)
         except requests.exceptions.ConnectionError as errc:
             print('Error Connecting:', errc)
         except requests.exceptions.Timeout as errt:
@@ -270,7 +270,7 @@ def main(argv):
                 s.duration[s.room] = 0
 
             # Save log
-            print(r, 'ecriture')
+            print(s.now, r)
             l.log_write()
 
         chrono_stop = time.time()
@@ -279,8 +279,8 @@ def main(argv):
             sleep = s.main_loop - chrono_time
         else:
             sleep = 0
-        print("Temps d'execution : %.2f %.2f secondes" % (chrono_time, sleep))
-        sys.stdout.flush()
+        #print("Temps d'execution : %.2f %.2f secondes" % (chrono_time, sleep))
+        #sys.stdout.flush()
         time.sleep(sleep)
 
 if __name__ == '__main__':
