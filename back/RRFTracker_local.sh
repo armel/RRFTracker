@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 PATH_SCRIPT='/Users/armel/Dropbox/RRFTracker/back/RRFTracker.py'
 PATH_MEDIA='/Users/armel/Dropbox/RRFTracker/front/assets'
