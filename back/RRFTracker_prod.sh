@@ -25,7 +25,8 @@ case "$1" in
         ;;
     stop) 
         echo "Stopping RRFTracker"
-        cp ${PATH_PID}/RRFTracker.log ${PATH_PID}/RRFTracker_${NOW}_${REP}.log
+        NOW=$(date +"%Y%m%d_%H%M%S")
+        cp ${PATH_PID}/RRFTracker.log ${PATH_PID}/RRFTracker_${NOW}.log
         kill `cat $PATH_PID/RRFTracker.pid`
         ;;
 esac
