@@ -126,6 +126,7 @@ def main(argv):
                     s.tot[s.room] = []          # Clear tot history
                     s.init[s.room] = True       # Reset init
 
+                try:
                     # If transmitter...
                     if data['transmitters'][s.room_list[s.room]['realname']] != None:
                         if s.transmit[s.room] is False:
@@ -269,7 +270,7 @@ def main(argv):
                         s.duration[s.room] = 0
 
                     # Save log
-                    print(s.now, r)
+                    # print(s.now, r)
                     l.log_write()
                 except:
                     pass
