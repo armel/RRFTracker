@@ -129,8 +129,6 @@ def main(argv):
                 try:
                     # If transmitter...
                     if data['transmitters'][s.room_list[s.room]['realname']] != None:
-                        print(data['transmitters'][s.room_list[s.room]['realname']])
-
                         if s.transmit[s.room] is False:
                             s.transmit[s.room] = True
 
@@ -272,7 +270,7 @@ def main(argv):
                         s.duration[s.room] = 0
 
                     # Save log
-                    # print(s.now, r)
+                    print(s.now, r)
                     l.log_write()
                 except:
                     pass
