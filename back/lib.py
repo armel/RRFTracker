@@ -209,7 +209,7 @@ def log_write():
     data += '}\n'
 
     # Ecriture de flux rrf.json
-    print(data)
+    print(data['abstract'])
     file = open(s.log_path_day[s.room] + '/' + 'rrf_new.json', 'w')
     file.write(data)
     file.close()
