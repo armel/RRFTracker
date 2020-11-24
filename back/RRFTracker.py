@@ -98,6 +98,8 @@ def main(argv):
 
         if data != '':
 
+            print('oui')
+
             # Surf in room list
 
             for r in s.room_list:
