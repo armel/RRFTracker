@@ -188,7 +188,6 @@ def log_write():
 
     # Flux commun rrf.json et rrf_tiny.json
     data += log_abstract()
-    print(data)
     data += log_activity()
     data += log_transmit()
     data += log_iptable()
