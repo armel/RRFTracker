@@ -209,6 +209,7 @@ def log_write():
     data += '}\n'
 
     # Ecriture de flux rrf.json
+    print(data)
     file = open(s.log_path_day[s.room] + '/' + 'rrf_new.json', 'w')
     file.write(data)
     file.close()
@@ -315,7 +316,7 @@ def log_transmit():
         data += '\t"Latitude": ' + str(tmp[6].strip()) + ',\n'
         data += '\t"Sysop": "' + tmp[7].strip() + '",\n'
         data += '\t"Prenom": "' + tmp[8].strip() + '",\n'
-        #data += '\t"Serveur": "' + s.whereis_call[s.room] + '",\n'
+        data += '\t"Serveur": "' + s.whereis_call[s.room] + '",\n'
 
     data += '\t"TOT": ' + str(s.duration[s.room]) + '\n'
     data += '},\n'
