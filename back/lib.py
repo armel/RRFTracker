@@ -188,6 +188,7 @@ def log_write():
 
     # Flux commun rrf.json et rrf_tiny.json
     data += log_abstract()
+    print(data)
     data += log_activity()
     data += log_transmit()
     data += log_iptable()
@@ -209,7 +210,6 @@ def log_write():
     data += '}\n'
 
     # Ecriture de flux rrf.json
-    print(data['abstract'])
     file = open(s.log_path_day[s.room] + '/' + 'rrf_new.json', 'w')
     file.write(data)
     file.close()
