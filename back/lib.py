@@ -63,6 +63,7 @@ def whois_call(call):
 
     return False
 
+'''
 # Whereis load
 def whereis_load():
     whereis_data = ''
@@ -92,6 +93,7 @@ def whereis_call(call):
     if call in s.whereis_list:
         return s.whereis_list[call]
     return False
+'''
 
 # Convert second to time
 def convert_second_to_time(time):
@@ -313,12 +315,7 @@ def log_transmit():
         data += '\t"Latitude": ' + str(tmp[6].strip()) + ',\n'
         data += '\t"Sysop": "' + tmp[7].strip() + '",\n'
         data += '\t"Prenom": "' + tmp[8].strip() + '",\n'
-
-        tmp = whereis_call(s.call_current[s.room])
-        if tmp is False:
-            data += '\t"Serveur": "-",\n'
-        else:
-            data += '\t"Serveur": "' + str(tmp) + '",\n'
+        data += '\t"Serveur": "' + s.whereis_call[s.room] + '",\n'
 
     data += '\t"TOT": ' + str(s.duration[s.room]) + '\n'
     data += '},\n'

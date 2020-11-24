@@ -65,9 +65,6 @@ def main(argv):
     # Get user online
     s.user_count = l.log_user()
 
-    # Load whereis dict
-    l.whereis_load()
-    
     # Load whois dict
     l.whois_load()
 
@@ -109,7 +106,6 @@ def main(argv):
 
                 if(s.minute % 5 == 0):
                     s.user_count = l.log_user()
-                    l.whereis_load()
 
                 if(s.minute % 30 == 0):
                     l.whois_load()
@@ -139,6 +135,7 @@ def main(argv):
                             s.transmit[s.room] = True
 
                         s.call_current[s.room] = l.sanitize_call(data['transmitters'][s.room_list[s.room]['realname']][2])
+                        s.whereis_call[s.room] = data['transmitters'][s.room_list[s.room]['realname']][0]
 
                         if (s.call_previous[s.room] != s.call_current[s.room]):
                             s.tot_start[s.room] = time.time()
