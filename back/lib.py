@@ -316,7 +316,7 @@ def log_transmit():
         data += '\t"Latitude": ' + str(tmp[6].strip()) + ',\n'
         data += '\t"Sysop": "' + tmp[7].strip() + '",\n'
         data += '\t"Prenom": "' + tmp[8].strip() + '",\n'
-        data += '\t"Serveur": "' + s.whereis_call[s.room] + '",\n'
+        data += '\t"Serveur": "' + str(s.whereis_call[s.room]) + '",\n'
 
     data += '\t"TOT": ' + str(s.duration[s.room]) + '\n'
     data += '},\n'
