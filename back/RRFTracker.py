@@ -98,10 +98,7 @@ def main(argv):
 
         if data != '':
 
-            print('oui')
-
             # Surf in room list
-
             for r in s.room_list:
 
                 s.room = r
@@ -131,6 +128,7 @@ def main(argv):
 
                 try:
                     # If transmitter...
+                    print('ici 1')
                     if data['transmitters'][s.room_list[s.room]['realname']] != None:
 
                         if s.transmit[s.room] is False:
