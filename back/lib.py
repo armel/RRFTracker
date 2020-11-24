@@ -213,8 +213,6 @@ def log_write():
 
     os.rename(s.log_path_day[s.room] + '/' + 'rrf_new.json', s.log_path_day[s.room] + '/' + 'rrf.json')
 
-    print(s.now, s.log_path_day[s.room] + '/' + 'rrf.json')
-
     # Flux rrf_tiny.json
     data_tiny += log_all_tiny()
     data_tiny += '}\n'
