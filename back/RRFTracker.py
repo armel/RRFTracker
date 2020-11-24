@@ -137,8 +137,6 @@ def main(argv):
                         s.call_current[s.room] = l.sanitize_call(data['transmitters'][s.room_list[s.room]['realname']][2])
                         s.whereis_call[s.room] = data['transmitters'][s.room_list[s.room]['realname']][0]
 
-                        print(s.room, s.call_current[s.room], s.whereis_call[s.room])
-
                         if (s.call_previous[s.room] != s.call_current[s.room]):
                             s.tot_start[s.room] = time.time()
                             s.tot_current[s.room] = s.tot_start[s.room]
