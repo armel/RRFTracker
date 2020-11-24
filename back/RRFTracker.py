@@ -111,12 +111,12 @@ def main(argv):
                 l.whois_load()
 
             if(s.now[:5] == '00:00'):
-                s.log_path_day = s.log_path + '/' + s.room + '-' + s.day
+                s.log_path_day[s.room] = s.log_path + '/' + s.room + '-' + s.day
 
-                if not os.path.exists(s.log_path_day):
-                    os.makedirs(s.log_path_day)
-                    os.popen('cp /opt/RRFTracker/front/index.html ' + s.log_path_day + '/index.html')
-                    os.popen('ln -sfn ' + s.log_path_day + ' ' + s.log_path + '/' + s.room + '-today')
+                if not os.path.exists(s.log_path_day[s.room]):
+                    os.makedirs(s.log_path_day[s.room])
+                    os.popen('cp /opt/RRFTracker/front/index.html ' + s.log_path_day[s.room] + '/index.html')
+                    os.popen('ln -sfn ' + s.log_path_day[s.room] + ' ' + s.log_path + '/' + s.room + '-today')
 
                 s.qso[s.room] = 0
                 s.day_duration[s.room] = 0
