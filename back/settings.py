@@ -86,6 +86,7 @@ init = {}                   # Initial init
 intempestif = {}            # Tuned me !!!
 
 iptable_json = []
+whereis_call = {}
 whereis_list = {}
 whois_list = {}
 
@@ -125,6 +126,8 @@ for r in room_list:
 
     stat_save[r] = False
     init[r] = True
+
+    whereis_call[r] = ''
 
 message_node_old = ''       # Old message node
 message_current = ''        # Current message
