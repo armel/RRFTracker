@@ -128,8 +128,8 @@ def main(argv):
 
                 try:
                     # If transmitter...
-                    print('ici 1')
                     if data['transmitters'][s.room_list[s.room]['realname']] != None:
+                        print('ici 2')
 
                         if s.transmit[s.room] is False:
                             s.transmit[s.room] = True
