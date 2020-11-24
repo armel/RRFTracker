@@ -129,7 +129,7 @@ def main(argv):
                 try:
                     # If transmitter...
                     if data['transmitters'][s.room_list[s.room]['realname']] != None:
-                        print('ici 2')
+                        print(data['transmitters'][s.room_list[s.room]['realname']])
 
                         if s.transmit[s.room] is False:
                             s.transmit[s.room] = True
