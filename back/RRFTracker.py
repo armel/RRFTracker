@@ -128,9 +128,11 @@ def main(argv):
                     s.init[s.room] = True       # Reset init
                 '''
 
-                if(s.now[:5] == '01:35'):
-                    s.log_path_day[s.room] = s.log_path + '/' + s.room + '-' + s.day + '-' + s.minute
+                print(s.now[:5]) 
 
+                if(s.now[:5] == '01:38'):
+                    s.log_path_day[s.room] = s.log_path + '/' + s.room + '-' + s.day + '-' + s.minute
+                    print(">>>", s.log_path_day[s.room])
                     if not os.path.exists(s.log_path_day[s.room]):
                         os.makedirs(s.log_path_day[s.room])
                         os.popen('cp /opt/RRFTracker/front/index.html ' + s.log_path_day[s.room] + '/index.html')
