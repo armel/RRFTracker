@@ -128,7 +128,7 @@ def main(argv):
                     s.init[s.room] = True       # Reset init
                 '''
 
-                if(s.now[:5] == '00:10'):
+                if(s.now[:5] == '00:12'):
                     s.log_path_day[s.room] = s.log_path + '/' + s.room + '-' + s.day + '-' + s.minute
 
                     if not os.path.exists(s.log_path_day[s.room]):
