@@ -151,7 +151,7 @@ def log_write():
 
     data += '{\n'
 
-    # Flux commun rrf.json et rrf_tiny.json
+    # Common stream rrf.json and rrf_tiny.json
     data += log_abstract()
     data += log_activity()
     data += log_transmit()
@@ -162,7 +162,7 @@ def log_write():
 
     data_tiny = data
 
-    # Flux rrf.json
+    # Stream rrf.json
     data += log_all()
     data += log_best()
     data += log_node()
@@ -173,24 +173,23 @@ def log_write():
     data += log_news()
     data += '}\n'
 
-    # Ecriture de flux rrf.json
+    # Write rrf.json
     file = open(s.log_path_day[s.room] + '/' + 'rrf_new.json', 'w')
     file.write(data)
     file.close()
 
     os.rename(s.log_path_day[s.room] + '/' + 'rrf_new.json', s.log_path_day[s.room] + '/' + 'rrf.json')
 
-    # Flux rrf_tiny.json
+    # Stream rrf_tiny.json
     data_tiny += log_all_tiny()
     data_tiny += '}\n'
 
-    # Ecriture du flux rrf_tiny_json
+    # Write rrf_tiny_json
     file = open(s.log_path_day[s.room] + '/' + 'rrf_tiny.json', 'w')
     file.write(data_tiny)
     file.close()
 
-    # Si init, on fait une pose
-
+    # If init, wait
     if s.init[s.room] is True:
         time.sleep(1)
         s.init[s.room] = False
@@ -874,6 +873,55 @@ def log_user():
 
     return str(len(ip) - 1)
 
+# Log iptable
+def log_iptable():
+    data_patrol = []
+    new_json = []
+    log_count = 0
+
+    try:
+        with open(s.patrol_filename) as json_file:
+            data_patrol = json.load(json_file)
+    except:
+        pass
+
+    if len(data_patrol) == 4:
+        for serveur in data_patrol:
+            for data in data_patrol[serveur]['blockip']:
+                if data['Salon'].lower() == s.room.lower():
+                    if data['Admin'] == '':
+                        data['Admin'] = 'ADMIN'
+                         
+                    if data['Admin'] != 'ADMIN':
+                        data['Admin'] = 'ADMIN (' + data['Admin'] + ')'
+                    new_json.append({
+                        'Indicatif': data['Indicatif'],
+                        'Type': data['Admin'],
+                        'Début': data['Date'],
+                        'Durée': '-',
+                        'Fin': '-'
+                    })
+
+            for data in data_patrol[serveur]['sentinel']:
+                if s.room.lower() == 'rrf':
+                    new_json.append({
+                        'Indicatif': data['Indicatif'],
+                        'Type': data['Type'],
+                        'Début': data['Début'],
+                        'Durée': data['Durée'],
+                        'Fin': data['Fin']
+                    })
+
+        # Si le nouveau flux n'est pas vide et que les 4 serveurs ont répondu
+        if (new_json != s.iptable_json):
+            s.iptable_json = new_json.copy()
+
+    data = '"iptable":\n'
+    data += json.dumps(s.iptable_json)
+    data += ',\n'
+
+    return data
+
 # Restart
 def restart():
 
@@ -938,52 +986,4 @@ def restart():
 
     s.transmit[s.room] = False
     return 0
-
-def log_iptable():
-    data_patrol = []
-    new_json = []
-    log_count = 0
-
-    try:
-        with open(s.patrol_filename) as json_file:
-            data_patrol = json.load(json_file)
-    except:
-        pass
-
-    if len(data_patrol) == 4:
-        for serveur in data_patrol:
-            for data in data_patrol[serveur]['blockip']:
-                if data['Salon'].lower() == s.room.lower():
-                    if data['Admin'] == '':
-                        data['Admin'] = 'ADMIN'
-                         
-                    if data['Admin'] != 'ADMIN':
-                        data['Admin'] = 'ADMIN (' + data['Admin'] + ')'
-                    new_json.append({
-                        'Indicatif': data['Indicatif'],
-                        'Type': data['Admin'],
-                        'Début': data['Date'],
-                        'Durée': '-',
-                        'Fin': '-'
-                    })
-
-            for data in data_patrol[serveur]['sentinel']:
-                if s.room.lower() == 'rrf':
-                    new_json.append({
-                        'Indicatif': data['Indicatif'],
-                        'Type': data['Type'],
-                        'Début': data['Début'],
-                        'Durée': data['Durée'],
-                        'Fin': data['Fin']
-                    })
-
-        # Si le nouveau flux n'est pas vide et que les 4 serveurs ont répondu
-        if (new_json != s.iptable_json):
-            s.iptable_json = new_json.copy()
-
-    data = '"iptable":\n'
-    data += json.dumps(s.iptable_json)
-    data += ',\n'
-
-    return data
      
