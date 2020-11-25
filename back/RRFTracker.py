@@ -229,7 +229,7 @@ def main(argv):
                         s.tot_current[s.room] = ''
                         s.tot_start[s.room] = ''
 
-                # Count node
+                # Node analyse
                 s.node_list[s.room] = []
 
                 for d in data['nodes']:
@@ -239,6 +239,7 @@ def main(argv):
                 if s.node_list_old[s.room] == []:
                     s.node_list_old[s.room] = s.node_list[s.room]
                 else:
+                    # Compute node move... in and out
                     if s.node_list_old[s.room] != s.node_list[s.room]:
                         if (list(set(s.node_list_old[s.room]) - set(s.node_list[s.room]))):
                             s.node_list_out[s.room] = list(set(s.node_list_old[s.room]) - set(s.node_list[s.room]))
@@ -256,8 +257,10 @@ def main(argv):
 
                         s.node_list_old[s.room] = s.node_list[s.room]
 
+                # Count node
                 s.node_count[s.room] = len(s.node_list[s.room])
 
+                # Compute max and min
                 if s.node_count[s.room] > s.node_count_max[s.room]:
                     s.node_count_max[s.room] = s.node_count[s.room]
 
