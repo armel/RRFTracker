@@ -26,9 +26,6 @@ def usage():
     print()
     print('--help               this help')
     print()
-    print('Room settings:')
-    print('  --room ROOM        set room (default=RRF, choose between [RRF, TECHNIQUE, INTERNATIONAL, BAVARDAGE, LOCAL, EXPERIMENTAL, FON])')
-    print()
     print('Log settings:')
     print('  --path-log         set the location of log files')
     print()
@@ -62,38 +59,6 @@ def whois_call(call):
             f.write(call + '\n')
 
     return False
-
-'''
-# Whereis load
-def whereis_load():
-    whereis_data = ''
-    # Requete HTTP vers l'api de F1EVM
-    try:
-        r = requests.get(s.api_url, verify=False, timeout=0.50)
-    except requests.exceptions.ConnectionError as errc:
-        #print ('Error Connecting:', errc)
-        pass
-    except requests.exceptions.Timeout as errt:
-        #print ('Timeout Error:', errt)
-        pass
-
-    # Controle de la validité du flux json
-    try:
-        whereis_data = r.json()
-    except:
-        pass
-
-    if whereis_data != '':
-        for item in whereis_data['nodes']:
-            s.whereis_list[item[2]] = item[0]
-    return True
-
-# Whereis call
-def whereis_call(call):
-    if call in s.whereis_list:
-        return s.whereis_list[call]
-    return False
-'''
 
 # Convert second to time
 def convert_second_to_time(time):
@@ -897,7 +862,7 @@ def log_user():
     page = ''
     
     try:
-        r = requests.get('http://rrf.f5nlg.ovh:8080/server-status', verify=False, timeout=10)
+        r = requests.get('http://rrf.f5nlg.ovh:8080/server-status', verify=False, timeout=2)
         page = r.content.decode('utf-8')
     except requests.exceptions.ConnectionError as errc:
         print('Error Connecting:', errc)

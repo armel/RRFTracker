@@ -22,7 +22,7 @@ def main(argv):
 
     # Check and get arguments
     try:
-        options, remainder = getopt.getopt(argv, '', ['help', 'log-path=', 'room='])
+        options, remainder = getopt.getopt(argv, '', ['help', 'log-path='])
     except getopt.GetoptError:
         l.usage()
         sys.exit(2)
@@ -32,12 +32,7 @@ def main(argv):
             sys.exit()
         elif opt in ('--log-path'):
             s.log_path = arg
-        elif opt in ('--room'):
-            if arg not in ['RRF', 'TECHNIQUE', 'INTERNATIONAL', 'BAVARDAGE', 'LOCAL', 'EXPERIMENTAL', 'FON']:
-                print('Unknown room name (choose between \'RRF\', \'TECHNIQUE\', \'INTERNATIONAL\', \'BAVARDAGE\', \'LOCAL\', \'EXPERIMENTAL\' and \'FON\')')
-                sys.exit()
-            s.room = arg
-
+    
     # Create directory and copy asset if necessary
     for r in s.room_list:
         s.room = r
@@ -57,9 +52,7 @@ def main(argv):
             os.popen('ln -sfn ' + s.log_path_day[s.room] + ' ' + s.log_path + '/' + s.room + '-today')
 
         # If restart on day...
-
-        filename = s.log_path + '/' + s.room + '-today/rrf.json'
-        if os.path.isfile(filename):
+        if os.path.isfile(s.log_path + '/' + s.room + '-today/rrf.json'):
             l.restart()
 
     # Get user online
@@ -72,7 +65,7 @@ def main(argv):
     while(True):
         chrono_start = time.time()
 
-        # If midnight...
+        # Init time
         tmp = datetime.datetime.now()
         s.day = tmp.strftime('%Y-%m-%d')
         s.now = tmp.strftime('%H:%M:%S')
@@ -90,14 +83,14 @@ def main(argv):
         except requests.exceptions.Timeout as errt:
             print(s.day, s.now, 'Timeout Error:', errt)
 
-        # Controle de la validité du flux json
+        # Check json validity
         try:
             data = r.json()
         except:
             pass
 
+        # Data is valid
         if data != '':
-
             # Surf in room list
             for r in s.room_list:
 
@@ -109,6 +102,7 @@ def main(argv):
                 if(s.minute % 30 == 0):
                     l.whois_load()
 
+                # If midnight...
                 if(s.now[:5] == '00:00'):
                     s.log_path_day[s.room] = s.log_path + '/' + s.room + '-' + s.day
 
@@ -117,9 +111,10 @@ def main(argv):
                         os.popen('cp /opt/RRFTracker/front/index.html ' + s.log_path_day[s.room] + '/index.html')
                         os.popen('ln -sfn ' + s.log_path_day[s.room] + ' ' + s.log_path + '/' + s.room + '-today')
 
-                    s.qso[s.room] = 0
-                    s.day_duration[s.room] = 0
-                    for q in range(0, 24):          # Clean histogram
+                    # Clear data
+                    s.qso[s.room] = 0               # Clear qso
+                    s.day_duration[s.room] = 0      # Clear day duration
+                    for q in range(0, 24):          # Clear histogram
                         s.qso_hour[s.room][q] = 0
                     s.all[s.room].clear()           # Clear all history
                     s.porteuse[s.room].clear()      # Clear porteuse history
@@ -142,6 +137,7 @@ def main(argv):
                     s.call_current[s.room] = l.sanitize_call(data['transmitters'][s.room_list[s.room]['realname']][2])
                     s.whereis_call[s.room] = data['transmitters'][s.room_list[s.room]['realname']][0]
 
+                    # If new transmitter...
                     if (s.call_previous[s.room] != s.call_current[s.room]):
                         s.tot_start[s.room] = time.time()
                         s.tot_current[s.room] = s.tot_start[s.room]
@@ -161,6 +157,7 @@ def main(argv):
                         s.call[s.room][0] = s.call_current[s.room]
                         s.call_blanc[s.room][0] = l.convert_second_to_time(blanc)
 
+                    # Else if same transmitter...
                     else:
                         if s.tot_start[s.room] == '':
                             s.tot_start[s.room] = time.time()
@@ -209,14 +206,11 @@ def main(argv):
 
                     #sys.stdout.flush()
 
-
                 # If no Transmitter...
                 else:
                     if s.transmit[s.room] is True:
 
                         if s.room == 'RRF':
-                            #print l.convert_second_to_time(s.duration), s.tot_limit
-                            #sys.stdout.flush()
                             if l.convert_second_to_time(s.duration[s.room]) > s.tot_limit[s.room]:
                                 tmp = datetime.datetime.now()
                                 s.tot[s.room] = l.save_stat_tot(s.tot[s.room], s.call[s.room][0], tmp.strftime('%H:%M:%S'))
