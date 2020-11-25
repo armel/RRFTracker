@@ -595,34 +595,35 @@ def log_elsewhere():
 
     for room in room_other:
         filename = s.log_path + '/' + room + '-today/rrf.json'
-        print(filename)
 
         if os.path.isfile(filename):
             with open(filename, 'r') as content_file:
-                content = json.load(content_file)
+                try:
+                    content = json.load(content_file)
 
-                # Indicatif
-                tmp = content['abstract'][0]['Indicatif']
-                if tmp == '':
-                    call[room] = 'Aucune émission'
-                else:
-                    call[room] = tmp
+                    # Indicatif
+                    tmp = content['abstract'][0]['Indicatif']
+                    if tmp == '':
+                        call[room] = 'Aucune émission'
+                    else:
+                        call[room] = tmp
 
-                # TOT
-                tot[room] = content['abstract'][0]['TOT']
-                
-                # Emission cumulée
-                time[room] = content['abstract'][0]['Emission cumulée']
+                    # TOT
+                    tot[room] = content['abstract'][0]['TOT']
+                    
+                    # Emission cumulée
+                    time[room] = content['abstract'][0]['Emission cumulée']
 
-                # Emission cumulée
-                tx[room] = content['abstract'][0]['TX total']
+                    # Emission cumulée
+                    tx[room] = content['abstract'][0]['TX total']
 
-                # Noeuds actifs
-                actif[room] = content['abstract'][0]['Links actifs']
+                    # Noeuds actifs
+                    actif[room] = content['abstract'][0]['Links actifs']
 
-                # Noeuds connectés
-                connected[room] = content['abstract'][0]['Links connectés']
-
+                    # Noeuds connectés
+                    connected[room] = content['abstract'][0]['Links connectés']
+                except:
+                    pass
 
     data_new = {}
     data_new['Scanner RRF'] = 'Emission en cours'
