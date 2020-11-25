@@ -568,6 +568,100 @@ def log_all_tiny():
 
     return data
 
+
+# Log everywhere
+def log_elsewhere():
+    room_other = s.room_list.copy()
+    room_other.pop(s.room, None)
+
+    data = {'elsewhere': []}
+    
+    # 
+    data_new = {}
+    data_new['Scanner RRF'] = 'Code DTMF'
+
+    for room in room_other:
+        data_new[room] = room_other[room]['dtmf']
+
+    data['elsewhere'].append(data_new)
+    #
+    
+    tot = {}
+    tx = {}
+    time = {}
+    call = {}
+    actif = {}
+    connected = {}
+
+    for room in room_other:
+        filename = s.log_path + '/' + room + '-today/rrf.json'
+
+        if os.path.isfile(filename):
+            with open(filename, 'r') as content_file:
+                content = json.load(content_file)
+
+                # Indicatif
+                tmp = content['abstract'][0]['Indicatif']
+                if tmp == '':
+                    call[room] = 'Aucune émission'
+                else:
+                    call[room] = tmp
+
+                # TOT
+                tot[room] = content['abstract'][0]['TOT']
+                
+                # Emission cumulée
+                time[room] = content['abstract'][0]['Emission cumulée']
+
+                # Emission cumulée
+                tx[room] = content['abstract'][0]['TX total']
+
+                # Noeuds actifs
+                actif[room] = content['abstract'][0]['Links actifs']
+
+                # Noeuds connectés
+                connected[room] = content['abstract'][0]['Links connectés']
+
+
+    data_new = {}
+    data_new['Scanner RRF'] = 'Emission en cours'
+    for r in call:
+        data_new[r] = call[r]
+    data['elsewhere'].append(data_new)
+
+    data_new = {}
+    data_new['Scanner RRF'] = 'TX total'
+    for r in tx:
+        data_new[r] = tx[r]
+    data['elsewhere'].append(data_new)
+
+    data_new = {}
+    data_new['Scanner RRF'] = 'Emission cumulée'
+    for r in time:
+        data_new[r] = time[r]
+    data['elsewhere'].append(data_new)
+
+    data_new = {}
+    data_new['Scanner RRF'] = 'Links actifs'
+    for r in actif:
+        data_new[r] = actif[r]
+    data['elsewhere'].append(data_new)
+   
+    data_new = {}
+    data_new['Scanner RRF'] = 'Links connectés'
+    for r in connected:
+        data_new[r] = connected[r]
+    data['elsewhere'].append(data_new)
+
+    data_new = {}
+    data_new['Scanner RRF'] = 'TOT'
+    for r in room_other:
+        data_new[r] = tot[r]
+    data['elsewhere'].append(data_new)
+
+    return data
+
+'''
 # Log everywhere
 def log_elsewhere():
     room_other = s.room_list.copy()
@@ -737,6 +831,7 @@ def log_elsewhere():
     data += '],\n'
 
     return data
+'''
 
 # Log abstract
 def log_type():
