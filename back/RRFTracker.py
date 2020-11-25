@@ -96,6 +96,8 @@ def main(argv):
         except:
             pass
 
+        print('ici')
+
         if data != '':
 
             # Surf in room list
