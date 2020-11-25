@@ -130,7 +130,7 @@ def main(argv):
 
                 print(s.now[:5]) 
 
-                if(s.now[:5] == '01:42'):
+                if(s.now[:5] == '01:52'):
                     s.log_path_day[s.room] = s.log_path + '/' + s.room + '-' + s.day + '-' + str(s.minute)
                     print(">>>", s.log_path_day[s.room])
                     if not os.path.exists(s.log_path_day[s.room]):
@@ -140,12 +140,12 @@ def main(argv):
 
                     s.qso[s.room] = 0
                     s.day_duration[s.room] = 0
-                    for q in range(0, 24):      # Clean histogram
+                    for q in range(0, 24):          # Clean histogram
                         s.qso_hour[s.room][q] = 0
-                    s.all[s.room] = []          # Clear all history
-                    s.porteuse[s.room] = []     # Clear porteuse history
-                    s.tot[s.room] = []          # Clear tot history
-                    s.init[s.room] = True       # Reset init
+                    s.all[s.room].clear()           # Clear all history
+                    s.porteuse[s.room].clear()      # Clear porteuse history
+                    s.tot[s.room].clear()           # Clear tot history
+                    s.init[s.room] = True           # Reset init
 
 
                 # Secure data analyse
