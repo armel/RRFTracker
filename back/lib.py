@@ -568,7 +568,7 @@ def log_all_tiny():
 
     return data
 
-
+'''
 # Log everywhere
 def log_elsewhere():
     room_other = s.room_list.copy()
@@ -833,7 +833,6 @@ def log_elsewhere():
     data += '],\n'
 
     return data
-'''
 
 # Log abstract
 def log_type():
