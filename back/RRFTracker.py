@@ -130,8 +130,8 @@ def main(argv):
 
                 print(s.now[:5]) 
 
-                if(s.now[:5] == '01:40'):
-                    s.log_path_day[s.room] = s.log_path + '/' + s.room + '-' + s.day + '-' + s.minute
+                if(s.now[:5] == '01:42'):
+                    s.log_path_day[s.room] = s.log_path + '/' + s.room + '-' + s.day + '-' + str(s.minute)
                     print(">>>", s.log_path_day[s.room])
                     if not os.path.exists(s.log_path_day[s.room]):
                         os.makedirs(s.log_path_day[s.room])
