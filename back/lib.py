@@ -659,7 +659,7 @@ def log_elsewhere():
         data_new[r] = tot[r]
     data['elsewhere'].append(data_new)
 
-    return data
+    return json.dumps(data)
 
 '''
 # Log everywhere
