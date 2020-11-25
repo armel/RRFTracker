@@ -595,6 +595,7 @@ def log_elsewhere():
 
     for room in room_other:
         filename = s.log_path + '/' + room + '-today/rrf.json'
+        print(filename)
 
         if os.path.isfile(filename):
             with open(filename, 'r') as content_file:
