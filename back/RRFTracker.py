@@ -109,6 +109,7 @@ def main(argv):
                 if(s.minute % 30 == 0):
                     l.whois_load()
 
+                '''
                 if(s.now[:5] == '00:00'):
                     s.log_path_day[s.room] = s.log_path + '/' + s.room + '-' + s.day
 
@@ -125,6 +126,25 @@ def main(argv):
                     s.porteuse[s.room] = []     # Clear porteuse history
                     s.tot[s.room] = []          # Clear tot history
                     s.init[s.room] = True       # Reset init
+                '''
+
+                if(s.now[:5] == '00:10'):
+                    s.log_path_day[s.room] = s.log_path + '/' + s.room + '-' + s.day + '-' + s.minute
+
+                    if not os.path.exists(s.log_path_day[s.room]):
+                        os.makedirs(s.log_path_day[s.room])
+                        os.popen('cp /opt/RRFTracker/front/index.html ' + s.log_path_day[s.room] + '/index.html')
+                        os.popen('ln -sfn ' + s.log_path_day[s.room] + ' ' + s.log_path + '/' + s.room + '-today')
+
+                    s.qso[s.room] = 0
+                    s.day_duration[s.room] = 0
+                    for q in range(0, 24):      # Clean histogram
+                        s.qso_hour[s.room][q] = 0
+                    s.all[s.room] = []          # Clear all history
+                    s.porteuse[s.room] = []     # Clear porteuse history
+                    s.tot[s.room] = []          # Clear tot history
+                    s.init[s.room] = True       # Reset init
+
 
                 # Secure data analyse
                 transmit_test = None
