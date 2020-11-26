@@ -62,7 +62,7 @@ def main(argv):
         l.restart()
 
     # Get user online
-    s.user_count = l.log_user()
+    l.log_user()
 
     # Load whereis dict
     l.whereis_load()
@@ -83,7 +83,7 @@ def main(argv):
         s.seconde = int(s.now[-2:])
 
         if(s.minute % 5 == 0):
-            s.user_count = l.log_user()
+            l.log_user()
             l.whereis_load()
 
         if(s.minute % 30 == 0):
@@ -108,7 +108,7 @@ def main(argv):
 
         # Request HTTP datas
         try:
-            r = requests.get(s.room_list[s.room]['url'], verify=False, timeout=10)
+            r = requests.get(s.room_list[s.room]['url'], verify=False, timeout=5)
             page = r.content.decode('utf-8')
         except requests.exceptions.ConnectionError as errc:
             print('Error Connecting:', errc)

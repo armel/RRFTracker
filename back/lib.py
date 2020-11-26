@@ -68,7 +68,7 @@ def whereis_load():
     whereis_data = ''
     # Requete HTTP vers l'api de F1EVM
     try:
-        r = requests.get(s.whereis_api, verify=False, timeout=0.50)
+        r = requests.get(s.whereis_api, verify=False, timeout=0.5)
     except requests.exceptions.ConnectionError as errc:
         #print ('Error Connecting:', errc)
         pass
@@ -895,22 +895,24 @@ def log_news():
     return data
 
 # Log user
-def log_user():
+def log_user(user):
 
     page = ''
     
     try:
-        r = requests.get('http://rrf.f5nlg.ovh:8080/server-status', verify=False, timeout=10)
+        r = requests.get('http://rrf.f5nlg.ovh:8080/server-status', verify=False, timeout=2)
         page = r.content.decode('utf-8')
     except requests.exceptions.ConnectionError as errc:
         print('Error Connecting:', errc)
     except requests.exceptions.Timeout as errt:
         print('Timeout Error:', errt)
 
-    ip = re.findall(r'[0-9]+(?:\.[0-9]+){3}', page)
-    ip = list(set(ip))
+    if page != '':
+        ip = re.findall(r'[0-9]+(?:\.[0-9]+){3}', page)
+        ip = list(set(ip))
+        s.user_count = str(len(ip) - 1)
 
-    return str(len(ip) - 1)
+    return True
 
 # Restart
 def restart():
