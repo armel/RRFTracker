@@ -103,7 +103,7 @@ def main(argv):
                     l.whois_load()
 
                 # If midnight...
-                if(s.now[:5] == '01:17'):
+                if(s.now[:5] == '01:25'):
                     s.log_path_day[s.room] = s.log_path + '/' + s.room + '-' + s.day
 
                     if not os.path.exists(s.log_path_day[s.room]):
