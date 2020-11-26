@@ -125,7 +125,7 @@ def main(argv):
                 # Secure data analyse
                 transmit_test = None
                 try:
-                    if 'transmitters' in data and s.room_list[s.room] in data['transmitters']:
+                    if 'transmitters' in data and s.room_list[s.room]['realname'] in data['transmitters']:
                         transmit_test = data['transmitters'][s.room_list[s.room]['realname']]
                         print(s.room, transmit_test, data['transmitters'])
                 except:
