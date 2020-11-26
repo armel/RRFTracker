@@ -93,8 +93,8 @@ room_list = {
         'dtmf': '1 0 0',
     },
     'LOCAL': {
-        #'url': 'http://rrf.f5nlg.ovh/api/svxlink/local',
-        'url': 'http://rrf2.f5nlg.ovh:4440/api/svxlink/Local',
+        'url': 'http://rrf.f5nlg.ovh/api/svxlink/local',
+        #'url': 'http://rrf2.f5nlg.ovh:4440/api/svxlink/Local',
         'dtmf': '1 0 1',
     },
     #'EXPERIMENTAL': {
