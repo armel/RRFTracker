@@ -656,7 +656,7 @@ def log_elsewhere():
         data_new[r] = tot[r]
     data.append(data_new)
 
-    return '"elsewhere":' + json.dumps(data)
+    return '"elsewhere":' + json.dumps(data) + ','
 
 # Log abstract
 def log_type():
