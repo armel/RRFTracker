@@ -127,6 +127,7 @@ def main(argv):
                 try:
                     if 'transmitters' in data and s.room_list[s.room] in data['transmitters']:
                         transmit_test = data['transmitters'][s.room_list[s.room]['realname']]
+                        print(s.room, transmit_test, data['transmitters'])
                 except:
                     transmit_test = None
 
