@@ -103,11 +103,10 @@ def main(argv):
                     l.whois_load()
 
                 # If midnight...
-                if(s.now[:5] == '01:25'):
+                if(s.now[:5] == '00:00'):
                     s.log_path_day[s.room] = s.log_path + '/' + s.room + '-' + s.day
 
                     if not os.path.exists(s.log_path_day[s.room]):
-                        os.popen('rm -rf ' + s.log_path_day[s.room])
                         os.makedirs(s.log_path_day[s.room])
                         os.popen('cp /opt/RRFTracker/front/index.html ' + s.log_path_day[s.room] + '/index.html')
                         os.popen('ln -sfn ' + s.log_path_day[s.room] + ' ' + s.log_path + '/' + s.room + '-today')
@@ -127,7 +126,7 @@ def main(argv):
                 try:
                     if 'transmitters' in data and s.room_list[s.room]['realname'] in data['transmitters']:
                         transmit_test = data['transmitters'][s.room_list[s.room]['realname']]
-                        print(s.room, transmit_test, data['transmitters'])
+                        #print(s.room, transmit_test, data['transmitters'])
                 except:
                     transmit_test = None
 
