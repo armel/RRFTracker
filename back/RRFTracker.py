@@ -114,12 +114,14 @@ def main(argv):
         except requests.exceptions.Timeout as errt:
             print('Timeout Error:', errt)
 
-        search_start = page.find('TXmit":"')            # Search this pattern
+        search_start = page.find('transmitter":"')            # Search this pattern
         if search_start != -1:
-            search_start += 8                           # Shift...
+            search_start += 14                          # Shift...
             search_stop = page.find('"', search_start)  # And close it...
         else:
-            search_stop = search_start        
+            search_stop = search_start 
+
+        #print(page, page[search_start:search_stop])    
 
         # If transmitter...
         if search_stop != search_start:
@@ -233,7 +235,7 @@ def main(argv):
         # Count node
         search_start = page.find('nodes":[')                    # Search this pattern
         search_start += 9                                       # Shift...
-        search_stop = page.find('],"TXmit"', search_start)      # And close it...
+        search_stop = page.find('],"', search_start)      # And close it...
 
         tmp = page[search_start:search_stop]
         tmp = tmp.replace('"', '')
