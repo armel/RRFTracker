@@ -781,17 +781,19 @@ def log_user():
     page = ''
     
     try:
-        r = requests.get('http://rrf.f5nlg.ovh:8080/server-status', verify=False, timeout=2)
+        r = requests.get('http://rrf.f5nlg.ovh:8080/server-status', verify=False, timeout=1)
         page = r.content.decode('utf-8')
     except requests.exceptions.ConnectionError as errc:
         print('Error Connecting:', errc)
     except requests.exceptions.Timeout as errt:
         print('Timeout Error:', errt)
 
-    ip = re.findall(r'[0-9]+(?:\.[0-9]+){3}', page)
-    ip = list(set(ip))
+    if page != '':
+        ip = re.findall(r'[0-9]+(?:\.[0-9]+){3}', page)
+        ip = list(set(ip))
+        s.user_count = str(len(ip) - 1)
 
-    return str(len(ip) - 1)
+    return True
 
 # Log iptable
 def log_iptable():

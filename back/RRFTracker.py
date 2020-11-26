@@ -56,7 +56,7 @@ def main(argv):
             l.restart()
 
     # Get user online
-    s.user_count = l.log_user()
+    l.log_user()
 
     # Load whois dict
     l.whois_load()
@@ -96,14 +96,13 @@ def main(argv):
 
                 s.room = r
 
-                if(s.minute % 5 == 0):
-                    s.user_count = l.log_user()
-
-                if(s.minute % 30 == 0):
-                    l.whois_load()
+                if(s.minute % 5 == 0 and s.seconde == 0):
+                    l.log_user()
 
                 # If midnight...
                 if(s.now[:5] == '00:00'):
+                    l.whois_load()
+
                     s.log_path_day[s.room] = s.log_path + '/' + s.room + '-' + s.day
 
                     if not os.path.exists(s.log_path_day[s.room]):
