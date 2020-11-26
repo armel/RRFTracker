@@ -107,7 +107,7 @@ def main(argv):
 
         # Request HTTP datas
         try:
-            r = requests.get(s.room_list[s.room]['url'], verify=False, timeout=5)
+            r = requests.get(s.room_list[s.room]['url'], verify=False, timeout=2)
             page = r.content.decode('utf-8')
         except requests.exceptions.ConnectionError as errc:
             print('Error Connecting:', errc)
