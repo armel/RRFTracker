@@ -82,14 +82,13 @@ def main(argv):
         s.minute = int(s.now[3:-3])
         s.seconde = int(s.now[-2:])
 
-        if(s.minute % 5 == 0):
+        if(s.minute % 5 == 0 and s.seconde == 0):
             l.log_user()
             l.whereis_load()
 
-        if(s.minute % 30 == 0):
+        if(s.now[:5] == '00:00'):
             l.whois_load()
 
-        if(s.now[:5] == '00:00'):
             s.log_path_day = s.log_path + '/' + s.room + '-' + s.day
 
             if not os.path.exists(s.log_path_day):

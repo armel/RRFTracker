@@ -68,7 +68,7 @@ def whereis_load():
     whereis_data = ''
     # Requete HTTP vers l'api de F1EVM
     try:
-        r = requests.get(s.whereis_api, verify=False, timeout=0.5)
+        r = requests.get(s.whereis_api, verify=False, timeout=1)
     except requests.exceptions.ConnectionError as errc:
         #print ('Error Connecting:', errc)
         pass
@@ -900,7 +900,7 @@ def log_user():
     page = ''
     
     try:
-        r = requests.get('http://rrf.f5nlg.ovh:8080/server-status', verify=False, timeout=2)
+        r = requests.get('http://rrf.f5nlg.ovh:8080/server-status', verify=False, timeout=1)
         page = r.content.decode('utf-8')
     except requests.exceptions.ConnectionError as errc:
         print('Error Connecting:', errc)
