@@ -895,7 +895,7 @@ def log_news():
     return data
 
 # Log user
-def log_user(user):
+def log_user():
 
     page = ''
     
