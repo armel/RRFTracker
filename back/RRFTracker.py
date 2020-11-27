@@ -107,19 +107,20 @@ def main(argv):
 
         # Request HTTP datas
         try:
-            r = requests.get(s.room_list[s.room]['url'], verify=False, timeout=2)
+            r = requests.get(s.room_list[s.room]['url'], verify=False, timeout=.25)
             page = r.content.decode('utf-8')
-        except requests.exceptions.ConnectionError as errc:
-            print('Error Connecting:', errc)
-        except requests.exceptions.Timeout as errt:
-            print('Timeout Error:', errt)
 
-        search_start = page.find('transmitter":"')            # Search this pattern
-        if search_start != -1:
-            search_start += 14                          # Shift...
-            search_stop = page.find('"', search_start)  # And close it...
-        else:
-            search_stop = search_start 
+            search_start = page.find('transmitter":"')            # Search this pattern
+            if search_start != -1:
+                search_start += 14                          # Shift...
+                search_stop = page.find('"', search_start)  # And close it...
+            else:
+                search_start = 0
+                search_stop = search_start
+        except:
+            print('Failed at', s.day, s.now)
+            search_start = 0
+            search_stop = search_start
 
         #print(page, page[search_start:search_stop])    
 
@@ -292,7 +293,7 @@ def main(argv):
         else:
             sleep = 0
         #print "Temps d'execution : %.2f %.2f secondes" % (chrono_time, sleep)
-        #sys.stdout.flush()
+        sys.stdout.flush()
         time.sleep(sleep)
 
 if __name__ == '__main__':

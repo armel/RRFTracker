@@ -65,26 +65,16 @@ def whois_call(call):
 
 # Whereis load
 def whereis_load():
-    whereis_data = ''
+
     # Requete HTTP vers l'api de F1EVM
     try:
-        r = requests.get(s.whereis_api, verify=False, timeout=1)
-    except requests.exceptions.ConnectionError as errc:
-        #print ('Error Connecting:', errc)
-        pass
-    except requests.exceptions.Timeout as errt:
-        #print ('Timeout Error:', errt)
-        pass
-
-    # Controle de la validité du flux json
-    try:
+        r = requests.get(s.whereis_api, verify=False, timeout=.25)
         whereis_data = r.json()
+        for item in whereis_data['nodes']:
+            s.whereis_list[item[2]] = item[0]
     except:
         pass
 
-    if whereis_data != '':
-        for item in whereis_data['nodes']:
-            s.whereis_list[item[2]] = item[0]
     return True
 
 # Whereis call
@@ -896,21 +886,15 @@ def log_news():
 
 # Log user
 def log_user():
-
-    page = ''
     
     try:
-        r = requests.get('http://rrf.f5nlg.ovh:8080/server-status', verify=False, timeout=1)
+        r = requests.get('http://rrf.f5nlg.ovh:8080/server-status', verify=False, timeout=.25)
         page = r.content.decode('utf-8')
-    except requests.exceptions.ConnectionError as errc:
-        print('Error Connecting:', errc)
-    except requests.exceptions.Timeout as errt:
-        print('Timeout Error:', errt)
-
-    if page != '':
         ip = re.findall(r'[0-9]+(?:\.[0-9]+){3}', page)
         ip = list(set(ip))
         s.user_count = str(len(ip) - 1)
+    except:
+        pass
 
     return True
 
