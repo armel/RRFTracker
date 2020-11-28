@@ -20,11 +20,11 @@ def main(argv):
         tmp = datetime.datetime.now()
         now = tmp.strftime('%Y-%m-%d %H:%M:%S')
 
-        r = http.request('GET', url, timeout=1, retries=Retry(10))
+        r = http.request('GET', url, timeout=1, retries=10)
 
         # Request HTTP datas
         try:
-            r = http.request('GET', url, timeout=1, retries=Retry(10))
+            r = http.request('GET', url, timeout=1, retries=10)
             data = json.loads(r.data.decode('utf-8'))
             count['Success'] += 1
             print('Trace 1', now, 'Success', count)
