@@ -11,13 +11,13 @@ Check video about RRFTracker on https://www.youtube.com/watch?v=rVW8xczVpEo
 import settings as s
 import lib as l
 
-import requests
 import datetime
 import os
 import time
 import sys
 import getopt
 import urllib3
+import json
 
 def main(argv):
 
@@ -113,15 +113,7 @@ def main(argv):
             s.tot.clear()               # Clear tot history
             s.init = True               # Reset init
 
-        # Request HTTP datas
-
-        print(s.room_list[s.room]['url'])
-
-        r = http.request('GET', s.room_list[s.room]['url'], timeout=.5, retries=10)
-        data = json.loads(r.data.decode('utf-8'))
-
-        print(data)
-
+        # Request HTTP data
         try:
             r = http.request('GET', s.room_list[s.room]['url'], timeout=.5, retries=10)
             data = json.loads(r.data.decode('utf-8'))
