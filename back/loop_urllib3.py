@@ -20,11 +20,9 @@ def main(argv):
         tmp = datetime.datetime.now()
         now = tmp.strftime('%Y-%m-%d %H:%M:%S')
 
-        r = http.request('GET', url, timeout=1, retries=10)
-
         # Request HTTP datas
         try:
-            r = http.request('GET', url, timeout=1, retries=10)
+            r = http.request('GET', url, timeout=0.5, retries=2)
             data = json.loads(r.data.decode('utf-8'))
             count['Success'] += 1
             print('Trace 1', now, 'Success', count)
@@ -35,8 +33,8 @@ def main(argv):
 
         chrono_stop = time.time()
         chrono_time = chrono_stop - chrono_start
-        if chrono_time < 1:
-            sleep = 1 - chrono_time
+        if chrono_time < 0.5:
+            sleep = 0.5 - chrono_time
         else:
             tmp = datetime.datetime.now()
             now = tmp.strftime('%Y-%m-%d %H:%M:%S')
