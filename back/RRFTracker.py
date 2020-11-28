@@ -18,6 +18,8 @@ import time
 import sys
 import getopt
 
+from retry_requests import retry
+
 def main(argv):
 
     # Check and get arguments
@@ -106,6 +108,10 @@ def main(argv):
             s.init = True               # Reset init
 
         # Request HTTP datas
+
+        session = retry(Session(), retries=5, backoff_factor=0.5)
+        session.get('https://foo.bar')
+
         try:
             r = requests.get(s.room_list[s.room]['url'], verify=False, timeout=4)
             data = r.json()
@@ -116,7 +122,7 @@ def main(argv):
 
         # If transmitter...
         if transmitter != None:
-            
+
             if s.transmit is False:
                 s.transmit = True
 
