@@ -115,6 +115,8 @@ def main(argv):
 
         # Request HTTP datas
 
+        print(s.room_list[s.room]['url'])
+
         try:
             r = http.request('GET', s.room_list[s.room]['url'], timeout=.5, retries=10)
             data = json.loads(r.data.decode('utf-8'))
