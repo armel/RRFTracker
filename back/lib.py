@@ -602,170 +602,90 @@ def log_elsewhere():
     room_other = s.room_list.copy()
     room_other.pop(s.room, None)
 
-    data = '"elsewhere":\n'
-
-    data += '[\n'
-    data += '{\n'
-    data += '\t"Scanner RRF": "Code DTMF",\n'
+    data = []
+     
+    data_new = {}
+    data_new['Scanner RRF'] = 'Code DTMF'
 
     for room in room_other:
-        data += '\t"' + room + '": "' + room_other[room]['dtmf'] + '",\n'
+        data_new[room] = room_other[room]['dtmf']
 
-    last = data.rfind(',')
-    data = data[:last] + '' + data[last + 1:]
-
-    data += '}, \n'
-    data += '{\n'
-
-    tot = []
-    tx = []
-    time = []
-    call = []
-    actif = []
-    connected = []
+    data.append(data_new)
+        
+    tot = {}
+    tx = {}
+    time = {}
+    call = {}
+    actif = {}
+    connected = {}
 
     for room in room_other:
         filename = s.log_path + '/' + room + '-today/rrf.json'
 
         if os.path.isfile(filename):
             with open(filename, 'r') as content_file:
-                content = content_file.read()
+                content = json.load(content_file)
 
-                # Indicatif 
-
-                search_start = content.find('Indicatif": "')        # Search this pattern
-                search_start += 13                                  # Shift...
-                search_stop = content.find('"', search_start)       # And close it...
-
-                tmp = content[search_start:search_stop]
-
+                # Indicatif
+                tmp = content['abstract'][0][u'Indicatif']
                 if tmp == '':
-                    call.append("Aucune émission")
+                    call[room] = 'Aucune émission'
                 else:
-                    call.append(tmp)
+                    call[room] = tmp
 
                 # TOT
-                search_start = content.find('TOT": ')               # Search this pattern
-                search_start += 6                                   # Shift...
-                search_stop = content.find(',', search_start)       # And close it...
-
-                tmp = content[search_start:search_stop]
-
-                tot.append(tmp)
+                tot[room] = content['abstract'][0][u'TOT']
+                
+                # Emission cumulée
+                time[room] = content['abstract'][0][u'Emission cumulée']
 
                 # Emission cumulée
-
-                search_start = content.find('Emission cumulée": "') # Search this pattern
-                search_start += 20                                  # Shift...
-                search_stop = content.find('"', search_start)       # And close it...
-
-                tmp = content[search_start:search_stop]
-
-                time.append(tmp)
-
-                # Emission cumulée
-                search_start = content.find('TX total": ')          # Search this pattern
-                search_start += 11                                  # Shift...
-                search_stop = content.find(',', search_start)       # And close it...
-
-                tmp = content[search_start:search_stop]
-
-                tx.append(tmp)
+                tx[room] = content['abstract'][0][u'TX total']
 
                 # Noeuds actifs
-                search_start = content.find('Links actifs": ')      # Search this pattern
-                search_start += 15                                  # Shift...
-                search_stop = content.find(',', search_start)       # And close it...
-
-                tmp = content[search_start:search_stop]
-
-                actif.append(tmp)
+                actif[room] = content['abstract'][0][u'Links actifs']
 
                 # Noeuds connectés
-                search_start = content.find('Links connectés": ')   # Search this pattern
-                search_start += 18                                  # Shift...
-                search_stop = content.find(',', search_start)       # And close it...
-
-                tmp = content[search_start:search_stop]
-
-                connected.append(tmp)
+                connected[room] = content['abstract'][0][u'Links connectés']
 
 
-    data += '\t"Scanner RRF": "Emission en cours",\n'
-    tmp = 0
+    data_new = {}
+    data_new['Scanner RRF'] = 'Emission en cours'
+    for r in call:
+        data_new[r] = call[r]
+    data.append(data_new)
 
-    for room in room_other:
-        data += '\t"' + room + '": "' + call[tmp] + '",\n'
-        tmp += 1
+    data_new = {}
+    data_new['Scanner RRF'] = 'TX total'
+    for r in tx:
+        data_new[r] = tx[r]
+    data.append(data_new)
 
-    last = data.rfind(',')
-    data = data[:last] + '' + data[last + 1:]
+    data_new = {}
+    data_new['Scanner RRF'] = 'Emission cumulée'
+    for r in time:
+        data_new[r] = time[r]
+    data.append(data_new)
 
-    data += '}, \n'
-    data += '{\n'
+    data_new = {}
+    data_new['Scanner RRF'] = 'Links actifs'
+    for r in actif:
+        data_new[r] = actif[r]
+    data.append(data_new)
+   
+    data_new = {}
+    data_new['Scanner RRF'] = 'Links connectés'
+    for r in connected:
+        data_new[r] = connected[r]
+    data.append(data_new)
 
-    data += '\t"Scanner RRF": "TX total",\n'
-    tmp = 0
-    for room in room_other:
-        data += '\t"' + room + '": ' + tx[tmp] + ',\n'
-        tmp += 1
+    data_new = {}
+    data_new['Scanner RRF'] = 'TOT'
+    for r in room_other:
+        data_new[r] = tot[r]
+    data.append(data_new)
 
-    last = data.rfind(',')
-    data = data[:last] + '' + data[last + 1:]
-
-    data += '}, \n'
-    data += '{\n'
-
-    data += '\t"Scanner RRF": "Emission cumulée",\n'
-    tmp = 0
-    for room in room_other:
-        data += '\t"' + room + '": "' + time[tmp] + '",\n'
-        tmp += 1
-
-    last = data.rfind(',')
-    data = data[:last] + '' + data[last + 1:]
-
-    data += '}, \n'
-    data += '{\n'
-
-    data += '\t"Scanner RRF": "Links actifs",\n'
-    tmp = 0
-    for room in room_other:
-        data += '\t"' + room + '": ' + actif[tmp] + ',\n'
-        tmp += 1
-
-    last = data.rfind(',')
-    data = data[:last] + '' + data[last + 1:]
-
-    data += '}, \n'
-    data += '{\n'
-
-    data += '\t"Scanner RRF": "Links connectés",\n'
-    tmp = 0
-    for room in room_other:
-        data += '\t"' + room + '": ' + connected[tmp] + ',\n'
-        tmp += 1
-
-    last = data.rfind(',')
-    data = data[:last] + '' + data[last + 1:]
-
-    data += '}, \n'
-    data += '{\n'
-
-    data += '\t"Scanner RRF": "TOT",\n'
-    tmp = 0
-
-    for room in room_other:
-        data += '\t"' + room + '": ' + tot[tmp] + ',\n'
-        tmp += 1
-
-    last = data.rfind(',')
-    data = data[:last] + '' + data[last + 1:]
-
-    data += '}\n'
-    data += '],\n'
-
-    return data
+    return '"elsewhere":' + json.dumps(data) + ','
 
 # Log abstract
 def log_type():

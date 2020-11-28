@@ -98,7 +98,7 @@ def main(argv):
 
             s.qso = 0
             s.day_duration = 0
-            for q in range(0, 24):     # Clean histogram
+            for q in range(0, 24):      # Clean histogram
                 s.qso_hour[q] = 0
             s.all.clear()               # Clear all history
             s.porteuse.clear()          # Clear porteuse history
@@ -110,7 +110,7 @@ def main(argv):
             r = requests.get(s.room_list[s.room]['url'], verify=False, timeout=4)
             page = r.content.decode('utf-8')
 
-            search_start = page.find('transmitter":"')            # Search this pattern
+            search_start = page.find('transmitter":"')      # Search this pattern
             if search_start != -1:
                 search_start += 14                          # Shift...
                 search_stop = page.find('"', search_start)  # And close it...
@@ -121,8 +121,6 @@ def main(argv):
             print('Failed', s.day, s.now)
             search_start = 0
             search_stop = search_start
-
-        #print(page, page[search_start:search_stop])    
 
         # If transmitter...
         if search_stop != search_start:
@@ -198,23 +196,10 @@ def main(argv):
             if s.duration > s.intempestif:
                 s.all = l.save_stat_all(s.all, s.call[0], tmp.strftime('%H:%M:%S'), l.convert_second_to_time(s.duration), False)
 
-            #sys.stdout.flush()
-
-
         # If no Transmitter...
         else:
             if s.transmit is True:
-
-                '''
-                if s.duration > s.intempestif:
-                    #print tmp.strftime('%H:%M:%S')
-                    #sys.stdout.flush()
-                    s.all = l.save_stat_all(s.all, s.call[0], '00:00:00', l.convert_second_to_time(s.duration))
-                '''
-
                 if s.room == 'RRF':
-                    #print l.convert_second_to_time(s.duration), s.tot_limit
-                    #sys.stdout.flush()
                     if l.convert_second_to_time(s.duration) > s.tot_limit:
                         tmp = datetime.datetime.now()
                         s.tot = l.save_stat_tot(s.tot, s.call[0], tmp.strftime('%H:%M:%S'))
@@ -222,7 +207,6 @@ def main(argv):
                 if s.stat_save is True:
                     if s.duration > 600:    # I need to fix this bug...
                         s.duration = 0
-                    #s.node = l.save_stat_node(s.node, s.call[0], s.duration)
                     s.day_duration += s.duration
                 if s.stat_save is False:
                     tmp = datetime.datetime.now()
@@ -233,21 +217,12 @@ def main(argv):
                 s.tot_current = ''
                 s.tot_start = ''
 
-        # Count node
-        search_start = page.find('nodes":[')                    # Search this pattern
-        search_start += 9                                       # Shift...
-        search_stop = page.find('],"', search_start)      # And close it...
+        # Node analyze
 
-        tmp = page[search_start:search_stop]
-        tmp = tmp.replace('"', '')
-        s.node_list = tmp.split(',')
-
-        for k, n in enumerate(s.node_list):
-            s.node_list[k] = l.sanitize_call(n)
-
-        for n in ['RRF', 'RRF2', 'RRF3', 'R.R.F', 'R.R.F_V2', 'TECHNIQUE', 'BAVARDAGE', 'INTERNATIONAL', 'LOCAL', 'EXPERIMENTAL', 'MsgNodeJoined(']:
-            if n in s.node_list:
-                s.node_list.remove(n)
+        s.node_list=[]
+        for d in data['nodes']:
+            if d not in ['RRF', 'RRF2', 'RRF3', 'TECHNIQUE', 'BAVARDAGE', 'INTERNATIONAL', 'LOCAL', 'EXPERIMENTAL']:
+                s.node_list.append(l.sanitize_call(d))    
 
         if s.node_list_old == []:
             s.node_list_old = s.node_list
