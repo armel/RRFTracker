@@ -1,4 +1,4 @@
-from urllib.request import urlopen
+import urllib3
 import datetime
 import time
 import sys
@@ -6,10 +6,13 @@ import json
 
 url = 'http://rrf.f5nlg.ovh/api/svxlink/technique'
 
+http = urllib3.PoolManager(timeout=1.0)
+http = urllib3.PoolManager(
+    timeout=urllib3.Timeout(connect=.5, read=.5)
+)
+
 def main(argv):
     # Boucle principale
-    count = {'Success':0, 'Failure': 0, 'Freeze': 0}
-    
     while(True):
         chrono_start = time.time()
         tmp = datetime.datetime.now()
@@ -17,15 +20,12 @@ def main(argv):
 
         # Request HTTP datas
         try:
-            with urlopen(url, timeout=.75, retries=Retry(10)) as response:
-                response_content = response.read()
-                response_content = response_content.decode('utf-8')
-                data = json.loads(response_content)
-            count['Success'] += 1
-            print('Trace 1', now, 'Success', count)
+            r = http.request('GET', url, timeout=1, retries=Retry(10))
+            data = json.loads(r.data.decode('utf-8'))
+
+            print('Trace 1', now, 'Success')
         except:
-            count['Failure'] += 1
-            print('Trace 0', now, 'Failure', count)
+            print('Trace 0', now, 'Failure')
             data = ''
 
         chrono_stop = time.time()
@@ -35,8 +35,7 @@ def main(argv):
         else:
             tmp = datetime.datetime.now()
             now = tmp.strftime('%Y-%m-%d %H:%M:%S')
-            count['Freeze'] += 1
-            print('Trace 2', now, '>>>>>>>>>> Freeze', count)
+            print('Trace 2', now, '>>>>>>>>>> Freeze')
             sleep = 0
         time.sleep(sleep)
 
