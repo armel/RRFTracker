@@ -27,7 +27,7 @@ case "$1" in
         do 
             echo "Stopping RRFTracker: ${ROOM}"
             NOW=$(date +"%Y%m%d_%H%M%S")
-            cp ${PATH_PID}/RRFTracker_${ROOM}.log ${PATH_PID}/RRFTracker_${ROOM}_${NOW}.log
+            mv ${PATH_PID}/RRFTracker_${ROOM}.log ${PATH_PID}/RRFTracker_${ROOM}_${NOW}.log
             kill `cat ${PATH_PID}/RRFTracker_${ROOM}.pid`
         done
         ;;
