@@ -22,7 +22,7 @@ def main(argv):
 
         # Request HTTP datas
         try:
-            r = http.request('GET', url, timeout=0.5, retries=2)
+            r = http.request('GET', url, timeout=0.5, retries=10)
             data = json.loads(r.data.decode('utf-8'))
             count['Success'] += 1
             print('Trace 1', now, 'Success', count)
