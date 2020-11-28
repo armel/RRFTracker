@@ -10,7 +10,7 @@ Check video about RRFTracker on https://www.youtube.com/watch?v=rVW8xczVpEo
 
 # Version
 
-version = '2.6.4'
+version = '2.7.0'
 
 # Default room and path
 
@@ -71,40 +71,36 @@ init = True				# Check if init...
 
 # Set url
 
+rrf1 = 'http://217.182.206.155'
+rrf2 = 'http://137.74.192.234'
+
 room_list = {
     'RRF': {
-        'url': 'http://rrf.f5nlg.ovh/api/svxlink/RRF',
-        #'url': 'http://rrf2.f5nlg.ovh:4440/api/svxlink/RRF',
+        'url': rrf1 + '/api/svxlink/RRF',
         'dtmf': '9 6',
     },
     'TECHNIQUE': {
-        'url': 'http://rrf.f5nlg.ovh/api/svxlink/technique',
-        #'url': 'http://rrf2.f5nlg.ovh:4440/api/svxlink/Technique',
+        'url': rrf1 + '/api/svxlink/technique',
         'dtmf': '9 8',
     },
     'INTERNATIONAL': {
-        'url': 'http://rrf.f5nlg.ovh/api/svxlink/international',
-        #'url': 'http://rrf2.f5nlg.ovh:4440/api/svxlink/International',
+        'url': rrf1 + '/api/svxlink/international',
         'dtmf': '9 9',
     },
     'BAVARDAGE': {
-        'url': 'http://rrf.f5nlg.ovh/api/svxlink/bavardage',
-        #'url': 'http://rrf2.f5nlg.ovh:4440/api/svxlink/Bavardage',
+        'url': rrf1 + '/api/svxlink/bavardage',
         'dtmf': '1 0 0',
     },
     'LOCAL': {
-        'url': 'http://rrf.f5nlg.ovh/api/svxlink/local',
-        #'url': 'http://rrf2.f5nlg.ovh:4440/api/svxlink/Local',
+        'url': rrf1 + '/api/svxlink/local',
         'dtmf': '1 0 1',
     },
     #'EXPERIMENTAL': {
-    #    'url': 'http://rrf.f5nlg.ovh/api/svxlink/experimental',
-    #    'url': 'http://rrf2.f5nlg.ovh:4440/api/svxlink/Experimental',
+    #    'url': rrf1 + '/api/svxlink/experimental',
     #    'dtmf': '1 0 2',
     #},
     'FON': {
-        'url': 'http://rrf.f5nlg.ovh/api/svxlink/FON',
-        #'url': 'http://rrf2.f5nlg.ovh:4440/api/svxlink/FON',
+        'url': rrf1 + '/api/svxlink/FON',
         'dtmf': '9 7',
     }
 }
@@ -113,6 +109,6 @@ patrol_filename = '/var/www/RRFTracker/rrf_patrol.json'
 
 iptable_json = []
 
-whereis_api = 'http://rrf2.f5nlg.ovh:4440/nodes'
+whereis_api = rrf2 + ':4440/nodes'
 whereis_list = {}
 whois_list = {}

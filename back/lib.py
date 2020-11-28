@@ -68,7 +68,7 @@ def whereis_load():
 
     # Requete HTTP vers l'api de F1EVM
     try:
-        r = requests.get(s.whereis_api, verify=False, timeout=.25)
+        r = requests.get(s.whereis_api, verify=False, timeout=.5)
         whereis_data = r.json()
         for item in whereis_data['nodes']:
             s.whereis_list[item[2]] = item[0]
@@ -888,7 +888,7 @@ def log_news():
 def log_user():
     
     try:
-        r = requests.get('http://rrf.f5nlg.ovh:8080/server-status', verify=False, timeout=.25)
+        r = requests.get(rrf1 + ':8080/server-status', verify=False, timeout=.25)
         page = r.content.decode('utf-8')
         ip = re.findall(r'[0-9]+(?:\.[0-9]+){3}', page)
         ip = list(set(ip))

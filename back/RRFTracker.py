@@ -107,7 +107,7 @@ def main(argv):
 
         # Request HTTP datas
         try:
-            r = requests.get(s.room_list[s.room]['url'], verify=False, timeout=.25)
+            r = requests.get(s.room_list[s.room]['url'], verify=False, timeout=.5)
             page = r.content.decode('utf-8')
 
             search_start = page.find('transmitter":"')            # Search this pattern
