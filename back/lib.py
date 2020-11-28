@@ -888,7 +888,7 @@ def log_news():
 def log_user():
     
     try:
-        r = requests.get(rrf1 + ':8080/server-status', verify=False, timeout=.25)
+        r = requests.get(s.rrf1 + ':8080/server-status', verify=False, timeout=.25)
         page = r.content.decode('utf-8')
         ip = re.findall(r'[0-9]+(?:\.[0-9]+){3}', page)
         ip = list(set(ip))
