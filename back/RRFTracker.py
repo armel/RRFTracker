@@ -71,6 +71,13 @@ def main(argv):
     # Load whois dict
     l.whois_load()
 
+    # Urllib3 settings
+
+    http = urllib3.PoolManager(timeout=1.0)
+    http = urllib3.PoolManager(
+        timeout=urllib3.Timeout(connect=.5, read=.5)
+    )
+
     # Boucle principale
     while(True):
         chrono_start = time.time()
@@ -109,7 +116,7 @@ def main(argv):
         # Request HTTP datas
 
         try:
-            r = http.request('GET', s.room_list[s.room]['url'], timeout=0.5, retries=10)
+            r = http.request('GET', s.room_list[s.room]['url'], timeout=.5, retries=10)
             data = json.loads(r.data.decode('utf-8'))
             transmitter = data['transmitter']
         except:
