@@ -107,7 +107,7 @@ def main(argv):
 
         # Request HTTP datas
         try:
-            r = requests.get(s.room_list[s.room]['url'], verify=False, timeout=.5)
+            r = requests.get(s.room_list[s.room]['url'], verify=False, timeout=.75)
             page = r.content.decode('utf-8')
 
             search_start = page.find('transmitter":"')            # Search this pattern
@@ -118,7 +118,7 @@ def main(argv):
                 search_start = 0
                 search_stop = search_start
         except:
-            print('Failed at', s.day, s.now)
+            print('Failed', s.day, s.now)
             search_start = 0
             search_stop = search_start
 
