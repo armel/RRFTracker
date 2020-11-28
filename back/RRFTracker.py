@@ -114,6 +114,7 @@ def main(argv):
             transmitter = data['transmitter']
         except:
             data = ''
+            print('Failed', s.day, s.now)
 
         if data != '':
 
