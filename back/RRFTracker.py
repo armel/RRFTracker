@@ -108,27 +108,19 @@ def main(argv):
         # Request HTTP datas
         try:
             r = requests.get(s.room_list[s.room]['url'], verify=False, timeout=4)
-            page = r.content.decode('utf-8')
-
-            search_start = page.find('transmitter":"')      # Search this pattern
-            if search_start != -1:
-                search_start += 14                          # Shift...
-                search_stop = page.find('"', search_start)  # And close it...
-            else:
-                search_start = 0
-                search_stop = search_start
+            data = r.json()
+            transmitter = data['transmitter']
         except:
+            transmitter = None
             print('Failed', s.day, s.now)
-            search_start = 0
-            search_stop = search_start
 
         # If transmitter...
-        if search_stop != search_start:
-
+        if transmitter != None:
+            
             if s.transmit is False:
                 s.transmit = True
 
-            s.call_current = l.sanitize_call(page[search_start:search_stop])
+            s.call_current = l.sanitize_call(transmitter)
 
             if (s.call_previous != s.call_current):
                 s.tot_start = time.time()
