@@ -13,6 +13,8 @@ http = urllib3.PoolManager(
 
 def main(argv):
     # Boucle principale
+    count = {'Success':0, 'Failure': 0, 'Freeze': 0}
+
     while(True):
         chrono_start = time.time()
         tmp = datetime.datetime.now()
@@ -22,10 +24,11 @@ def main(argv):
         try:
             r = http.request('GET', url, timeout=1, retries=Retry(10))
             data = json.loads(r.data.decode('utf-8'))
-
-            print('Trace 1', now, 'Success')
+            count['Success'] += 1
+            print('Trace 1', now, 'Success', count)
         except:
-            print('Trace 0', now, 'Failure')
+            count['Failure'] += 1
+            print('Trace 0', now, 'Failure', count)
             data = ''
 
         chrono_stop = time.time()
@@ -35,7 +38,8 @@ def main(argv):
         else:
             tmp = datetime.datetime.now()
             now = tmp.strftime('%Y-%m-%d %H:%M:%S')
-            print('Trace 2', now, '>>>>>>>>>> Freeze')
+            count['Freeze'] += 1
+            print('Trace 2', now, '>>>>>>>>>> Freeze', count)
             sleep = 0
         time.sleep(sleep)
 
