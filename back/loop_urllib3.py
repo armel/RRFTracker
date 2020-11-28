@@ -20,6 +20,8 @@ def main(argv):
         tmp = datetime.datetime.now()
         now = tmp.strftime('%Y-%m-%d %H:%M:%S')
 
+        r = http.request('GET', url, timeout=1, retries=Retry(10))
+
         # Request HTTP datas
         try:
             r = http.request('GET', url, timeout=1, retries=Retry(10))
