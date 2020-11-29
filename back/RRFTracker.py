@@ -112,7 +112,8 @@ def main(argv):
             transmitter = data['transmitter']
         except:
             data = ''
-            print('Failed', s.day, s.now)
+            if s.now < '03:00:00' or s.now > '03:05:00':
+                print('Failed', s.day, s.now)
 
         # If valid json data
         if data != '':
