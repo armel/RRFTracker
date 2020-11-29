@@ -14,18 +14,18 @@ version = '2.7.1'
 
 # Default room and path
 
-room = 'RRF'            # Room: Default value !
-log_path = '/tmp/RRF'   # Log path: Default value !
-log_path_day = ''		# Log path day: Default value !
+room = 'RRF'                # Room: Default value !
+log_path = '/tmp/RRF'       # Log path: Default value !
+log_path_day = ''           # Log path day: Default value !
 
 # Set call
 
-call = ['', '', '', '', '', '', '', '', '', '']         # Call list
-call_date = ['', '', '', '', '', '', '', '', '', '']    # Call date list
-call_blanc = ['', '', '', '', '', '', '', '', '', '']   # Call blanc list
-call_time = ['', '', '', '', '', '', '', '', '', '']    # Call time list
-call_current = call[0]                                  # Call current
-call_previous = call[1]                                 # Call previous
+call = [''] * 10            # Call list
+call_date = [''] * 10       # Call date list
+call_blanc = [''] * 10      # Call blanc list
+call_time = [''] * 10       # Call time list
+call_current = call[0]      # Call current
+call_previous = call[1]     # Call previous
 
 qso = 0                 	# QSO count
 qso_hour = [0] * 24     	# QSO list for histogramm
@@ -41,9 +41,9 @@ node_list_out = []      	# Node list out
 
 day_duration = 0        	# Total emission time
 
-porteuse = dict()       	# Porteuse dict
-all = dict()                # All dict
-tot = dict()                # TOT dict
+porteuse = {}               # Porteuse dict
+all = {}                    # All dict
+tot = {}                    # TOT dict
 tot_limit = '02:33'         # TOT limit time (02:03 puis 02:33...)
 
 transmit = True         	# Detect transmit
@@ -54,6 +54,10 @@ message_current = ''        # Current message
 message_timer = 0           # Timer message
 message_timer_limit = 0     # Timer limit message
 
+iptable_json = []           # IP stream
+whereis_list = {}           # Whereis dict
+whois_list = {}             # Whois dict
+
 # Set time and date
 
 tot_start = ''
@@ -62,14 +66,14 @@ hour = ''
 minute = ''
 seconde = ''
 duration = 0
-intempestif = 2         # Tuned me !!!
-main_loop = .200        # Main loop tempo
+intempestif = 2             # Tuned me !!!
+main_loop = .200            # Main loop tempo
 
 # Set init
 
-init = True				# Check if init...
+init = True                 # Check if init...
 
-# Set url
+# Set url and path
 
 rrf1 = 'http://217.182.206.155'
 rrf2 = 'http://137.74.192.234'
@@ -106,9 +110,4 @@ room_list = {
 }
 
 patrol_filename = '/var/www/RRFTracker/rrf_patrol.json'
-
-iptable_json = []
-
 whereis_api = rrf2 + ':4440/nodes'
-whereis_list = {}
-whois_list = {}
