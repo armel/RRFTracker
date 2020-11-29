@@ -65,7 +65,6 @@ def whois_call(call):
 
 # Whereis load
 def whereis_load():
-
     # Requete HTTP vers l'api de F1EVM
     try:
         r = requests.get(s.whereis_api, verify=False, timeout=.5)

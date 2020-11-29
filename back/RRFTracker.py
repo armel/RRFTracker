@@ -40,7 +40,6 @@ def main(argv):
             s.room = arg
 
     # Create directory and copy asset if necessary
-
     if not os.path.exists(s.log_path):
         os.makedirs(s.log_path)
     if not os.path.exists(s.log_path + '/' + 'assets'):
@@ -56,29 +55,22 @@ def main(argv):
         os.popen('cp /opt/RRFTracker/front/index.html ' + s.log_path_day + '/index.html')
         os.popen('ln -sfn ' + s.log_path_day + ' ' + s.log_path + '/' + s.room + '-today')
 
-    # If restart on day...
-
-    filename = s.log_path + '/' + s.room + '-today/rrf.json'
+    # Startup
+    filename = s.log_path + '/' + s.room + '-today/rrf.json'     # If restart on day...
     if os.path.isfile(filename):
         l.restart()
 
-    # Get user online
-    l.log_user()
-
-    # Load whereis dict
-    l.whereis_load()
-    
-    # Load whois dict
-    l.whois_load()
+    l.log_user()        # Get user online
+    l.whereis_load()    # Load whereis dict
+    l.whois_load()      # Load whois dict
 
     # Urllib3 settings
-
     http = urllib3.PoolManager(timeout=1.0)
     http = urllib3.PoolManager(
         timeout=urllib3.Timeout(connect=.5, read=.5)
     )
 
-    # Boucle principale
+    # Main loop
     while(True):
         chrono_start = time.time()
 
@@ -106,7 +98,7 @@ def main(argv):
 
             s.qso = 0
             s.day_duration = 0
-            for q in range(0, 24):      # Clean histogram
+            for q in range(0, 24):      # Clear histogram
                 s.qso_hour[q] = 0
             s.all.clear()               # Clear all history
             s.porteuse.clear()          # Clear porteuse history
@@ -122,6 +114,7 @@ def main(argv):
             data = ''
             print('Failed', s.day, s.now)
 
+        # If valid json data
         if data != '':
 
             # If transmitter...
@@ -201,9 +194,9 @@ def main(argv):
             # If no Transmitter...
             else:
                 if s.transmit is True:
+                    tmp = datetime.datetime.now()
                     if s.room == 'RRF':
                         if l.convert_second_to_time(s.duration) > s.tot_limit:
-                            tmp = datetime.datetime.now()
                             s.tot = l.save_stat_tot(s.tot, s.call[0], tmp.strftime('%H:%M:%S'))
 
                     if s.stat_save is True:
@@ -211,7 +204,6 @@ def main(argv):
                             s.duration = 0
                         s.day_duration += s.duration
                     if s.stat_save is False:
-                        tmp = datetime.datetime.now()
                         s.porteuse = l.save_stat_porteuse(s.porteuse, s.call[0], tmp.strftime('%H:%M:%S'))
 
                     s.transmit = False
@@ -220,7 +212,6 @@ def main(argv):
                     s.tot_start = ''
 
             # Node analyze
-
             s.node_list=[]
             for d in data['nodes']:
                 if d not in ['RRF', 'RRF2', 'RRF3', 'TECHNIQUE', 'BAVARDAGE', 'INTERNATIONAL', 'LOCAL', 'EXPERIMENTAL']:
@@ -263,8 +254,7 @@ def main(argv):
             # Save log
             l.log_write()
 
-        # Manage tempo if necessary
-
+        # Last, manage tempo if necessary
         chrono_stop = time.time()
         chrono_time = chrono_stop - chrono_start
         if chrono_time < s.main_loop:
@@ -272,8 +262,8 @@ def main(argv):
         else:
             sleep = 0
         #print "Temps d'execution : %.2f %.2f secondes" % (chrono_time, sleep)
-        sys.stdout.flush()
         time.sleep(sleep)
+        sys.stdout.flush()
 
 if __name__ == '__main__':
     try:
