@@ -31,4 +31,17 @@ case "$1" in
             kill `cat ${PATH_PID}/RRFTracker_${ROOM}.pid`
         done
         ;;
+    reset)
+        for ROOM in "${ROOMS[@]}"
+        do
+            cd ${PATH_LOG}/${ROOM}-today/
+            curl -O ${PATH_RRF}/${ROOM}-today/rrf.json
+        done
+        ;;
+    clear)
+        for ROOM in "${ROOMS[@]}"
+        do
+            rm ${PATH_PID}/RRFTracker_${ROOM}_*.log
+        done
+        ;;
 esac
