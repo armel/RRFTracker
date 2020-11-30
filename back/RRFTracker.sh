@@ -3,7 +3,7 @@
 PATH_SCRIPT='/opt/RRFTracker/back/RRFTracker.py'
 PATH_MEDIA='/opt/RRFTracker/front/assets'
 PATH_HTML='/opt/RRFTracker/front/index.html'
-
+PATH_RRF='http://rrf.f5nlg.ovh:8080'
 PATH_LOG='/var/www/RRFTracker'
 PATH_PID='/tmp'
 
