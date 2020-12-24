@@ -1510,8 +1510,8 @@
                                 date_length = date_intempestif.length;
 
                                 indice = 0;
-                                step = 3
-                                if (date_length >= 4) {
+                                step = 2    // Nominal is 3
+                                if (date_length >= 3) { // Nominal is 4
                                     while(step < date_length) {
                                         end = 0;
 
@@ -1538,7 +1538,7 @@
                                             date_intempestif[indice] = '<div class="bad">' + date_intempestif[indice];
                                             date_intempestif[end] = date_intempestif[end] + '</div>';
                                             indice = end;
-                                            step = end + 3;
+                                            step = end + 2; // Nominal is 3
                                         } else {
                                             indice += 1
                                             step += 1
