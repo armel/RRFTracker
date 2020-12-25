@@ -896,30 +896,32 @@ def log_iptable():
 
     if len(data_patrol) == 4:
         for serveur in data_patrol:
-            for data in data_patrol[serveur]['blockip']:
-                if data['Salon'].lower() == s.room.lower():
-                    if data['Admin'] == '':
-                        data['Admin'] = 'ADMIN'
-                         
-                    if data['Admin'] != 'ADMIN':
-                        data['Admin'] = 'ADMIN (' + data['Admin'] + ')'
-                    new_json.append({
-                        'Indicatif': data['Indicatif'],
-                        'Type': data['Admin'],
-                        'Début': data['Date'],
-                        'Durée': '-',
-                        'Fin': '-'
-                    })
+            if 'blockip' in data_patrol[serveur]:
+                for data in data_patrol[serveur]['blockip']:
+                    if data['Salon'].lower() == s.room.lower():
+                        if data['Admin'] == '':
+                            data['Admin'] = 'ADMIN'
+                             
+                        if data['Admin'] != 'ADMIN':
+                            data['Admin'] = 'ADMIN (' + data['Admin'] + ')'
+                        new_json.append({
+                            'Indicatif': data['Indicatif'],
+                            'Type': data['Admin'],
+                            'Début': data['Date'],
+                            'Durée': '-',
+                            'Fin': '-'
+                        })
 
-            for data in data_patrol[serveur]['sentinel']:
-                if s.room.lower() == 'rrf':
-                    new_json.append({
-                        'Indicatif': data['Indicatif'],
-                        'Type': data['Type'],
-                        'Début': data['Début'],
-                        'Durée': data['Durée'],
-                        'Fin': data['Fin']
-                    })
+            if 'sentinel' in data_patrol[serveur]:
+                for data in data_patrol[serveur]['sentinel']:
+                    if s.room.lower() == 'rrf':
+                        new_json.append({
+                            'Indicatif': data['Indicatif'],
+                            'Type': data['Type'],
+                            'Début': data['Début'],
+                            'Durée': data['Durée'],
+                            'Fin': data['Fin']
+                        })
 
         # Si le nouveau flux n'est pas vide et que les 4 serveurs ont répondu
         if (new_json != s.iptable_json):
