@@ -76,7 +76,7 @@ init = True                 # Check if init...
 # Set url and path
 
 rrf1 = 'http://217.182.206.155'
-rrf2 = 'http://137.74.192.234'
+rrf2 = 'http://51.210.177.28'
 
 room_list = {
     'RRF': {
