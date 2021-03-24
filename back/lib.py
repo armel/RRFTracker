@@ -302,7 +302,7 @@ def log_transmit():
         data += '\t"Latitude": ' + str(tmp[6].strip()) + ',\n'
         data += '\t"Sysop": "' + tmp[7].strip() + '",\n'
         data += '\t"Prenom": "' + tmp[8].strip() + '",\n'
-        data += '\t"Region": "' + tmp[9] + '",\n'
+        data += '\t"Region": "' + tmp[9].strip() + '",\n'
 
         tmp = whereis_call(s.call_current)
         if tmp is False:
@@ -383,7 +383,7 @@ def log_last():
         data += '\t"Latitude": ' + str(tmp[6].strip()) + ',\n'
         data += '\t"Sysop": "' + tmp[7].strip() + '",\n'
         data += '\t"Prenom": "' + tmp[8].strip() + '",\n'
-        data += '\t"Region": "' + tmp[9] + '"\n'
+        data += '\t"Region": "' + tmp[9].strip() + '"\n'
 
         data += '},\n'
 
