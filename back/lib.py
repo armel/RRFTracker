@@ -366,7 +366,23 @@ def log_last():
         data += '\t"Heure": "' + s.call_date[i] + '",\n'
         data += '\t"Indicatif": "' + s.call[i] + '",\n'
         data += '\t"Blanc": "' + s.call_blanc[i] + '",\n'
-        data += '\t"Durée": "' + convert_second_to_time(s.call_time[i]) + '"\n'
+        data += '\t"Durée": "' + convert_second_to_time(s.call_time[i]) + '",\n'
+
+        tmp = whois_call(s.call[i])
+        if tmp is False:
+            tmp = '-;-;Link Inconnu;-;-;0;0;-;-' # Indicatif;Type;Description;Tone;Locator;Longitude;Latitude;Sysop;Prenom
+
+        tmp = tmp.split(';')
+
+        data += '\t"Type": "' + tmp[1] + '",\n'
+        data += '\t"Description": "' + tmp[2] + '",\n'
+        data += '\t"Tone": "' + tmp[3] + '",\n'
+        data += '\t"Locator": "' + tmp[4] + '",\n'
+        data += '\t"Longitude": ' + str(tmp[5].strip()) + ',\n'
+        data += '\t"Latitude": ' + str(tmp[6].strip()) + ',\n'
+        data += '\t"Sysop": "' + tmp[7].strip() + '",\n'
+        data += '\t"Prenom": "' + tmp[8].strip() + '"\n'
+
         data += '},\n'
 
         p += 1
