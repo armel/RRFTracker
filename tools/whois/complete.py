@@ -5,16 +5,6 @@ import time
 import re
 
 def main():
-    # Lecture du fichier de test
-    data = [line.strip() for line in open('departement.dat')]
-
-    departement_list = {}
-
-    for line in data:
-        tmp = line.split(';')
-        departement_list[tmp[0]] = tmp[1]
-
-    print(departement_list)
 
     # Lecture du fichier de test
     data = [line.strip() for line in open('whois.dat')]
@@ -31,12 +21,6 @@ def main():
 
             if reverse != tmp[3]:
                 print '-----> Error 1 : ', line, reverse, tmp[3]
-            else:
-                value = re.findall(r'\(([^()]+)\)', tmp[0])
-                try:
-                    print line + ';' + departement_list[value[0]]
-                except:
-                    print line + ';-'                   
 
         else:
             print '-----> Error 2 : ', line
