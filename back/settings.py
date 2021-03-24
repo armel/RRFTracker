@@ -10,7 +10,7 @@ Check video about RRFTracker on https://www.youtube.com/watch?v=rVW8xczVpEo
 
 # Version
 
-version = '2.7.3'
+version = '2.7.4'
 
 # Default room and path
 

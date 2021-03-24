@@ -159,7 +159,7 @@
         allModal = sessionStorage.getItem('allModal');
 
         d3.select('.title').html('');
-        d3.select('.title').append('h1').html('RRFTracker version 2.5.5');
+        d3.select('.title').append('h1').html('RRFTracker version 2.7.4');
 
 
         // ---------------------------------
