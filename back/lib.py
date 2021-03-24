@@ -290,7 +290,7 @@ def log_transmit():
     if s.call_current != '':
         tmp = whois_call(s.call_current)
         if tmp is False:
-            tmp = '-;-;Link Inconnu;-;-;0;0;-;-;-' # Indicatif;Type;Description;Tone;Locator;Longitude;Latitude;Sysop;Prenom
+            tmp = '-;-;Link Inconnu;-;-;0;0;-;-;-' # Indicatif;Type;Description;Tone;Locator;Longitude;Latitude;Sysop;Prenom,Region
 
         tmp = tmp.split(';')
 
@@ -371,7 +371,7 @@ def log_last():
 
         tmp = whois_call(s.call[i])
         if tmp is False:
-            tmp = '-;-;Link Inconnu;-;-;0;0;-;-' # Indicatif;Type;Description;Tone;Locator;Longitude;Latitude;Sysop;Prenom
+            tmp = '-;-;Link Inconnu;-;-;0;0;-;-;-' # Indicatif;Type;Description;Tone;Locator;Longitude;Latitude;Sysop;Prenom;Region
 
         tmp = tmp.split(';')
 
@@ -382,7 +382,8 @@ def log_last():
         data += '\t"Longitude": ' + str(tmp[5].strip()) + ',\n'
         data += '\t"Latitude": ' + str(tmp[6].strip()) + ',\n'
         data += '\t"Sysop": "' + tmp[7].strip() + '",\n'
-        data += '\t"Prenom": "' + tmp[8].strip() + '"\n'
+        data += '\t"Prenom": "' + tmp[8].strip() + '",\n'
+        data += '\t"Region": "' + tmp[9] + '"\n'
 
         data += '},\n'
 
