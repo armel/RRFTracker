@@ -175,7 +175,7 @@
 (43) F1ZKR V;Link;145.3375 MHz;123 Hz;JN15wb;3.8803006;45.0431723;F4GVA;Christian;Haute-Loire
 (974) FR4PV V;Link;145.4125 MHz;97.4 Hz;LG78px;55.316888;-21.038356;;James;La Reunion
 (86) F5VFO V;Link;144.8375 MHz;67 Hz;JN06db;0.2939773;46.0833089;;Nigel;Vienne
-(57) F5ZSH R;Relais;438.0125 Mhz -7.6 MHz;71.9 Hz;JN39bj;6.1333537;49.3760346;F6HJC;Jean-pierre;Moselle
+(57) F5ZSH R;Relais;438.0125 Mhz -7.6 MHz;71.9 Hz;JN39bj;6.1333537;49.3760346;F6HJC;Jean-pierre;Moselle
 (MA) CN8VY H;Hotspot;433.500 MHz;77 Hz;IM63nx;-6.8608408;33.9648152;PU2ZSP;Driss;Maroc
 (58) F4HLJ H;Hotspot;145.3125 MHz;77 Hz;JN17na;3.1367672;47.0006555;;Michel;Nievre
 (22) F5NLG H;Hotspot;434.975 MHz;71.9 Hz;IN88hn;-3.3977997;48.5434084;;Jean-Philippe;Cotes-d'Armor
@@ -284,3 +284,11 @@
 (94) F8ATD H;Hotspot;430.975 MHz;71.9 Hz;JN18gs;2.5312478;48.7628819;;Daniel;Val-de-Marne
 (70) F4HZZ H;Hotspot;434.500 MHz;88.5 Hz;JN27uk;5.7362360;47.3950950;;Michel;Haute-Saone
 (974) FR4PV V;Link;145.4125 MHz;97.4 Hz;LG78px;55.316888;-21.038356;;James;La Reunion
+(39) F0ELA H;Hotspot;144.525 MHz;71.9 Hz;JN27rc;5.492254;47.101595;;Claude;Jura
+(09) F6DEV H;Hotspot;-;-;JN02px;1.287260;42.993530;;Jean-Louis;Ariege
+(972) FM8QR H;Hotspot;-;-;FK94lm;-61.060738;14.540536;;Jean-Michel;Martinique
+(12) F6FWI H;Hotspot;-;-;JN18eu;2.75528;44.3167;;Roland;Aveyron
+(17) F6IQE H;Hotspot;-;-;IN95mq;-0.960000;45.686667;;Marc;Charente-Maritime
+(57) F4HLG H;Hotspot;-;-;JN39cc;6.200698;49.118669;;Gaetan;Moselle
+(81) F5RSU H;Hotspot;-;-;JN18eu;2.37333;43.4917;;Christophe;Tarn
+(62) F5MTH H;Hotspot;-;-;JO10fl;2.4583333;50.4791667;;Elie;Pas-de-Calais

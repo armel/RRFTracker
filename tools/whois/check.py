@@ -22,7 +22,9 @@ def main():
     # Boucle principale
     for line in data:
         tmp = line.split(';')
-        if len(tmp) == 9:
+        if len(tmp) == 10:
+            print line
+        elif len(tmp) == 9:
             tone = tmp[3].split(' ')
             value = re.findall(r"[-+]?\d*\.\d+|\d+", tone[0])
             reverse = ''
