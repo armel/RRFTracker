@@ -1392,7 +1392,7 @@
                         })
                         .enter()
                         .append('td')
-                        .attr('width', '11%')
+                        .attr('width', '10%')
                         .html(function(d, i) {
                                 return d.value;
                         });
