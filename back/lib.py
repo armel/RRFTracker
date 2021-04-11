@@ -716,7 +716,7 @@ def log_type():
     data += '{\n'
 
 
-    for t in [' S', ' H', ' V', ' U', ' R', ' T', ' T10M', ' 10M', ' 6M']:
+    for t in [' S', ' H', ' B', ' V', ' U', ' R', ' T', ' T10M', ' 10M', ' 6M']:
         size = len(t)
         tmp = 0
         for n in s.node_list:
