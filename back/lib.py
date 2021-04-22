@@ -912,7 +912,7 @@ def log_iptable():
     except:
         pass
 
-    if len(data_patrol) == 4:
+    if len(data_patrol) == 5:
         for serveur in data_patrol:
             if 'blockip' in data_patrol[serveur]:
                 for data in data_patrol[serveur]['blockip']:
