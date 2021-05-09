@@ -859,6 +859,8 @@ def restart():
 
     for data in rrf_data['abstract']:
         s.day_duration = convert_time_to_second(data['Emission cumulée'])
+        s.node_count_max = data['Links max']
+        s.node_count_min = data['Links min']
 
     # Section last
 
