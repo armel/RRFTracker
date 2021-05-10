@@ -234,10 +234,13 @@ def log_abstract():
     for l in s.all:
         tmp += convert_time_to_second(s.all[l][1])
 
+    dst = time.localtime()
+
     data += '{\n'
     data += '\t"Version": "' + s.version + '",\n'
     data += '\t"Salon": "' + s.room + '",\n'
     data += '\t"Date": "' + now.lower() + '",\n'
+    data += '\t"DST": ' + str(dst.tm_isdst) + ',\n'    
     data += '\t"TX total": ' + str(sum(s.qso_hour)) + ',\n'
     data += '\t"Emission cumulée": "' + convert_second_to_time(tmp) + '",\n'
     data += '\t"Links actifs": ' + str(len(s.all)) + ',\n'
